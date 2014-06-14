@@ -1,5 +1,8 @@
 /*
- * Copyright 2014 Janith Bandara
+ * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
+ * An open-source audit platform for Enterprise java platform.
+ * http://mechanizedspace.com/audit4j
+ * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +21,6 @@ package org.audit4j.core.handler;
 
 import org.audit4j.core.dto.AuditEvent;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Handler.
  * 
@@ -31,11 +33,27 @@ public abstract class Handler {
 
 	/** The audit event. */
 	private AuditEvent auditEvent;
+	
+	/**
+	 * Close.
+	 */
+	public void close(){
+		query = null;
+		auditEvent = null;
+	}
 
+	/**
+	 * Inits the.
+	 *
+	 * @return true, if successful
+	 */
+	public abstract boolean init();
+	
 	/**
 	 * Handle.
 	 */
 	public abstract void handle();
+	
 
 	/**
 	 * Gets the user identifier.

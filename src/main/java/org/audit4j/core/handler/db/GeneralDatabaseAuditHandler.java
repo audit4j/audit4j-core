@@ -17,26 +17,28 @@
  * limitations under the License.
  */
 
-package org.audit4j.core.handler;
+package org.audit4j.core.handler.db;
 
-import java.io.PrintStream;
+import java.sql.SQLException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.audit4j.core.handler.Handler;
 
 /**
- * The Class ConsoleAuditHandler.
- *
- * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * The Class GeneralDatabaseAuditHandler.
+ * 
+ * @author Janith Bandara
  */
-public class ConsoleAuditHandler extends Handler {
+public class GeneralDatabaseAuditHandler extends Handler {
 
-	/** The log. */
-	private final Logger log = LoggerFactory.getLogger(ConsoleAuditHandler.class);
-
-	/** The Constant AUDIT4J_USER. */
-	private static final String AUDIT4J_USER = "AUDIT4J";
-
+	/* (non-Javadoc)
+	 * @see org.audit4j.core.handler.Handler#init()
+	 */
+	@Override
+	public boolean init() {
+		ConnectionFactory factory = ConnectionFactory.getInstance();
+		return factory.init();
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -44,9 +46,13 @@ public class ConsoleAuditHandler extends Handler {
 	 */
 	@Override
 	public void handle() {
-		final String logText = getQuery();
-		PrintStream stream = System.out;
-		stream.println(logText);
+		AuditLogDao dao = new HSQLAuditLogDao();
+		try {
+			dao.writeEvent(getAuditEvent());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/*
@@ -57,7 +63,7 @@ public class ConsoleAuditHandler extends Handler {
 	@Override
 	public String getUserIdentifier() {
 		// TODO
-		return null;
+		return "DummyIdentifier";
 	}
 
 	/*
@@ -67,13 +73,8 @@ public class ConsoleAuditHandler extends Handler {
 	 */
 	@Override
 	public String getUserName() {
-		return AUDIT4J_USER;
-	}
-
-	@Override
-	public boolean init() {
-		// TODO Auto-generated method stub
-		return false;
+		// TODO
+		return "Dummyusername";
 	}
 
 }
