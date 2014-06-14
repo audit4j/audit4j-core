@@ -1,5 +1,8 @@
 /*
- * Copyright 2014 Janith Bandara
+ * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
+ * An open-source audit platform for Enterprise java platform.
+ * http://mechanizedspace.com/audit4j
+ * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +30,7 @@ public class AuditEvent extends AuditBase {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -7009763987501353992L;
-
+	
 	/** The actor. */
 	private String actor;
 
@@ -38,7 +41,7 @@ public class AuditEvent extends AuditBase {
 	private String action;
 
 	/** The action item. */
-	private List<Element> actionItems;
+	private List<Element> eventElements;
 
 	/**
 	 * Gets the actor.
@@ -98,21 +101,20 @@ public class AuditEvent extends AuditBase {
 	}
 
 	/**
-	 * Gets the action items.
-	 * 
-	 * @return the action items
+	 * Gets the event elements.
+	 *
+	 * @return the event elements
 	 */
-	public List<Element> getActionItems() {
-		return actionItems;
+	public List<Element> getEventElements() {
+		return eventElements;
 	}
 
 	/**
-	 * Sets the action items.
-	 * 
-	 * @param actionItems
-	 *            the new action items
+	 * Sets the event elements.
+	 *
+	 * @param eventElements the new event elements
 	 */
-	public void setActionItems(List<Element> actionItems) {
-		this.actionItems = actionItems;
+	public void setEventElements(List<Element> eventElements) {
+		this.eventElements = eventElements;
 	}
 }

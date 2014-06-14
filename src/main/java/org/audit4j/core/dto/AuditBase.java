@@ -1,5 +1,8 @@
 /*
- * Copyright 2014 Janith Bandara
+ * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
+ * An open-source audit platform for Enterprise java platform.
+ * http://mechanizedspace.com/audit4j
+ * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +22,6 @@ package org.audit4j.core.dto;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AuditBaseDto.
  * 
