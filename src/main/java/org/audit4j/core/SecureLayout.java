@@ -19,17 +19,21 @@
 
 package org.audit4j.core;
 
-/**
- * A factory for creating AbstractConfiguration objects.
- * 
- * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
- */
-public abstract class AbstractConfigurationFactory {
+import org.audit4j.core.dto.AuditEvent;
 
-	/**
-	 * Gets the audit level.
-	 * 
-	 * @return the audit level
-	 */
-	public abstract String getAuditLevel();
+public class SecureLayout extends SimpleLayout {
+
+	@Override
+	public String format(AuditEvent event) {
+		String formatText = super.format(event);
+		try {
+			//TODO hard coded key
+			EncryptionUtil util = EncryptionUtil.getInstance("1234", CoreConstants.SALT);
+			return util.encrypt(formatText);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

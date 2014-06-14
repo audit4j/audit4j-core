@@ -1,5 +1,8 @@
 /*
- * Copyright 2014 Janith Bandara
+ * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
+ * An open-source audit platform for Enterprise java platform.
+ * http://mechanizedspace.com/audit4j
+ * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,7 +82,7 @@ public class AsyncAuditEngine implements ExceptionListener {
 	/**
 	 * Inits the.
 	 */
-	public void init() {
+	protected void init() {
 		initializeIfNeeded();
 		listen();
 	}
@@ -87,7 +90,7 @@ public class AsyncAuditEngine implements ExceptionListener {
 	/**
 	 * Listen.
 	 */
-	public void listen() {
+	protected void listen() {
 		try {
 			final MessageConsumer consumer = session.createConsumer(destination);
 
@@ -131,7 +134,7 @@ public class AsyncAuditEngine implements ExceptionListener {
 	 * @param t
 	 *            the t
 	 */
-	public void send(final Serializable t) {
+	protected void send(final Serializable t) {
 		try {
 			final MessageProducer producer = session.createProducer(destination);
 			producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
@@ -152,7 +155,7 @@ public class AsyncAuditEngine implements ExceptionListener {
 	/**
 	 * Initialize if needed.
 	 */
-	private synchronized void initializeIfNeeded() {
+	protected synchronized void initializeIfNeeded() {
 		try {
 			if (session == null) {
 				// Create a ConnectionFactory
@@ -189,7 +192,7 @@ public class AsyncAuditEngine implements ExceptionListener {
 	 * @param queueName
 	 *            the new queue name
 	 */
-	public void setQueueName(final String queueName) {
+	protected void setQueueName(final String queueName) {
 		this.queueName = queueName;
 	}
 
@@ -198,7 +201,7 @@ public class AsyncAuditEngine implements ExceptionListener {
 	 * 
 	 * @return the audit processor
 	 */
-	public AuditProcessor<AuditBase> getAuditProcessor() {
+	protected AuditProcessor<AuditBase> getAuditProcessor() {
 		return this.auditProcessor;
 	}
 
@@ -208,7 +211,7 @@ public class AsyncAuditEngine implements ExceptionListener {
 	 * @param auditProcessor
 	 *            the new audit processor
 	 */
-	public void setAuditProcessor(final AuditProcessor<AuditBase> auditProcessor) {
+	protected void setAuditProcessor(final AuditProcessor<AuditBase> auditProcessor) {
 		this.auditProcessor = auditProcessor;
 	}
 
@@ -217,7 +220,7 @@ public class AsyncAuditEngine implements ExceptionListener {
 	 * 
 	 * @return single instance of AsyncAuditEngine
 	 */
-	public static AsyncAuditEngine getInstance() {
+	protected static AsyncAuditEngine getInstance() {
 		synchronized (AsyncAuditEngine.class) {
 			if (auditEngine == null) {
 				auditEngine = new AsyncAuditEngine();

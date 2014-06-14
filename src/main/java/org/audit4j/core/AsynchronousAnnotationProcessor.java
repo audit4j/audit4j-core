@@ -1,7 +1,8 @@
-package org.audit4j.core;
-
 /*
- * Copyright 2014 Janith Bandara
+ * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
+ * An open-source audit platform for Enterprise java platform.
+ * http://mechanizedspace.com/audit4j
+ * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +16,8 @@ package org.audit4j.core;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package org.audit4j.core;
 
 import java.util.List;
 
@@ -84,7 +87,7 @@ public class AsynchronousAnnotationProcessor extends AnnotationAuditProcessor<An
 
 		final String query = super.buildQuery(actionItems, action);
 		event.setAction(action);
-		event.setActionItems(actionItems);
+		event.setEventElements(actionItems);
 		super.executeHandlers(handlers, event, query);
 	}
 

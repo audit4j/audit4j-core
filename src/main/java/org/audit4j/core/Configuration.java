@@ -19,17 +19,38 @@
 
 package org.audit4j.core;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * A factory for creating AbstractConfiguration objects.
- * 
+ * The Class Configuration.
+ *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
-public abstract class AbstractConfigurationFactory {
+public class Configuration {
 
+	/** The configuration. */
+	private final Map<String, Object> configuration = new HashMap<>();
+	
 	/**
-	 * Gets the audit level.
-	 * 
-	 * @return the audit level
+	 * Gets the value.
+	 *
+	 * @param key the key
+	 * @return the value
 	 */
-	public abstract String getAuditLevel();
+	public Object getValue(String key){
+		return configuration.get(key);
+	}
+	
+	/**
+	 * Sets the value.
+	 *
+	 * @param key the key
+	 * @param value the value
+	 * @return true, if successful
+	 */
+	public boolean setValue(String key, Object value){
+		 configuration.put(key, value);
+		 return true;
+	}
 }

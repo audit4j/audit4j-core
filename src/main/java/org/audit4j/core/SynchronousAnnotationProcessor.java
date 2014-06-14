@@ -1,5 +1,8 @@
 /*
- * Copyright 2014 Janith Bandara
+ * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
+ * An open-source audit platform for Enterprise java platform.
+ * http://mechanizedspace.com/audit4j
+ * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,7 +86,7 @@ public class SynchronousAnnotationProcessor extends AnnotationAuditProcessor<Ann
 
 		final String query = super.buildQuery(actionItems, action);
 		event.setAction(super.getAction(action, auditDto.getMethod()));
-		event.setActionItems(actionItems);
+		event.setEventElements(actionItems);
 		super.executeHandlers(handlers, event, query);
 	}
 

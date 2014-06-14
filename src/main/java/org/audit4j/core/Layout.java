@@ -19,17 +19,10 @@
 
 package org.audit4j.core;
 
-/**
- * A factory for creating AbstractConfiguration objects.
- * 
- * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
- */
-public abstract class AbstractConfigurationFactory {
+import org.audit4j.core.dto.AuditEvent;
 
-	/**
-	 * Gets the audit level.
-	 * 
-	 * @return the audit level
-	 */
-	public abstract String getAuditLevel();
+public interface Layout {
+
+	public String format(AuditEvent event);
+	
 }

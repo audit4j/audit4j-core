@@ -1,5 +1,8 @@
 /*
- * Copyright 2014 Janith Bandara
+ * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
+ * An open-source audit platform for Enterprise java platform.
+ * http://mechanizedspace.com/audit4j
+ * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,6 +45,8 @@ public class AuditManager {
 
 	/** The audit manager. */
 	private static AuditManager auditManager;
+	
+	private Configuration conf;
 
 	/**
 	 * Instantiates a new audit manager.
@@ -141,7 +146,7 @@ public class AuditManager {
 	 * @param args the args
 	 * @return true, if successful
 	 */
-	public boolean auditWithAnnotation(Class<?> clazz, Method method, Object[] args) {
+	public boolean audit(Class<?> clazz, Method method, Object[] args) {
 		final AsyncAuditAnnotationAttributes asyncAttributes = new AsyncAuditAnnotationAttributes();
 		if (asyncAttributes.hasAnnotation(clazz) || asyncAttributes.hasAnnotation(method)) {
 			AnnotationAuditEvent asyncAuditDto = new AnnotationAuditEvent();

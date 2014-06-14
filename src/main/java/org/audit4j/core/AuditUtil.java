@@ -1,5 +1,8 @@
 /*
- * Copyright 2014 Janith Bandara
+ * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
+ * An open-source audit platform for Enterprise java platform.
+ * http://mechanizedspace.com/audit4j
+ * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +22,12 @@ package org.audit4j.core;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -132,4 +140,24 @@ public final class AuditUtil {
 	static final public void report(String msg) {
 		System.err.println("AUDIT4J: " + msg);
 	}
+	
+    /**
+     * Date to string.
+     * 
+     * @param date the date
+     * @param format the format
+     * @return the string
+     */
+    public static String dateToString(final Date date, final String format) {
+        if (date == null) {
+            return null;
+        }
+        final DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
+        return dateFormat.format(date);
+    }
+    
+
+    public static String timeStampToString(final Timestamp timestamp, final String format) {
+        return dateToString(new Date(timestamp.getTime()), format);
+    }
 }
