@@ -9,10 +9,7 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<hapi.version.stable>2.1</hapi.version.stable>
 		<slf4j.version>1.7.5</slf4j.version>
-		<log4j.version>1.2.17</log4j.version>
-		<spring.version>3.0.5.RELEASE</spring.version>
 	</properties>
 
 	<dependencies>
@@ -26,9 +23,13 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.6</version>
 		</dependency>
+		<dependency>
+			<groupId>com.esotericsoftware.yamlbeans</groupId>
+			<artifactId>yamlbeans</artifactId>
+			<version>1.08</version>
+		</dependency>
 
-
-		<!-- JMS + Activemq -->
+		<!-- Activemq -->
 		<dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-core</artifactId>
