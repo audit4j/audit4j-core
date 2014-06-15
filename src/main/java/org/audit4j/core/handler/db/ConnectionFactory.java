@@ -44,7 +44,7 @@ public final class ConnectionFactory {
 
 	/**
 	 * Gets the connection.
-	 *
+	 * 
 	 * @return the connection
 	 */
 	Connection getConnection() {
@@ -78,8 +78,10 @@ public final class ConnectionFactory {
 
 	/**
 	 * Creates a new Connection object.
+	 * 
+	 * @throws SQLException
 	 */
-	void createTableStructureIfNotExists() {
+	void createTableStructureIfNotExists() throws SQLException {
 		StringBuffer query = new StringBuffer("create table if not exists audit (");
 		query.append("auditId INT NOT NULL,");
 		query.append("uuid char(60) NOT NULL,");
@@ -89,20 +91,18 @@ public final class ConnectionFactory {
 		query.append("action varchar(200) NOT NULL,");
 		query.append("elements varchar(20000)");
 		query.append(");");
-		try {
-			getConnection().prepareStatement(query.toString()).execute();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		getConnection().prepareStatement(query.toString()).execute();
+
 	}
-	
+
 	/**
 	 * Inits the.
-	 *
+	 * 
 	 * @return true, if successful
+	 * @throws SQLException
 	 */
-	boolean init(){
+	boolean init() throws SQLException {
 		initHSQLIfNotInitialized();
 		createTableStructureIfNotExists();
 		return Boolean.TRUE;
@@ -110,7 +110,7 @@ public final class ConnectionFactory {
 
 	/**
 	 * Gets the single instance of ConnectionFactory.
-	 *
+	 * 
 	 * @return single instance of ConnectionFactory
 	 */
 	static ConnectionFactory getInstance() {

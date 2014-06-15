@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
-public class ValidationException extends RuntimeException{
+public class ValidationException extends Exception{
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 3273908609152516053L;

@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.audit4j.core.annotation.AsyncAuditAnnotationAttributes;
 import org.audit4j.core.dto.AnnotationAuditEvent;
+import org.audit4j.core.dto.AsyncAuditMessage;
 import org.audit4j.core.dto.AsyncCallAuditDto;
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.exception.TroubleshootException;
@@ -87,15 +88,21 @@ public class AuditManager {
 		try {
 			ValidationManager.validateEvent(event);
 			final AsyncAuditEngine engine = AsyncAuditEngine.getInstance();
+			AsyncAuditMessage message = new AsyncAuditMessage();
+			message.setEvent(event);
+			message.setConf(Context.getConfig());
 			engine.init();
-			engine.send(event);
+			engine.send(message);
 			return Boolean.TRUE;
 		} catch (ValidationException e) {
 			try {
 				TroubleshootManager.troubleshootEvent(event);
 				final AsyncAuditEngine engine = AsyncAuditEngine.getInstance();
+				AsyncAuditMessage message = new AsyncAuditMessage();
+				message.setEvent(event);
+				message.setConf(Context.getConfig());
 				engine.init();
-				engine.send(event);
+				engine.send(message);
 				return Boolean.TRUE;
 			} catch (TroubleshootException e1) {
 				return Boolean.FALSE;

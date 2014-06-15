@@ -21,15 +21,21 @@ package org.audit4j.core.handler;
 
 import java.io.PrintStream;
 
+import org.audit4j.core.exception.InitializationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * The Class ConsoleAuditHandler.
- *
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
 public class ConsoleAuditHandler extends Handler {
+
+	/**
+	 * asdas
+	 */
+	private static final long serialVersionUID = -4570535029942402303L;
 
 	/** The log. */
 	private final Logger log = LoggerFactory.getLogger(ConsoleAuditHandler.class);
@@ -49,31 +55,9 @@ public class ConsoleAuditHandler extends Handler {
 		stream.println(logText);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.bi3.commons.audit.handler.Handler#getUserIdentifier()
-	 */
 	@Override
-	public String getUserIdentifier() {
-		// TODO
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.bi3.commons.audit.handler.Handler#getUserName()
-	 */
-	@Override
-	public String getUserName() {
-		return AUDIT4J_USER;
-	}
-
-	@Override
-	public boolean init() {
+	public void init() throws InitializationException {
 		// TODO Auto-generated method stub
-		return false;
-	}
 
+	}
 }

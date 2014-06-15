@@ -37,9 +37,9 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.audit4j.core.dto.AnnotationAuditEvent;
+import org.audit4j.core.dto.AsyncAuditMessage;
 import org.audit4j.core.dto.AsyncCallAuditDto;
 import org.audit4j.core.dto.AuditBase;
-
 
 /**
  * The Class AsyncAuditEngine.
@@ -101,7 +101,12 @@ public class AsyncAuditEngine implements ExceptionListener {
 					try {
 						final ObjectMessage objectMessage = (ObjectMessage) message;
 						final Object object = objectMessage.getObject();
-						if (object instanceof AnnotationAuditEvent) {
+						if (object instanceof AsyncAuditMessage) {
+							AsyncAuditMessage auditMessage = (AsyncAuditMessage) object;
+							AuditEventProcessor eventProcessor = AuditEventProcessor.getInstance();
+							eventProcessor.setConf(auditMessage.getConf());
+							eventProcessor.process(auditMessage.getEvent());
+						} else if (object instanceof AnnotationAuditEvent) {
 							AsynchronousAnnotationProcessor processor = AsynchronousAnnotationProcessor.getInstance();
 							processor.process((AnnotationAuditEvent) object);
 						} else if (object instanceof AsyncCallAuditDto) {

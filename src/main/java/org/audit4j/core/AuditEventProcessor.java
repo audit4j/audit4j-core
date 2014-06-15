@@ -19,11 +19,37 @@
 
 package org.audit4j.core;
 
-public final class ErrorURL {
+import org.audit4j.core.dto.AuditEvent;
 
-	public static final String ERROR_URL = CoreConstants.SITE_URL + "usage#";
+/**
+ * The Class AuditEventProcessor.
+ *
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ */
+public class AuditEventProcessor extends AuditProcessor<AuditEvent> {
+
+	/** The instance. */
+	private static AuditEventProcessor instance;
 	
-	public static final String NULL_ACTOR = ERROR_URL + "metadataimpl";
+	/* (non-Javadoc)
+	 * @see org.audit4j.core.AuditProcessor#process(org.audit4j.core.dto.AuditBase)
+	 */
+	@Override
+	public void process(AuditEvent event) {
+		super.executeHandlers(event);
+	}
 	
-	public static final String CONFIG_ERROR = ERROR_URL + "configfile";
+	/**
+	 * Gets the single instance of AuditHelper.
+	 * 
+	 * @return single instance of AuditHelper
+	 */
+	public static AuditEventProcessor getInstance() {
+		synchronized (AuditEventProcessor.class) {
+			if (instance == null) {
+				instance = new AuditEventProcessor();
+			}
+		}
+		return instance;
+	}
 }

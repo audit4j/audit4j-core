@@ -27,7 +27,6 @@ import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.dto.Element;
 import org.audit4j.core.handler.Handler;
 
-
 /**
  * The Class AuditProcessor.
  * 
@@ -37,13 +36,15 @@ import org.audit4j.core.handler.Handler;
  */
 public abstract class AuditProcessor<T extends AuditBase> {
 
+	private Configuration conf;
+
 	/**
 	 * Process.
 	 * 
 	 * @param t
 	 *            the t
 	 */
-	public abstract void process(T t);
+	public abstract void process(T event);
 
 	/**
 	 * Builds the query.
@@ -54,6 +55,7 @@ public abstract class AuditProcessor<T extends AuditBase> {
 	 *            the action
 	 * @return the string
 	 */
+	@Deprecated
 	protected String buildQuery(final List<Element> actionItems, String action) {
 		if (actionItems != null && !actionItems.isEmpty()) {
 			final StringBuilder buff = new StringBuilder();
@@ -80,11 +82,31 @@ public abstract class AuditProcessor<T extends AuditBase> {
 	 * @param query
 	 *            the query
 	 */
+	@Deprecated
 	protected void executeHandlers(final List<Handler> handlers, AuditEvent event, final String query) {
 		for (final Handler handler : handlers) {
 
 			handler.setAuditEvent(event);
 			handler.setQuery(query);
+			handler.handle();
+		}
+	}
+
+	/**
+	 * Execute handlers.
+	 * 
+	 * @param handlers
+	 *            the handlers
+	 * @param event
+	 *            the event
+	 * @param query
+	 *            the query
+	 */
+	protected void executeHandlers(AuditEvent event) {
+		event.setActor(getConf().getMetaData().getActor());
+		for (final Handler handler : getConf().getHandlers()) {
+			handler.setAuditEvent(event);
+			handler.setQuery(getConf().getLayout().format(event));
 			handler.handle();
 		}
 	}
@@ -96,18 +118,9 @@ public abstract class AuditProcessor<T extends AuditBase> {
 	 *            the handler
 	 * @return the actor
 	 */
+	@Deprecated
 	protected String getActor(final Handler handler) {
-		String actor = null;
-		if (null == handler.getUserName() || null == handler.getUserIdentifier()) {
-			actor = CoreConstants.DEFAULT_ACTOR;
-		} else if (null == handler.getUserIdentifier()) {
-			actor = handler.getUserName();
-		} else if (null == handler.getUserName()) {
-			actor = handler.getUserIdentifier();
-		} else {
-			actor = handler.getUserName() + CoreConstants.COLON_CHAR + handler.getUserIdentifier();
-		}
-		return actor;
+		return getConf().getMetaData().getActor();
 	}
 
 	/**
@@ -119,10 +132,19 @@ public abstract class AuditProcessor<T extends AuditBase> {
 	 *            the method
 	 * @return the action
 	 */
+	@Deprecated
 	protected String getAction(String action, Method method) {
 		if (action.equals(CoreConstants.ACTION.equals(action))) {
 			return method.getName();
 		}
 		return action;
+	}
+
+	public Configuration getConf() {
+		return conf;
+	}
+
+	public void setConf(Configuration conf) {
+		this.conf = conf;
 	}
 }

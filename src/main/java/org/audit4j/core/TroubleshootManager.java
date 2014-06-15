@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.exception.ConfigurationException;
 import org.audit4j.core.exception.TroubleshootException;
 import org.audit4j.core.exception.ValidationException;
 import org.slf4j.Logger;
@@ -42,6 +43,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class TroubleshootManager {
 
+	/** The Constant LOG. */
 	private static final Logger LOG = LoggerFactory.getLogger(ValidationException.class);
 
 	/** The Constant MIN_PORT_NUMBER. */
@@ -50,19 +52,40 @@ public final class TroubleshootManager {
 	/** The Constant MAX_PORT_NUMBER. */
 	public static final int MAX_PORT_NUMBER = 49151;
 
+	/**
+	 * Troubleshoot event.
+	 *
+	 * @param event the event
+	 */
 	static void troubleshootEvent(AuditEvent event) {
 		if (event == null) {
 			throw new TroubleshootException(
 					"Invalid Audit event type,\n Audit4j: Audit Event should not null, This event will not be logged by the Audit4j.");
 		} else if (event.getActor() == null) {
 			event.setActor(CoreConstants.DEFAULT_ACTOR);
-			LOG.warn("If you are not parsing the actor to the AuditEvent,\n"
-					+ "Audit4j: you should make a your own AuditMetaData implementation. \n"
-					+ "Audit4j: otherwise actor will be hard coded as \"" + CoreConstants.DEFAULT_ACTOR
-					+ "\" in the audit log. " + "\nAudit4j: See " + ErrorURL.NULL_ACTOR + " for further details");
+			LOG.warn("Audit4j:WARN If you are not parsing the actor to the AuditEvent,\n"
+					+ "Audit4j:WARN you should make a your own AuditMetaData implementation. \n"
+					+ "Audit4j:WARN otherwise actor will be hard coded as \"" + CoreConstants.DEFAULT_ACTOR
+					+ "\" in the audit log. " + "\nAudit4j: See " + ErrorURL.NULL_ACTOR + " for further details.");
 		} else if (event.getOrigin() == null) {
 			throw new TroubleshootException(
 					"Invalid Audit event type,\n Audit4j: origin should not null, This event will not be logged by the Audit4j.");
+		}
+	}
+
+	/**
+	 * Troubleshoot configuration.
+	 *
+	 * @param e the e
+	 */
+	public static void troubleshootConfiguration(ConfigurationException e) {
+		if (e.getId().equals("CONF_001")) {
+			System.err.println("Audit4j:WARN Initial confguration file not found. \n" + "Audit4j: Creating a new configuration file - "
+					+ CoreConstants.CONFIG_FILE_NAME);
+			ConfigUtil.generateConfigFromText();
+		} else if (e.getId().equals("CONF_002")) {
+			throw new TroubleshootException("Configuration file currupted or invalid configuration.\n"
+					+ "Audit4j: See " + ErrorURL.CONFIG_ERROR + "for further details.", e);
 		}
 	}
 

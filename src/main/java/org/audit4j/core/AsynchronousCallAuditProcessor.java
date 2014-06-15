@@ -28,6 +28,7 @@ import org.audit4j.core.handler.Handler;
  *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
+@Deprecated
 public class AsynchronousCallAuditProcessor extends AuditProcessor<AsyncCallAuditDto> {
 
 	/** The audit processor. */
@@ -40,6 +41,7 @@ public class AsynchronousCallAuditProcessor extends AuditProcessor<AsyncCallAudi
 	 * com.bi3.commons.audit.AuditProcessor#process(com.bi3.commons.audit.dto
 	 * .AuditBaseDto)
 	 */
+	@Deprecated
 	@Override
 	public void process(AsyncCallAuditDto auditDto) {
 		for (final Handler handler : auditDto.getHandlers()) {

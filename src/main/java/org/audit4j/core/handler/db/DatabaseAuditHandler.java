@@ -21,6 +21,7 @@ package org.audit4j.core.handler.db;
 
 import java.sql.SQLException;
 
+import org.audit4j.core.exception.InitializationException;
 import org.audit4j.core.handler.Handler;
 
 /**
@@ -28,17 +29,18 @@ import org.audit4j.core.handler.Handler;
  * 
  * @author Janith Bandara
  */
-public class GeneralDatabaseAuditHandler extends Handler {
+public class DatabaseAuditHandler extends Handler {
 
-	/* (non-Javadoc)
-	 * @see org.audit4j.core.handler.Handler#init()
-	 */
 	@Override
-	public boolean init() {
+	public void init() throws InitializationException {
 		ConnectionFactory factory = ConnectionFactory.getInstance();
-		return factory.init();
+		try {
+			factory.init();
+		} catch (SQLException e) {
+			throw new InitializationException("Unable to initialize database handler", e);
+		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -54,27 +56,4 @@ public class GeneralDatabaseAuditHandler extends Handler {
 			e.printStackTrace();
 		}
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.bi3.commons.audit.handler.Handler#getUserIdentifier()
-	 */
-	@Override
-	public String getUserIdentifier() {
-		// TODO
-		return "DummyIdentifier";
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.bi3.commons.audit.handler.Handler#getUserName()
-	 */
-	@Override
-	public String getUserName() {
-		// TODO
-		return "Dummyusername";
-	}
-
 }

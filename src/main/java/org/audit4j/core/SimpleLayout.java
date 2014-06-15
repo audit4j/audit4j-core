@@ -22,8 +22,16 @@ package org.audit4j.core;
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.dto.Element;
 
+/**
+ * The Class SimpleLayout.
+ *
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ */
 public class SimpleLayout implements Layout {
 
+	/* (non-Javadoc)
+	 * @see org.audit4j.core.Layout#format(org.audit4j.core.dto.AuditEvent)
+	 */
 	@Override
 	public String format(AuditEvent event) {
 		final StringBuilder buff = new StringBuilder();

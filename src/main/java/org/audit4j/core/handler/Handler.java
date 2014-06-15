@@ -19,25 +19,37 @@
 
 package org.audit4j.core.handler;
 
+import java.io.Serializable;
+import java.util.Map;
+
 import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.exception.InitializationException;
 
 /**
  * The Class Handler.
  * 
  * @author Janith Bandara
  */
-public abstract class Handler {
+public abstract class Handler implements Serializable{
+
+	/**
+	 * asdas
+	 */
+	private static final long serialVersionUID = -8636058037478806582L;
 
 	/** The query. */
 	private String query;
 
 	/** The audit event. */
 	private AuditEvent auditEvent;
-	
+
+	/** The properties. */
+	private Map<String, String> properties;
+
 	/**
 	 * Close.
 	 */
-	public void close(){
+	public void close() {
 		query = null;
 		auditEvent = null;
 	}
@@ -46,28 +58,14 @@ public abstract class Handler {
 	 * Inits the.
 	 *
 	 * @return true, if successful
+	 * @throws InitializationException the initialization exception
 	 */
-	public abstract boolean init();
-	
+	public abstract void init() throws InitializationException;
+
 	/**
 	 * Handle.
 	 */
 	public abstract void handle();
-	
-
-	/**
-	 * Gets the user identifier.
-	 * 
-	 * @return the user identifier
-	 */
-	public abstract String getUserIdentifier();
-
-	/**
-	 * Gets the user name.
-	 * 
-	 * @return the user name
-	 */
-	public abstract String getUserName();
 
 	/**
 	 * Sets the query.
@@ -106,4 +104,25 @@ public abstract class Handler {
 	public String getQuery() {
 		return query;
 	}
+
+	
+	/**
+	 * Gets the property.
+	 *
+	 * @param key the key
+	 * @return the property
+	 */
+	public String getProperty(String key) {
+		return properties.get(key);
+	}
+
+	/**
+	 * Sets the properties.
+	 *
+	 * @param properties the properties
+	 */
+	public void setProperties(Map<String, String> properties) {
+		this.properties = properties;
+	}
+
 }

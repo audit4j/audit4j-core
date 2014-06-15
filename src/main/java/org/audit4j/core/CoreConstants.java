@@ -23,6 +23,9 @@ package org.audit4j.core;
  */
 public final class CoreConstants {
 
+	public static final String RELEASE_VERSION = "1.0.0.RELEASE";
+
+	public static final String RELEASE_DATE = "2014-06-15T11:17:21.077Z";
 	/** The Constant COLON_CHAR. */
 	public static final char COLON_CHAR = ':';
 
@@ -67,12 +70,19 @@ public final class CoreConstants {
 
 	/** The Constant SALT. */
 	public static final String SALT = "232332324";
-	
+
 	/** The Constant IV. */
 	public static final String IV = "e675f725e675f725";
-	
+
 	public static final String ENCODE_UTF8 = "UTF-8";
-	
+
 	public static final String SITE_URL = "http://mechanizedspace.com/audit4j/";
-	
+
+	public static final String CONFIG_FILE_NAME = "auit4j.conf.yml";
+
+	public static final String INITIAL_CONFIG_FILE = "!Configuration\nreleased: "
+			+ RELEASE_DATE
+			+ "\nversion: "
+			+ RELEASE_VERSION
+			+ "\nhandlers:\n- !org.audit4j.core.handler.db.GeneralDatabaseAuditHandler {}\nlayout:\n!org.audit4j.core.SimpleLayout {}\nmetaData: !org.audit4j.core.DummyMetaData {}\nproperties:\n- {key: log.file.location, value: user.dir}";
 }

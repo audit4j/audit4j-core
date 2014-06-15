@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
+import java.io.Serializable;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
@@ -31,22 +32,16 @@ import java.nio.charset.Charset;
 import java.util.Date;
 
 import org.audit4j.core.AuditUtil;
-import org.audit4j.core.Configuration;
 import org.audit4j.core.CoreConstants;
-import org.audit4j.core.Layout;
 import org.audit4j.core.TroubleshootManager;
-import org.audit4j.core.dto.AuditEvent;
-import org.audit4j.core.io.AuditOutputStream;
 
 /**
  * The Class ZeroCopyFileWriter.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
-public final class ZeroCopyFileWriter implements AuditOutputStream {
+public final class ZeroCopyFileWriter implements Serializable{
 
-	/** The layout. */
-	private final Layout layout;
 
 	/** The path. */
 	private final String path;
@@ -57,9 +52,8 @@ public final class ZeroCopyFileWriter implements AuditOutputStream {
 	 * @param conf
 	 *            the conf
 	 */
-	public ZeroCopyFileWriter(Configuration conf) {
-		this.layout = (Layout) conf.getValue("layout");
-		this.path = (String) conf.getValue("log.file.location");
+	public ZeroCopyFileWriter(String path) {
+		this.path = path;
 	}
 
 	/*
@@ -69,9 +63,8 @@ public final class ZeroCopyFileWriter implements AuditOutputStream {
 	 * org.audit4j.core.io.AuditOutputStream#write(org.audit4j.core.dto.AuditEvent
 	 * )
 	 */
-	@Override
-	public AuditOutputStream write(AuditEvent event) {
-		String str2 = layout.format(event) + CoreConstants.NEW_LINE;
+	public ZeroCopyFileWriter write(String event) {
+		String str2 = event + CoreConstants.NEW_LINE;
 		RandomAccessFile randomAccessFile;
 		String realPath = generateOutputFilePath();
 
@@ -111,24 +104,21 @@ public final class ZeroCopyFileWriter implements AuditOutputStream {
 	 */
 	public String generateOutputFilePath() {
 		String tempPath = separatorsToSystem(path);
-		tempPath = tempPath + File.separatorChar + generateFileName() ;
+		tempPath = tempPath + File.separatorChar + generateFileName();
 		return tempPath;
 	}
-	
+
 	/**
 	 * Generate file name.
-	 *
+	 * 
 	 * @return the string
 	 */
-	private String generateFileName(){
+	private String generateFileName() {
 		StringBuffer name = new StringBuffer();
-		name.append("Audit_Log-")
-		.append( AuditUtil.dateToString(new Date(), "yyyy-MM-dd"))
-		.append(CoreConstants.AUDIT_EXTENTION);
+		name.append("Audit_Log-").append(AuditUtil.dateToString(new Date(), "yyyy-MM-dd"))
+				.append(CoreConstants.AUDIT_EXTENTION);
 		return name.toString();
 	}
-	
-	
 
 	/**
 	 * Converts all separators to the Unix separator of forward slash.
@@ -181,7 +171,6 @@ public final class ZeroCopyFileWriter implements AuditOutputStream {
 	 * 
 	 * @see org.audit4j.core.io.AuditOutputStream#close()
 	 */
-	@Override
 	public void close() {
 
 	}

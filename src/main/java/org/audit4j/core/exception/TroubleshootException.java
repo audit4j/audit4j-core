@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 public class TroubleshootException extends RuntimeException {
 
 	/** The log. */
-	private static final Logger LOG = LoggerFactory.getLogger(ValidationException.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TroubleshootException.class);
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -7969806069690822408L;
@@ -42,6 +42,17 @@ public class TroubleshootException extends RuntimeException {
 	 */
 	public TroubleshootException(String message) {
 		super(message);
+		LOG.warn("Audit4j: Troubleshoot Exception: " + message);
+	}
+	
+	/**
+	 * Instantiates a new troubleshoot exception.
+	 *
+	 * @param message the message
+	 * @param e the e
+	 */
+	public TroubleshootException(String message, Exception e) {
+		super(message, e);
 		LOG.warn("Audit4j: Troubleshoot Exception: " + message);
 	}
 }

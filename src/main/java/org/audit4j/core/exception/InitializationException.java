@@ -17,13 +17,31 @@
  * limitations under the License.
  */
 
-package org.audit4j.core;
+package org.audit4j.core.exception;
 
-public final class ErrorURL {
+/**
+ * The Class InitializationException.
+ *
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ */
+public class InitializationException extends RuntimeException {
 
-	public static final String ERROR_URL = CoreConstants.SITE_URL + "usage#";
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 6213325255955496474L;
+
+	/**
+	 * Instantiates a new initialization exception.
+	 *
+	 * @param message the message
+	 * @param e the e
+	 */
+	public InitializationException(String message) {
+		super(message);
+		System.err.println("Audit4j: Failed to initialize Audit4j: " + message);
+	}
 	
-	public static final String NULL_ACTOR = ERROR_URL + "metadataimpl";
-	
-	public static final String CONFIG_ERROR = ERROR_URL + "configfile";
+	public InitializationException(String message, Exception e) {
+		super(message, e);
+		System.err.println("Audit4j: Failed to initialize Audit4j: " + message);
+	}
 }

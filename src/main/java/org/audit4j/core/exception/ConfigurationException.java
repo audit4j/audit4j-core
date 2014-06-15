@@ -17,25 +17,50 @@
  * limitations under the License.
  */
 
-package org.audit4j.core;
-
-import java.io.Serializable;
-
-import org.audit4j.core.dto.AuditEvent;
+package org.audit4j.core.exception;
 
 /**
- * The Interface Layout.
+ * The Class ConfigurationException.
  *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
-public interface Layout extends Serializable{
+public class ConfigurationException extends Exception {
+
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -1297395824544190647L;
+	
+	/** The id. */
+	private final String id;
 
 	/**
-	 * Format.
+	 * Instantiates a new configuration exception.
 	 *
-	 * @param event the event
-	 * @return the string
+	 * @param message the message
+	 * @param id the id
 	 */
-	public String format(AuditEvent event);
+	public ConfigurationException(String message, String id) {
+		super(message);
+		this.id = id;
+	}
 	
+	/**
+	 * Instantiates a new configuration exception.
+	 *
+	 * @param message the message
+	 * @param id the id
+	 * @param e the e
+	 */
+	public ConfigurationException(String message, String id, Exception e) {
+		super(message, e);
+		this.id = id;
+	}
+
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
 }
