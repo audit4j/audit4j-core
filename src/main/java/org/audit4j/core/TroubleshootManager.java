@@ -29,6 +29,12 @@ import java.security.AccessController;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.exception.TroubleshootException;
+import org.audit4j.core.exception.ValidationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * The Class TroubleshootManager.
  * 
@@ -36,11 +42,29 @@ import java.util.List;
  */
 public final class TroubleshootManager {
 
+	private static final Logger LOG = LoggerFactory.getLogger(ValidationException.class);
+
 	/** The Constant MIN_PORT_NUMBER. */
 	public static final int MIN_PORT_NUMBER = 1100;
 
 	/** The Constant MAX_PORT_NUMBER. */
 	public static final int MAX_PORT_NUMBER = 49151;
+
+	static void troubleshootEvent(AuditEvent event) {
+		if (event == null) {
+			throw new TroubleshootException(
+					"Invalid Audit event type,\n Audit4j: Audit Event should not null, This event will not be logged by the Audit4j.");
+		} else if (event.getActor() == null) {
+			event.setActor(CoreConstants.DEFAULT_ACTOR);
+			LOG.warn("If you are not parsing the actor to the AuditEvent,\n"
+					+ "Audit4j: you should make a your own AuditMetaData implementation. \n"
+					+ "Audit4j: otherwise actor will be hard coded as \"" + CoreConstants.DEFAULT_ACTOR
+					+ "\" in the audit log. " + "\nAudit4j: See " + ErrorURL.NULL_ACTOR + " for further details");
+		} else if (event.getOrigin() == null) {
+			throw new TroubleshootException(
+					"Invalid Audit event type,\n Audit4j: origin should not null, This event will not be logged by the Audit4j.");
+		}
+	}
 
 	/**
 	 * Checks if is annotation intregration available.
@@ -114,8 +138,9 @@ public final class TroubleshootManager {
 
 	/**
 	 * Checks if is file already exists.
-	 *
-	 * @param path the path
+	 * 
+	 * @param path
+	 *            the path
 	 * @return true, if is file already exists
 	 */
 	public static boolean isFileAlreadyExists(String path) {

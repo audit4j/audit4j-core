@@ -27,8 +27,10 @@ import java.util.Map;
 import org.audit4j.core.annotation.AsyncAuditAnnotationAttributes;
 import org.audit4j.core.dto.AnnotationAuditEvent;
 import org.audit4j.core.dto.AsyncCallAuditDto;
+import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.exception.TroubleshootException;
+import org.audit4j.core.exception.ValidationException;
 import org.audit4j.core.handler.Handler;
-
 
 /**
  * The Class AuditUtils.
@@ -45,7 +47,8 @@ public class AuditManager {
 
 	/** The audit manager. */
 	private static AuditManager auditManager;
-	
+
+	/** The conf. */
 	private Configuration conf;
 
 	/**
@@ -72,6 +75,33 @@ public class AuditManager {
 
 	/** The param count. */
 	private Integer paramCount = 0;
+
+	/**
+	 * Audit.
+	 * 
+	 * @param event
+	 *            the event
+	 * @return true, if successful
+	 */
+	public boolean audit(AuditEvent event) {
+		try {
+			ValidationManager.validateEvent(event);
+			final AsyncAuditEngine engine = AsyncAuditEngine.getInstance();
+			engine.init();
+			engine.send(event);
+			return Boolean.TRUE;
+		} catch (ValidationException e) {
+			try {
+				TroubleshootManager.troubleshootEvent(event);
+				final AsyncAuditEngine engine = AsyncAuditEngine.getInstance();
+				engine.init();
+				engine.send(event);
+				return Boolean.TRUE;
+			} catch (TroubleshootException e1) {
+				return Boolean.FALSE;
+			}
+		}
+	}
 
 	/**
 	 * Audit field.
@@ -140,10 +170,13 @@ public class AuditManager {
 
 	/**
 	 * Audit with annotation.
-	 *
-	 * @param clazz the clazz
-	 * @param method the method
-	 * @param args the args
+	 * 
+	 * @param clazz
+	 *            the clazz
+	 * @param method
+	 *            the method
+	 * @param args
+	 *            the args
 	 * @return true, if successful
 	 */
 	public boolean audit(Class<?> clazz, Method method, Object[] args) {
@@ -242,9 +275,11 @@ public class AuditManager {
 
 	/**
 	 * Report.
-	 *
-	 * @param msg the msg
-	 * @param t the t
+	 * 
+	 * @param msg
+	 *            the msg
+	 * @param t
+	 *            the t
 	 */
 	public void report(String msg, Throwable t) {
 		AuditUtil.report(msg, t);
@@ -252,8 +287,9 @@ public class AuditManager {
 
 	/**
 	 * Report.
-	 *
-	 * @param msg the msg
+	 * 
+	 * @param msg
+	 *            the msg
 	 */
 	public void report(String msg) {
 		AuditUtil.report(msg);
@@ -261,8 +297,9 @@ public class AuditManager {
 
 	/**
 	 * Audit.
-	 *
-	 * @param msg the msg
+	 * 
+	 * @param msg
+	 *            the msg
 	 */
 	public void audit(String msg) {
 

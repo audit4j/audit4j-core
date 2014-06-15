@@ -1,8 +1,5 @@
 /*
- * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
- * An open-source audit platform for Enterprise java platform.
- * http://mechanizedspace.com/audit4j
- * http://audit4j.org
+ * Copyright 2014 Janith Bandara
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,5 +72,7 @@ public final class CoreConstants {
 	public static final String IV = "e675f725e675f725";
 	
 	public static final String ENCODE_UTF8 = "UTF-8";
+	
+	public static final String SITE_URL = "http://mechanizedspace.com/audit4j/";
 	
 }

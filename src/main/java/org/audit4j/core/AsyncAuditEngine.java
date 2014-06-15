@@ -105,7 +105,8 @@ public class AsyncAuditEngine implements ExceptionListener {
 							AsynchronousAnnotationProcessor processor = AsynchronousAnnotationProcessor.getInstance();
 							processor.process((AnnotationAuditEvent) object);
 						} else if (object instanceof AsyncCallAuditDto) {
-
+							AsynchronousCallAuditProcessor callProcessor = AsynchronousCallAuditProcessor.getInstance();
+							callProcessor.process((AsyncCallAuditDto) object);
 						}
 					} catch (final JMSException e) {
 						e.printStackTrace();
