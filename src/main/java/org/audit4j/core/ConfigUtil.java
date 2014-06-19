@@ -33,8 +33,9 @@ import java.util.Map;
 
 import org.audit4j.core.exception.ConfigurationException;
 import org.audit4j.core.exception.TroubleshootException;
+import org.audit4j.core.handler.ConsoleAuditHandler;
 import org.audit4j.core.handler.Handler;
-import org.audit4j.core.handler.db.DatabaseAuditHandler;
+import org.audit4j.core.handler.file.FileAuditHandler;
 
 import com.esotericsoftware.yamlbeans.YamlException;
 import com.esotericsoftware.yamlbeans.YamlReader;
@@ -63,7 +64,17 @@ public final class ConfigUtil {
 		conf.setVersion("1.0.0.RELEASE");
 		conf.setReleased(new Date());
 		List<Handler> handlers = new ArrayList<>();
-		handlers.add(new DatabaseAuditHandler());
+		/*DatabaseAuditHandler handler = new DatabaseAuditHandler();
+		handler.setEmbedded("true");
+		handler.setDb_driver("driver");
+		handler.setDb_url("");
+		handler.setDb_user("audit4juser");
+		handler.setDb_password("password");
+		handlers.add(handler);*/
+		FileAuditHandler handler = new FileAuditHandler();
+		handlers.add(handler);
+		ConsoleAuditHandler handler2 = new ConsoleAuditHandler();
+		handlers.add(handler2);
 		conf.setHandlers(handlers);
 		conf.setLayout(new SimpleLayout());
 		Map<String,String> properties = new HashMap<String,String>();
@@ -98,6 +109,7 @@ public final class ConfigUtil {
 		yml.append("version: ").append(CoreConstants.RELEASE_VERSION).append("\n");
 		yml.append("handlers:").append("\n");
 		yml.append("- !org.audit4j.core.handler.db.DatabaseAuditHandler {}").append("\n");
+		yml.append("- !org.audit4j.core.handler.file.FileAuditHandler {}").append("\n");
 		yml.append("layout: !org.audit4j.core.SimpleLayout {}").append("\n");
 		yml.append("metaData: !org.audit4j.core.DummyMetaData {}").append("\n");
 		yml.append("properties:").append("\n");
@@ -132,5 +144,9 @@ public final class ConfigUtil {
 		} catch (YamlException e) {
 			throw new ConfigurationException("Configuration Exception", "CONF_002", e);
 		}
+	}
+	
+	public static void main(String[] args) {
+		generateConfigFromObject();
 	}
 }

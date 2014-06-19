@@ -1,7 +1,10 @@
 package org.audit4j.core;
 
+
+
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.exception.ValidationException;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -14,31 +17,43 @@ public class ValidationManagerTest extends Audit4jTestBase{
 	/**
 	 * Test origin.
 	 */
-	@Test(expected = ValidationException.class)
+	@Test
 	public void testValidate_Null_Event() {
-		ValidationManager.validateEvent(null);
+		try {
+			ValidationManager.validateEvent(null);
+		} catch (ValidationException e) {
+			Assert.assertNotNull(e);
+		}
 	}
 	
 	/**
 	 * Test actor.
 	 */
-	@Test(expected = ValidationException.class)
+	@Test
 	public void testValidate_Actor() {
 		AuditEvent event = getSampleEvent();
 		// Set Actor as null
 		event.setActor(null);
-		ValidationManager.validateEvent(event);
+		try {
+			ValidationManager.validateEvent(event);
+		} catch (ValidationException e) {
+			Assert.assertNotNull(e);
+		}
 	}
 	
 	/**
 	 * Test origin.
 	 */
-	@Test(expected = ValidationException.class)
+	@Test
 	public void testValidate_Origin() {
 		AuditEvent event = getSampleEvent();
 		// Set Origin as null
 		event.setOrigin(null);
-		ValidationManager.validateEvent(event);
+		try {
+			ValidationManager.validateEvent(event);
+		} catch (ValidationException e) {
+			Assert.assertNotNull(e);
+		}
 	}
 
 }
