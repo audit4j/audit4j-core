@@ -24,7 +24,8 @@ import java.util.List;
 
 import org.audit4j.core.dto.AuditBase;
 import org.audit4j.core.dto.AuditEvent;
-import org.audit4j.core.dto.Element;
+import org.audit4j.core.dto.Field;
+import org.audit4j.core.exception.HandlerException;
 import org.audit4j.core.handler.Handler;
 
 /**
@@ -56,13 +57,13 @@ public abstract class AuditProcessor<T extends AuditBase> {
 	 * @return the string
 	 */
 	@Deprecated
-	protected String buildQuery(final List<Element> actionItems, String action) {
+	protected String buildQuery(final List<Field> actionItems, String action) {
 		if (actionItems != null && !actionItems.isEmpty()) {
 			final StringBuilder buff = new StringBuilder();
 			if (action != null) {
 				buff.append(action).append(CoreConstants.ARROW);
 			}
-			for (Element actionItem : actionItems) {
+			for (Field actionItem : actionItems) {
 				buff.append(actionItem.getName()).append(CoreConstants.COLON_CHAR).append(actionItem.getValue())
 						.append(CoreConstants.COMMA_CHAR);
 			}
@@ -88,7 +89,11 @@ public abstract class AuditProcessor<T extends AuditBase> {
 
 			handler.setAuditEvent(event);
 			handler.setQuery(query);
-			handler.handle();
+			try {
+				handler.handle();
+			} catch (HandlerException e) {
+				Log.warn("Failed to submit audit record.");
+			}
 		}
 	}
 
@@ -107,7 +112,11 @@ public abstract class AuditProcessor<T extends AuditBase> {
 		for (final Handler handler : getConf().getHandlers()) {
 			handler.setAuditEvent(event);
 			handler.setQuery(getConf().getLayout().format(event));
-			handler.handle();
+			try {
+				handler.handle();
+			} catch (HandlerException e) {
+				Log.warn("Failed to submit audit event.");
+			}
 		}
 	}
 

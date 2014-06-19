@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.audit4j.core.dto.AuditEvent;
-import org.audit4j.core.dto.Element;
+import org.audit4j.core.dto.Field;
 
 /**
  * The Class Audit4jTestBase.
@@ -28,19 +28,19 @@ public class Audit4jTestBase {
 		event.setOrigin("origin");
 		event.setTimestamp(new Timestamp(new Date().getTime()));
 		event.setUuid(Long.parseLong("1221"));
-		Element element = new Element();
+		Field element = new Field();
 		element.setName("elementName");
 		element.setType("elementType");
 		element.setValue("elementValue");
 
-		Element element2 = new Element();
+		Field element2 = new Field();
 		element2.setName("elementName");
 		element2.setType("elementType");
 		element2.setValue("elementValue");
-		List<Element> elements = new ArrayList<Element>();
+		List<Field> elements = new ArrayList<Field>();
 		elements.add(element);
 		elements.add(element2);
-		event.setEventElements(elements);
+		event.setFields(elements);
 		return event;
 	}
 

@@ -26,7 +26,7 @@ import org.audit4j.core.annotation.AuditFieldAnnotationAttribute;
 import org.audit4j.core.annotation.SelectionType;
 import org.audit4j.core.dto.AnnotationAuditEvent;
 import org.audit4j.core.dto.AuditEvent;
-import org.audit4j.core.dto.Element;
+import org.audit4j.core.dto.Field;
 import org.audit4j.core.handler.Handler;
 
 
@@ -57,37 +57,33 @@ public class AsynchronousAnnotationProcessor extends AnnotationAuditProcessor<An
 		final AsyncAuditAnnotationAttributes attributes = new AsyncAuditAnnotationAttributes();
 		final AuditFieldAnnotationAttribute fieldAttributes = new AuditFieldAnnotationAttribute();
 		List<Handler> handlers = null;
-		List<Element> actionItems = null;
+		List<Field> fields = null;
 		AuditEvent event = new AuditEvent();
 		String action = "";
-		String methodName = "";
-
 		if (attributes.hasAnnotation(auditDto.getClass())) {
-			handlers = attributes.getHandlers(auditDto.getClass());
+			handlers = Context.getHandlers();
 
-			final String selection = attributes.getSelection(auditDto.getClass());
+			final SelectionType selection = attributes.getSelection(auditDto.getClass());
 			if (selection.equals(SelectionType.ALL)) {
-				actionItems = fieldAttributes.getAllActionItems(auditDto.getMethod(), auditDto.getArgs());
+				fields = fieldAttributes.getAllFields(auditDto.getMethod(), auditDto.getArgs());
 			} else if (selection.equals(SelectionType.MARKED)) {
-				actionItems = fieldAttributes.getMarkedActionItems(auditDto.getMethod(), auditDto.getArgs());
+				fields = fieldAttributes.getMarkedFields(auditDto.getMethod(), auditDto.getArgs());
 			}
 			action = attributes.getAction(auditDto.getMethod().getClass(), auditDto.getMethod());
-			methodName = auditDto.getMethod().getName();
 		} else if (attributes.hasAnnotation(auditDto.getMethod())) {
-			handlers = attributes.getHandlers(auditDto.getMethod());
-			final String selection = attributes.getSelection(auditDto.getMethod());
+			handlers = Context.getHandlers();
+			final SelectionType selection = attributes.getSelection(auditDto.getMethod());
 			if (selection.equals(SelectionType.ALL)) {
-				actionItems = fieldAttributes.getAllActionItems(auditDto.getMethod(), auditDto.getArgs());
+				fields = fieldAttributes.getAllFields(auditDto.getMethod(), auditDto.getArgs());
 			} else if (selection.equals(SelectionType.MARKED)) {
-				actionItems = fieldAttributes.getMarkedActionItems(auditDto.getMethod(), auditDto.getArgs());
+				fields = fieldAttributes.getMarkedFields(auditDto.getMethod(), auditDto.getArgs());
 			}
 			action = attributes.getAction(auditDto.getMethod());
-			methodName = auditDto.getMethod().getName();
 		}
 
-		final String query = super.buildQuery(actionItems, action);
+		final String query = super.buildQuery(fields, action);
 		event.setAction(action);
-		event.setEventElements(actionItems);
+		event.setFields(fields);
 		super.executeHandlers(handlers, event, query);
 	}
 

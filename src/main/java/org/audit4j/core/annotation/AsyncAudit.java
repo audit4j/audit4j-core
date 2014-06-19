@@ -22,9 +22,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.audit4j.core.handler.ConsoleAuditHandler;
-import org.audit4j.core.handler.Handler;
-
 
 /**
  * The Interface Audit.
@@ -35,13 +32,6 @@ import org.audit4j.core.handler.Handler;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.TYPE, ElementType.METHOD })
 public @interface AsyncAudit {
-
-	/**
-	 * Handler.
-	 * 
-	 * @return the class<? extends handler>[]
-	 */
-	public Class<? extends Handler>[] handler() default { ConsoleAuditHandler.class };
 
 	/**
 	 * Action.
@@ -55,5 +45,5 @@ public @interface AsyncAudit {
 	 * 
 	 * @return the string
 	 */
-	public String selection() default SelectionType.ALL;
+	public SelectionType selection() default SelectionType.ALL;
 }

@@ -19,6 +19,7 @@
 
 package org.audit4j.core;
 
+import java.util.List;
 import java.util.Map;
 
 import org.audit4j.core.exception.ConfigurationException;
@@ -28,7 +29,7 @@ import org.audit4j.core.handler.Handler;
 
 /**
  * The Class Context.
- *
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
 public class Context {
@@ -69,11 +70,11 @@ public class Context {
 				throw new InitializationException("Configuration initialization failed.");
 			} else {
 				for (Map.Entry<String, String> entry : conf.getProperties().entrySet()) {
-				    if (System.getProperties().containsKey(entry.getValue())) {
+					if (System.getProperties().containsKey(entry.getValue())) {
 						conf.getProperties().put(entry.getKey(), System.getProperty(entry.getValue()));
 					}
 				}
-				
+
 				System.out.println("Initializing Handlers..");
 				for (Handler handler : conf.getHandlers()) {
 					try {
@@ -91,11 +92,32 @@ public class Context {
 
 	/**
 	 * Gets the config.
-	 *
+	 * 
 	 * @return the config
 	 */
 	public static Configuration getConfig() {
 		init();
 		return conf;
+	}
+
+	/**
+	 * Gets the handlers.
+	 * 
+	 * @return the handlers
+	 */
+	public static List<Handler> getHandlers() {
+		return getConfig().getHandlers();
+	}
+
+	/**
+	 * Checks if is initialized.
+	 *
+	 * @return true, if is initialized
+	 */
+	public boolean isInitialized() {
+		if (null == conf) {
+			return false;
+		}
+		return true;
 	}
 }

@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.audit4j.core.dto.Element;
+import org.audit4j.core.dto.Field;
 
 
 /**
@@ -81,10 +81,10 @@ public class AuditFieldAnnotationAttribute {
 	 *            the arg1
 	 * @return the all params
 	 */
-	public List<Element> getAllActionItems(final Method method, final Object[] arg1) {
+	public List<Field> getAllFields(final Method method, final Object[] arg1) {
 
 		final Annotation[][] parameterAnnotations = method.getParameterAnnotations();
-		List<Element> actionItems = new ArrayList<Element>();
+		List<Field> actionItems = new ArrayList<Field>();
 
 		int i = 0;
 		String paramName = null;
@@ -101,7 +101,7 @@ public class AuditFieldAnnotationAttribute {
 			if (null == paramName) {
 				paramName = "arg" + (i - 1);
 			}
-			Element actionItem = new Element();
+			Field actionItem = new Field();
 			actionItem.setName(paramName);
 			actionItem.setValue(paramValue);
 
@@ -157,9 +157,9 @@ public class AuditFieldAnnotationAttribute {
 	 *            the arg1
 	 * @return the marked action items
 	 */
-	public List<Element> getMarkedActionItems(final Method method, final Object[] arg1) {
+	public List<Field> getMarkedFields(final Method method, final Object[] arg1) {
 		final Annotation[][] parameterAnnotations = method.getParameterAnnotations();
-		final List<Element> markedActionItems = new ArrayList<Element>();
+		final List<Field> markedActionItems = new ArrayList<Field>();
 
 		int i = 0;
 		String paramName = null;
@@ -174,7 +174,7 @@ public class AuditFieldAnnotationAttribute {
 				}
 			}
 			if (paramName != null) {
-				Element actionItem = new Element();
+				Field actionItem = new Field();
 				actionItem.setName(paramName);
 				actionItem.setValue(paramValue);
 			}

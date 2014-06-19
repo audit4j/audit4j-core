@@ -26,7 +26,7 @@ import java.io.Serializable;
  * 
  * @author Janith Bandara
  */
-public class Element implements Serializable {
+public class Field implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -5444966344948636042L;
@@ -40,6 +40,23 @@ public class Element implements Serializable {
 	/** The type. */
 	private String type;
 
+	/**
+	 * Instantiates a new element.
+	 */
+	public Field(){}
+	
+	/**
+	 * Instantiates a new element.
+	 *
+	 * @param name the name
+	 * @param value the value
+	 * @param type the type
+	 */
+	public Field(String name, String value, String type){
+		this.name=name;
+		this.value=value;
+		this.type=type;
+	}
 	/**
 	 * Gets the name.
 	 * 

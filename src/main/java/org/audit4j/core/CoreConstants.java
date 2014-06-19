@@ -23,6 +23,8 @@ package org.audit4j.core;
  */
 public final class CoreConstants {
 
+	public static final String APP_NAME = "Audit4j";
+	
 	public static final String RELEASE_VERSION = "1.0.0.RELEASE";
 
 	public static final String RELEASE_DATE = "2014-06-15T11:17:21.077Z";
@@ -85,4 +87,6 @@ public final class CoreConstants {
 			+ "\nversion: "
 			+ RELEASE_VERSION
 			+ "\nhandlers:\n- !org.audit4j.core.handler.db.GeneralDatabaseAuditHandler {}\nlayout:\n!org.audit4j.core.SimpleLayout {}\nmetaData: !org.audit4j.core.DummyMetaData {}\nproperties:\n- {key: log.file.location, value: user.dir}";
+
+	public static final String EMBEDED_DB_NAME = "audit4j";
 }

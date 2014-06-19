@@ -24,7 +24,8 @@ import java.util.List;
 
 import org.audit4j.core.CoreConstants;
 import org.audit4j.core.dto.AuditEvent;
-import org.audit4j.core.dto.Element;
+import org.audit4j.core.dto.Field;
+import org.audit4j.core.exception.HandlerException;
 import org.audit4j.core.handler.Handler;
 import org.audit4j.core.pool.FuriousHandlerPool;
 
@@ -60,8 +61,13 @@ public class HandlerWriter implements AuditOutputStream {
         for (Class<? extends Handler> handlerClazz : handlers) {
             Handler handler = pool.checkOut(handlerClazz);
             handler.setAuditEvent(event);
-            handler.setQuery(buildQuery(event.getEventElements(), event.getAction()));
-            handler.handle();
+            handler.setQuery(buildQuery(event.getFields(), event.getAction()));
+            try {
+				handler.handle();
+			} catch (HandlerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             pool.checkIn(handler);
         }
         return this;
@@ -112,13 +118,13 @@ public class HandlerWriter implements AuditOutputStream {
      *            the action
      * @return the string
      */
-    private String buildQuery(final List<Element> actionItems, String action) {
+    private String buildQuery(final List<Field> actionItems, String action) {
         if (actionItems != null && !actionItems.isEmpty()) {
             final StringBuilder buff = new StringBuilder();
             if (action != null) {
                 buff.append(action).append(CoreConstants.ARROW);
             }
-            for (Element actionItem : actionItems) {
+            for (Field actionItem : actionItems) {
                 buff.append(actionItem.getName()).append(CoreConstants.COLON_CHAR).append(actionItem.getValue())
                         .append(CoreConstants.COMMA_CHAR);
             }

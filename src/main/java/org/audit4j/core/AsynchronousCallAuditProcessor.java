@@ -20,6 +20,7 @@
 package org.audit4j.core;
 
 import org.audit4j.core.dto.AsyncCallAuditDto;
+import org.audit4j.core.exception.HandlerException;
 import org.audit4j.core.handler.Handler;
 
 
@@ -47,7 +48,11 @@ public class AsynchronousCallAuditProcessor extends AuditProcessor<AsyncCallAudi
 		for (final Handler handler : auditDto.getHandlers()) {
 			handler.setQuery(AuditUtil.buildQuery(AuditUtil.transformMap(auditDto.getParamMap()), auditDto.getAction()));
 			// handler.setParameters(AuditUtil.transformMap(auditDto.getParamMap()));
-			handler.handle();
+			try {
+				handler.handle();
+			} catch (HandlerException e) {
+				Log.warn("Failed to submit audit event.");
+			}
 		}
 	}
 

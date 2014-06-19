@@ -17,33 +17,19 @@
  * limitations under the License.
  */
 
-package org.audit4j.core.exception;
-
-import org.audit4j.core.Log;
+package org.audit4j.core;
 
 /**
- * The Class InitializationException.
- *
+ * A factory for creating AbstractConfiguration objects.
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
-public class InitializationException extends RuntimeException {
-
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 6213325255955496474L;
+public abstract class AbstractConfigurationFactory {
 
 	/**
-	 * Instantiates a new initialization exception.
-	 *
-	 * @param message the message
-	 * @param e the e
+	 * Gets the audit level.
+	 * 
+	 * @return the audit level
 	 */
-	public InitializationException(String message) {
-		super(message);
-		Log.error("Failed to initialize Audit4j: " + message);
-	}
-	
-	public InitializationException(String message, Exception e) {
-		super(message, e);
-		Log.error("Failed to initialize Audit4j: " + message);
-	}
+	public abstract String getAuditLevel();
 }

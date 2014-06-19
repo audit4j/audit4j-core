@@ -23,6 +23,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.exception.HandlerException;
 import org.audit4j.core.exception.InitializationException;
 
 /**
@@ -65,7 +66,7 @@ public abstract class Handler implements Serializable{
 	/**
 	 * Handle.
 	 */
-	public abstract void handle();
+	public abstract void handle() throws HandlerException;
 
 	/**
 	 * Sets the query.

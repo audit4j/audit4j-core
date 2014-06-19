@@ -21,17 +21,20 @@ package org.audit4j.core.annotation;
  * 
  * @author Janith Bandara
  */
-public final class SelectionType {
+public enum SelectionType {
 
-	private SelectionType() {
-	}
+	ALL, MARKED, NOT_SELECTED;
 
-	/** The Constant ALL. */
-	public static final String ALL = "all";
-
-	/** The Constant MARKED. */
-	public static final String MARKED = "marked";
-
-	/** The Constant NOT_SELECTED. */
-	public static final String NOT_MARKED = "notMarked";
+	/*
+	 * private SelectionType() { }
+	 *//** The Constant ALL. */
+	/*
+	 * public static final String ALL = "all";
+	 *//** The Constant MARKED. */
+	/*
+	 * public static final String MARKED = "marked";
+	 *//** The Constant NOT_SELECTED. */
+	/*
+	 * public static final String NOT_MARKED = "notMarked";
+	 */
 }

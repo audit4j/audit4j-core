@@ -29,6 +29,7 @@ import org.audit4j.core.dto.AnnotationAuditEvent;
 import org.audit4j.core.dto.AsyncAuditMessage;
 import org.audit4j.core.dto.AsyncCallAuditDto;
 import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.exception.HandlerException;
 import org.audit4j.core.exception.TroubleshootException;
 import org.audit4j.core.exception.ValidationException;
 import org.audit4j.core.handler.Handler;
@@ -170,7 +171,11 @@ public class AuditManager {
 			// handler.setMethod(method);
 			handler.setQuery(AuditUtil.buildQuery(AuditUtil.transformMap(paramMap), action));
 			// handler.setParameters(AuditUtil.transformMap(paramMap));
-			handler.handle();
+			try {
+				handler.handle();
+			} catch (HandlerException e) {
+				Log.warn("Failed to submit audit event.");
+			}
 		}
 		return Boolean.TRUE;
 	}

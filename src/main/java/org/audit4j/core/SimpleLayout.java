@@ -20,7 +20,7 @@
 package org.audit4j.core;
 
 import org.audit4j.core.dto.AuditEvent;
-import org.audit4j.core.dto.Element;
+import org.audit4j.core.dto.Field;
 
 /**
  * The Class SimpleLayout.
@@ -43,12 +43,12 @@ public class SimpleLayout implements Layout {
 		buff.append(CoreConstants.PIPE);
 		buff.append(event.getOrigin());
 		buff.append(CoreConstants.PIPE);
-		if (event.getEventElements() != null && !event.getEventElements().isEmpty()) {
+		if (event.getFields() != null && !event.getFields().isEmpty()) {
 
 			if (event.getAction() != null) {
 				buff.append(event.getAction()).append(CoreConstants.ARROW);
 			}
-			for (Element actionItem : event.getEventElements()) {
+			for (Field actionItem : event.getFields()) {
 				buff.append(actionItem.getName()).append(CoreConstants.SPACE).append(actionItem.getType()).append(CoreConstants.COLON_CHAR)
 						.append(actionItem.getValue()).append(CoreConstants.COMMA_CHAR);
 			}

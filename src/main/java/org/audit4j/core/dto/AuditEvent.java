@@ -19,6 +19,7 @@
 
 package org.audit4j.core.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +31,7 @@ public class AuditEvent extends AuditBase {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -7009763987501353992L;
-	
+
 	/** The actor. */
 	private String actor;
 
@@ -41,7 +42,7 @@ public class AuditEvent extends AuditBase {
 	private String action;
 
 	/** The action item. */
-	private List<Element> eventElements;
+	private List<Field> fields = new ArrayList<Field>();
 
 	/**
 	 * Gets the actor.
@@ -101,20 +102,45 @@ public class AuditEvent extends AuditBase {
 	}
 
 	/**
-	 * Gets the event elements.
-	 *
-	 * @return the event elements
+	 * Adds the element.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param value
+	 *            the value
+	 * @param type
+	 *            the type
 	 */
-	public List<Element> getEventElements() {
-		return eventElements;
+	public void addField(String name, String value, String type) {
+		this.fields.add(new Field(name, value, type));
 	}
 
 	/**
-	 * Sets the event elements.
-	 *
-	 * @param eventElements the new event elements
+	 * Adds the element.
+	 * 
+	 * @param element
+	 *            the element
 	 */
-	public void setEventElements(List<Element> eventElements) {
-		this.eventElements = eventElements;
+	public void addField(Field element) {
+		this.fields.add(element);
 	}
+
+	/**
+	 * Gets the fields.
+	 *
+	 * @return the fields
+	 */
+	public List<Field> getFields() {
+		return fields;
+	}
+
+	/**
+	 * Sets the fields.
+	 *
+	 * @param fields the new fields
+	 */
+	public void setFields(List<Field> fields) {
+		this.fields = fields;
+	}
+
 }

@@ -18,10 +18,6 @@ package org.audit4j.core.annotation;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.audit4j.core.handler.Handler;
 
 
 /**
@@ -68,67 +64,13 @@ public class AuditAnnotationAttributes {
 	}
 
 	/**
-	 * Gets the handlers.
-	 * 
-	 * @param clazz
-	 *            the clazz
-	 * @return the handlers
-	 */
-	public List<Handler> getHandlers(final Class clazz) {
-		final Annotation[] annotations = clazz.getAnnotations();
-		return getHandlers(annotations);
-	}
-
-	/**
-	 * Gets the handlers.
-	 * 
-	 * @param method
-	 *            the method
-	 * @return the handlers
-	 */
-	public List<Handler> getHandlers(final Method method) {
-		final Annotation[] annotations = method.getAnnotations();
-		return getHandlers(annotations);
-	}
-
-	/**
-	 * Gets the handlers.
-	 * 
-	 * @param annotations
-	 *            the annotations
-	 * @return the handlers
-	 */
-	public List<Handler> getHandlers(final Annotation[] annotations) {
-		final List<Handler> handlers = new ArrayList<Handler>();
-		for (final Annotation annotation : annotations) {
-			if (annotation instanceof Audit) {
-				final Audit audit = (Audit) annotation;
-				final Class<? extends Handler>[] handlerArr = audit.handler();
-				for (int i = 0; i < handlerArr.length; i++) {
-					try {
-						handlers.add(handlerArr[i].newInstance());
-					} catch (final InstantiationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (final IllegalAccessException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-
-			}
-		}
-		return handlers;
-	}
-
-	/**
 	 * Gets the selection.
 	 * 
 	 * @param clazz
 	 *            the clazz
 	 * @return the selection
 	 */
-	public String getSelection(final Class clazz) {
+	public SelectionType getSelection(final Class clazz) {
 		final Annotation[] annotations = clazz.getAnnotations();
 		return getSelection(annotations);
 	}
@@ -140,7 +82,7 @@ public class AuditAnnotationAttributes {
 	 *            the method
 	 * @return the selection
 	 */
-	public String getSelection(final Method method) {
+	public SelectionType getSelection(final Method method) {
 		final Annotation[] annotations = method.getAnnotations();
 		return getSelection(annotations);
 	}
@@ -152,7 +94,7 @@ public class AuditAnnotationAttributes {
 	 *            the annotations
 	 * @return the selection
 	 */
-	private String getSelection(final Annotation[] annotations) {
+	private SelectionType getSelection(final Annotation[] annotations) {
 		for (final Annotation annotation : annotations) {
 			if (annotation instanceof Audit) {
 				final Audit audit = (Audit) annotation;
