@@ -38,12 +38,6 @@
 		</developer>
 	</developers>
 
-	<parent>
-		<groupId>org.sonatype.oss</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>7</version>
-	</parent>
-
 	<properties>
 		<slf4j.version>1.7.5</slf4j.version>
 	</properties>
