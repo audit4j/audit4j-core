@@ -22,7 +22,7 @@
 		<connection>scm:git:git@github.com:audit4j/audit4j-core.git</connection>
 		<developerConnection>scm:git:git@github.com:audit4j/audit4j-core.git</developerConnection>
 		<url>scm:git:git@github.com:audit4j/audit4j-core.git</url>
-	  <tag>1.0.0</tag>
+	  <tag>v1.0.0</tag>
 	</scm>
 	<developers>
 		<developer>
