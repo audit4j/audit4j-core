@@ -146,7 +146,11 @@ public final class ConfigUtil {
 		}
 	}
 	
-	public static void main(String[] args) {
-		generateConfigFromObject();
+	static List<String> getHandlerClassNames(List<Handler> handlers){
+		List<String> handlerClassNameList = new ArrayList<>();
+		for (Handler handler : handlers) {
+			handlerClassNameList.add(handler.getClass().getName());
+		}
+		return handlerClassNameList;
 	}
 }

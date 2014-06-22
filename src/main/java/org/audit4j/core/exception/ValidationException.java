@@ -52,9 +52,8 @@ public class ValidationException extends Exception{
 	 */
 	public ValidationException(final String message, final String level){
 		super(message);
-		System.out.println("Audit4j: Validation Exception: " + message);
+		LOG.warn("Audit4j: Validation Exception: " + message);
 		this.level = level;
-		//LOG.warn("Validation Exception: " + message);
 	}
 
 	/**

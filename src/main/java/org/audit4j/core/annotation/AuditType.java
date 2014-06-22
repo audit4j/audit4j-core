@@ -17,13 +17,14 @@
 package org.audit4j.core.annotation;
 
 /**
- * The Class Field.
+ * The Enum AuditType.
  * 
- * @author Janith Bandara
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
-public enum SelectionType {
+public enum AuditType {
 
-	/** The all. */
-	ALL, /** The marked. */
- MARKED; /** The not selected. */
+	/** The server. */
+	SERVER, /** The application. */
+ APPLICATION, /** The db. */
+ DB;
 }

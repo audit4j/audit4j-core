@@ -25,6 +25,7 @@ import java.util.Map;
 import org.audit4j.core.exception.ConfigurationException;
 import org.audit4j.core.exception.InitializationException;
 import org.audit4j.core.exception.TroubleshootException;
+import org.audit4j.core.exception.ValidationException;
 import org.audit4j.core.handler.Handler;
 
 /**
@@ -44,7 +45,7 @@ public class Context {
 	 * Load config.
 	 */
 	private static void loadConfig() {
-		System.out.println("Loading Configurations..");
+		Log.info("Loading Configurations...");
 		try {
 			conf = ConfigUtil.readConfig();
 		} catch (ConfigurationException e) {
@@ -52,9 +53,9 @@ public class Context {
 				TroubleshootManager.troubleshootConfiguration(e);
 				conf = ConfigUtil.readConfig();
 			} catch (TroubleshootException e2) {
-				throw new InitializationException("Configuration initialization failed.", e2);
+				throw new InitializationException("Initialization failed.!!", e2);
 			} catch (ConfigurationException e1) {
-				throw new InitializationException("Configuration initialization failed.", e1);
+				throw new InitializationException("Initialization failed.!!", e1);
 			}
 		}
 	}
@@ -64,25 +65,32 @@ public class Context {
 	 */
 	private static void init() {
 		if (!initialized) {
-			System.out.println("Initializing Audit4j..");
+			Log.info("Initializing Audit4j...");
 			loadConfig();
+			Log.info("Validating Configurations...");
+			
 			if (conf == null) {
-				throw new InitializationException("Configuration initialization failed.");
+				throw new InitializationException("initialization failed.!!");
 			} else {
+				try {
+					ValidationManager.validateConfigurations(conf);
+				} catch (ValidationException e1) {
+					throw new InitializationException("initialization failed.!!", e1);
+				}
 				for (Map.Entry<String, String> entry : conf.getProperties().entrySet()) {
 					if (System.getProperties().containsKey(entry.getValue())) {
 						conf.getProperties().put(entry.getKey(), System.getProperty(entry.getValue()));
 					}
 				}
 
-				System.out.println("Initializing Handlers..");
+				Log.info("Initializing Handlers..");
 				for (Handler handler : conf.getHandlers()) {
 					try {
 						handler.setProperties(conf.getProperties());
 						handler.init();
-						System.out.println(handler.getClass().getName() + " Initialized.");
+						Log.info(handler.getClass().getName() + " Initialized.");
 					} catch (InitializationException e) {
-
+						throw new InitializationException("initialization failed.!!", e);
 					}
 				}
 				initialized = true;
@@ -115,9 +123,6 @@ public class Context {
 	 * @return true, if is initialized
 	 */
 	public boolean isInitialized() {
-		if (null == conf) {
-			return false;
-		}
-		return true;
+		return initialized;
 	}
 }

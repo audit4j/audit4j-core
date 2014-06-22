@@ -188,8 +188,7 @@ public class AsyncAuditEngine implements ExceptionListener {
 	 */
 	@Override
 	public void onException(final JMSException arg0) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	/**

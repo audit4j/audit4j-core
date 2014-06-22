@@ -35,15 +35,20 @@ public class InitializationException extends RuntimeException {
 	 * Instantiates a new initialization exception.
 	 *
 	 * @param message the message
-	 * @param e the e
 	 */
 	public InitializationException(String message) {
 		super(message);
 		Log.error("Failed to initialize Audit4j: " + message);
 	}
 	
-	public InitializationException(String message, Exception e) {
-		super(message, e);
-		Log.error("Failed to initialize Audit4j: " + message);
+	/**
+	 * Instantiates a new initialization exception.
+	 *
+	 * @param message the message
+	 * @param t the t
+	 */
+	public InitializationException(String message, Throwable t) {
+		super(message, t);
+		Log.error("Failed to initialize Audit4j: " + message, t);
 	}
 }

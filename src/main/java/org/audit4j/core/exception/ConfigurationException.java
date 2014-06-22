@@ -50,7 +50,7 @@ public class ConfigurationException extends Exception {
 	 * @param id the id
 	 * @param e the e
 	 */
-	public ConfigurationException(String message, String id, Exception e) {
+	public ConfigurationException(String message, String id, Throwable e) {
 		super(message, e);
 		this.id = id;
 	}

@@ -29,6 +29,9 @@ import org.audit4j.core.dto.Field;
  */
 public class SimpleLayout implements Layout {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 5057576669171592167L;
+
 	/* (non-Javadoc)
 	 * @see org.audit4j.core.Layout#format(org.audit4j.core.dto.AuditEvent)
 	 */

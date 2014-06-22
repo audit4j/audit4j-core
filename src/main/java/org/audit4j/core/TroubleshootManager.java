@@ -20,12 +20,9 @@
 package org.audit4j.core;
 
 import java.io.File;
-import java.io.FilePermission;
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.ServerSocket;
-import java.security.AccessControlException;
-import java.security.AccessController;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,22 +87,6 @@ public final class TroubleshootManager {
 	}
 
 	/**
-	 * Checks if is annotation intregration available.
-	 * 
-	 * @return true, if is annotation intregration available
-	 */
-	static boolean isAnnotationIntregrationAvailable() {
-		ClassLoader classLoader = TroubleshootManager.class.getClassLoader();
-		try {
-			Class<?> bindingClass = classLoader.loadClass(CoreConstants.ANNOTATION_INTREGRATION_CLASS);
-			// bindingClass.get
-			return (bindingClass != null);
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
-	}
-
-	/**
 	 * Checks if is port available.
 	 * 
 	 * @param port
@@ -141,22 +122,6 @@ public final class TroubleshootManager {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Checks for disk access.
-	 * 
-	 * @param path
-	 *            the path
-	 * @return true, if successful
-	 */
-	static boolean hasDiskAccess(final String path) {
-		try {
-			AccessController.checkPermission(new FilePermission(path, "read,write"));
-			return true;
-		} catch (AccessControlException e) {
-			return false;
-		}
 	}
 
 	/**

@@ -19,9 +19,6 @@
 
 package org.audit4j.core;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -82,30 +79,6 @@ public final class AuditUtil {
 		}
 
 		return paramStrMap;
-	}
-
-	/**
-	 * Compute target stream.
-	 * 
-	 * @param logFile
-	 *            the log file
-	 * @return the prints the stream
-	 */
-	private static PrintStream computeTargetStream(String logFile) {
-		if ("System.err".equalsIgnoreCase(logFile))
-			return System.err;
-		else if ("System.out".equalsIgnoreCase(logFile)) {
-			return System.out;
-		} else {
-			try {
-				FileOutputStream fos = new FileOutputStream(logFile);
-				PrintStream printStream = new PrintStream(fos);
-				return printStream;
-			} catch (FileNotFoundException e) {
-				AuditUtil.report("Could not open [" + logFile + "]. Defaulting to System.err", e);
-				return System.err;
-			}
-		}
 	}
 
 	/**

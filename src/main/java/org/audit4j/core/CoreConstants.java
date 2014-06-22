@@ -23,11 +23,27 @@ package org.audit4j.core;
  */
 public final class CoreConstants {
 
+	/** The Constant APP_NAME. */
 	public static final String APP_NAME = "Audit4j";
 	
-	public static final String RELEASE_VERSION = "1.0.0.RELEASE";
+	/** The Constant RELEASE_VERSION. */
+	public static final String RELEASE_VERSION = "1.0.1";
 
-	public static final String RELEASE_DATE = "2014-06-15T11:17:21.077Z";
+	/** The Constant RELEASE_DATE. */
+	public static final String RELEASE_DATE = "2014-06-20T11:17:21.077Z";
+	
+	/** The Constant SUPPORT_JAVA_VERSION. */
+	public static final String SUPPORT_JAVA_VERSION = "7";
+	
+	/** The Constant AUDIT_EXTENTION. */
+	public static final String AUDIT_EXTENTION = ".audit";
+	
+	/** The Constant SITE_URL. */
+	public static final String SITE_URL = "http://mechanizedspace.com/audit4j/";
+
+	/** The Constant CONFIG_FILE_NAME. */
+	public static final String CONFIG_FILE_NAME = "auit4j.conf.yml";
+	
 	/** The Constant COLON_CHAR. */
 	public static final char COLON_CHAR = ':';
 
@@ -58,14 +74,8 @@ public final class CoreConstants {
 	/** The Constant NEW_LINE. */
 	public static final String NEW_LINE = "\n";
 
-	/** The Constant AUDIT_EXTENTION. */
-	public static final String AUDIT_EXTENTION = ".audit";
-
 	/** The Constant DEFAULT_ACTOR. */
 	public static final String DEFAULT_ACTOR = "Audit4j User";
-
-	/** The Constant ANNOTATION_INTREGRATION_CLASS. */
-	public static final String ANNOTATION_INTREGRATION_CLASS = "com.audit4j.intregration.Audit4jAnnotationActivator";
 
 	/** The Constant ACTION. */
 	public static final String ACTION = "action";
@@ -76,17 +86,9 @@ public final class CoreConstants {
 	/** The Constant IV. */
 	public static final String IV = "e675f725e675f725";
 
+	/** The Constant ENCODE_UTF8. */
 	public static final String ENCODE_UTF8 = "UTF-8";
 
-	public static final String SITE_URL = "http://mechanizedspace.com/audit4j/";
-
-	public static final String CONFIG_FILE_NAME = "auit4j.conf.yml";
-
-	public static final String INITIAL_CONFIG_FILE = "!Configuration\nreleased: "
-			+ RELEASE_DATE
-			+ "\nversion: "
-			+ RELEASE_VERSION
-			+ "\nhandlers:\n- !org.audit4j.core.handler.db.GeneralDatabaseAuditHandler {}\nlayout:\n!org.audit4j.core.SimpleLayout {}\nmetaData: !org.audit4j.core.DummyMetaData {}\nproperties:\n- {key: log.file.location, value: user.dir}";
-
+	/** The Constant EMBEDED_DB_NAME. */
 	public static final String EMBEDED_DB_NAME = "audit4j";
 }

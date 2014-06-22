@@ -19,40 +19,38 @@
 
 package org.audit4j.core.exception;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.audit4j.core.Log;
+
 
 /**
  * The Class TroubleshootException.
- *
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
 public class TroubleshootException extends RuntimeException {
-
-	/** The log. */
-	private static final Logger LOG = LoggerFactory.getLogger(TroubleshootException.class);
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -7969806069690822408L;
 
 	/**
 	 * Instantiates a new troubleshoot exception.
-	 *
-	 * @param message the message
+	 * 
+	 * @param message
+	 *            the message
 	 */
 	public TroubleshootException(String message) {
 		super(message);
-		LOG.warn("Audit4j: Troubleshoot Exception: " + message);
+		Log.warn("Audit4j: Unable to find a solution for error: " + message);
 	}
-	
+
 	/**
 	 * Instantiates a new troubleshoot exception.
 	 *
 	 * @param message the message
-	 * @param e the e
+	 * @param t the t
 	 */
-	public TroubleshootException(String message, Exception e) {
-		super(message, e);
-		LOG.warn("Audit4j: Troubleshoot Exception: " + message);
+	public TroubleshootException(String message, Throwable t) {
+		super(message, t);
+		Log.warn("Audit4j: Unable to find a solution for error: " + message, t);
 	}
 }

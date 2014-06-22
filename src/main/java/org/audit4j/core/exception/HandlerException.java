@@ -30,7 +30,7 @@ public class HandlerException  extends Exception{
 	 * @param message the message
 	 * @param e the e
 	 */
-	public HandlerException(String message, Class<? extends Handler> clazz, Exception e){
+	public HandlerException(String message, Class<? extends Handler> clazz, Throwable e){
 		super(message, e);
 		Log.warn("Handler Exception Occured in " + clazz.getName() + ":"+ message);
 	}

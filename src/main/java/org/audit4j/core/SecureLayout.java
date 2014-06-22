@@ -21,8 +21,19 @@ package org.audit4j.core;
 
 import org.audit4j.core.dto.AuditEvent;
 
+/**
+ * The Class SecureLayout.
+ *
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ */
 public class SecureLayout extends SimpleLayout {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -5678939488854601303L;
+
+	/* (non-Javadoc)
+	 * @see org.audit4j.core.SimpleLayout#format(org.audit4j.core.dto.AuditEvent)
+	 */
 	@Override
 	public String format(AuditEvent event) {
 		String formatText = super.format(event);
