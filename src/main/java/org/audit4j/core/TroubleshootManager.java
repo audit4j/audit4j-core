@@ -19,7 +19,6 @@
 
 package org.audit4j.core;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.ServerSocket;
@@ -29,9 +28,6 @@ import java.util.List;
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.exception.ConfigurationException;
 import org.audit4j.core.exception.TroubleshootException;
-import org.audit4j.core.exception.ValidationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The Class TroubleshootManager.
@@ -39,9 +35,6 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
 public final class TroubleshootManager {
-
-	/** The Constant LOG. */
-	private static final Logger LOG = LoggerFactory.getLogger(ValidationException.class);
 
 	/** The Constant MIN_PORT_NUMBER. */
 	public static final int MIN_PORT_NUMBER = 1100;
@@ -51,8 +44,9 @@ public final class TroubleshootManager {
 
 	/**
 	 * Troubleshoot event.
-	 *
-	 * @param event the event
+	 * 
+	 * @param event
+	 *            the event
 	 */
 	static void troubleshootEvent(AuditEvent event) {
 		if (event == null) {
@@ -60,7 +54,7 @@ public final class TroubleshootManager {
 					"Invalid Audit event type,\n Audit4j: Audit Event should not null, This event will not be logged by the Audit4j.");
 		} else if (event.getActor() == null) {
 			event.setActor(CoreConstants.DEFAULT_ACTOR);
-			LOG.warn("Audit4j:WARN If you are not parsing the actor to the AuditEvent,\n"
+			Log.warn("Audit4j:WARN If you are not parsing the actor to the AuditEvent,\n"
 					+ "Audit4j:WARN you should make a your own AuditMetaData implementation. \n"
 					+ "Audit4j:WARN otherwise actor will be hard coded as \"" + CoreConstants.DEFAULT_ACTOR
 					+ "\" in the audit log. " + "\nAudit4j: See " + ErrorURL.NULL_ACTOR + " for further details.");
@@ -72,13 +66,14 @@ public final class TroubleshootManager {
 
 	/**
 	 * Troubleshoot configuration.
-	 *
-	 * @param e the e
+	 * 
+	 * @param e
+	 *            the e
 	 */
 	public static void troubleshootConfiguration(ConfigurationException e) {
 		if (e.getId().equals("CONF_001")) {
-			System.err.println("Audit4j:WARN Initial confguration file not found. \n" + "Audit4j: Creating a new configuration file - "
-					+ CoreConstants.CONFIG_FILE_NAME);
+			System.err.println("Audit4j:WARN Initial confguration file not found. \n"
+					+ "Audit4j: Creating a new configuration file - " + CoreConstants.CONFIG_FILE_NAME);
 			ConfigUtil.generateConfigFromText();
 		} else if (e.getId().equals("CONF_002")) {
 			throw new TroubleshootException("Configuration file currupted or invalid configuration.\n"
@@ -122,22 +117,6 @@ public final class TroubleshootManager {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Checks if is file already exists.
-	 * 
-	 * @param path
-	 *            the path
-	 * @return true, if is file already exists
-	 */
-	public static boolean isFileAlreadyExists(String path) {
-		File file = new File(path);
-		if (file.exists()) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	/**

@@ -20,7 +20,7 @@
 package org.audit4j.core.dto;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * The Class AuditBaseDto.
@@ -39,7 +39,7 @@ public class AuditBase implements Serializable {
 	private Long uuid;
 
 	/** The timestamp. */
-	private Timestamp timestamp;
+	private Date timestamp;
 
 	/**
 	 * Gets the audit id.
@@ -84,7 +84,7 @@ public class AuditBase implements Serializable {
 	 * 
 	 * @return the timestamp
 	 */
-	public Timestamp getTimestamp() {
+	public Date getTimestamp() {
 		return timestamp;
 	}
 
@@ -94,7 +94,7 @@ public class AuditBase implements Serializable {
 	 * @param timestamp
 	 *            the new timestamp
 	 */
-	public void setTimestamp(Timestamp timestamp) {
+	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
 }

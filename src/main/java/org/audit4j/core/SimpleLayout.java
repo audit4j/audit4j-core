@@ -38,7 +38,7 @@ public class SimpleLayout implements Layout {
 	@Override
 	public String format(AuditEvent event) {
 		final StringBuilder buff = new StringBuilder();
-		buff.append(AuditUtil.timeStampToString(event.getTimestamp(), "MM/dd/yyyy HH:mm:ss"));
+		buff.append(AuditUtil.dateToString(event.getTimestamp(), "MM/dd/yyyy HH:mm:ss"));
 		buff.append(CoreConstants.PIPE);
 		buff.append(event.getUuid().toString());
 		buff.append(CoreConstants.PIPE);
