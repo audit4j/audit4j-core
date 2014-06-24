@@ -29,18 +29,15 @@ import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
-import java.util.Date;
 
-import org.audit4j.core.AuditUtil;
 import org.audit4j.core.CoreConstants;
-import org.audit4j.core.TroubleshootManager;
 
 /**
  * The Class ZeroCopyFileWriter.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
-public final class ZeroCopyFileWriter implements Serializable{
+public final class ZeroCopyFileWriter extends AuditFileWriter implements Serializable{
 
 
 	/** The path. */
@@ -63,17 +60,18 @@ public final class ZeroCopyFileWriter implements Serializable{
 	 * org.audit4j.core.io.AuditOutputStream#write(org.audit4j.core.dto.AuditEvent
 	 * )
 	 */
+	@Override
 	public ZeroCopyFileWriter write(String event) {
 		String str2 = event + CoreConstants.NEW_LINE;
 		RandomAccessFile randomAccessFile;
-		String realPath = generateOutputFilePath();
+		String realPath = FileHandlerUtil.generateOutputFilePath(path);
 
 		long numBytes = str2.getBytes().length;
 
 		InputStream inputStream = new ByteArrayInputStream(str2.getBytes(Charset.forName("UTF-8")));
 
 		try {
-			if (TroubleshootManager.isFileAlreadyExists(realPath)) {
+			if (FileHandlerUtil.isFileAlreadyExists(realPath)) {
 				randomAccessFile = new RandomAccessFile(realPath, CoreConstants.READ_WRITE);
 			} else {
 				randomAccessFile = new RandomAccessFile(new File(realPath), CoreConstants.READ_WRITE);
@@ -97,74 +95,6 @@ public final class ZeroCopyFileWriter implements Serializable{
 		return this;
 	}
 
-	/**
-	 * Generate output file path.
-	 * 
-	 * @return the string
-	 */
-	public String generateOutputFilePath() {
-		String tempPath = separatorsToSystem(path);
-		tempPath = tempPath + File.separatorChar + generateFileName();
-		return tempPath;
-	}
-
-	/**
-	 * Generate file name.
-	 * 
-	 * @return the string
-	 */
-	private String generateFileName() {
-		StringBuffer name = new StringBuffer();
-		name.append("Audit_Log-").append(AuditUtil.dateToString(new Date(), "yyyy-MM-dd"))
-				.append(CoreConstants.AUDIT_EXTENTION);
-		return name.toString();
-	}
-
-	/**
-	 * Converts all separators to the Unix separator of forward slash.
-	 * 
-	 * @param path
-	 *            the path to be changed, null ignored
-	 * @return the updated path
-	 */
-	public static String separatorsToUnix(String path) {
-		if (path == null || path.indexOf(CoreConstants.WINDOWS_SEPARATOR) == -1) {
-			return path;
-		}
-		return path.replace(CoreConstants.WINDOWS_SEPARATOR, CoreConstants.UNIX_SEPARATOR);
-	}
-
-	/**
-	 * Converts all separators to the Windows separator of backslash.
-	 * 
-	 * @param path
-	 *            the path to be changed, null ignored
-	 * @return the updated path
-	 */
-	public static String separatorsToWindows(String path) {
-		if (path == null || path.indexOf(CoreConstants.UNIX_SEPARATOR) == -1) {
-			return path;
-		}
-		return path.replace(CoreConstants.UNIX_SEPARATOR, CoreConstants.WINDOWS_SEPARATOR);
-	}
-
-	/**
-	 * Converts all separators to the system separator.
-	 * 
-	 * @param path
-	 *            the path to be changed, null ignored
-	 * @return the updated path
-	 */
-	public static String separatorsToSystem(String path) {
-		if (path == null) {
-			return null;
-		}
-		if (TroubleshootManager.isWindows()) {
-			return separatorsToWindows(path);
-		} else {
-			return separatorsToUnix(path);
-		}
-	}
 
 	/*
 	 * (non-Javadoc)
