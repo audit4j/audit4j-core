@@ -1,6 +1,6 @@
 /*
  * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
- * An open-source audit platform for Enterprise java platform.
+ * An open-source audit suit for Enterprise java platform.
  * http://mechanizedspace.com/audit4j
  * http://audit4j.org
  *
@@ -43,6 +43,27 @@ public class AuditEvent extends AuditBase {
 
 	/** The action item. */
 	private List<Field> fields = new ArrayList<Field>();
+
+	public AuditEvent() {
+
+	}
+
+	public AuditEvent(String actor, String action, Field... fields) {
+		this.actor = actor;
+		this.action = action;
+		for (Field field : fields) {
+			addField(field);
+		}
+	}
+
+	public AuditEvent(String actor, String action, String origin, Field... fields) {
+		this.actor = actor;
+		this.action = action;
+		this.origin = origin;
+		for (Field field : fields) {
+			addField(field);
+		}
+	}
 
 	/**
 	 * Gets the actor.
@@ -111,8 +132,12 @@ public class AuditEvent extends AuditBase {
 	 * @param type
 	 *            the type
 	 */
-	public void addField(String name, String value, String type) {
-		this.fields.add(new Field(name, value, type));
+	public void addField(String name, String value, Object type) {
+		this.fields.add(new Field(name, value, type.toString()));
+	}
+
+	public void addField(String name, Object value) {
+		this.fields.add(new Field(name, value.toString(), value.getClass().getName()));
 	}
 
 	/**
@@ -121,13 +146,13 @@ public class AuditEvent extends AuditBase {
 	 * @param element
 	 *            the element
 	 */
-	public void addField(Field element) {
-		this.fields.add(element);
+	public void addField(Field field) {
+		this.fields.add(field);
 	}
 
 	/**
 	 * Gets the fields.
-	 *
+	 * 
 	 * @return the fields
 	 */
 	public List<Field> getFields() {
@@ -136,8 +161,9 @@ public class AuditEvent extends AuditBase {
 
 	/**
 	 * Sets the fields.
-	 *
-	 * @param fields the new fields
+	 * 
+	 * @param fields
+	 *            the new fields
 	 */
 	public void setFields(List<Field> fields) {
 		this.fields = fields;

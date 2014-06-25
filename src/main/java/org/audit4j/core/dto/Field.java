@@ -1,6 +1,6 @@
 /*
  * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
- * An open-source audit platform for Enterprise java platform.
+ * An open-source audit suit for Enterprise java platform.
  * http://mechanizedspace.com/audit4j
  * http://audit4j.org
  *
@@ -56,6 +56,19 @@ public class Field implements Serializable {
 		this.name=name;
 		this.value=value;
 		this.type=type;
+	}
+	
+	/**
+	 * Instantiates a new element.
+	 *
+	 * @param name the name
+	 * @param value the value
+	 * @param type the type
+	 */
+	public Field(String name, String value){
+		this.name=name;
+		this.value=value;
+		this.type=value.getClass().getName();
 	}
 	/**
 	 * Gets the name.
