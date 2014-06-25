@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.audit4j.core.annotation.AsyncAuditAnnotationAttributes;
 import org.audit4j.core.dto.AnnotationAuditEvent;
+import org.audit4j.core.dto.AsyncAnnotationAuditMessage;
 import org.audit4j.core.dto.AsyncAuditMessage;
 import org.audit4j.core.dto.AsyncCallAuditDto;
 import org.audit4j.core.dto.AuditEvent;
@@ -199,6 +200,9 @@ public class AuditManager {
 			asyncAuditDto.setMethod(method);
 			asyncAuditDto.setArgs(args);
 
+			AsyncAnnotationAuditMessage message = new AsyncAnnotationAuditMessage();
+			message.setConf(Context.getConfig());
+			message.setAsyncAuditDto(asyncAuditDto);
 			final AsyncAuditEngine engine = AsyncAuditEngine.getInstance();
 			engine.init();
 			engine.send(asyncAuditDto);
