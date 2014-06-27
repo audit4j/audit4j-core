@@ -3,11 +3,11 @@ audit4j-core
 Audit4j is an open-source audit suit the for enterprise java platform.
  
 For more information please visit: 
-http://mechanizedspace.com/audit4j
+http://audit4j.org
 
 For usage, api-guide and development please visit:
-http://www.mechanizedspace.com/audit4j/documentation
-http://mechanizedspace.com/audit4j/core
+http://audit4j.org/documentation
+http://audit4j.org/core
 
 For contribute, please visit: 
-http://mechanizedspace.com/audit4j/development
+http://audit4j.org/development
