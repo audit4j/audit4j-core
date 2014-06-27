@@ -6,6 +6,7 @@ For more information please visit:
 http://mechanizedspace.com/audit4j
 
 For usage, api-guide and development please visit:
+http://www.mechanizedspace.com/audit4j/documentation
 http://mechanizedspace.com/audit4j/core
 
 For contribute, please visit: 
