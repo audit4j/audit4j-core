@@ -48,7 +48,7 @@ public final class TroubleshootManager {
 	 * @param event
 	 *            the event
 	 */
-	static void troubleshootEvent(AuditEvent event) {
+	public static void troubleshootEvent(AuditEvent event) {
 		if (event == null) {
 			throw new TroubleshootException(
 					"Invalid Audit event type,\n Audit4j: Audit Event should not null, This event will not be logged by the Audit4j.");
