@@ -51,7 +51,7 @@ public final class ValidationManager {
 	 * @throws ValidationException
 	 *             the validation exception
 	 */
-	static void validateEvent(AuditEvent event) throws ValidationException {
+	public static void validateEvent(AuditEvent event) throws ValidationException {
 		if (event == null || event.getActor() == null || event.getOrigin() == null) {
 			throw new ValidationException("Invalid Input", ValidationException.VALIDATION_LEVEL_WARN);
 		}
