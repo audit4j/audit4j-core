@@ -1,6 +1,6 @@
 audit4j-core
 ============
-Audit4j is an open-source audit suit the for enterprise java platform.
+Audit4j is an open-source audit suit for the enterprise java platform.
  
 For more information please visit: 
 http://audit4j.org
