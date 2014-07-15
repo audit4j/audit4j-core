@@ -30,18 +30,18 @@ public class ArchiveManager {
 	public Integer extractArchiveDateCount(String datePattern) {
 		int dateCount = 0;
 		String[] splits = datePattern.split("d|M|y");
-		if (splits.length>1) {
+		if (splits.length>0) {
 			dateCount = dateCount + Integer.valueOf(splits[0]);
 		}
 		
 		System.out.println(dateCount);
 		
-		if (splits.length>2) {
+		if (splits.length>1) {
 			dateCount = dateCount + (Integer.valueOf(splits[1]) * 30);
 		}
 		System.out.println(dateCount);
 		
-		if (splits.length>3) {
+		if (splits.length>2) {
 			dateCount = dateCount + (Integer.valueOf(splits[2]) * 365);
 		}
 		System.out.println(dateCount);
