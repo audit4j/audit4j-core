@@ -63,10 +63,13 @@ public final class TroubleshootManager {
 			} else {
 				event.setActor(Context.getConfig().getMetaData().getActor());
 			}
-		} else if (event.getOrigin() == null) {
-			throw new TroubleshootException(
-					"Invalid Audit event type,\n Audit4j: origin should not null, This event will not be logged by the Audit4j.");
 		}
+		
+		// TODO commented due to fix
+		//else if (event.getOrigin() == null) {
+		//	throw new TroubleshootException(
+		//			"Invalid Audit event type,\n Audit4j: origin should not null, This event will not be logged by the Audit4j.");
+		//}
 	}
 
 	/**

@@ -80,7 +80,7 @@ public final class ConfigUtil {
 		Map<String,String> properties = new HashMap<String,String>();
 		properties.put("log.file.location", "$user.dir");
 		conf.setProperties(properties);
-		conf.setMetaData(new DummyMetaData());
+		//conf.setMetaData(new DummyMetaData());
 		return conf;
 	}
 
@@ -108,7 +108,7 @@ public final class ConfigUtil {
 		yml.append("released: ").append(CoreConstants.RELEASE_DATE).append("\n");
 		yml.append("version: ").append(CoreConstants.RELEASE_VERSION).append("\n");
 		yml.append("handlers:").append("\n");
-		yml.append("- !org.audit4j.core.handler.db.DatabaseAuditHandler {}").append("\n");
+		yml.append("- !org.audit4j.core.handler.ConsoleAuditHandler {}").append("\n");
 		yml.append("- !org.audit4j.core.handler.file.FileAuditHandler {}").append("\n");
 		yml.append("layout: !org.audit4j.core.SimpleLayout {}").append("\n");
 		yml.append("metaData: !org.audit4j.core.DummyMetaData {}").append("\n");

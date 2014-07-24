@@ -18,7 +18,7 @@ public class FileAuditHandler extends Handler {
 	private static final long serialVersionUID = 1L;
 
 	/** The writer. */
-	ZeroCopyFileWriter writer;
+	AuditFileWriter writer;
 
 	private String archive;
 	
@@ -42,13 +42,8 @@ public class FileAuditHandler extends Handler {
 	@Override
 	public void init() throws InitializationException {
 		writer = new ZeroCopyFileWriter(getProperty("log.file.location"));
-		// if (!hasDiskAccess(getProperty("log.file.location"))) {
-		// throw new InitializationException(
-		// "Can not write a file. Disk is not accessible. Please set read,write permission for "
-		// + getProperty("log.file.location"));
-		// }
 		
-		if (null == archive || "true".equals(archive)) {
+		if (null != archive && "true".equals(archive)) {
 			ArchiveManager manager = new ArchiveManager();
 			manager.setArchiveDate(datePattern);
 			manager.setCronPattern(cronPattern);
@@ -65,8 +60,6 @@ public class FileAuditHandler extends Handler {
 	 */
 	@Override
 	public void handle() {
-		System.out.println("inside handler");
-		System.out.println("writer" + writer);
 		writer.write(getQuery());
 	}
 
