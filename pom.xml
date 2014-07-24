@@ -4,12 +4,12 @@
 	<artifactId>audit4j-core</artifactId>
 	<packaging>jar</packaging>
 	<name>Audit4j - Core</name>
-	<version>1.0.1</version>
-	<url>http://www.mechanizedspace.com/audit4j</url>
+	<version>1.0.2</version>
+	<url>http://audit4j.org</url>
 	<description>Audit4j - An open-source audit suit for enterprise java platform, Core component</description>
 	<organization>
     	<name>Audit4j</name>
-    	<url>http://www.mechanizedspace.com/audit4j</url>
+    	<url>http://audit4j.org</url>
   	</organization>
 	<licenses>
 		<license>
@@ -29,7 +29,7 @@
 			<id>janith</id>
 			<name>Janith Bandara</name>
 			<organization>Audit4j</organization>
-			<organizationUrl>http://www.mechanizedspace.com/audit4j</organizationUrl>
+			<organizationUrl>http://audit4j.org</organizationUrl>
 			<roles>
 				<role>owner</role>
 				<role>developer</role>
