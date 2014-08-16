@@ -50,6 +50,7 @@
 		<version>7</version>
 	</parent>
 
+	
 	<properties>
 		<slf4j.version>1.7.5</slf4j.version>
 	</properties>
