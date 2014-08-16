@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.audit4j</groupId>
 	<artifactId>audit4j-core</artifactId>
@@ -8,9 +9,9 @@
 	<url>http://audit4j.org</url>
 	<description>Audit4j - An open-source audit suit for enterprise java platform, Core component</description>
 	<organization>
-    	<name>Audit4j</name>
-    	<url>http://audit4j.org</url>
-  	</organization>
+		<name>Audit4j</name>
+		<url>http://audit4j.org</url>
+	</organization>
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -18,11 +19,15 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+	<issueManagement>
+		<system>mantis</system>
+		<url>http://audit4j.org/bugs</url>
+	</issueManagement>
 	<scm>
 		<connection>scm:git:git@github.com:audit4j/audit4j-core.git</connection>
 		<developerConnection>scm:git:git@github.com:audit4j/audit4j-core.git</developerConnection>
 		<url>scm:git:git@github.com:audit4j/audit4j-core.git</url>
-	  <tag>v1.0.0</tag>
+		<tag>v1.0.0</tag>
 	</scm>
 	<developers>
 		<developer>
@@ -30,11 +35,12 @@
 			<name>Janith Bandara</name>
 			<organization>Audit4j</organization>
 			<organizationUrl>http://audit4j.org</organizationUrl>
+			<email>janith@audit4j.org</email>
 			<roles>
 				<role>owner</role>
 				<role>developer</role>
 			</roles>
-			<timezone>0</timezone>
+			<timezone>+05:30</timezone>
 		</developer>
 	</developers>
 
@@ -60,6 +66,11 @@
 			<version>1.7.6</version>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.3.2</version>
+		</dependency>
+		<dependency>
 			<groupId>com.esotericsoftware.yamlbeans</groupId>
 			<artifactId>yamlbeans</artifactId>
 			<version>1.08</version>
@@ -69,7 +80,7 @@
 			<artifactId>cron4j</artifactId>
 			<version>2.2.5</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.projectreactor</groupId>
 			<artifactId>reactor-core</artifactId>
