@@ -1,7 +1,6 @@
 /*
- * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
- * An open-source audit platform for Enterprise java platform.
- * http://mechanizedspace.com/audit4j
+ * Copyright 2014 Janith Bandara, This source is a part of 
+ * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,6 +30,8 @@ import org.audit4j.core.handler.Handler;
  * The Class Configuration.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 1.0.1
  */
 public class Configuration implements Serializable {
 

@@ -1,7 +1,6 @@
 /*
- * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
- * An open-source audit platform for Enterprise java platform.
- * http://mechanizedspace.com/audit4j
+ * Copyright 2014 Janith Bandara, This source is a part of 
+ * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,10 +27,13 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
+
 /**
  * The Class AuditUtil.
+ *
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
- * @author Janith Bandara
+ * @since 1.0
  */
 public final class AuditUtil {
 
@@ -130,6 +132,13 @@ public final class AuditUtil {
     }
     
 
+    /**
+     * Time stamp to string.
+     *
+     * @param timestamp the timestamp
+     * @param format the format
+     * @return the string
+     */
     public static String timeStampToString(final Timestamp timestamp, final String format) {
         return dateToString(new Date(timestamp.getTime()), format);
     }

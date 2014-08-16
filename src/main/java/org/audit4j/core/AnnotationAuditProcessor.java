@@ -1,7 +1,6 @@
 /*
- * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
- * An open-source audit platform for Enterprise java platform.
- * http://mechanizedspace.com/audit4j
+ * Copyright 2014 Janith Bandara, This source is a part of 
+ * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,7 +27,10 @@ import org.audit4j.core.dto.AuditBase;
  * @param <T>
  *            the generic type
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 1.0.0
  */
+@Deprecated
 public abstract class AnnotationAuditProcessor<T extends AuditBase> extends AuditProcessor<T> {
 
 	/** The audit event. */

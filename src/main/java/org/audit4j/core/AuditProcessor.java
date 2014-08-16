@@ -1,7 +1,6 @@
 /*
- * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
- * An open-source audit platform for Enterprise java platform.
- * http://mechanizedspace.com/audit4j
+ * Copyright 2014 Janith Bandara, This source is a part of 
+ * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,21 +28,25 @@ import org.audit4j.core.exception.HandlerException;
 import org.audit4j.core.handler.Handler;
 
 /**
- * The Class AuditProcessor.
+ * This class is used to process audit events. Processing includes, formatting,
+ * validating and execute handlers.
  * 
  * @param <T>
- *            the generic type
- * @author Janith Bandara
+ *            the generic type Audit event
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 1.0
  */
 public abstract class AuditProcessor<T extends AuditBase> {
 
+	/** The conf. */
 	private Configuration conf;
 
 	/**
 	 * Process.
 	 * 
-	 * @param t
-	 *            the t
+	 * @param event
+	 *            the event
 	 */
 	public abstract void process(T event);
 
@@ -100,12 +103,8 @@ public abstract class AuditProcessor<T extends AuditBase> {
 	/**
 	 * Execute handlers.
 	 * 
-	 * @param handlers
-	 *            the handlers
 	 * @param event
 	 *            the event
-	 * @param query
-	 *            the query
 	 */
 	protected void executeHandlers(AuditEvent event) {
 		event.setActor(getConf().getMetaData().getActor());
@@ -149,10 +148,21 @@ public abstract class AuditProcessor<T extends AuditBase> {
 		return action;
 	}
 
+	/**
+	 * Gets the conf.
+	 * 
+	 * @return the conf
+	 */
 	public Configuration getConf() {
 		return conf;
 	}
 
+	/**
+	 * Sets the conf.
+	 * 
+	 * @param conf
+	 *            the new conf
+	 */
 	public void setConf(Configuration conf) {
 		this.conf = conf;
 	}

@@ -1,7 +1,6 @@
 /*
- * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
- * An open-source audit platform for Enterprise java platform.
- * http://mechanizedspace.com/audit4j
+ * Copyright 2014 Janith Bandara, This source is a part of 
+ * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,15 +21,15 @@ package org.audit4j.core.dto;
 import java.lang.reflect.Method;
 
 /**
- * The Class AsyncAuditDto.
+ * The Class AnnotationAuditEvent.
+ *
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
- * @author Janith Bandara
+ * @since 1.0.0
  */
 public class AnnotationAuditEvent extends AuditBase {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 2830800466963787273L;
 
 	/** The clazz. */

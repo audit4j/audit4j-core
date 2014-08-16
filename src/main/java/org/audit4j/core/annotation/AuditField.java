@@ -1,5 +1,7 @@
 /*
- * Copyright 2014 Janith Bandara
+ * Copyright 2014 Janith Bandara, This source is a part of 
+ * Audit4j - An open source auditing framework.
+ * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +26,10 @@ import java.lang.annotation.Target;
 
 /**
  * The Interface AuditField.
+ *
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
- * @author Janith Bandara
+ * @since 1.0.0
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

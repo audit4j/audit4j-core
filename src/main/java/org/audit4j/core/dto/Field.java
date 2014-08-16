@@ -1,7 +1,6 @@
 /*
- * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
- * An open-source audit suit for Enterprise java platform.
- * http://mechanizedspace.com/audit4j
+ * Copyright 2014 Janith Bandara, This source is a part of 
+ * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,9 +21,11 @@ package org.audit4j.core.dto;
 import java.io.Serializable;
 
 /**
- * The Class Item.
+ * The Class Field.
+ *
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
- * @author Janith Bandara
+ * @since 1.0.0
  */
 public class Field implements Serializable {
 
@@ -63,7 +64,6 @@ public class Field implements Serializable {
 	 *
 	 * @param name the name
 	 * @param value the value
-	 * @param type the type
 	 */
 	public Field(String name, String value){
 		this.name=name;

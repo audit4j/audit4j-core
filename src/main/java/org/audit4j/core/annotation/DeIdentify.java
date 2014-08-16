@@ -16,27 +16,52 @@
  * limitations under the License.
  */
 
-package org.audit4j.core;
+package org.audit4j.core.annotation;
 
-import java.io.Serializable;
-
-import org.audit4j.core.dto.AuditEvent;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * The Interface Layout.
+ * The Interface DeIdentify.
  *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
- * @since 1.0.0
+ * @since 2.0
  */
-public interface Layout extends Serializable{
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(value = { ElementType.PARAMETER })
+public @interface DeIdentify {
 
 	/**
-	 * Format.
+	 * Left.
 	 *
-	 * @param event the event
-	 * @return the string
+	 * @return the int
 	 */
-	public String format(AuditEvent event);
-	
+	public int left() default 0;
+
+	/**
+	 * Right.
+	 *
+	 * @return the int
+	 */
+	public int right() default 0;
+
+	/**
+	 * From left.
+	 *
+	 * @return the int
+	 */
+	public int fromLeft() default 0;
+
+	/**
+	 * From right.
+	 *
+	 * @return the int
+	 */
+	public int fromRight() default 0;
+
 }

@@ -1,7 +1,6 @@
 /*
- * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
- * An open-source audit platform for Enterprise java platform.
- * http://mechanizedspace.com/audit4j
+ * Copyright 2014 Janith Bandara, This source is a part of 
+ * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,6 +28,8 @@ import org.audit4j.core.exception.ValidationException;
  * The Class AuditEventOutputStream.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 2.0.0
  */
 public class AuditEventOutputStream implements AuditOutputStream {
 
@@ -58,14 +59,14 @@ public class AuditEventOutputStream implements AuditOutputStream {
 			ValidationManager.validateEvent(event);
 			outputStream.write(event);
 		} catch (ValidationException e) {
-			try{
-			TroubleshootManager.troubleshootEvent(event);
-			outputStream.write(event);
-			}catch(TroubleshootException e2){
-				
+			try {
+				TroubleshootManager.troubleshootEvent(event);
+				outputStream.write(event);
+			} catch (TroubleshootException e2) {
+
 			}
 		}
-		
+
 		return this;
 	}
 

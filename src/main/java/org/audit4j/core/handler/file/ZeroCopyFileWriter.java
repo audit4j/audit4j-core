@@ -1,7 +1,6 @@
 /*
- * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
- * An open-source audit platform for Enterprise java platform.
- * http://mechanizedspace.com/audit4j
+ * Copyright 2014 Janith Bandara, This source is a part of 
+ * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +20,7 @@ package org.audit4j.core.handler.file;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
@@ -36,9 +36,15 @@ import org.audit4j.core.CoreConstants;
  * The Class ZeroCopyFileWriter.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 1.0.1
  */
-public final class ZeroCopyFileWriter extends AuditFileWriter implements Serializable{
-
+public final class ZeroCopyFileWriter extends AuditFileWriter implements Serializable {
+	
+	private static final long serialVersionUID = -1982643461500366178L;
+	
+	RandomAccessFile randomAccessFile;
+	FileChannel fileChannel;
 
 	/** The path. */
 	private final String path;
@@ -53,6 +59,26 @@ public final class ZeroCopyFileWriter extends AuditFileWriter implements Seriali
 		this.path = path;
 	}
 
+	@Override
+	public void init() {
+
+		String realPath = FileHandlerUtil.generateOutputFilePath(path);
+		try {
+			if (FileHandlerUtil.isFileAlreadyExists(realPath)) {
+
+				randomAccessFile = new RandomAccessFile(realPath, CoreConstants.READ_WRITE);
+
+			} else {
+				randomAccessFile = new RandomAccessFile(new File(realPath), CoreConstants.READ_WRITE);
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		fileChannel = randomAccessFile.getChannel();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -63,26 +89,18 @@ public final class ZeroCopyFileWriter extends AuditFileWriter implements Seriali
 	@Override
 	public ZeroCopyFileWriter write(String event) {
 		String str2 = event + CoreConstants.NEW_LINE;
-		RandomAccessFile randomAccessFile;
-		String realPath = FileHandlerUtil.generateOutputFilePath(path);
 
 		long numBytes = str2.getBytes().length;
 
 		InputStream inputStream = new ByteArrayInputStream(str2.getBytes(Charset.forName("UTF-8")));
 
 		try {
-			if (FileHandlerUtil.isFileAlreadyExists(realPath)) {
-				randomAccessFile = new RandomAccessFile(realPath, CoreConstants.READ_WRITE);
-			} else {
-				randomAccessFile = new RandomAccessFile(new File(realPath), CoreConstants.READ_WRITE);
-			}
+
 			// move the cursor to the end of the file
 			randomAccessFile.seek(randomAccessFile.length());
 
 			// obtain the a file channel from the RandomAccessFile
-			try (FileChannel fileChannel = randomAccessFile.getChannel();
-					ReadableByteChannel inputChannel = Channels.newChannel(inputStream);
-
+			try (ReadableByteChannel inputChannel = Channels.newChannel(inputStream);
 			) {
 				fileChannel.transferFrom(inputChannel, randomAccessFile.length(), numBytes);
 			} catch (IOException e) {
@@ -94,7 +112,6 @@ public final class ZeroCopyFileWriter extends AuditFileWriter implements Seriali
 		}
 		return this;
 	}
-
 
 	/*
 	 * (non-Javadoc)

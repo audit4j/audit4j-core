@@ -1,7 +1,6 @@
 /*
- * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
- * An open-source audit platform for Enterprise java platform.
- * http://mechanizedspace.com/audit4j
+ * Copyright 2014 Janith Bandara, This source is a part of 
+ * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,9 +32,6 @@ import org.audit4j.core.exception.InitializationException;
  */
 public abstract class Handler implements Serializable{
 
-	/**
-	 * asdas
-	 */
 	private static final long serialVersionUID = -8636058037478806582L;
 
 	/** The query. */

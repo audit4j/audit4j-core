@@ -1,7 +1,6 @@
 /*
- * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
- * An open-source audit platform for Enterprise java platform.
- * http://mechanizedspace.com/audit4j
+ * Copyright 2014 Janith Bandara, This source is a part of 
+ * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,6 +18,8 @@
 
 package org.audit4j.core;
 
+import java.util.Date;
+
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.dto.Field;
 
@@ -26,6 +27,8 @@ import org.audit4j.core.dto.Field;
  * The Class SimpleLayout.
  *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 1.0.0
  */
 public class SimpleLayout implements Layout {
 
@@ -38,10 +41,17 @@ public class SimpleLayout implements Layout {
 	@Override
 	public String format(AuditEvent event) {
 		final StringBuilder buff = new StringBuilder();
-		buff.append(AuditUtil.dateToString(event.getTimestamp(), "MM/dd/yyyy HH:mm:ss"));
+		if (null != event.getTimestamp()) {
+			buff.append(AuditUtil.dateToString(event.getTimestamp(), "MM/dd/yyyy HH:mm:ss"));
+		} else {
+			buff.append(AuditUtil.dateToString(new Date(), "MM/dd/yyyy HH:mm:ss"));
+		}
 		buff.append(CoreConstants.PIPE);
-		buff.append(event.getUuid().toString());
-		buff.append(CoreConstants.PIPE);
+		if (null != event.getTimestamp()) {
+			buff.append(event.getUuid().toString());
+			buff.append(CoreConstants.PIPE);
+		}
+		
 		buff.append(event.getActor());
 		buff.append(CoreConstants.PIPE);
 		buff.append(event.getOrigin());

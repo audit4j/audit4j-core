@@ -1,5 +1,7 @@
 /*
- * Copyright 2014 Janith Bandara
+ * Copyright 2014 Janith Bandara, This source is a part of 
+ * Audit4j - An open source auditing framework.
+ * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +24,14 @@ import java.lang.reflect.Method;
 
 /**
  * The Class AuditAnnotationAttributes.
+ *
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
- * @author Janith Bandara
+ * @since 1.0.0
  */
 public class AuditAnnotationAttributes {
 
+	/** The Constant ACTION. */
 	private final static String ACTION = "action";
 
 	/**
@@ -106,9 +111,9 @@ public class AuditAnnotationAttributes {
 
 	/**
 	 * Gets the action.
-	 * 
-	 * @param clazz
-	 *            the clazz
+	 *
+	 * @param clazz the clazz
+	 * @param method the method
 	 * @return the action
 	 */
 	public String getAction(final Class clazz, final Method method) {
@@ -130,9 +135,9 @@ public class AuditAnnotationAttributes {
 
 	/**
 	 * Gets the action.
-	 * 
-	 * @param annotations
-	 *            the annotations
+	 *
+	 * @param annotations the annotations
+	 * @param method the method
 	 * @return the action
 	 */
 	private String getAction(final Annotation[] annotations, final Method method) {

@@ -1,7 +1,6 @@
 /*
- * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
- * An open-source audit platform for Enterprise java platform.
- * http://mechanizedspace.com/audit4j
+ * Copyright 2014 Janith Bandara, This source is a part of 
+ * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,11 +18,21 @@
 
 package org.audit4j.core;
 
+/**
+ * The Class ErrorURL.
+ *
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 1.0.0
+ */
 public final class ErrorURL {
 
+	/** The Constant ERROR_URL. */
 	public static final String ERROR_URL = CoreConstants.SITE_URL + "usage#";
 	
+	/** The Constant NULL_ACTOR. */
 	public static final String NULL_ACTOR = ERROR_URL + "metadataimpl";
 	
+	/** The Constant CONFIG_ERROR. */
 	public static final String CONFIG_ERROR = ERROR_URL + "configfile";
 }

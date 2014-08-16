@@ -1,7 +1,6 @@
 /*
- * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
- * An open-source audit platform for Enterprise java platform.
- * http://mechanizedspace.com/audit4j
+ * Copyright 2014 Janith Bandara, This source is a part of 
+ * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,13 +28,14 @@ import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.dto.Field;
 import org.audit4j.core.handler.Handler;
 
-
 /**
- * The Class SynchronousAuditProcessor.
+ * The Class SynchronousAnnotationProcessor.
+ *
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
- * @author Janith Bandara
- * 
+ * @since 1.0.0
  */
+@Deprecated
 public class SynchronousAnnotationProcessor extends AnnotationAuditProcessor<AnnotationAuditEvent> {
 
 	/**
@@ -64,7 +64,7 @@ public class SynchronousAnnotationProcessor extends AnnotationAuditProcessor<Ann
 		String action = "";
 
 		if (attributes.hasAnnotation(auditDto.getClass())) {
-			handlers = Context.getHandlers();
+			handlers = Context.getConfig().getHandlers();
 
 			final SelectionType selection = attributes.getSelection(auditDto.getClass());
 			if (selection.equals(SelectionType.ALL)) {
@@ -74,7 +74,7 @@ public class SynchronousAnnotationProcessor extends AnnotationAuditProcessor<Ann
 			}
 			action = attributes.getAction(auditDto.getMethod().getClass(), auditDto.getMethod());
 		} else if (attributes.hasAnnotation(auditDto.getMethod())) {
-			handlers = Context.getHandlers();
+			handlers = Context.getConfig().getHandlers();
 			final SelectionType selection = attributes.getSelection(auditDto.getMethod());
 			if (selection.equals(SelectionType.ALL)) {
 				fields = fieldAttributes.getAllFields(auditDto.getMethod(), auditDto.getArgs());

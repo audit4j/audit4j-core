@@ -18,8 +18,10 @@
 
 package org.audit4j.core.io;
 
+import java.lang.reflect.Method;
+
+import org.audit4j.core.AnnotationTransformer;
 import org.audit4j.core.dto.AnnotationAuditEvent;
-import org.audit4j.core.dto.AuditEvent;
 
 import reactor.core.Environment;
 import reactor.core.composable.Deferred;
@@ -29,77 +31,97 @@ import reactor.function.Consumer;
 import reactor.function.support.Boundary;
 
 /**
- * The Class AsyncAuditOutputStream.
- *
+ * The Class AnnotationAuditOutputStream.
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
  * @since 2.0.0
  */
-public class AsyncAuditOutputStream implements AuditOutputStream {
-	
+public class AnnotationAuditOutputStream {
+
 	/** The output stream. */
-	final AuditOutputStream outputStream;
-	
-	/** The deferred. */
-	Deferred<AuditEvent, Stream<AuditEvent>> deferred = null;
-	
+	AuditOutputStream outputStream;
+
 	/** The annotation deferred. */
 	Deferred<AnnotationAuditEvent, Stream<AnnotationAuditEvent>> annotationDeferred = null;
-	
+
 	/** The Constant ENV. */
 	static final Environment ENV = new Environment();
-	
+
 	/** The b. */
 	Boundary b = null;
-	
-	/** The b anno. */
-	Boundary bAnno = null;
 
 	/**
-	 * Instantiates a new async audit output stream.
-	 *
-	 * @param outputStream the output stream
+	 * Instantiates a new annotation audit output stream.
+	 * 
+	 * @param outputStream
+	 *            the output stream
 	 */
-	public AsyncAuditOutputStream(final AuditOutputStream outputStream) {
-
+	public AnnotationAuditOutputStream(final AuditOutputStream outputStream) {
 		this.outputStream = outputStream;
 		b = new Boundary();
-		deferred = Streams.<AuditEvent> defer().env(ENV).dispatcher(Environment.RING_BUFFER)
+
+		annotationDeferred = Streams.<AnnotationAuditEvent> defer().env(ENV).dispatcher(Environment.RING_BUFFER)
 				.dispatcher(Environment.WORK_QUEUE).get();
-		Stream<AuditEvent> stream = deferred.compose();
-		stream.consume(b.bind(new Consumer<AuditEvent>() {
+		Stream<AnnotationAuditEvent> annostream = annotationDeferred.compose();
+		annostream.consume(b.bind(new Consumer<AnnotationAuditEvent>() {
 			@Override
-			public void accept(AuditEvent event) {
-				outputStream.write(event);
+			public void accept(AnnotationAuditEvent event) {
+				AnnotationTransformer transformer = new AnnotationTransformer();
+				outputStream.write(transformer.transformToEvent(event));
 			}
 		}));
 	}
 
-	/* (non-Javadoc)
-	 * @see org.audit4j.core.io.AuditOutputStream#write(org.audit4j.core.dto.AuditEvent)
+	/**
+	 * Write.
+	 * 
+	 * @param event
+	 *            the event
+	 * @return the annotation audit output stream
 	 */
-	@Override
-	public AsyncAuditOutputStream write(AuditEvent event) {
-		deferred.accept(event);
+	public AnnotationAuditOutputStream write(AnnotationAuditEvent event) {
+		annotationDeferred.accept(event);
 		b.await();
 		return this;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.audit4j.core.io.AuditOutputStream#close()
+	/**
+	 * Write.
+	 * 
+	 * @param clazz
+	 *            the clazz
+	 * @param method
+	 *            the method
+	 * @param args
+	 *            the args
+	 * @return the annotation audit output stream
 	 */
-	@Override
+	public AnnotationAuditOutputStream write(Class<?> clazz, Method method, Object[] args) {
+		AnnotationAuditEvent event = new AnnotationAuditEvent();
+		event.setClazz(clazz);
+		event.setMethod(method);
+		event.setArgs(args);
+		annotationDeferred.accept(event);
+		b.await();
+		return this;
+	}
+
+	/**
+	 * Close.
+	 */
 	public void close() {
 		ENV.shutdown();
 		outputStream.close();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
 	public Object clone() {
 		return null;
 	}
-
 }

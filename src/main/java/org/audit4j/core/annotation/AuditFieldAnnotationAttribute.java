@@ -1,5 +1,7 @@
 /*
- * Copyright 2014 Janith Bandara
+ * Copyright 2014 Janith Bandara, This source is a part of 
+ * Audit4j - An open source auditing framework.
+ * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,13 +25,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.audit4j.core.DeIndentifyUtil;
 import org.audit4j.core.dto.Field;
-
 
 /**
  * The Class AuditFieldAnnotationAttribute.
- * 
- * @author Janith Bandara
+ *
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
 public class AuditFieldAnnotationAttribute {
 
@@ -59,6 +61,10 @@ public class AuditFieldAnnotationAttribute {
 				if (annotation instanceof AuditField) {
 					final AuditField field = (AuditField) annotation;
 					paramName = field.field();
+				} else if (annotation instanceof DeIdentify) {
+					final DeIdentify deidentify = (DeIdentify) annotation;
+					paramValue = DeIndentifyUtil.deidentify(paramValue, deidentify.left(), deidentify.right(),
+							deidentify.fromLeft(), deidentify.fromRight());
 				}
 			}
 			if (null == paramName) {
@@ -96,6 +102,10 @@ public class AuditFieldAnnotationAttribute {
 				if (annotation instanceof AuditField) {
 					final AuditField field = (AuditField) annotation;
 					paramName = field.field();
+				} else if (annotation instanceof DeIdentify) {
+					final DeIdentify deidentify = (DeIdentify) annotation;
+					paramValue = DeIndentifyUtil.deidentify(paramValue, deidentify.left(), deidentify.right(),
+							deidentify.fromLeft(), deidentify.fromRight());
 				}
 			}
 			if (null == paramName) {
@@ -137,6 +147,10 @@ public class AuditFieldAnnotationAttribute {
 				if (annotation instanceof AuditField) {
 					final AuditField field = (AuditField) annotation;
 					paramName = field.field();
+				} else if (annotation instanceof DeIdentify) {
+					final DeIdentify deidentify = (DeIdentify) annotation;
+					paramValue = DeIndentifyUtil.deidentify(paramValue, deidentify.left(), deidentify.right(),
+							deidentify.fromLeft(), deidentify.fromRight());
 				}
 			}
 			if (paramName != null) {
@@ -171,12 +185,16 @@ public class AuditFieldAnnotationAttribute {
 				if (annotation instanceof AuditField) {
 					final AuditField field = (AuditField) annotation;
 					paramName = field.field();
+				} else if (annotation instanceof DeIdentify) {
+					final DeIdentify deidentify = (DeIdentify) annotation;
+					paramValue = DeIndentifyUtil.deidentify(paramValue, deidentify.left(), deidentify.right(),
+							deidentify.fromLeft(), deidentify.fromRight());
 				}
 			}
 			if (paramName != null) {
-				Field actionItem = new Field();
-				actionItem.setName(paramName);
-				actionItem.setValue(paramValue);
+				Field field = new Field();
+				field.setName(paramName);
+				field.setValue(paramValue);
 			}
 			paramName = null;
 			paramValue = null;

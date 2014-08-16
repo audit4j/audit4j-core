@@ -1,7 +1,6 @@
 /*
- * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
- * An open-source audit platform for Enterprise java platform.
- * http://mechanizedspace.com/audit4j
+ * Copyright 2014 Janith Bandara, This source is a part of 
+ * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,8 +21,6 @@ package org.audit4j.core.handler;
 import java.io.PrintStream;
 
 import org.audit4j.core.exception.InitializationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The Class ConsoleAuditHandler.
@@ -32,17 +29,8 @@ import org.slf4j.LoggerFactory;
  */
 public class ConsoleAuditHandler extends Handler {
 
-	/**
-	 * asdas
-	 */
 	private static final long serialVersionUID = -4570535029942402303L;
-
-	/** The log. */
-	private final Logger log = LoggerFactory.getLogger(ConsoleAuditHandler.class);
-
-	/** The Constant AUDIT4J_USER. */
-	private static final String AUDIT4J_USER = "AUDIT4J";
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 

@@ -1,7 +1,6 @@
 /*
- * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
- * An open-source audit suit for Enterprise java platform.
- * http://mechanizedspace.com/audit4j
+ * Copyright 2014 Janith Bandara, This source is a part of 
+ * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,8 +23,10 @@ import java.util.List;
 
 /**
  * The Class AuditEvent.
+ *
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
- * @author Janith Bandara
+ * @since 1.0.0
  */
 public class AuditEvent extends AuditBase {
 
@@ -44,10 +45,20 @@ public class AuditEvent extends AuditBase {
 	/** The action item. */
 	private List<Field> fields = new ArrayList<Field>();
 
+	/**
+	 * Instantiates a new audit event.
+	 */
 	public AuditEvent() {
 
 	}
 
+	/**
+	 * Instantiates a new audit event.
+	 *
+	 * @param actor the actor
+	 * @param action the action
+	 * @param fields the fields
+	 */
 	public AuditEvent(String actor, String action, Field... fields) {
 		this.actor = actor;
 		this.action = action;
@@ -56,6 +67,14 @@ public class AuditEvent extends AuditBase {
 		}
 	}
 
+	/**
+	 * Instantiates a new audit event.
+	 *
+	 * @param actor the actor
+	 * @param action the action
+	 * @param origin the origin
+	 * @param fields the fields
+	 */
 	public AuditEvent(String actor, String action, String origin, Field... fields) {
 		this.actor = actor;
 		this.action = action;
@@ -136,15 +155,20 @@ public class AuditEvent extends AuditBase {
 		this.fields.add(new Field(name, value, type.toString()));
 	}
 
+	/**
+	 * Adds the field.
+	 *
+	 * @param name the name
+	 * @param value the value
+	 */
 	public void addField(String name, Object value) {
 		this.fields.add(new Field(name, value.toString(), value.getClass().getName()));
 	}
 
 	/**
 	 * Adds the element.
-	 * 
-	 * @param element
-	 *            the element
+	 *
+	 * @param field the field
 	 */
 	public void addField(Field field) {
 		this.fields.add(field);
