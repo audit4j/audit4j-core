@@ -20,6 +20,7 @@ package org.audit4j.core;
 
 import java.lang.reflect.Method;
 
+import org.audit4j.core.annotation.AuditAnnotationAttributes;
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.io.AnnotationAuditOutputStream;
 import org.audit4j.core.io.AsyncAuditOutputStream;
@@ -93,7 +94,10 @@ public final class AuditManager {
 	 * @return true, if successful
 	 */
 	public boolean audit(Class<?> clazz, Method method, Object[] args) {
-		annotationStream.write(clazz, method, args);
+		final AuditAnnotationAttributes auditAttributes = new AuditAnnotationAttributes();
+		if (auditAttributes.hasAnnotation(clazz) || auditAttributes.hasAnnotation(method)) {
+			annotationStream.write(clazz, method, args);
+		}
 		return true;
 	}
 
