@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * The Class AuditEvent.
- *
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
  * @since 1.0.0
@@ -54,10 +54,13 @@ public class AuditEvent extends AuditBase {
 
 	/**
 	 * Instantiates a new audit event.
-	 *
-	 * @param actor the actor
-	 * @param action the action
-	 * @param fields the fields
+	 * 
+	 * @param actor
+	 *            the actor
+	 * @param action
+	 *            the action
+	 * @param fields
+	 *            the fields
 	 */
 	public AuditEvent(String actor, String action, Field... fields) {
 		this.actor = actor;
@@ -69,11 +72,15 @@ public class AuditEvent extends AuditBase {
 
 	/**
 	 * Instantiates a new audit event.
-	 *
-	 * @param actor the actor
-	 * @param action the action
-	 * @param origin the origin
-	 * @param fields the fields
+	 * 
+	 * @param actor
+	 *            the actor
+	 * @param action
+	 *            the action
+	 * @param origin
+	 *            the origin
+	 * @param fields
+	 *            the fields
 	 */
 	public AuditEvent(String actor, String action, String origin, Field... fields) {
 		this.actor = actor;
@@ -151,24 +158,35 @@ public class AuditEvent extends AuditBase {
 	 * @param type
 	 *            the type
 	 */
-	public void addField(String name, String value, Object type) {
-		this.fields.add(new Field(name, value, type.toString()));
+	public void addField(String name, Object value, Object type) {
+		if (value == null) {
+			this.fields.add(new Field(name, null, null));
+		} else {
+			this.fields.add(new Field(name, value.toString(), type.toString()));
+		}
 	}
 
 	/**
 	 * Adds the field.
-	 *
-	 * @param name the name
-	 * @param value the value
+	 * 
+	 * @param name
+	 *            the name
+	 * @param value
+	 *            the value
 	 */
 	public void addField(String name, Object value) {
-		this.fields.add(new Field(name, value.toString(), value.getClass().getName()));
+		if (value == null) {
+			this.fields.add(new Field(name, null, null));
+		} else {
+			this.fields.add(new Field(name, value.toString(), value.getClass().getName()));
+		}
 	}
 
 	/**
 	 * Adds the element.
-	 *
-	 * @param field the field
+	 * 
+	 * @param field
+	 *            the field
 	 */
 	public void addField(Field field) {
 		this.fields.add(field);

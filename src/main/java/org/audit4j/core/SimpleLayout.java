@@ -25,7 +25,7 @@ import org.audit4j.core.dto.Field;
 
 /**
  * The Class SimpleLayout.
- *
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
  * @since 1.0.0
@@ -35,7 +35,9 @@ public class SimpleLayout implements Layout {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 5057576669171592167L;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.audit4j.core.Layout#format(org.audit4j.core.dto.AuditEvent)
 	 */
 	@Override
@@ -51,23 +53,22 @@ public class SimpleLayout implements Layout {
 			buff.append(event.getUuid().toString());
 			buff.append(CoreConstants.PIPE);
 		}
-		
+
 		buff.append(event.getActor());
 		buff.append(CoreConstants.PIPE);
 		buff.append(event.getOrigin());
 		buff.append(CoreConstants.PIPE);
-		if (event.getFields() != null && !event.getFields().isEmpty()) {
 
-			if (event.getAction() != null) {
-				buff.append(event.getAction()).append(CoreConstants.ARROW);
-			}
-			for (Field actionItem : event.getFields()) {
-				buff.append(actionItem.getName()).append(CoreConstants.SPACE).append(actionItem.getType()).append(CoreConstants.COLON_CHAR)
-						.append(actionItem.getValue()).append(CoreConstants.COMMA_CHAR);
-			}
-			return buff.toString();
-		} else {
-			return "No data for selectred audit criteria";
+		if (event.getAction() != null) {
+			buff.append(event.getAction()).append(CoreConstants.ARROW);
 		}
+		if (event.getFields() != null && !event.getFields().isEmpty()) {
+			for (Field actionItem : event.getFields()) {
+				buff.append(actionItem.getName()).append(CoreConstants.SPACE).append(actionItem.getType())
+						.append(CoreConstants.COLON_CHAR).append(actionItem.getValue())
+						.append(CoreConstants.COMMA_CHAR);
+			}
+		}
+		return buff.toString();
 	}
 }
