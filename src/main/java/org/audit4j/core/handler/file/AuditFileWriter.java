@@ -5,4 +5,6 @@ public abstract class AuditFileWriter {
 	public abstract AuditFileWriter write(String event);
 	
 	public abstract void init();
+	
+	public abstract void stop();
 }

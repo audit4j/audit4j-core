@@ -22,15 +22,10 @@ import java.lang.reflect.Method;
 
 import org.audit4j.core.annotation.AuditAnnotationAttributes;
 import org.audit4j.core.dto.AuditEvent;
-import org.audit4j.core.io.AnnotationAuditOutputStream;
-import org.audit4j.core.io.AsyncAuditOutputStream;
-import org.audit4j.core.io.AuditEventOutputStream;
-import org.audit4j.core.io.AuditOutputStream;
-import org.audit4j.core.io.AuditProcessOutputStream;
 
 /**
- * The AuditManager. This class is used to submit audit events as well as annotations.
- * This is the only audit submition end point of the Audit4j. 
+ * The AuditManager. This class is used to submit audit events as well as
+ * annotations. This is the only audit submition end point of the Audit4j.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
@@ -46,30 +41,16 @@ public final class AuditManager {
 
 	/** The audit manager. */
 	private static AuditManager auditManager;
-	
-	/** The context. */
-	private static Context context;
-	
-	/** The stream. */
-	private static AuditOutputStream stream;
 
-	/** The annotation stream. */
-	private static AnnotationAuditOutputStream annotationStream;
-
-	
 	/**
 	 * Initializing context and streams.
 	 * 
 	 * @since 2.0.0
 	 */
-	private static void init(){
-		context = new Context();
-		context.init();
-		AsyncAuditOutputStream asyncStream =  new AsyncAuditOutputStream(new AuditProcessOutputStream(context));
-		stream = new AuditEventOutputStream(asyncStream);
-		annotationStream = new AnnotationAuditOutputStream(stream);
+	private static void init() {
+		Context.init();
 	}
-	
+
 	/**
 	 * Audit.
 	 * 
@@ -78,7 +59,7 @@ public final class AuditManager {
 	 * @return true, if successful
 	 */
 	public boolean audit(AuditEvent event) {
-		stream.write(event);
+		Context.getAuditStream().write(event);
 		return true;
 	}
 
@@ -96,7 +77,7 @@ public final class AuditManager {
 	public boolean audit(Class<?> clazz, Method method, Object[] args) {
 		final AuditAnnotationAttributes auditAttributes = new AuditAnnotationAttributes();
 		if (auditAttributes.hasAnnotation(clazz) || auditAttributes.hasAnnotation(method)) {
-			annotationStream.write(clazz, method, args);
+			Context.getAnnotationStream().write(clazz, method, args);
 		}
 		return true;
 	}
@@ -114,5 +95,21 @@ public final class AuditManager {
 			}
 		}
 		return auditManager;
+	}
+
+	/**
+	 * This method allows to external plugins can inject the configurations.
+	 * Since the security reasons, this allows to create one time configuration
+	 * setting to Audit4j.
+	 * 
+	 * @param configuration
+	 *            the configuration
+	 * @return the configuration instance
+	 * 
+	 * @since 2.1.0
+	 */
+	public static AuditManager getConfigurationInstance(Configuration configuration) {
+		Context.setConfig(configuration);
+		return getInstance();
 	}
 }

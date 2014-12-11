@@ -34,7 +34,7 @@ import org.audit4j.core.exception.ConfigurationException;
 import org.audit4j.core.exception.TroubleshootException;
 import org.audit4j.core.handler.ConsoleAuditHandler;
 import org.audit4j.core.handler.Handler;
-import org.audit4j.core.handler.file.FileAuditHandler;
+import org.audit4j.core.layout.SimpleLayout;
 
 import com.esotericsoftware.yamlbeans.YamlException;
 import com.esotericsoftware.yamlbeans.YamlReader;
@@ -72,8 +72,8 @@ public final class ConfigUtil {
 		handler.setDb_user("audit4juser");
 		handler.setDb_password("password");
 		handlers.add(handler);*/
-		FileAuditHandler handler = new FileAuditHandler();
-		handlers.add(handler);
+		//FileAuditHandler handler = new FileAuditHandler();
+		//handlers.add(handler);
 		ConsoleAuditHandler handler2 = new ConsoleAuditHandler();
 		handlers.add(handler2);
 		conf.setHandlers(handlers);
@@ -133,9 +133,9 @@ public final class ConfigUtil {
 	 * @return the configuration
 	 * @throws ConfigurationException the configuration exception
 	 */
-	static Configuration readConfig() throws ConfigurationException {
+	static Configuration readConfig(final String filePath) throws ConfigurationException {
 		try {
-			YamlReader reader = new YamlReader(new FileReader(CoreConstants.CONFIG_FILE_NAME));
+			YamlReader reader = new YamlReader(new FileReader(filePath));
 			reader.getConfig().setClassTag("Configuration", Configuration.class);
 
 			return (Configuration) reader.read();
@@ -153,5 +153,9 @@ public final class ConfigUtil {
 			handlerClassNameList.add(handler.getClass().getName());
 		}
 		return handlerClassNameList;
+	}
+	
+	public static void main(String[] args) {
+		generateConfigFromObject();
 	}
 }

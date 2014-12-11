@@ -48,4 +48,10 @@ public class ConsoleAuditHandler extends Handler {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void stop() {
+		// TODO Auto-generated method stub
+		
+	}
 }

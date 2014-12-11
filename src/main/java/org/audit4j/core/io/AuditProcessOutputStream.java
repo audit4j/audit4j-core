@@ -20,7 +20,7 @@ package org.audit4j.core.io;
 
 import org.audit4j.core.AuditEventProcessor;
 import org.audit4j.core.AuditProcessor;
-import org.audit4j.core.Context;
+import org.audit4j.core.Configuration;
 import org.audit4j.core.dto.AuditEvent;
 
 /**
@@ -30,16 +30,16 @@ import org.audit4j.core.dto.AuditEvent;
  */
 public class AuditProcessOutputStream implements AuditOutputStream {
 	
-	/** The context. */
-	public Context context;
+	/** The config. */
+	public Configuration config;
 	
 	/**
 	 * Instantiates a new audit process output stream.
 	 *
-	 * @param context the context
+	 * @param config the config
 	 */
-	public AuditProcessOutputStream(Context context){
-		this.context = context;
+	public AuditProcessOutputStream(Configuration config){
+		this.config = config;
 	}
 	
 	/* (non-Javadoc)
@@ -48,7 +48,7 @@ public class AuditProcessOutputStream implements AuditOutputStream {
 	@Override
 	public AuditProcessOutputStream write(AuditEvent event) {
 		AuditProcessor<AuditEvent> processor = AuditEventProcessor.getInstance();
-		processor.setConf(context.getConfig());
+		processor.setConf(config);
 		processor.process(event);
 		return this;
 	}

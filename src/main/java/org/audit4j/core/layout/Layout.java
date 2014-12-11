@@ -1,7 +1,6 @@
 /*
- * Copyright 2014 Janith Bandara, This source is a part of Audit4j - 
- * An open-source audit platform for Enterprise java platform.
- * http://mechanizedspace.com/audit4j
+ * Copyright 2014 Janith Bandara, This source is a part of 
+ * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,19 +16,40 @@
  * limitations under the License.
  */
 
-package org.audit4j.core;
+package org.audit4j.core.layout;
+
+import java.io.Serializable;
+
+import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.exception.InitializationException;
 
 /**
- * A factory for creating AbstractConfiguration objects.
- * 
+ * The Interface Layout.
+ *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 1.0.0
  */
-public abstract class AbstractConfigurationFactory {
+public interface Layout extends Serializable{
 
 	/**
-	 * Gets the audit level.
-	 * 
-	 * @return the audit level
+	 * Format.
+	 *
+	 * @param event the event
+	 * @return the string
 	 */
-	public abstract String getAuditLevel();
+	String format(AuditEvent event);
+	
+	/**
+	 * Inits the.
+	 *
+	 * @throws InitializationException the initialization exception
+	 */
+	void init() throws InitializationException;
+	
+	/**
+	 * Stop.
+	 */
+	void stop();
+	
 }

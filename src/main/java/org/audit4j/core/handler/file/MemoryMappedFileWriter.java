@@ -67,4 +67,10 @@ public class MemoryMappedFileWriter extends AuditFileWriter implements Serializa
 		return this;
 	}
 
+	@Override
+	public void stop() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -74,7 +74,7 @@ public final class ValidationManager {
 		}
 		if (null == conf.getLayout()) {
 			throw new ValidationException(
-					"Layout should not be null,  One or more Layout implementation shuld be configured in the configuration",
+					"Layout should not be null,  One or more Layout implementation should be configured in the configuration",
 					ValidationException.VALIDATION_LEVEL_INVALID);
 		}
 		if (null == conf.getMetaData()) {

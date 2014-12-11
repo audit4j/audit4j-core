@@ -16,12 +16,15 @@
  * limitations under the License.
  */
 
-package org.audit4j.core;
+package org.audit4j.core.layout;
 
 import java.util.Date;
 
+import org.audit4j.core.AuditUtil;
+import org.audit4j.core.CoreConstants;
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.dto.Field;
+import org.audit4j.core.exception.InitializationException;
 
 /**
  * The Class SimpleLayout.
@@ -70,5 +73,17 @@ public class SimpleLayout implements Layout {
 			}
 		}
 		return buff.toString();
+	}
+
+	@Override
+	public void init() throws InitializationException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void stop() {
+		// TODO Auto-generated method stub
+		
 	}
 }

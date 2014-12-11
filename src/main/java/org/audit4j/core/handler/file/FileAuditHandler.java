@@ -141,4 +141,9 @@ public class FileAuditHandler extends Handler {
 	public void setCronPattern(String cronPattern) {
 		this.cronPattern = cronPattern;
 	}
+
+	@Override
+	public void stop() {
+		writer.stop();
+	}
 }

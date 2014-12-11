@@ -31,10 +31,10 @@ public final class CoreConstants {
 	public static final String APP_NAME = "Audit4j";
 	
 	/** The Constant RELEASE_VERSION. */
-	public static final String RELEASE_VERSION = "1.0.1";
+	public static final String RELEASE_VERSION = "2.2.0";
 
 	/** The Constant RELEASE_DATE. */
-	public static final String RELEASE_DATE = "2014-06-20T11:17:21.077Z";
+	public static final String RELEASE_DATE = "2014-08-29T12:40:21.077Z";
 	
 	/** The Constant SUPPORT_JAVA_VERSION. */
 	public static final String SUPPORT_JAVA_VERSION = "7";
@@ -85,7 +85,10 @@ public final class CoreConstants {
 	public static final String ACTION = "action";
 
 	/** The Constant SALT. */
-	public static final String SALT = "232332324";
+	public static final String DEFAULT_SECURE_SALT = "232332324";
+	
+	/** The Constant DEFAULT_SECURE_KEY. */
+	public static final String DEFAULT_SECURE_KEY = "Aud1T4jSecureKey";
 
 	/** The Constant IV. */
 	public static final String IV = "e675f725e675f725";

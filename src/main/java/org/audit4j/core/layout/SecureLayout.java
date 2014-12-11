@@ -16,13 +16,16 @@
  * limitations under the License.
  */
 
-package org.audit4j.core;
+package org.audit4j.core.layout;
 
+import org.audit4j.core.CoreConstants;
+import org.audit4j.core.EncryptionUtil;
 import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.exception.InitializationException;
 
 /**
  * The Class SecureLayout.
- *
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
  * @since 1.0.0
@@ -32,20 +35,59 @@ public class SecureLayout extends SimpleLayout {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -5678939488854601303L;
 
-	/* (non-Javadoc)
-	 * @see org.audit4j.core.SimpleLayout#format(org.audit4j.core.dto.AuditEvent)
+	private String key;
+
+	private String salt;
+
+	private EncryptionUtil util;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.audit4j.core.SimpleLayout#format(org.audit4j.core.dto.AuditEvent)
 	 */
 	@Override
 	public String format(AuditEvent event) {
 		String formatText = super.format(event);
 		try {
-			//TODO hard coded key
-			EncryptionUtil util = EncryptionUtil.getInstance("1234", CoreConstants.SALT);
 			return util.encrypt(formatText);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public void init() throws InitializationException {
+		if (key == null) {
+			key = CoreConstants.DEFAULT_SECURE_KEY;
+		}
+		if (salt == null) {
+			salt = CoreConstants.DEFAULT_SECURE_SALT;
+		}
+		util = EncryptionUtil.getInstance(key, salt);
+	}
+
+	@Override
+	public void stop() {
+
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 }

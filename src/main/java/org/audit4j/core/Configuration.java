@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.audit4j.core.handler.Handler;
+import org.audit4j.core.layout.Layout;
 
 /**
  * The Class Configuration.
@@ -35,7 +36,6 @@ import org.audit4j.core.handler.Handler;
  */
 public class Configuration implements Serializable {
 
-	/** asdas. */
 	private static final long serialVersionUID = -3370288956459623002L;
 
 	/** The released. */

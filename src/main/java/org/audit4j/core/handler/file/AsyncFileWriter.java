@@ -9,10 +9,16 @@ public class AsyncFileWriter extends AuditFileWriter implements Serializable{
 		// TODO Auto-generated method stub
 		
 	}
+	
 	@Override
 	public AuditFileWriter write(String event) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public void stop() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

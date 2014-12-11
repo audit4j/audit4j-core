@@ -119,7 +119,12 @@ public final class ZeroCopyFileWriter extends AuditFileWriter implements Seriali
 	 * @see org.audit4j.core.io.AuditOutputStream#close()
 	 */
 	public void close() {
-
+		try {
+			randomAccessFile.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/*
@@ -130,5 +135,16 @@ public final class ZeroCopyFileWriter extends AuditFileWriter implements Seriali
 	@Override
 	public Object clone() {
 		return null;
+	}
+
+	@Override
+	public void stop() {
+		try {
+			randomAccessFile.close();
+			fileChannel.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

@@ -58,6 +58,8 @@ public abstract class Handler implements Serializable{
 	 * @throws InitializationException the initialization exception
 	 */
 	public abstract void init() throws InitializationException;
+	
+	public abstract void stop(); 
 
 	/**
 	 * Handle.
