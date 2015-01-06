@@ -95,9 +95,11 @@ public class AuditFieldAnnotationAttribute {
 		int i = 0;
 		String paramName = null;
 		String paramValue = null;
+		Class<?> paramType = null;
 		for (final Annotation[] annotations : parameterAnnotations) {
 			final Object object = arg1[i++];
 			paramValue = object.toString();
+			paramType = object.getClass();
 			for (final Annotation annotation : annotations) {
 				if (annotation instanceof AuditField) {
 					final AuditField field = (AuditField) annotation;
@@ -111,9 +113,11 @@ public class AuditFieldAnnotationAttribute {
 			if (null == paramName) {
 				paramName = "arg" + (i - 1);
 			}
-			Field actionItem = new Field();
-			actionItem.setName(paramName);
-			actionItem.setValue(paramValue);
+			Field field = new Field();
+			field.setName(paramName);
+			field.setValue(paramValue);
+			field.setType(paramType.getName());
+			actionItems.add(field);
 
 			paramName = null;
 			paramValue = null;
@@ -178,9 +182,11 @@ public class AuditFieldAnnotationAttribute {
 		int i = 0;
 		String paramName = null;
 		String paramValue = null;
+		Class<?> paramType = null;
 		for (final Annotation[] annotations : parameterAnnotations) {
 			final Object object = arg1[i++];
 			paramValue = object.toString();
+			paramType = object.getClass();
 			for (final Annotation annotation : annotations) {
 				if (annotation instanceof AuditField) {
 					final AuditField field = (AuditField) annotation;
@@ -195,7 +201,10 @@ public class AuditFieldAnnotationAttribute {
 				Field field = new Field();
 				field.setName(paramName);
 				field.setValue(paramValue);
+				field.setType(paramType.getName());
+				markedActionItems.add(field);
 			}
+			
 			paramName = null;
 			paramValue = null;
 		}
