@@ -18,7 +18,7 @@
 
 package org.audit4j.core.handler.file;
 
-import it.sauronsoftware.cron4j.Scheduler;
+import org.audit4j.core.extra.cron4j.Scheduler;
 
 /**
  * The Class ArchiveManager.
