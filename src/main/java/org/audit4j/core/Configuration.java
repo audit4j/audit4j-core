@@ -21,9 +21,11 @@ package org.audit4j.core;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.audit4j.core.filter.AuditEventFilter;
 import org.audit4j.core.handler.Handler;
 import org.audit4j.core.layout.Layout;
 
@@ -36,6 +38,7 @@ import org.audit4j.core.layout.Layout;
  */
 public class Configuration implements Serializable {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -3370288956459623002L;
 
 	/** The released. */
@@ -48,13 +51,22 @@ public class Configuration implements Serializable {
 	private Layout layout;
 
 	/** The handlers. */
-	private List<Handler> handlers = new ArrayList<>();
+	private List<Handler> handlers;
 
 	/** The meta data. */
 	private MetaData metaData;
 
 	/** The properties. */
-	Map<String, String> properties;
+	private Map<String, String> properties;
+	
+	private List<AuditEventFilter> filters;
+
+	/**
+	 * Instantiates a new configuration.
+	 */
+	public Configuration() {
+
+	}
 
 	/**
 	 * Gets the released.
@@ -119,6 +131,9 @@ public class Configuration implements Serializable {
 	 * @return the handlers
 	 */
 	public List<Handler> getHandlers() {
+		if (null == handlers) {
+			handlers = new ArrayList<>();
+		}
 		return handlers;
 	}
 
@@ -130,6 +145,19 @@ public class Configuration implements Serializable {
 	 */
 	public void setHandlers(List<Handler> handlers) {
 		this.handlers = handlers;
+	}
+
+	/**
+	 * Adds the handler.
+	 *
+	 * @param handler the handler
+	 * @since 2.2.0
+	 */
+	public void addHandler(Handler handler) {
+		if (null == handlers) {
+			handlers = new ArrayList<>();
+		}
+		handlers.add(handler);
 	}
 
 	/**
@@ -157,6 +185,9 @@ public class Configuration implements Serializable {
 	 * @return the properties
 	 */
 	public Map<String, String> getProperties() {
+		if (null == properties) {
+			properties = new HashMap<>();
+		}
 		return properties;
 	}
 
@@ -168,5 +199,27 @@ public class Configuration implements Serializable {
 	 */
 	public void setProperties(Map<String, String> properties) {
 		this.properties = properties;
+	}
+	
+	/**
+	 * Adds the property.
+	 *
+	 * @param key the key
+	 * @param value the value
+	 * @since 2.2.0
+	 */
+	public void addProperty(String key, String value){
+		if (null == properties) {
+			properties = new HashMap<>();
+		}
+		properties.put(key, value);
+	}
+
+	public List<AuditEventFilter> getFilters() {
+		return filters;
+	}
+
+	public void setFilters(List<AuditEventFilter> filters) {
+		this.filters = filters;
 	}
 }

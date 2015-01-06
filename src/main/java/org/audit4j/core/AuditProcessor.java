@@ -25,6 +25,7 @@ import org.audit4j.core.dto.AuditBase;
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.dto.Field;
 import org.audit4j.core.exception.HandlerException;
+import org.audit4j.core.filter.AuditEventFilter;
 import org.audit4j.core.handler.Handler;
 
 /**
@@ -40,7 +41,7 @@ import org.audit4j.core.handler.Handler;
 public abstract class AuditProcessor<T extends AuditBase> {
 
 	/** The conf. */
-	private Configuration conf;
+	private ConcurrentConfigurationContext configContext;
 
 	/**
 	 * Process.
@@ -107,14 +108,25 @@ public abstract class AuditProcessor<T extends AuditBase> {
 	 *            the event
 	 */
 	protected void executeHandlers(AuditEvent event) {
-		event.setActor(getConf().getMetaData().getActor());
-		for (final Handler handler : getConf().getHandlers()) {
-			handler.setAuditEvent(event);
-			handler.setQuery(getConf().getLayout().format(event));
-			try {
-				handler.handle();
-			} catch (HandlerException e) {
-				Log.warn("Failed to submit audit event.");
+		boolean execute = true;
+		if (configContext.getFilters() != null && !configContext.getFilters().isEmpty()) {
+			for (AuditEventFilter filter : configContext.getFilters()) {
+				if (filter.filter(event)) {
+					execute = false;
+					break;
+				}
+			}
+		}
+		if (execute) {
+			// event.setActor(getConf().getMetaData().getActor());
+			for (final Handler handler : configContext.getHandlers()) {
+				handler.setAuditEvent(event);
+				handler.setQuery(configContext.getLayout().format(event));
+				try {
+					handler.handle();
+				} catch (HandlerException e) {
+					Log.warn("Failed to submit audit event.");
+				}
 			}
 		}
 	}
@@ -128,7 +140,7 @@ public abstract class AuditProcessor<T extends AuditBase> {
 	 */
 	@Deprecated
 	protected String getActor(final Handler handler) {
-		return getConf().getMetaData().getActor();
+		return configContext.getMetaData().getActor();
 	}
 
 	/**
@@ -148,22 +160,7 @@ public abstract class AuditProcessor<T extends AuditBase> {
 		return action;
 	}
 
-	/**
-	 * Gets the conf.
-	 * 
-	 * @return the conf
-	 */
-	public Configuration getConf() {
-		return conf;
-	}
-
-	/**
-	 * Sets the conf.
-	 * 
-	 * @param conf
-	 *            the new conf
-	 */
-	public void setConf(Configuration conf) {
-		this.conf = conf;
+	public void setConfigContext(ConcurrentConfigurationContext configContext) {
+		this.configContext = configContext;
 	}
 }
