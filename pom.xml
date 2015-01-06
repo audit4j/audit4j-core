@@ -5,7 +5,7 @@
 	<artifactId>audit4j-core</artifactId>
 	<packaging>jar</packaging>
 	<name>Audit4j - Core</name>
-	<version>2.0.1</version>
+	<version>2.1.0</version>
 	<url>http://audit4j.org</url>
 	<description>Audit4j - An open-source audit suit for enterprise java platform, Core component</description>
 	<organization>
@@ -27,7 +27,7 @@
 		<connection>scm:git:git@github.com:audit4j/audit4j-core.git</connection>
 		<developerConnection>scm:git:git@github.com:audit4j/audit4j-core.git</developerConnection>
 		<url>scm:git:git@github.com:audit4j/audit4j-core.git</url>
-		<tag>2.0.1</tag>
+		<tag>2.1.0</tag>
 	</scm>
 	<developers>
 		<developer>
