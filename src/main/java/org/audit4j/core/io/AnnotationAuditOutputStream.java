@@ -22,6 +22,7 @@ import java.lang.reflect.Method;
 
 import org.audit4j.core.AnnotationTransformer;
 import org.audit4j.core.dto.AnnotationAuditEvent;
+import org.audit4j.core.dto.AuditEvent;
 
 import reactor.core.Environment;
 import reactor.core.composable.Deferred;
@@ -66,9 +67,13 @@ public class AnnotationAuditOutputStream {
 		Stream<AnnotationAuditEvent> annostream = annotationDeferred.compose();
 		annostream.consume(b.bind(new Consumer<AnnotationAuditEvent>() {
 			@Override
-			public void accept(AnnotationAuditEvent event) {
+			public void accept(AnnotationAuditEvent annotationEvent) {
 				AnnotationTransformer transformer = new AnnotationTransformer();
-				outputStream.write(transformer.transformToEvent(event));
+				AuditEvent event = transformer.transformToEvent(annotationEvent);
+				// event is null if annotation is not found
+				if (event != null) {
+					outputStream.write(event);
+				}
 			}
 		}));
 	}
