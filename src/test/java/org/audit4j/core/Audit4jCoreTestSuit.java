@@ -11,7 +11,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
 @RunWith(Suite.class)
-@SuiteClasses({ ValidationManagerTest.class, EncryptionUtilTest.class, TroubleshootManagerTest.class, SmokeTest.class, ArchiveManagerTest.class })
+@SuiteClasses({ ValidationManagerTest.class, EncryptionUtilTest.class, TroubleshootManagerTest.class, ArchiveManagerTest.class })
 public class Audit4jCoreTestSuit {
 
 }
