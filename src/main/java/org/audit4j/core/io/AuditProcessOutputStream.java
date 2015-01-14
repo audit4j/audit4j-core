@@ -21,39 +21,51 @@ package org.audit4j.core.io;
 import org.audit4j.core.AuditEventProcessor;
 import org.audit4j.core.AuditProcessor;
 import org.audit4j.core.ConcurrentConfigurationContext;
+import org.audit4j.core.RunStatus;
 import org.audit4j.core.dto.AuditEvent;
 
 /**
  * The Class AuditProcessOutputStream.
- *
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
 public class AuditProcessOutputStream implements AuditOutputStream {
-	
+
 	/** The config. */
-	public ConcurrentConfigurationContext configContext;
-	
+	private final ConcurrentConfigurationContext configContext;
+
+	/** The processor. */
+	private final AuditProcessor<AuditEvent> processor;
+
 	/**
 	 * Instantiates a new audit process output stream.
 	 *
-	 * @param config the config
+	 * @param configContext the config context
 	 */
-	public AuditProcessOutputStream(ConcurrentConfigurationContext configContext){
+	public AuditProcessOutputStream(ConcurrentConfigurationContext configContext) {
 		this.configContext = configContext;
+		processor = AuditEventProcessor.getInstance();
+		processor.setConfigContext(configContext);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.audit4j.core.io.AuditOutputStream#write(org.audit4j.core.dto.AuditEvent)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.audit4j.core.io.AuditOutputStream#write(org.audit4j.core.dto.AuditEvent
+	 * )
 	 */
 	@Override
 	public AuditProcessOutputStream write(AuditEvent event) {
-		AuditProcessor<AuditEvent> processor = AuditEventProcessor.getInstance();
-		processor.setConfigContext(configContext);
-		processor.process(event);
+		if (configContext.getRunStatus().equals(RunStatus.RUNNING)) {
+			processor.process(event);
+		}
 		return this;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.audit4j.core.io.AuditOutputStream#close()
 	 */
 	@Override
@@ -61,7 +73,9 @@ public class AuditProcessOutputStream implements AuditOutputStream {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override

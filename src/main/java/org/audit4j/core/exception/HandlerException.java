@@ -46,6 +46,7 @@ public class HandlerException  extends Exception{
 	 * Instantiates a new handler exception.
 	 *
 	 * @param message the message
+	 * @param clazz the clazz
 	 * @param e the e
 	 */
 	public HandlerException(String message, Class<? extends Handler> clazz, Throwable e){

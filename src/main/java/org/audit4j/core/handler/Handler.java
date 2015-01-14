@@ -32,6 +32,7 @@ import org.audit4j.core.exception.InitializationException;
  */
 public abstract class Handler implements Serializable{
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -8636058037478806582L;
 
 	/** The query. */
@@ -54,15 +55,19 @@ public abstract class Handler implements Serializable{
 	/**
 	 * Inits the.
 	 *
-	 * @return true, if successful
 	 * @throws InitializationException the initialization exception
 	 */
 	public abstract void init() throws InitializationException;
 	
+	/**
+	 * Stop.
+	 */
 	public abstract void stop(); 
 
 	/**
 	 * Handle.
+	 *
+	 * @throws HandlerException the handler exception
 	 */
 	public abstract void handle() throws HandlerException;
 

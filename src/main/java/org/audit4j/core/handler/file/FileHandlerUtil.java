@@ -26,13 +26,23 @@ import org.audit4j.core.AuditUtil;
 import org.audit4j.core.CoreConstants;
 import org.audit4j.core.TroubleshootManager;
 
+/**
+ * The Class FileHandlerUtil.
+ *
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ */
 public final class FileHandlerUtil {
+	
+	/**
+	 * Instantiates a new file handler util.
+	 */
 	private FileHandlerUtil() {
 	}
 
 	/**
 	 * Generate output file path.
-	 * 
+	 *
+	 * @param path the path
 	 * @return the string
 	 */
 	@Deprecated
@@ -41,9 +51,12 @@ public final class FileHandlerUtil {
 		tempPath = tempPath + File.separatorChar + generateAuditFileName();
 		return tempPath;
 	}
+	
 	/**
 	 * Generate output file path.
-	 * 
+	 *
+	 * @param path the path
+	 * @param fileName the file name
 	 * @return the string
 	 */
 	public static String generateOutputFilePath(String path, String fileName) {
@@ -78,7 +91,8 @@ public final class FileHandlerUtil {
 	
 	/**
 	 * Generate file name.
-	 * 
+	 *
+	 * @param date the date
 	 * @return the string
 	 */
 	public static String generateAuditArchiveFileName(Date date) {
@@ -91,7 +105,8 @@ public final class FileHandlerUtil {
 	
 	/**
 	 * Generate file name.
-	 * 
+	 *
+	 * @param date the date
 	 * @return the string
 	 */
 	public static String generateAuditFileName(Date date) {
@@ -103,7 +118,8 @@ public final class FileHandlerUtil {
 	
 	/**
 	 * Generate file name.
-	 * 
+	 *
+	 * @param date the date
 	 * @return the string
 	 */
 	public static String generateCommonFileName(Date date) {
@@ -176,13 +192,9 @@ public final class FileHandlerUtil {
 
 	/**
 	 * Add days.
-	 * 
-	 * @param date
-	 *            the date
-	 * @param different
-	 *            the different
-	 * @param unit
-	 *            the unit
+	 *
+	 * @param date the date
+	 * @param different the different
 	 * @return the date
 	 */
 	public static Date addDate(final Date date, final Integer different) {
@@ -194,13 +206,9 @@ public final class FileHandlerUtil {
 
 	/**
 	 * Substract days.
-	 * 
-	 * @param date
-	 *            the date
-	 * @param different
-	 *            the different
-	 * @param unit
-	 *            the unit
+	 *
+	 * @param date the date
+	 * @param different the different
 	 * @return the date
 	 */
 	public static Date substractDate(final Date date, final Integer different) {

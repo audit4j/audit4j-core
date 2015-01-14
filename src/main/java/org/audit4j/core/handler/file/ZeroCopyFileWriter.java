@@ -41,9 +41,13 @@ import org.audit4j.core.CoreConstants;
  */
 public final class ZeroCopyFileWriter extends AuditFileWriter implements Serializable {
 	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -1982643461500366178L;
 	
+	/** The random access file. */
 	RandomAccessFile randomAccessFile;
+	
+	/** The file channel. */
 	FileChannel fileChannel;
 
 	/** The path. */
@@ -51,14 +55,16 @@ public final class ZeroCopyFileWriter extends AuditFileWriter implements Seriali
 
 	/**
 	 * Instantiates a new zero copy file writer.
-	 * 
-	 * @param conf
-	 *            the conf
+	 *
+	 * @param path the path
 	 */
 	public ZeroCopyFileWriter(String path) {
 		this.path = path;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.audit4j.core.handler.file.AuditFileWriter#init()
+	 */
 	@Override
 	public void init() {
 
@@ -118,6 +124,9 @@ public final class ZeroCopyFileWriter extends AuditFileWriter implements Seriali
 	 * 
 	 * @see org.audit4j.core.io.AuditOutputStream#close()
 	 */
+	/**
+	 * Close.
+	 */
 	public void close() {
 		try {
 			randomAccessFile.close();
@@ -137,6 +146,9 @@ public final class ZeroCopyFileWriter extends AuditFileWriter implements Seriali
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.audit4j.core.handler.file.AuditFileWriter#stop()
+	 */
 	@Override
 	public void stop() {
 		try {
