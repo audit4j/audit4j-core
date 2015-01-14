@@ -111,7 +111,7 @@ public final class ConfigUtil {
 		yml.append("handlers:").append("\n");
 		yml.append("- !org.audit4j.core.handler.ConsoleAuditHandler {}").append("\n");
 		yml.append("- !org.audit4j.core.handler.file.FileAuditHandler {}").append("\n");
-		yml.append("layout: !org.audit4j.core.SimpleLayout {}").append("\n");
+		yml.append("layout: !org.audit4j.core.layout.SimpleLayout {}").append("\n");
 		yml.append("metaData: !org.audit4j.core.DummyMetaData {}").append("\n");
 		yml.append("properties:").append("\n");
 		yml.append("   log.file.location: user.dir").append("\n");
