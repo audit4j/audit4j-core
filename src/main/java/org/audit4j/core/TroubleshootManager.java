@@ -27,6 +27,7 @@ import java.util.List;
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.exception.ConfigurationException;
 import org.audit4j.core.exception.TroubleshootException;
+import org.audit4j.core.util.Log;
 
 /**
  * The Class TroubleshootManager.

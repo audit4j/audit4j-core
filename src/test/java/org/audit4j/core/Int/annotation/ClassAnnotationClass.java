@@ -1,4 +1,8 @@
-package org.audit4j.core.annotation;
+package org.audit4j.core.Int.annotation;
+
+import org.audit4j.core.annotation.Audit;
+import org.audit4j.core.annotation.AuditField;
+import org.audit4j.core.annotation.IgnoreAudit;
 
 @Audit
 public class ClassAnnotationClass {

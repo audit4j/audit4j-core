@@ -1,6 +1,6 @@
 package org.audit4j.core;
 
-import org.audit4j.core.annotation.Audit4jAnnotationTestSuite;
+import org.audit4j.core.Int.annotation.Audit4jAnnotationTestSuite;
 import org.audit4j.core.smoke.SmokeTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

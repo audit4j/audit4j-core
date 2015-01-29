@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.audit4j.core;
+package org.audit4j.core.util;
 
 /**
  * The Class Base64Coder.

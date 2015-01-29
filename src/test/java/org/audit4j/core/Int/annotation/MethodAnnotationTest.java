@@ -1,8 +1,10 @@
-package org.audit4j.core.annotation;
+package org.audit4j.core.Int.annotation;
 
 import java.lang.reflect.Method;
 
 import org.audit4j.core.AuditManager;
+import org.audit4j.core.util.Log;
+import org.audit4j.core.util.StopWatch;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,7 +37,11 @@ public class MethodAnnotationTest {
 		args[3] = new Object();
 		args[4] = "1";
 
+		StopWatch watch = new StopWatch();
+        watch.start("smoke");
 		manager.audit(MethodAnnotationClass.class, annoMethod, args);
+		watch.stop();
+        Log.info(watch.getLastTaskTimeMillis());
 	}
 
 	@Test

@@ -1,5 +1,7 @@
 package org.audit4j.core;
 
+import org.audit4j.core.util.Log;
+import org.audit4j.core.util.StopWatch;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +17,12 @@ public class DeIdentifyUtilTest {
 
 	@Test
 	public void testDeidentifyAll() {
-		Assert.assertEquals("**********", DeIndentifyUtil.deidentify(text, 0, 0, 0, 0));
+	    StopWatch watch = new StopWatch();
+        watch.start("smoke");
+	    String deIdentified = DeIndentifyUtil.deidentify(text, 0, 0, 0, 0);
+	    watch.stop();
+        Log.info(watch.getLastTaskTimeMillis());
+		Assert.assertEquals("**********", deIdentified);
 	}
 
 	@Test

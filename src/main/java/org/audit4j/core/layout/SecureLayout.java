@@ -19,9 +19,9 @@
 package org.audit4j.core.layout;
 
 import org.audit4j.core.CoreConstants;
-import org.audit4j.core.EncryptionUtil;
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.exception.InitializationException;
+import org.audit4j.core.util.EncryptionUtil;
 
 /**
  * The Class SecureLayout.

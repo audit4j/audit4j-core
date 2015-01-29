@@ -16,11 +16,13 @@
  * limitations under the License.
  */
 
-package org.audit4j.core;
+package org.audit4j.core.util;
 
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
+import org.audit4j.core.CoreConstants;
 
 /**
  * Default logger for Audit4j internal usage. 

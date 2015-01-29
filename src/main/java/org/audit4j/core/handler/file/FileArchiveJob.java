@@ -26,7 +26,7 @@ import java.util.Date;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import org.audit4j.core.Log;
+import org.audit4j.core.util.Log;
 
 public class FileArchiveJob extends ArchiveJob {
 

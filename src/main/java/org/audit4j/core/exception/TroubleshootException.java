@@ -18,7 +18,7 @@
 
 package org.audit4j.core.exception;
 
-import org.audit4j.core.Log;
+import org.audit4j.core.util.Log;
 
 
 /**

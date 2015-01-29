@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.audit4j.core;
+package org.audit4j.core.util;
 
 import java.io.UnsupportedEncodingException;
 import java.security.Key;
@@ -31,6 +31,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.audit4j.core.CoreConstants;
 import org.audit4j.core.handler.ConsoleAuditHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

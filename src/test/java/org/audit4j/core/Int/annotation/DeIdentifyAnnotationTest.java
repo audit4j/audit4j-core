@@ -1,4 +1,4 @@
-package org.audit4j.core.annotation;
+package org.audit4j.core.Int.annotation;
 
 import java.lang.reflect.Method;
 

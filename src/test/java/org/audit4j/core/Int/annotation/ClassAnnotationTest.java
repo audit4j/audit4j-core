@@ -1,4 +1,4 @@
-package org.audit4j.core.annotation;
+package org.audit4j.core.Int.annotation;
 
 import java.lang.reflect.Method;
 
@@ -6,8 +6,8 @@ import org.audit4j.core.AuditManager;
 import org.junit.Before;
 import org.junit.Test;
 
-public class IgnoreAuditAnnotationTest {
-
+public class ClassAnnotationTest {
+	
 	@Before
 	public void setup() {
 
@@ -18,7 +18,7 @@ public class IgnoreAuditAnnotationTest {
 		AuditManager manager = AuditManager.getInstance();
 		Method annoMethod = null;
 		try {
-			annoMethod = ClassAnnotationClass.class.getMethod("testClassAnnotation_Ignore", String.class);
+			annoMethod = ClassAnnotationClass.class.getMethod("testClassAnnotation_selection_all", String.class);
 		} catch (NoSuchMethodException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -27,6 +27,7 @@ import org.audit4j.core.dto.Field;
 import org.audit4j.core.exception.HandlerException;
 import org.audit4j.core.filter.AuditEventFilter;
 import org.audit4j.core.handler.Handler;
+import org.audit4j.core.util.Log;
 
 /**
  * This class is used to process audit events. Processing includes, formatting,

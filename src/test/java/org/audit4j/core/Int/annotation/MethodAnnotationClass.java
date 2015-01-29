@@ -1,4 +1,9 @@
-package org.audit4j.core.annotation;
+package org.audit4j.core.Int.annotation;
+
+import org.audit4j.core.annotation.Audit;
+import org.audit4j.core.annotation.AuditField;
+import org.audit4j.core.annotation.DeIdentify;
+import org.audit4j.core.annotation.SelectionType;
 
 
 public class MethodAnnotationClass {

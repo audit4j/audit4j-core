@@ -1,5 +1,6 @@
 package org.audit4j.core;
 
+import org.audit4j.core.util.EncryptionUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
