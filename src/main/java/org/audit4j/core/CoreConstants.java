@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Janith Bandara, This source is a part of 
+ * Copyright 2014 Janith Bandara, This source is a part of
  * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
@@ -20,34 +20,34 @@ package org.audit4j.core;
 
 /**
  * The Class CoreConstants.
- * 
+ *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
- * 
+ *
  * @since 1.0.0
  */
 public final class CoreConstants {
 
 	/** The Constant APP_NAME. */
 	public static final String APP_NAME = "Audit4j";
-	
+
 	/** The Constant RELEASE_VERSION. */
 	public static final String RELEASE_VERSION = "2.2.0";
 
 	/** The Constant RELEASE_DATE. */
 	public static final String RELEASE_DATE = "2014-08-29T12:40:21.077Z";
-	
+
 	/** The Constant SUPPORT_JAVA_VERSION. */
 	public static final String SUPPORT_JAVA_VERSION = "7";
-	
+
 	/** The Constant AUDIT_EXTENTION. */
 	public static final String AUDIT_EXTENTION = ".audit";
-	
+
 	/** The Constant SITE_URL. */
 	public static final String SITE_URL = "http://audit4j.org";
 
 	/** The Constant CONFIG_FILE_NAME. */
-	public static final String CONFIG_FILE_NAME = "auit4j.conf.yml";
-	
+	public static final String CONFIG_FILE_NAME = "audit4j.conf.yml";
+
 	/** The Constant COLON_CHAR. */
 	public static final char COLON_CHAR = ':';
 
@@ -86,7 +86,7 @@ public final class CoreConstants {
 
 	/** The Constant SALT. */
 	public static final String DEFAULT_SECURE_SALT = "232332324";
-	
+
 	/** The Constant DEFAULT_SECURE_KEY. */
 	public static final String DEFAULT_SECURE_KEY = "Aud1T4jSecureKey";
 
