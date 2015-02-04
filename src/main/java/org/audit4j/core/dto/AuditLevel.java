@@ -22,7 +22,9 @@ package org.audit4j.core.dto;
  * The Class AuditLevel.
  *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * @deprecated
  */
+@Deprecated
 public class AuditLevel {
 
 	/** The Constant DEFAULT_LEVEL. */

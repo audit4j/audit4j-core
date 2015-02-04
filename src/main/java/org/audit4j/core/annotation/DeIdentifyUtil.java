@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.audit4j.core;
+package org.audit4j.core.annotation;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -27,7 +27,7 @@ import org.apache.commons.lang3.StringUtils;
  * 
  * @since 2.0.0
  */
-public class DeIndentifyUtil {
+public class DeIdentifyUtil {
 
 	/**
 	 * Deidentify left.

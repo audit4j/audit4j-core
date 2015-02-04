@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Janith Bandara, This source is a part of 
+ * Copyright 2014-2015 Janith Bandara, This source is a part of 
  * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
@@ -41,7 +41,7 @@ public class AuditAnnotationAttributes {
 	 *            the clazz
 	 * @return the boolean
 	 */
-	public Boolean hasAnnotation(final Class clazz) {
+	public Boolean hasAnnotation(final Class<?> clazz) {
 		final Annotation[] annotations = clazz.getAnnotations();
 		for (final Annotation annotation : annotations) {
 			if (annotation instanceof Audit) {
@@ -75,7 +75,7 @@ public class AuditAnnotationAttributes {
 	 *            the clazz
 	 * @return the selection
 	 */
-	public SelectionType getSelection(final Class clazz) {
+	public SelectionType getSelection(final Class<?> clazz) {
 		final Annotation[] annotations = clazz.getAnnotations();
 		return getSelection(annotations);
 	}
@@ -116,7 +116,7 @@ public class AuditAnnotationAttributes {
 	 * @param method the method
 	 * @return the action
 	 */
-	public String getAction(final Class clazz, final Method method) {
+	public String getAction(final Class<?> clazz, final Method method) {
 		final Annotation[] annotations = clazz.getAnnotations();
 		return this.getAction(annotations, method);
 	}

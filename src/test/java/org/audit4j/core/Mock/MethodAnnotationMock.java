@@ -1,4 +1,4 @@
-package org.audit4j.core.Int.annotation;
+package org.audit4j.core.Mock;
 
 import org.audit4j.core.annotation.Audit;
 import org.audit4j.core.annotation.AuditField;
@@ -6,16 +6,16 @@ import org.audit4j.core.annotation.DeIdentify;
 import org.audit4j.core.annotation.SelectionType;
 
 
-public class MethodAnnotationClass {
+public class MethodAnnotationMock {
 
 	@Audit
-	public void testAnnotation_selection_all(Integer a, String b, MethodAnnotationClass c, Object d, String e) {
+	public void testAnnotation_selection_all(Integer a, String b, MethodAnnotationMock c, Object d, String e) {
 
 	}
 
 	@Audit(selection = SelectionType.MARKED)
 	public void testAnnotation_selection_marked(@AuditField(field = "a") Integer a, @AuditField(field = "b") String b,
-			@AuditField(field = "c") MethodAnnotationClass c, Object d,
+			@AuditField(field = "c") MethodAnnotationMock c, Object d,
 			@AuditField(field = "e") String e) {
 	}
 	

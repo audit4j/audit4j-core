@@ -53,6 +53,8 @@ public final class CoreConstants {
 
 	/** The Constant COMMA_CHAR. */
 	public static final char COMMA_CHAR = ',';
+	
+	public static final char EQ_CHAR = '=';
 
 	/** The Constant DASH_CHAR. */
 	public static final char DASH_CHAR = '-';

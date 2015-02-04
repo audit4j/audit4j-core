@@ -25,7 +25,7 @@ public class TroubleshootManagerTest extends Audit4jTestBase {
 	 */
 	@Test
 	public void testTroubleshootEvent_Actor() {
-		AuditEvent event = getSampleEvent();
+		AuditEvent event = getSampleAuditEvent();
 		// Set Actor as null
 		event.setActor(null);
 		TroubleshootManager.troubleshootEvent(event);
@@ -37,7 +37,7 @@ public class TroubleshootManagerTest extends Audit4jTestBase {
 	 */
 	//@Test(expected = TroubleshootException.class)
 	public void testTroubleshootEvent_Orign() {
-		AuditEvent event = getSampleEvent();
+		AuditEvent event = getSampleAuditEvent();
 		// Set Actor as null
 		event.setOrigin(null);
 		TroubleshootManager.troubleshootEvent(event);	

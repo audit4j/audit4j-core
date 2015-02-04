@@ -20,8 +20,8 @@ package org.audit4j.core.layout;
 
 import java.io.Serializable;
 
+import org.audit4j.core.Initializable;
 import org.audit4j.core.dto.AuditEvent;
-import org.audit4j.core.exception.InitializationException;
 
 /**
  * The Interface Layout.
@@ -30,7 +30,7 @@ import org.audit4j.core.exception.InitializationException;
  * 
  * @since 1.0.0
  */
-public interface Layout extends Serializable{
+public interface Layout extends Initializable, Serializable{
 
 	/**
 	 * Format.
@@ -39,17 +39,4 @@ public interface Layout extends Serializable{
 	 * @return the string
 	 */
 	String format(AuditEvent event);
-	
-	/**
-	 * Inits the.
-	 *
-	 * @throws InitializationException the initialization exception
-	 */
-	void init() throws InitializationException;
-	
-	/**
-	 * Stop.
-	 */
-	void stop();
-	
 }

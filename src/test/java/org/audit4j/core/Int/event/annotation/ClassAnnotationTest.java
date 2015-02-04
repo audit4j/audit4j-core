@@ -1,8 +1,10 @@
-package org.audit4j.core.Int.annotation;
+package org.audit4j.core.Int.event.annotation;
 
 import java.lang.reflect.Method;
 
 import org.audit4j.core.AuditManager;
+import org.audit4j.core.Mock.ClassAnnotationMock;
+import org.audit4j.core.dto.AnnotationAuditEvent;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,11 +16,11 @@ public class ClassAnnotationTest {
 	}
 
 	@Test
-	public void testAnnotation_selection_marked_deidentify_from_right() {
+	public void testAnnotation_selection_all() {
 		AuditManager manager = AuditManager.getInstance();
 		Method annoMethod = null;
 		try {
-			annoMethod = ClassAnnotationClass.class.getMethod("testClassAnnotation_selection_all", String.class);
+			annoMethod = ClassAnnotationMock.class.getMethod("testClassAnnotation_selection_all", String.class);
 		} catch (NoSuchMethodException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -29,6 +31,10 @@ public class ClassAnnotationTest {
 		Object[] args = new Object[5];
 		args[0] = "123232323";
 
-		manager.audit(ClassAnnotationClass.class, annoMethod, args);
+		
+		manager.audit(new AnnotationAuditEvent(ClassAnnotationMock.class, annoMethod, args));
 	}
+	
+	@Test
+    public void testAnnotation_selection_marked_deidentify_from_right() {}
 }

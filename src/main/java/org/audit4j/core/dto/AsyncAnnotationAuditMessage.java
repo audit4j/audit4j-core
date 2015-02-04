@@ -26,7 +26,9 @@ import org.audit4j.core.Configuration;
  * The Class AsyncAnnotationAuditMessage.
  *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * @deprecated
  */
+@Deprecated
 public class AsyncAnnotationAuditMessage implements Serializable{
 
 	/**

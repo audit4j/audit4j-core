@@ -138,9 +138,6 @@ public class StopWatch {
      * @throws IllegalStateException the illegal state exception
      */
     public void reset() throws IllegalStateException {
-        if (!this.running) {
-            throw new IllegalStateException("Can't start StopWatch: it's already running");
-        }
         this.startTime = 0;
         this.startTimeMillis = 0;
         this.running = false;

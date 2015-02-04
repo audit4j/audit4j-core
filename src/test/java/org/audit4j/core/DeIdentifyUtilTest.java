@@ -1,5 +1,6 @@
 package org.audit4j.core;
 
+import org.audit4j.core.annotation.DeIdentifyUtil;
 import org.audit4j.core.util.Log;
 import org.audit4j.core.util.StopWatch;
 import org.junit.Assert;
@@ -19,7 +20,7 @@ public class DeIdentifyUtilTest {
 	public void testDeidentifyAll() {
 	    StopWatch watch = new StopWatch();
         watch.start("smoke");
-	    String deIdentified = DeIndentifyUtil.deidentify(text, 0, 0, 0, 0);
+	    String deIdentified = DeIdentifyUtil.deidentify(text, 0, 0, 0, 0);
 	    watch.stop();
         Log.info(watch.getLastTaskTimeMillis());
 		Assert.assertEquals("**********", deIdentified);
@@ -27,31 +28,31 @@ public class DeIdentifyUtilTest {
 
 	@Test
 	public void testDeidentifyLeft() {
-		Assert.assertEquals("****456789", DeIndentifyUtil.deidentify(text, 4, 0, 0, 0));
+		Assert.assertEquals("****456789", DeIdentifyUtil.deidentify(text, 4, 0, 0, 0));
 	}
 
 	@Test
 	public void testDeidentifyRight() {
-		Assert.assertEquals("012345****", DeIndentifyUtil.deidentify(text, 0, 4, 0, 0));
+		Assert.assertEquals("012345****", DeIdentifyUtil.deidentify(text, 0, 4, 0, 0));
 	}
 
 	@Test
 	public void testDeidentifyFromRight() {
-		Assert.assertEquals("0123******", DeIndentifyUtil.deidentify(text, 0, 0, 4, 0));
+		Assert.assertEquals("0123******", DeIdentifyUtil.deidentify(text, 0, 0, 4, 0));
 	}
 
 	@Test
 	public void testDidentifyFromLeft() {
-		Assert.assertEquals("******6789", DeIndentifyUtil.deidentify(text, 0, 0, 0, 4));
+		Assert.assertEquals("******6789", DeIdentifyUtil.deidentify(text, 0, 0, 0, 4));
 	}
 
 	@Test
 	public void testDeidentifyMiddle() {
-		Assert.assertEquals("01*****789", DeIndentifyUtil.deidentify(text, 0, 0, 2, 3));
+		Assert.assertEquals("01*****789", DeIdentifyUtil.deidentify(text, 0, 0, 2, 3));
 	}
 
 	@Test
 	public void testDeidentifyEdge() {
-		Assert.assertEquals("**23456***", DeIndentifyUtil.deidentify(text, 2, 3, 0, 0));
+		Assert.assertEquals("**23456***", DeIdentifyUtil.deidentify(text, 2, 3, 0, 0));
 	}
 }

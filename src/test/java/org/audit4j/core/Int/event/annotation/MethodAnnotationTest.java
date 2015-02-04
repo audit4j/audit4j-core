@@ -1,8 +1,9 @@
-package org.audit4j.core.Int.annotation;
+package org.audit4j.core.Int.event.annotation;
 
 import java.lang.reflect.Method;
 
 import org.audit4j.core.AuditManager;
+import org.audit4j.core.Mock.MethodAnnotationMock;
 import org.audit4j.core.util.Log;
 import org.audit4j.core.util.StopWatch;
 import org.junit.Before;
@@ -20,8 +21,8 @@ public class MethodAnnotationTest {
 		AuditManager manager = AuditManager.getInstance();
 		Method annoMethod = null;
 		try {
-			annoMethod = MethodAnnotationClass.class.getMethod("testAnnotation_selection_all", Integer.class, String.class,
-					MethodAnnotationClass.class, Object.class, String.class);
+			annoMethod = MethodAnnotationMock.class.getMethod("testAnnotation_selection_all", Integer.class, String.class,
+					MethodAnnotationMock.class, Object.class, String.class);
 		} catch (NoSuchMethodException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -33,13 +34,13 @@ public class MethodAnnotationTest {
 		Object[] args = new Object[5];
 		args[0] = 1;
 		args[1] = "1";
-		args[2] = new MethodAnnotationClass();
+		args[2] = new MethodAnnotationMock();
 		args[3] = new Object();
 		args[4] = "1";
 
 		StopWatch watch = new StopWatch();
         watch.start("smoke");
-		manager.audit(MethodAnnotationClass.class, annoMethod, args);
+		manager.audit(MethodAnnotationMock.class, annoMethod, args);
 		watch.stop();
         Log.info(watch.getLastTaskTimeMillis());
 	}
@@ -49,8 +50,8 @@ public class MethodAnnotationTest {
 		AuditManager manager = AuditManager.getInstance();
 		Method annoMethod = null;
 		try {
-			annoMethod = MethodAnnotationClass.class.getMethod("testAnnotation_selection_marked", Integer.class,
-					String.class, MethodAnnotationClass.class, Object.class, String.class);
+			annoMethod = MethodAnnotationMock.class.getMethod("testAnnotation_selection_marked", Integer.class,
+					String.class, MethodAnnotationMock.class, Object.class, String.class);
 		} catch (NoSuchMethodException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -62,10 +63,10 @@ public class MethodAnnotationTest {
 		Object[] args = new Object[5];
 		args[0] = 1;
 		args[1] = "1";
-		args[2] = new MethodAnnotationClass();
+		args[2] = new MethodAnnotationMock();
 		args[3] = new Object();
 		args[4] = "1";
 
-		manager.audit(MethodAnnotationClass.class, annoMethod, args);
+		manager.audit(MethodAnnotationMock.class, annoMethod, args);
 	}
 }

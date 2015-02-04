@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.audit4j.core.filter.AuditAnnotationFilter;
 import org.audit4j.core.filter.AuditEventFilter;
 import org.audit4j.core.handler.Handler;
 import org.audit4j.core.layout.Layout;
@@ -29,140 +30,179 @@ import org.audit4j.core.layout.Layout;
 import com.gs.collections.impl.map.mutable.ConcurrentHashMap;
 
 /**
- * The Class ConcurrentConfigurationContext.
+ * Configuration item store. All configuration items which are used by the
+ * running components store here. Items loaded by the context.
+ * 
+ * <p/>Below Items store here:
+ * </p>
+ * <ul>
+ * <li>Available handlers.</li>
+ * <li>Audit event filters.</li>
+ * <li>Configured layout.</li>
+ * <li>Meta data, If available</li>
+ * <li>Additional configuration properties.</li>
+ * </ul>
+ * 
+ * </p> #ThreadSafe#
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
-public class ConcurrentConfigurationContext {
+public final class ConcurrentConfigurationContext {
 
-	/** The handlers. */
-	private final List<Handler> handlers = new CopyOnWriteArrayList<Handler>();
+    /** The handlers. */
+    private final List<Handler> handlers = new CopyOnWriteArrayList<Handler>();
 
-	/** The properties. */
-	private final Map<String, String> properties = new ConcurrentHashMap<String, String>();
+    /** The properties. */
+    private final Map<String, String> properties = new ConcurrentHashMap<String, String>();
 
-	/** The Constant filters. */
-	private final List<AuditEventFilter> filters = new CopyOnWriteArrayList<AuditEventFilter>();
+    /** The Constant filters. */
+    private final List<AuditEventFilter> filters = new CopyOnWriteArrayList<AuditEventFilter>();
 
-	/** The layout. */
-	private Layout layout;
+    
+    /** The Constant filters. */
+    private final List<AuditAnnotationFilter> annotationFilters = new CopyOnWriteArrayList<AuditAnnotationFilter>();
 
-	/** The meta data. */
-	private MetaData metaData;
-	
-	/** The run status. */
-	private RunStatus runStatus = RunStatus.READY;
+    
+    /** The layout. */
+    private Layout layout;
 
-	/**
-	 * Gets the layout.
-	 *
-	 * @return the layout
-	 */
-	public Layout getLayout() {
-		return layout;
-	}
+    /** The meta data. */
+    private MetaData metaData;
 
-	/**
-	 * Sets the layout.
-	 *
-	 * @param layout the new layout
-	 */
-	public void setLayout(Layout layout) {
-		this.layout = layout;
-	}
+    /** The run status. */
+    private RunStatus runStatus = RunStatus.READY;
 
-	/**
-	 * Gets the meta data.
-	 *
-	 * @return the meta data
-	 */
-	public MetaData getMetaData() {
-		return metaData;
-	}
+    /**
+     * Gets the layout.
+     * 
+     * @return the layout
+     */
+    public Layout getLayout() {
+        return layout;
+    }
 
-	/**
-	 * Sets the meta data.
-	 *
-	 * @param metaData the new meta data
-	 */
-	public void setMetaData(MetaData metaData) {
-		this.metaData = metaData;
-	}
+    /**
+     * Sets the layout.
+     * 
+     * @param layout
+     *            the new layout
+     */
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+    }
 
-	/**
-	 * Gets the handlers.
-	 *
-	 * @return the handlers
-	 */
-	public List<Handler> getHandlers() {
-		return handlers;
-	}
+    /**
+     * Gets the meta data.
+     * 
+     * @return the meta data
+     */
+    public MetaData getMetaData() {
+        return metaData;
+    }
 
-	/**
-	 * Gets the properties.
-	 *
-	 * @return the properties
-	 */
-	public Map<String, String> getProperties() {
-		return properties;
-	}
+    /**
+     * Sets the meta data.
+     * 
+     * @param metaData
+     *            the new meta data
+     */
+    public void setMetaData(MetaData metaData) {
+        this.metaData = metaData;
+    }
 
-	/**
-	 * Gets the filters.
-	 *
-	 * @return the filters
-	 */
-	public List<AuditEventFilter> getFilters() {
-		return filters;
-	}
+    /**
+     * Gets the handlers.
+     * 
+     * @return the handlers
+     */
+    public List<Handler> getHandlers() {
+        return handlers;
+    }
 
-	/**
-	 * Adds the handler.
-	 * 
-	 * @param handler
-	 *            the handler
-	 */
-	public void addHandler(Handler handler) {
-		handlers.add(handler);
-	}
+    /**
+     * Gets the properties.
+     * 
+     * @return the properties
+     */
+    public Map<String, String> getProperties() {
+        return properties;
+    }
 
-	/**
-	 * Adds the property.
-	 * 
-	 * @param key
-	 *            the key
-	 * @param value
-	 *            the value
-	 */
-	public void addProperty(String key, String value) {
-		properties.put(key, value);
-	}
+    /**
+     * Gets the filters.
+     * 
+     * @return the filters
+     */
+    public List<AuditEventFilter> getFilters() {
+        return filters;
+    }
 
-	/**
-	 * Adds the filter.
-	 * 
-	 * @param filter
-	 *            the filter
-	 */
-	public void addFilter(AuditEventFilter filter) {
-		filters.add(filter);
-	}
+    /**
+     * Adds the handler.
+     * 
+     * @param handler
+     *            the handler
+     */
+    public void addHandler(Handler handler) {
+        handlers.add(handler);
+    }
 
-	/**
-	 * Gets the run status.
-	 *
-	 * @return the run status
-	 */
-	public RunStatus getRunStatus() {
-		return runStatus;
-	}
+    /**
+     * Adds the property.
+     * 
+     * @param key
+     *            the key
+     * @param value
+     *            the value
+     */
+    public void addProperty(String key, String value) {
+        properties.put(key, value);
+    }
 
-	/**
-	 * Sets the run status.
-	 *
-	 * @param runStatus the new run status
-	 */
-	public void setRunStatus(RunStatus runStatus) {
-		this.runStatus = runStatus;
-	}
+    /**
+     * Adds the filter.
+     * 
+     * @param filter
+     *            the filter
+     */
+    public void addFilter(AuditEventFilter filter) {
+        filters.add(filter);
+    }
+
+    
+    /**
+     * Gets the annotation filters.
+     *
+     * @return the annotation filters
+     */
+    public List<AuditAnnotationFilter> getAnnotationFilters() {
+        return annotationFilters;
+    }
+
+    /**
+     * Adds the annotation filter.
+     *
+     * @param annotationFilter the annotation filter
+     */
+    public void addAnnotationFilter(AuditAnnotationFilter annotationFilter){
+        annotationFilters.add(annotationFilter);
+    }
+    /**
+     * Gets the run status.
+     * 
+     * @return the run status
+     */
+    public RunStatus getRunStatus() {
+        return runStatus;
+    }
+
+    /**
+     * Sets the run status.
+     * 
+     * @param runStatus
+     *            the new run status
+     */
+    public void setRunStatus(RunStatus runStatus) {
+        this.runStatus = runStatus;
+    }
 }

@@ -13,7 +13,7 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses({ ValidationManagerTest.class, EncryptionUtilTest.class, TroubleshootManagerTest.class,
-        ArchiveManagerTest.class, EventBuilderTest.class })
+        ArchiveManagerTest.class, EventBuilderTest.class, AnnotationTransformerTests.class })
 public class Audit4jCoreTestSuit {
 
 }

@@ -33,57 +33,59 @@ import org.audit4j.core.exception.ValidationException;
  */
 public class AuditEventOutputStream implements AuditOutputStream {
 
-	/** The output stream. */
-	AuditOutputStream outputStream;
+    /** The output stream. */
+    AuditOutputStream outputStream;
 
-	/**
-	 * Instantiates a new audit event output stream.
-	 * 
-	 * @param outputStream
-	 *            the output stream
-	 */
-	public AuditEventOutputStream(AuditOutputStream outputStream) {
-		this.outputStream = outputStream;
-	}
+    /**
+     * Instantiates a new audit event output stream.
+     * 
+     * @param outputStream
+     *            the output stream
+     */
+    public AuditEventOutputStream(AuditOutputStream outputStream) {
+        this.outputStream = outputStream;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.audit4j.core.io.AuditOutputStream#write(org.audit4j.core.dto.AuditEvent
-	 * )
-	 */
-	@Override
-	public AuditEventOutputStream write(AuditEvent event) {
-		try {
-			ValidationManager.validateEvent(event);
-			outputStream.write(event);
-		} catch (ValidationException e) {
-			try {
-				TroubleshootManager.troubleshootEvent(event);
-				outputStream.write(event);
-			} catch (TroubleshootException e2) {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.audit4j.core.io.AuditOutputStream#write(org.audit4j.core.dto.AuditEvent
+     * )
+     */
+    @Override
+    public AuditEventOutputStream write(AuditEvent event) {
+        try {
+            ValidationManager.validateEvent(event);
+            outputStream.write(event);
+        } catch (ValidationException e) {
+            try {
+                TroubleshootManager.troubleshootEvent(event);
+                outputStream.write(event);
+            } catch (TroubleshootException e2) {
 
-			}
-		}
+            }
+        }
 
-		return this;
-	}
+        return this;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.audit4j.core.io.AuditOutputStream#close()
-	 */
-	@Override
-	public void close() {
-		outputStream.close();
-		outputStream = null;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.audit4j.core.io.AuditOutputStream#close()
+     */
+    @Override
+    public void close() {
+        if (outputStream != null) {
+            outputStream.close();
+            outputStream = null;
+        }
+    }
 
-	@Override
-	public Object clone() {
-		return null;
-	}
+    @Override
+    public Object clone() {
+        return null;
+    }
 
 }

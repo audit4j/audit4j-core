@@ -1,11 +1,11 @@
-package org.audit4j.core.Int.annotation;
+package org.audit4j.core.Mock;
 
 import org.audit4j.core.annotation.Audit;
 import org.audit4j.core.annotation.AuditField;
 import org.audit4j.core.annotation.IgnoreAudit;
 
 @Audit
-public class ClassAnnotationClass {
+public class ClassAnnotationMock {
 
 	
 	public void testClassAnnotation_selection_all(String a) {

@@ -22,80 +22,104 @@ import java.lang.reflect.Method;
 
 /**
  * The Class AnnotationAuditEvent.
- *
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
  * @since 1.0.0
  */
 public class AnnotationAuditEvent extends AuditBase {
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 2830800466963787273L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 2830800466963787273L;
 
-	/** The clazz. */
-	private Class clazz;
+    /** The clazz. */
+    private Class<?> clazz;
 
-	/** The method. */
-	Method method;
+    /** The method. */
+    Method method;
 
-	/** The args. */
-	Object[] args;
+    /** The args. */
+    Object[] args;
 
-	/**
-	 * Gets the clazz.
-	 * 
-	 * @return the clazz
-	 */
-	public Class getClazz() {
-		return clazz;
-	}
+    /**
+     * Instantiates a new annotation audit event.
+     */
+    public AnnotationAuditEvent() {
 
-	/**
-	 * Sets the clazz.
-	 * 
-	 * @param clazz
-	 *            the new clazz
-	 */
-	public void setClazz(Class clazz) {
-		this.clazz = clazz;
-	}
+    }
 
-	/**
-	 * Gets the method.
-	 * 
-	 * @return the method
-	 */
-	public Method getMethod() {
-		return method;
-	}
+    /**
+     * Instantiates a new annotation audit event.
+     * 
+     * @param clazz
+     *            the clazz
+     * @param method
+     *            the method
+     * @param args
+     *            the args
+     */
+    public AnnotationAuditEvent(Class<?> clazz, Method method, Object[] args) {
+        super();
+        this.clazz = clazz;
+        this.method = method;
+        this.args = args;
+    }
 
-	/**
-	 * Sets the method.
-	 * 
-	 * @param method
-	 *            the new method
-	 */
-	public void setMethod(Method method) {
-		this.method = method;
-	}
+    /**
+     * Gets the clazz.
+     * 
+     * @return the clazz
+     */
+    public Class<?> getClazz() {
+        return clazz;
+    }
 
-	/**
-	 * Gets the args.
-	 * 
-	 * @return the args
-	 */
-	public Object[] getArgs() {
-		return args;
-	}
+    /**
+     * Sets the clazz.
+     * 
+     * @param clazz
+     *            the new clazz
+     */
+    public void setClazz(Class<?> clazz) {
+        this.clazz = clazz;
+    }
 
-	/**
-	 * Sets the args.
-	 * 
-	 * @param args
-	 *            the new args
-	 */
-	public void setArgs(Object[] args) {
-		this.args = args;
-	}
+    /**
+     * Gets the method.
+     * 
+     * @return the method
+     */
+    public Method getMethod() {
+        return method;
+    }
+
+    /**
+     * Sets the method.
+     * 
+     * @param method
+     *            the new method
+     */
+    public void setMethod(Method method) {
+        this.method = method;
+    }
+
+    /**
+     * Gets the args.
+     * 
+     * @return the args
+     */
+    public Object[] getArgs() {
+        return args;
+    }
+
+    /**
+     * Sets the args.
+     * 
+     * @param args
+     *            the new args
+     */
+    public void setArgs(Object[] args) {
+        this.args = args;
+    }
 
 }

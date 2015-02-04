@@ -19,9 +19,11 @@
 package org.audit4j.core;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
-import org.audit4j.core.annotation.AuditAnnotationAttributes;
+import org.audit4j.core.dto.AnnotationAuditEvent;
 import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.filter.AuditAnnotationFilter;
 
 /**
  * The AuditManager. This class is used to submit audit events as well as
@@ -33,83 +35,127 @@ import org.audit4j.core.dto.AuditEvent;
  */
 public final class AuditManager {
 
-	/**
-	 * Instantiates a new audit manager.
-	 */
-	private AuditManager() {
-	}
+    /**
+     * Instantiates a new audit manager.
+     */
+    private AuditManager() {
+    }
 
-	/** The audit manager. */
-	private static AuditManager auditManager;
+    /** The audit manager. */
+    private static AuditManager auditManager;
 
-	/**
-	 * Initializing context and streams.
-	 * 
-	 * @since 2.0.0
-	 */
-	private static void init() {
-		Context.init();
-	}
+    /**
+     * Initializing context and streams.
+     * 
+     * @since 2.0.0
+     */
+    private static void init() {
+        Context.init();
+    }
 
-	/**
-	 * Audit.
-	 * 
-	 * @param event
-	 *            the event
-	 * @return true, if successful
-	 */
-	public boolean audit(AuditEvent event) {
-		Context.getAuditStream().write(event);
-		return true;
-	}
+    /**
+     * Audit.
+     * 
+     * @param event
+     *            the event
+     * @return true, if successful
+     */
+    public boolean audit(AuditEvent event) {
+        Context.getAuditStream().write(event);
+        return true;
+    }
 
-	/**
-	 * Audit with annotation.
-	 * 
-	 * @param clazz
-	 *            the clazz
-	 * @param method
-	 *            the method
-	 * @param args
-	 *            the args
-	 * @return true, if successful
-	 */
-	public boolean audit(Class<?> clazz, Method method, Object[] args) {
-		final AuditAnnotationAttributes auditAttributes = new AuditAnnotationAttributes();
-		if (auditAttributes.hasAnnotation(clazz) || auditAttributes.hasAnnotation(method)) {
-			Context.getAnnotationStream().write(clazz, method, args);
-		}
-		return true;
-	}
+    /**
+     * Audit with annotation.
+     * 
+     * @param clazz
+     *            the clazz
+     * @param method
+     *            the method
+     * @param args
+     *            the args
+     * @return true, if successful
+     * 
+     *         TODO FIXME not purely asynchronous. should moved to the logic in
+     *         to asynchronous stream.
+     */
+    public boolean audit(Class<?> clazz, Method method, Object[] args) {
+        return audit(new AnnotationAuditEvent(clazz, method, args));
+    }
 
-	/**
-	 * Gets the single instance of AuditHelper.
-	 * 
-	 * @return single instance of AuditHelper
-	 */
-	public static AuditManager getInstance() {
-		synchronized (AuditManager.class) {
-			if (auditManager == null) {
-				auditManager = new AuditManager();
-				init();
-			}
-		}
-		return auditManager;
-	}
+    /**
+     * Audit.
+     * 
+     * @param annotationEvent
+     *            the annotation event
+     * @return true, if successful
+     */
+    public boolean audit(AnnotationAuditEvent annotationEvent) {
+        List<AuditAnnotationFilter> filters = Context.getConfigContext().getAnnotationFilters();
 
-	/**
-	 * This method allows to external plugins can inject the configurations.
-	 * Since the security reasons, this allows to create one time configuration
-	 * setting to Audit4j.
-	 * 
-	 * @param configuration
-	 *            the configuration
-	 * @return the configuration instance
-	 * 
-	 * @since 2.1.0
-	 */
-	public static AuditManager getConfigurationInstance(Configuration configuration) {
-		Context.setConfig(configuration);
-		return getInstance();
-	}
+        boolean execute = true;
+        if (!filters.isEmpty()) {
+            for (AuditAnnotationFilter filter : filters) {
+                if (!filter.accepts(annotationEvent)) {
+                    execute = false;
+                    break;
+                }
+            }
+        }
+        if (execute) {
+            Context.getAnnotationStream().write(annotationEvent);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Gets the single instance of AuditHelper.
+     * 
+     * @return single instance of AuditHelper
+     */
+    public static AuditManager getInstance() {
+        if (auditManager == null) {
+            synchronized (AuditManager.class) {
+                if (auditManager == null) {
+                    auditManager = new AuditManager();
+                    init();
+                }
+            }
+        }
+        return auditManager;
+    }
+
+    /**
+     * This method allows to external plugins can inject the configurations.
+     * Since the security reasons, this allows to create one time configuration
+     * setting to Audit4j.
+     * 
+     * @param configuration
+     *            the configuration
+     * @return the configuration instance
+     * 
+     * @since 2.1.0
+     */
+    
+    public static AuditManager getConfigurationInstance(Configuration configuration) {
+        Context.setConfig(configuration);
+        return getInstance();
+    }
+
+    /**
+     * Inits the with configuration.
+     * 
+     * @param configuration
+     *            the configuration
+     * @return the audit manager
+     */
+    public static AuditManager initWithConfiguration(Configuration configuration) {
+        Context.setConfig(configuration);
+        return getInstance();
+    }
+
+    public static void shutdown() {
+        Context.stop();
+    }
 }

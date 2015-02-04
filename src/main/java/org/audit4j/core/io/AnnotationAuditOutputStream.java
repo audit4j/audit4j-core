@@ -117,7 +117,9 @@ public class AnnotationAuditOutputStream {
 	 */
 	public void close() {
 		ENV.shutdown();
-		outputStream.close();
+		if (outputStream != null) {
+	        outputStream.close();
+        }
 	}
 
 	/*

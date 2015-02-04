@@ -28,7 +28,7 @@ package org.audit4j.core;
 public final class ErrorURL {
 
 	/** The Constant ERROR_URL. */
-	public static final String ERROR_URL = CoreConstants.SITE_URL + "usage#";
+	public static final String ERROR_URL = CoreConstants.SITE_URL + "/usage#";
 	
 	/** The Constant NULL_ACTOR. */
 	public static final String NULL_ACTOR = ERROR_URL + "metadataimpl";

@@ -22,6 +22,7 @@ import java.io.Serializable;
 
 import org.audit4j.core.Configuration;
 
+@Deprecated
 public class AsyncAuditMessage implements Serializable{
 
 	/**

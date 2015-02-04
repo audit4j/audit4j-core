@@ -21,62 +21,18 @@ package org.audit4j.core.annotation;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.audit4j.core.DeIndentifyUtil;
 import org.audit4j.core.dto.Field;
 
 /**
  * The Class AuditFieldAnnotationAttribute.
  *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 1.0.0
  */
 public class AuditFieldAnnotationAttribute {
-
-	/**
-	 * Gets the all params.
-	 * 
-	 * @param method
-	 *            the method
-	 * @param arg1
-	 *            the arg1
-	 * @return the all params
-	 * @deprecated
-	 */
-	@Deprecated
-	public Map<String, String> getAllParams(final Method method, final Object[] arg1) {
-
-		final Annotation[][] parameterAnnotations = method.getParameterAnnotations();
-		final Map<String, String> paramMap = new HashMap<String, String>();
-
-		int i = 0;
-		String paramName = null;
-		String paramValue = null;
-		for (final Annotation[] annotations : parameterAnnotations) {
-			final Object object = arg1[i++];
-			paramValue = object.toString();
-			for (final Annotation annotation : annotations) {
-				if (annotation instanceof AuditField) {
-					final AuditField field = (AuditField) annotation;
-					paramName = field.field();
-				} else if (annotation instanceof DeIdentify) {
-					final DeIdentify deidentify = (DeIdentify) annotation;
-					paramValue = DeIndentifyUtil.deidentify(paramValue, deidentify.left(), deidentify.right(),
-							deidentify.fromLeft(), deidentify.fromRight());
-				}
-			}
-			if (null == paramName) {
-				paramName = "arg" + (i - 1);
-			}
-			paramMap.put(paramName, paramValue);
-			paramName = null;
-			paramValue = null;
-		}
-		return paramMap;
-
-	}
 
 	/**
 	 * Gets the all params.
@@ -106,7 +62,7 @@ public class AuditFieldAnnotationAttribute {
 					paramName = field.field();
 				} else if (annotation instanceof DeIdentify) {
 					final DeIdentify deidentify = (DeIdentify) annotation;
-					paramValue = DeIndentifyUtil.deidentify(paramValue, deidentify.left(), deidentify.right(),
+					paramValue = DeIdentifyUtil.deidentify(paramValue, deidentify.left(), deidentify.right(),
 							deidentify.fromLeft(), deidentify.fromRight());
 				}
 			}
@@ -124,46 +80,6 @@ public class AuditFieldAnnotationAttribute {
 		}
 		return actionItems;
 
-	}
-
-	/**
-	 * Gets the marked params.
-	 * 
-	 * @param method
-	 *            the method
-	 * @param arg1
-	 *            the arg1
-	 * @return the marked params
-	 * @deprecated Gets the marked params.
-	 */
-	@Deprecated
-	public Map<String, String> getMarkedParams(final Method method, final Object[] arg1) {
-		final Annotation[][] parameterAnnotations = method.getParameterAnnotations();
-		final Map<String, String> paramMap = new HashMap<String, String>();
-
-		int i = 0;
-		String paramName = null;
-		String paramValue = null;
-		for (final Annotation[] annotations : parameterAnnotations) {
-			final Object object = arg1[i++];
-			paramValue = object.toString();
-			for (final Annotation annotation : annotations) {
-				if (annotation instanceof AuditField) {
-					final AuditField field = (AuditField) annotation;
-					paramName = field.field();
-				} else if (annotation instanceof DeIdentify) {
-					final DeIdentify deidentify = (DeIdentify) annotation;
-					paramValue = DeIndentifyUtil.deidentify(paramValue, deidentify.left(), deidentify.right(),
-							deidentify.fromLeft(), deidentify.fromRight());
-				}
-			}
-			if (paramName != null) {
-				paramMap.put(paramName, paramValue);
-			}
-			paramName = null;
-			paramValue = null;
-		}
-		return paramMap;
 	}
 
 	/**
@@ -193,7 +109,7 @@ public class AuditFieldAnnotationAttribute {
 					paramName = field.field();
 				} else if (annotation instanceof DeIdentify) {
 					final DeIdentify deidentify = (DeIdentify) annotation;
-					paramValue = DeIndentifyUtil.deidentify(paramValue, deidentify.left(), deidentify.right(),
+					paramValue = DeIdentifyUtil.deidentify(paramValue, deidentify.left(), deidentify.right(),
 							deidentify.fromLeft(), deidentify.fromRight());
 				}
 			}

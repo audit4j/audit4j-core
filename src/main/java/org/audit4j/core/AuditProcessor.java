@@ -19,11 +19,9 @@
 package org.audit4j.core;
 
 import java.lang.reflect.Method;
-import java.util.List;
 
 import org.audit4j.core.dto.AuditBase;
 import org.audit4j.core.dto.AuditEvent;
-import org.audit4j.core.dto.Field;
 import org.audit4j.core.exception.HandlerException;
 import org.audit4j.core.filter.AuditEventFilter;
 import org.audit4j.core.handler.Handler;
@@ -41,127 +39,77 @@ import org.audit4j.core.util.Log;
  */
 public abstract class AuditProcessor<T extends AuditBase> {
 
-	/** The conf. */
-	private ConcurrentConfigurationContext configContext;
+    /** The conf. */
+    private ConcurrentConfigurationContext configContext;
 
-	/**
-	 * Process.
-	 * 
-	 * @param event
-	 *            the event
-	 */
-	public abstract void process(T event);
+    /**
+     * Process.
+     * 
+     * @param event
+     *            the event
+     */
+    public abstract void process(T event);
 
-	/**
-	 * Builds the query.
-	 * 
-	 * @param actionItems
-	 *            the action items
-	 * @param action
-	 *            the action
-	 * @return the string
-	 */
-	@Deprecated
-	protected String buildQuery(final List<Field> actionItems, String action) {
-		if (actionItems != null && !actionItems.isEmpty()) {
-			final StringBuilder buff = new StringBuilder();
-			if (action != null) {
-				buff.append(action).append(CoreConstants.ARROW);
-			}
-			for (Field actionItem : actionItems) {
-				buff.append(actionItem.getName()).append(CoreConstants.COLON_CHAR).append(actionItem.getValue())
-						.append(CoreConstants.COMMA_CHAR);
-			}
-			return buff.toString();
-		} else {
-			return "No data for selectred audit criteria";
-		}
-	}
+    /**
+     * Execute handlers.
+     * 
+     * @param event
+     *            the event
+     */
+    protected void executeHandlers(AuditEvent event) {
+        boolean execute = true;
+        if (!configContext.getFilters().isEmpty()) {
+            for (AuditEventFilter filter : configContext.getFilters()) {
+                if (!filter.accepts(event)) {
+                    execute = false;
+                    break;
+                }
+            }
+        }
+        if (execute) {
+            // event.setActor(getConf().getMetaData().getActor());
+            for (final Handler handler : configContext.getHandlers()) {
+                handler.setAuditEvent(event);
+                handler.setQuery(configContext.getLayout().format(event));
+                try {
+                    handler.handle();
+                } catch (HandlerException e) {
+                    Log.warn("Failed to submit audit event.");
+                }
+            }
+        }
+    }
 
-	/**
-	 * Execute handlers.
-	 * 
-	 * @param handlers
-	 *            the handlers
-	 * @param event
-	 *            the event
-	 * @param query
-	 *            the query
-	 */
-	@Deprecated
-	protected void executeHandlers(final List<Handler> handlers, AuditEvent event, final String query) {
-		for (final Handler handler : handlers) {
+    /**
+     * Gets the actor.
+     * 
+     * @param handler
+     *            the handler
+     * @return the actor
+     */
+    @Deprecated
+    protected String getActor(final Handler handler) {
+        return configContext.getMetaData().getActor();
+    }
 
-			handler.setAuditEvent(event);
-			handler.setQuery(query);
-			try {
-				handler.handle();
-			} catch (HandlerException e) {
-				Log.warn("Failed to submit audit record.");
-			}
-		}
-	}
+    /**
+     * Gets the action.
+     * 
+     * @param action
+     *            the action
+     * @param method
+     *            the method
+     * @return the action
+     */
+    @Deprecated
+    protected String getAction(String action, Method method) {
+        if (action.equals(CoreConstants.ACTION.equals(action))) {
+            return method.getName();
+        }
+        return action;
+    }
 
-	/**
-	 * Execute handlers.
-	 * 
-	 * @param event
-	 *            the event
-	 */
-	protected void executeHandlers(AuditEvent event) {
-		boolean execute = true;
-		if (configContext.getFilters() != null && !configContext.getFilters().isEmpty()) {
-			for (AuditEventFilter filter : configContext.getFilters()) {
-				if (filter.filter(event)) {
-					execute = false;
-					break;
-				}
-			}
-		}
-		if (execute) {
-			// event.setActor(getConf().getMetaData().getActor());
-			for (final Handler handler : configContext.getHandlers()) {
-				handler.setAuditEvent(event);
-				handler.setQuery(configContext.getLayout().format(event));
-				try {
-					handler.handle();
-				} catch (HandlerException e) {
-					Log.warn("Failed to submit audit event.");
-				}
-			}
-		}
-	}
-
-	/**
-	 * Gets the actor.
-	 * 
-	 * @param handler
-	 *            the handler
-	 * @return the actor
-	 */
-	@Deprecated
-	protected String getActor(final Handler handler) {
-		return configContext.getMetaData().getActor();
-	}
-
-	/**
-	 * Gets the action.
-	 * 
-	 * @param action
-	 *            the action
-	 * @param method
-	 *            the method
-	 * @return the action
-	 */
-	@Deprecated
-	protected String getAction(String action, Method method) {
-		if (action.equals(CoreConstants.ACTION.equals(action))) {
-			return method.getName();
-		}
-		return action;
-	}
-
-	public void setConfigContext(ConcurrentConfigurationContext configContext) {
-		this.configContext = configContext;
-	}
+    public void setConfigContext(ConcurrentConfigurationContext configContext) {
+        this.configContext = configContext;
+    }
 }

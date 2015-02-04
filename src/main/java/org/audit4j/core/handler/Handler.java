@@ -21,16 +21,16 @@ package org.audit4j.core.handler;
 import java.io.Serializable;
 import java.util.Map;
 
+import org.audit4j.core.Initializable;
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.exception.HandlerException;
-import org.audit4j.core.exception.InitializationException;
 
 /**
  * The Class Handler.
  * 
  * @author Janith Bandara
  */
-public abstract class Handler implements Serializable{
+public abstract class Handler implements Initializable, Serializable{
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -8636058037478806582L;
@@ -51,19 +51,7 @@ public abstract class Handler implements Serializable{
 		query = null;
 		auditEvent = null;
 	}
-
-	/**
-	 * Inits the.
-	 *
-	 * @throws InitializationException the initialization exception
-	 */
-	public abstract void init() throws InitializationException;
 	
-	/**
-	 * Stop.
-	 */
-	public abstract void stop(); 
-
 	/**
 	 * Handle.
 	 *

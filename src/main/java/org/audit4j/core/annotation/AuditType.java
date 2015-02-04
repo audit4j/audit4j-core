@@ -22,7 +22,10 @@ package org.audit4j.core.annotation;
  * The Enum AuditType.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @deprecated
  */
+@Deprecated
 public enum AuditType {
 
 	/** The server. */

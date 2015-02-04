@@ -1,8 +1,9 @@
-package org.audit4j.core.Int.annotation;
+package org.audit4j.core.Int.event.annotation;
 
 import java.lang.reflect.Method;
 
 import org.audit4j.core.AuditManager;
+import org.audit4j.core.Mock.MethodAnnotationMock;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +19,7 @@ public class DeIdentifyAnnotationTest {
 		AuditManager manager = AuditManager.getInstance();
 		Method annoMethod = null;
 		try {
-			annoMethod = MethodAnnotationClass.class.getMethod("testAnnotation_selection_marked_deidentify", String.class);
+			annoMethod = MethodAnnotationMock.class.getMethod("testAnnotation_selection_marked_deidentify", String.class);
 		} catch (NoSuchMethodException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -30,7 +31,7 @@ public class DeIdentifyAnnotationTest {
 		Object[] args = new Object[5];
 		args[0] = "123232323";
 
-		manager.audit(MethodAnnotationClass.class, annoMethod, args);
+		manager.audit(MethodAnnotationMock.class, annoMethod, args);
 	}
 	
 	
@@ -39,7 +40,7 @@ public class DeIdentifyAnnotationTest {
 		AuditManager manager = AuditManager.getInstance();
 		Method annoMethod = null;
 		try {
-			annoMethod = MethodAnnotationClass.class.getMethod("testAnnotation_selection_marked_deidentify_from_left", String.class);
+			annoMethod = MethodAnnotationMock.class.getMethod("testAnnotation_selection_marked_deidentify_from_left", String.class);
 		} catch (NoSuchMethodException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -51,7 +52,7 @@ public class DeIdentifyAnnotationTest {
 		Object[] args = new Object[5];
 		args[0] = "123232323";
 
-		manager.audit(MethodAnnotationClass.class, annoMethod, args);
+		manager.audit(MethodAnnotationMock.class, annoMethod, args);
 	}
 	
 	@Test
@@ -59,7 +60,7 @@ public class DeIdentifyAnnotationTest {
 		AuditManager manager = AuditManager.getInstance();
 		Method annoMethod = null;
 		try {
-			annoMethod = MethodAnnotationClass.class.getMethod("testAnnotation_selection_marked_deidentify_from_right", String.class);
+			annoMethod = MethodAnnotationMock.class.getMethod("testAnnotation_selection_marked_deidentify_from_right", String.class);
 		} catch (NoSuchMethodException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -71,6 +72,6 @@ public class DeIdentifyAnnotationTest {
 		Object[] args = new Object[5];
 		args[0] = "123232323";
 
-		manager.audit(MethodAnnotationClass.class, annoMethod, args);
+		manager.audit(MethodAnnotationMock.class, annoMethod, args);
 	}
 }

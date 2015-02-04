@@ -19,16 +19,35 @@
 package org.audit4j.core;
 
 /**
- * The Enum RunStatus.
+ * The life cycle states of Audit4j.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 2.2.0
  */
 public enum RunStatus {
 
-	/** The start. */
-	READY,
-	RUNNING, /** The stop. */
-	STOPPED, /** The terminated. */
-	DISABLED,
-	TERMINATED;
+    /** Audit4j in this state is inactive and ready to initialize */
+    READY,
+
+    /** Audit4j in this state is operational. */
+    RUNNING,
+
+    /**
+     * Audit4j stopped and ready to initialize. All the resources loaded in to
+     * the memory cleared.
+     */
+    STOPPED,
+
+    /**
+     * Manually disabled the audit4j but all resources are loaded and ready to
+     * run. Will not audit the events.
+     */
+    DISABLED,
+
+    /**
+     * Audit4j in this state has encountered a problem and may not be
+     * operational.
+     */
+    TERMINATED;
 }

@@ -37,48 +37,47 @@ import org.audit4j.core.dto.Field;
  */
 public class AnnotationTransformer {
 
-	/**
-	 * Transform to event.
-	 * 
-	 * @param annotationEvent
-	 *            the annotation event
-	 * @return the audit event
-	 * @since 2.0.0
-	 */
-	public AuditEvent transformToEvent(AnnotationAuditEvent annotationEvent) {
-		final AuditAnnotationAttributes auditAttributes = new AuditAnnotationAttributes();
-		final IgnoreAuditAnnotationAttributes ignoreAttributes = new IgnoreAuditAnnotationAttributes();
-		final AuditFieldAnnotationAttribute fieldAttributes = new AuditFieldAnnotationAttribute();
-		List<Field> fields = null;
-		AuditEvent event = null;
-		String action = "";
+    /**
+     * Transform to event.
+     * 
+     * @param annotationEvent
+     *            the annotation event
+     * @return the audit event
+     * @since 2.0.0
+     */
+    public AuditEvent transformToEvent(AnnotationAuditEvent annotationEvent) {
+        final AuditAnnotationAttributes auditAttributes = new AuditAnnotationAttributes();
+        final IgnoreAuditAnnotationAttributes ignoreAttributes = new IgnoreAuditAnnotationAttributes();
+        final AuditFieldAnnotationAttribute fieldAttributes = new AuditFieldAnnotationAttribute();
+        List<Field> fields = null;
+        AuditEvent event = null;
+        String action = "";
 
-		if (auditAttributes.hasAnnotation(annotationEvent.getClazz())
-				&& !ignoreAttributes.hasAnnotation(annotationEvent.getMethod())) {
-			event = new AuditEvent();
-			final SelectionType selection = auditAttributes.getSelection(annotationEvent.getClazz());
-			if (selection.equals(SelectionType.ALL)) {
-				fields = fieldAttributes.getAllFields(annotationEvent.getMethod(), annotationEvent.getArgs());
-			} else if (selection.equals(SelectionType.MARKED)) {
-				fields = fieldAttributes.getMarkedFields(annotationEvent.getMethod(), annotationEvent.getArgs());
-			}
-			action = auditAttributes.getAction(annotationEvent.getClazz(), annotationEvent.getMethod());
-		} else if (!auditAttributes.hasAnnotation(annotationEvent.getClazz()) && auditAttributes.hasAnnotation(annotationEvent.getMethod())) {
-			event = new AuditEvent();
-			final SelectionType selection = auditAttributes.getSelection(annotationEvent.getMethod());
-			if (selection.equals(SelectionType.ALL)) {
-				fields = fieldAttributes.getAllFields(annotationEvent.getMethod(), annotationEvent.getArgs());
-			} else if (selection.equals(SelectionType.MARKED)) {
-				fields = fieldAttributes.getMarkedFields(annotationEvent.getMethod(), annotationEvent.getArgs());
-			}
-			action = auditAttributes.getAction(annotationEvent.getMethod());
-		}
-
-		if (action.equals(CoreConstants.ACTION.equals(action))) {
-			action = annotationEvent.getMethod().getName();
-		}
-		event.setAction(action);
-		event.setFields(fields);
-		return event;
-	}
+        if (auditAttributes.hasAnnotation(annotationEvent.getClazz())
+                && !ignoreAttributes.hasAnnotation(annotationEvent.getMethod())) {
+            event = new AuditEvent();
+            final SelectionType selection = auditAttributes.getSelection(annotationEvent.getClazz());
+            if (selection.equals(SelectionType.ALL)) {
+                fields = fieldAttributes.getAllFields(annotationEvent.getMethod(), annotationEvent.getArgs());
+            } else if (selection.equals(SelectionType.MARKED)) {
+                fields = fieldAttributes.getMarkedFields(annotationEvent.getMethod(), annotationEvent.getArgs());
+            }
+            action = auditAttributes.getAction(annotationEvent.getClazz(), annotationEvent.getMethod());
+            event.setAction(action);
+            event.setFields(fields);
+        } else if (!auditAttributes.hasAnnotation(annotationEvent.getClazz())
+                && auditAttributes.hasAnnotation(annotationEvent.getMethod())) {
+            event = new AuditEvent();
+            final SelectionType selection = auditAttributes.getSelection(annotationEvent.getMethod());
+            if (selection.equals(SelectionType.ALL)) {
+                fields = fieldAttributes.getAllFields(annotationEvent.getMethod(), annotationEvent.getArgs());
+            } else if (selection.equals(SelectionType.MARKED)) {
+                fields = fieldAttributes.getMarkedFields(annotationEvent.getMethod(), annotationEvent.getArgs());
+            }
+            action = auditAttributes.getAction(annotationEvent.getMethod());
+            event.setAction(action);
+            event.setFields(fields);
+        }
+        return event;
+    }
 }

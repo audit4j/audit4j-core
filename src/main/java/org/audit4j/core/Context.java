@@ -18,12 +18,17 @@
 
 package org.audit4j.core;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+import org.audit4j.core.command.CommandProcessor;
 import org.audit4j.core.exception.ConfigurationException;
 import org.audit4j.core.exception.InitializationException;
 import org.audit4j.core.exception.TroubleshootException;
 import org.audit4j.core.exception.ValidationException;
+import org.audit4j.core.filter.AuditAnnotationFilter;
+import org.audit4j.core.filter.AuditEventFilter;
 import org.audit4j.core.handler.Handler;
 import org.audit4j.core.io.AnnotationAuditOutputStream;
 import org.audit4j.core.io.AsyncAuditOutputStream;
@@ -34,16 +39,18 @@ import org.audit4j.core.util.Log;
 import org.audit4j.core.util.StopWatch;
 
 /**
- * The Audit4j Context. This will initialize required resources in to the memory
- * when initializing audit4j, make sure necessary resources provide when running
- * audit4j. And this will release the memory allocated by audit4j when shutdown
- * the audit4j.
+ * The Audit4j Context. This will load and execute required resources in to the
+ * memory when initializing audit4j, Context makes sure necessary resources
+ * provide when running audit4j. And this will release the memory allocated by
+ * audit4j when shutdown the audit4j.
  * 
- * <p/>Available public methods:
+ * <p/>
+ * Available public methods:
  * </p>
  * <ul>
  * <li>{@link #init()} Initialize the Audit4j context.</li>
- * <li>{@link #stop()} Shutdown Audit4j. This will free memory allocated by the Audit4j</li>
+ * <li>{@link #stop()} Shutdown Audit4j. This will free memory allocated by the
+ * Audit4j</li>
  * <li>{@link #enable()} Enable audit4j.</li>
  * <li>{@link #disable()} Disable audit4j.</li>
  * <li>{@link #getConfigContext()} get audit4j configurations.</li>
@@ -94,13 +101,24 @@ public final class Context {
                 configContext.setRunStatus(RunStatus.TERMINATED);
                 throw new InitializationException("initialization failed.!!");
             }
-            
+
             try {
                 ValidationManager.validateConfigurations(conf);
             } catch (ValidationException e1) {
                 configContext.setRunStatus(RunStatus.TERMINATED);
                 throw new InitializationException("initialization failed.!!", e1);
             }
+
+            // Extract options.
+            Map<String, String> options = processOptions(conf.getOptions());
+            // Execute commands.
+            if (options != null) {
+                CommandProcessor.getInstance().process(options);
+            }
+
+            // Load Registry configurations.
+            loadRegistry();
+
             if (conf.getProperties() != null) {
                 for (Map.Entry<String, String> entry : conf.getProperties().entrySet()) {
                     if (System.getProperties().containsKey(entry.getValue())) {
@@ -109,15 +127,24 @@ public final class Context {
                 }
             }
 
+            // Initialize handlers.
             initHandlers();
+
+            // Initialize layouts.
             initLayout();
+
+            // Initialize IO streams.
             initStreams();
+
+            for (AuditEventFilter filter : conf.getFilters()) {
+                configContext.addFilter(filter);
+            }
 
             configContext.setMetaData(conf.getMetaData());
 
             initialized = true;
             configContext.setRunStatus(RunStatus.RUNNING);
-            
+
             stopWatch.stop();
             Long initializationTime = stopWatch.getLastTaskTimeMillis();
             Log.info("Audit4j initialized. Total time: " + initializationTime + "ms");
@@ -131,7 +158,7 @@ public final class Context {
      * @since 2.2.0
      */
     final static void stop() {
-        if (initialized) {
+        if (configContext.getRunStatus().equals(RunStatus.RUNNING)) {
             Log.info("Preparing to shutdown Audit4j...");
 
             Log.info("Closing Streams...");
@@ -186,7 +213,7 @@ public final class Context {
     static ConcurrentConfigurationContext getConfigContext() {
         return configContext;
     }
-    
+
     /**
      * Load configuration items.
      */
@@ -207,6 +234,56 @@ public final class Context {
                 configContext.setRunStatus(RunStatus.TERMINATED);
                 throw new InitializationException("Initialization failed.!!", e1);
             }
+        }
+    }
+
+    /**
+     * Process options.
+     * 
+     * @param optionText
+     *            the option text
+     * @return the map
+     * @since 2.3.0
+     */
+    private static Map<String, String> processOptions(String optionText) {
+        if (optionText == null || optionText.isEmpty()) {
+            return null;
+        }
+        Map<String, String> options = new HashMap<String, String>();
+        String[] args = extractOptions(optionText);
+        for (String arg : args) {
+            String[] option = StringUtils.split(arg, CoreConstants.EQ_CHAR);
+            if (!Registry.getOptions().contains(option[0])) {
+                Log.warn("Invalid option: " + option[0] + " Please check your configurations.");
+            }
+            options.put(option[0], option[1]);
+        }
+        return options;
+    }
+
+    /**
+     * Extract options.
+     * 
+     * @param optionText
+     *            the option text
+     * @return the string[]
+     */
+    private static String[] extractOptions(String optionText) {
+        return StringUtils.split(optionText);
+    }
+
+    /**
+     * Load initial configurations from Registry.
+     * 
+     * @since 2.3.0
+     */
+    private static void loadRegistry() {
+        for (AuditEventFilter filter : Registry.getPrefilters()) {
+            configContext.addFilter(filter);
+        }
+
+        for (AuditAnnotationFilter annotationFilter : Registry.getPreannotationfilters()) {
+            configContext.addAnnotationFilter(annotationFilter);
         }
     }
 
@@ -317,13 +394,16 @@ public final class Context {
      * Checks if is initialized.
      * 
      * @return true, if is initialized
+     * 
+     * @Deprecated use {@link #getStatus()} instead.
      */
+    @Deprecated
     public boolean isInitialized() {
         return initialized;
     }
 
     /**
-     * Gets the status.
+     * Gets the running status.
      * 
      * @return the status
      * @since 2.2.0
