@@ -7,7 +7,7 @@
 	<name>Audit4j - Core</name>
 	<version>2.2.0</version>
 	<url>http://audit4j.org</url>
-	<description>Audit4j - An open-source audit suit for enterprise java platform, Core component</description>
+	<description>Audit4j - An open-source auditing framework for Java, Spring Integration</description>
 	<organization>
 		<name>Audit4j</name>
 		<url>http://audit4j.org</url>
@@ -71,6 +71,11 @@
 			<groupId>org.projectreactor</groupId>
 			<artifactId>reactor-core</artifactId>
 			<version>1.1.5.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.12.1.GA</version>
 		</dependency>
 	</dependencies>
 
