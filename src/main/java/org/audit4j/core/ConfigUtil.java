@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Janith Bandara, This source is a part of 
+ * Copyright 2014 Janith Bandara, This source is a part of
  * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
@@ -44,7 +44,7 @@ import com.esotericsoftware.yamlbeans.YamlWriter;
  * The Class ConfigUtil.
  *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
- * 
+ *
  * @since 1.0.1
  */
 public final class ConfigUtil {
@@ -91,7 +91,7 @@ public final class ConfigUtil {
 	static void generateConfigFromObject() {
 		YamlWriter writer;
 		try {
-			writer = new YamlWriter(new FileWriter("auit4j.conf.yml"));
+			writer = new YamlWriter(new FileWriter("audit4j.conf.yml"));
 			writer.getConfig().setClassTag("Configuration", Configuration.class);
 			writer.write(createDummyConfig());
 			writer.close();
@@ -115,7 +115,7 @@ public final class ConfigUtil {
 		yml.append("metaData: !org.audit4j.core.DummyMetaData {}").append("\n");
 		yml.append("properties:").append("\n");
 		yml.append("   log.file.location: user.dir").append("\n");
-		
+
 		File file = new File(CoreConstants.CONFIG_FILE_NAME);
 		try {
 			FileWriter fw = new FileWriter(file.getAbsoluteFile());
@@ -146,7 +146,7 @@ public final class ConfigUtil {
 			throw new ConfigurationException("Configuration Exception", "CONF_002", e);
 		}
 	}
-	
+
 	static List<String> getHandlerClassNames(List<Handler> handlers){
 		List<String> handlerClassNameList = new ArrayList<>();
 		for (Handler handler : handlers) {
@@ -154,7 +154,7 @@ public final class ConfigUtil {
 		}
 		return handlerClassNameList;
 	}
-	
+
 	public static void main(String[] args) {
 		generateConfigFromObject();
 	}
