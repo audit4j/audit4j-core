@@ -7,7 +7,7 @@
 	<name>Audit4j - Core</name>
 	<version>2.2.0</version>
 	<url>http://audit4j.org</url>
-	<description>Audit4j - An open-source auditing framework for Java, Spring Integration</description>
+	<description>Audit4j - An open-source auditing framework for Java, Core</description>
 	<organization>
 		<name>Audit4j</name>
 		<url>http://audit4j.org</url>
@@ -89,6 +89,11 @@
 					<!-- or whatever version you use -->
 					<source>1.7</source>
 					<target>1.7</target>
+					<!-- [#2413] Make compiler warnings a bit more visible But don't fail 
+						(yet) -->
+					<compilerArgs>
+						<arg>-Xlint:varargs</arg>
+					</compilerArgs>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -131,6 +136,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
+				<configuration>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>true</downloadJavadocs>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -151,4 +160,79 @@
 			</plugin>
 		</plugins>
 	</build>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<instrumentation>
+						<ignores>
+							<ignore>org.audit4j.core.extra.*</ignore>
+						</ignores>
+					</instrumentation>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<excludes>
+						<exclude>org.audit4j.core.extra.*</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.4</version>
+				<configuration>
+					<linkXref>true</linkXref>
+					<sourceEncoding>utf-8</sourceEncoding>
+					<minimumTokens>100</minimumTokens>
+					<targetJdk>1.5</targetJdk>
+					<excludes>
+						<exclude>org.audit4j.core.extra.*</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.6</version>
+				<reportSets>
+					<reportSet>
+						<reports><!-- select reports -->
+							<report>index</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<excludePackageNames>org.audit4j.core.extra.*</excludePackageNames>
+				</configuration>
+				<reportSets>
+					<reportSet><!-- by default, id = "default" -->
+						<reports><!-- select non-aggregate reports -->
+							<report>javadoc</report>
+							<report>test-javadoc</report>
+						</reports>
+					</reportSet>
+					<reportSet><!-- aggregate reportSet, to define in poms having modules -->
+						<id>aggregate</id>
+						<inherited>false</inherited><!-- don't run aggregate in child modules -->
+						<reports>
+							<report>aggregate</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>
