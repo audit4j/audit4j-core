@@ -25,7 +25,7 @@ import java.io.StringWriter;
 import org.audit4j.core.CoreConstants;
 
 /**
- * Default logger for Audit4j internal usage. 
+ * Default logger for Audit4j internal usage.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
@@ -33,88 +33,139 @@ import org.audit4j.core.CoreConstants;
  */
 public class Log {
 
-	/** The Constant AUDIT4J_INFO. */
-	private static final String APP_INFO = CoreConstants.APP_NAME + ":INFO ";
+    /** The Constant AUDIT4J_INFO. */
+    private static final String APP_INFO = CoreConstants.APP_NAME + ":INFO ";
 
-	/** The Constant AUDIT4J_WARN. */
-	private static final String APP_WARN = CoreConstants.APP_NAME + ":WARN ";
+    /** The Constant AUDIT4J_WARN. */
+    private static final String APP_WARN = CoreConstants.APP_NAME + ":WARN ";
 
-	/** The Constant AUDIT4J_ERROR. */
-	private static final String APP_ERROR = CoreConstants.APP_NAME + ":ERROR ";
+    /** The Constant AUDIT4J_ERROR. */
+    private static final String APP_ERROR = CoreConstants.APP_NAME + ":ERROR ";
 
-	/** The info stream. */
-	private static PrintStream infoStream = System.out;
-	
-	/** The warn stream. */
-	private static PrintStream warnStream = System.err;
-	
-	/** The error stream. */
-	private static PrintStream errorStream = System.err;
-	
-	/**
-	 * Write information in the console.
-	 * 
-	 * @param message
-	 *            the message
-	 */
-	public static void info(final Object message) {
-		infoStream.println(APP_INFO + message.toString());
-	}
+    /** The info stream. */
+    private static PrintStream infoStream = System.out;
 
+    /** The warn stream. */
+    private static PrintStream warnStream = System.err;
 
+    /** The error stream. */
+    private static PrintStream errorStream = System.err;
 
-	/**
-	 * Write warn messasge on console.
-	 * 
-	 * @param message
-	 *            the message
-	 */
-	public static void warn(final Object message) {
-		warnStream.println(APP_WARN + message.toString());
-	}
+    /**
+     * Write information in the console.
+     * 
+     * @param message
+     *            the message
+     */
+    public static void info(final Object message) {
+        infoStream.println(APP_INFO + message.toString());
+    }
 
-	/**
-	 * Write warn message on console with exception.
-	 *
-	 * @param message the message
-	 * @param t the t
-	 */
-	public static void warn(final Object message, final Throwable t) {
-		warnStream.println(APP_WARN + message.toString());
-		warnStream.println(stackTraceToString(t));
-	}
-	
-	/**
-	 * Write error message on console.
-	 * 
-	 * @param message
-	 *            the message
-	 */
-	public static void error(final Object message) {
-		errorStream.println(APP_ERROR + message.toString());
-	}
-	
-	/**
-	 * Write error messages on console with exception.
-	 *
-	 * @param message the message
-	 * @param t the t
-	 */
-	public static void error(final Object message, final Throwable t) {
-		errorStream.println(APP_ERROR + message.toString());
-		errorStream.println(stackTraceToString(t));
-	}
-	
-	/**
-	 * Convert Stack trace to string.
-	 *
-	 * @param t the t
-	 * @return the string
-	 */
-	private static String stackTraceToString(final Throwable t) {
-		final StringWriter sw = new StringWriter();
-		final PrintWriter pw = new PrintWriter(sw);
-		t.printStackTrace(pw);
-		return sw.toString();
-	}
+    /**
+     * Write information in the console.
+     * 
+     * @param message
+     *            the message
+     * 
+     * @since 2.3.0
+     */
+    public static void info(Object... message) {
+        StringBuilder builder = new StringBuilder(APP_INFO);
+        for (Object object : message) {
+            builder.append(object.toString());
+        }
+        infoStream.println(builder.toString());
+    }
+
+    /**
+     * Write warn messasge on console.
+     * 
+     * @param message
+     *            the message
+     */
+    public static void warn(final Object message) {
+        warnStream.println(APP_WARN + message.toString());
+    }
+
+    /**
+     * Write warn messasge on console.
+     * 
+     * @param message
+     *            the message
+     * 
+     * @since 2.3.0
+     */
+    public static void warn(Object... message) {
+        StringBuilder builder = new StringBuilder(APP_WARN);
+        for (Object object : message) {
+            builder.append(object.toString());
+        }
+        warnStream.println(builder.toString());
+    }
+
+    /**
+     * Write warn message on console with exception.
+     * 
+     * @param message
+     *            the message
+     * @param t
+     *            the t
+     */
+    public static void warn(final Object message, final Throwable t) {
+        warnStream.println(APP_WARN + message.toString());
+        warnStream.println(stackTraceToString(t));
+    }
+
+    /**
+     * Write error message on console.
+     * 
+     * @param message
+     *            the message
+     */
+    public static void error(final Object message) {
+        errorStream.println(APP_ERROR + message.toString());
+    }
+
+    /**
+     * Write error message on console.
+     * 
+     * @param message
+     *            the message
+     * 
+     * @since 2.3.0
+     */
+    public static void error(Object... message) {
+        StringBuilder builder = new StringBuilder(APP_ERROR);
+        for (Object object : message) {
+            builder.append(object.toString());
+        }
+        errorStream.println(builder.toString());
+    }
+
+    /**
+     * Write error messages on console with exception.
+     * 
+     * @param message
+     *            the message
+     * @param t
+     *            the t
+     */
+    public static void error(final Object message, final Throwable t) {
+        errorStream.println(APP_ERROR + message.toString());
+        errorStream.println(stackTraceToString(t));
+    }
+
+    /**
+     * Convert Stack trace to string.
+     * 
+     * @param t
+     *            the t
+     * @return the string
+     */
+    private static String stackTraceToString(final Throwable t) {
+        final StringWriter sw = new StringWriter();
+        final PrintWriter pw = new PrintWriter(sw);
+        t.printStackTrace(pw);
+        return sw.toString();
+    }
 }

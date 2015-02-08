@@ -20,7 +20,6 @@ package org.audit4j.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,12 +39,6 @@ public class Configuration implements Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -3370288956459623002L;
-
-    /** The released. */
-    Date released;
-
-    /** The version. */
-    String version;
 
     /** The layout. */
     private Layout layout;
@@ -71,45 +64,7 @@ public class Configuration implements Serializable {
     public Configuration() {
 
     }
-
-    /**
-     * Gets the released.
-     * 
-     * @return the released
-     */
-    public Date getReleased() {
-        return released;
-    }
-
-    /**
-     * Sets the released.
-     * 
-     * @param released
-     *            the new released
-     */
-    public void setReleased(Date released) {
-        this.released = released;
-    }
-
-    /**
-     * Gets the version.
-     * 
-     * @return the version
-     */
-    public String getVersion() {
-        return version;
-    }
-
-    /**
-     * Sets the version.
-     * 
-     * @param version
-     *            the new version
-     */
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
+    
     /**
      * Gets the meta data.
      * 

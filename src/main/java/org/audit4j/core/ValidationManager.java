@@ -28,6 +28,7 @@ import java.io.Serializable;
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.exception.ValidationException;
 import org.audit4j.core.handler.Handler;
+import org.audit4j.core.util.Log;
 
 /**
  * The Class ValidationManager.
@@ -68,14 +69,15 @@ public final class ValidationManager {
      */
     static void validateConfigurations(Configuration conf) throws ValidationException {
         if (null == conf.getHandlers()) {
-            throw new ValidationException(
+            Log.error(
                     "Handler should not be null, One or more handler implementation shuld be configured in the configuration",
-                    ValidationException.VALIDATION_LEVEL_INVALID);
+                    ErrorGuide.getGuide(ErrorGuide.EMPTY_HANDLERS));
+            throw new ValidationException("Configuration error", ValidationException.VALIDATION_LEVEL_INVALID);
         }
         if (null == conf.getLayout()) {
-            throw new ValidationException(
-                    "Layout should not be null,  One or more Layout implementation should be configured in the configuration",
-                    ValidationException.VALIDATION_LEVEL_INVALID);
+            Log.error("Layout should not be null, A layout implementation shuld be configured in the configuration",
+                    ErrorGuide.getGuide(ErrorGuide.EMPTY_HANDLERS));
+            throw new ValidationException("Configuration error", ValidationException.VALIDATION_LEVEL_INVALID);
         }
 
         for (Handler handler : conf.getHandlers()) {

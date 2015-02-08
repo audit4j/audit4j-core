@@ -19,12 +19,17 @@
 package org.audit4j.core.util;
 
 import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
@@ -38,126 +43,140 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The Class SecurityUtil.
- *
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
  * @since 1.0.2
  */
 public class EncryptionUtil {
 
-	/** The log. */
-	private static final Logger LOG = LoggerFactory.getLogger(ConsoleAuditHandler.class);
+    /** The log. */
+    private static final Logger LOG = LoggerFactory.getLogger(ConsoleAuditHandler.class);
 
-	/** The Constant ALGORYITHM. */
-	private static final String ALGORYITHM = "AES/CBC/PKCS5Padding";
-	
-	/** The instance. */
-	private static EncryptionUtil instance;
-	
-	/** The crypt key. */
-	private static Key cryptKey;
+    /** The Constant ALGORYITHM. */
+    private static final String ALGORYITHM = "AES/CBC/PKCS5Padding";
 
-	/**
-	 * Instantiates a new encrypt util.
-	 */
-	private EncryptionUtil(){}
-	
-	/**
-	 * Encrypt.
-	 *
-	 * @param raw the raw
-	 * @return the string
-	 * @throws Exception the exception
-	 */
-	public String encrypt(String raw) throws Exception {
-		Cipher c = getCipher(Cipher.ENCRYPT_MODE);
+    /** The instance. */
+    private static EncryptionUtil instance;
 
-		byte[] encryptedVal = c.doFinal(raw.getBytes(CoreConstants.ENCODE_UTF8));
-		return new String(Base64Coder.encode(encryptedVal));
-	}
+    /** The crypt key. */
+    private static Key cryptKey;
 
-	/**
-	 * Decrypt.
-	 *
-	 * @param encrypted the encrypted
-	 * @return the string
-	 * @throws Exception the exception
-	 */
-	public String decrypt(String encrypted) throws Exception {
+    /**
+     * Instantiates a new encrypt util.
+     */
+    private EncryptionUtil() {
+    }
 
-		byte[] decodedValue = Base64Coder.decode(encrypted.toCharArray());
+    /**
+     * Encrypt.
+     *
+     * @param raw the raw
+     * @return the string
+     * @throws IllegalBlockSizeException the illegal block size exception
+     * @throws BadPaddingException the bad padding exception
+     * @throws UnsupportedEncodingException the unsupported encoding exception
+     * @throws InvalidKeyException the invalid key exception
+     * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
+     * @throws NoSuchAlgorithmException the no such algorithm exception
+     * @throws NoSuchPaddingException the no such padding exception
+     */
+    public String encrypt(String raw) throws IllegalBlockSizeException, BadPaddingException,
+            UnsupportedEncodingException, InvalidKeyException, InvalidAlgorithmParameterException,
+            NoSuchAlgorithmException, NoSuchPaddingException {
+        Cipher c = getCipher(Cipher.ENCRYPT_MODE);
 
-		Cipher c = getCipher(Cipher.DECRYPT_MODE);
-		byte[] decValue = c.doFinal(decodedValue);
+        byte[] encryptedVal = c.doFinal(raw.getBytes(CoreConstants.ENCODE_UTF8));
+        return new String(Base64Coder.encode(encryptedVal));
+    }
 
-		return new String(decValue);
-	}
+    /**
+     * Decrypt.
+     * 
+     * @param encrypted
+     *            the encrypted
+     * @return the string
+     * @throws Exception
+     *             the exception
+     */
+    public String decrypt(String encrypted) throws Exception {
 
-	/**
-	 * Gets the cipher.
-	 *
-	 * @param mode the mode
-	 * @return the cipher
-	 * @throws Exception the exception
-	 */
-	private Cipher getCipher(int mode) throws Exception {
-		Cipher c = Cipher.getInstance(ALGORYITHM);
+        byte[] decodedValue = Base64Coder.decode(encrypted.toCharArray());
 
-		byte[] iv = CoreConstants.IV.getBytes(CoreConstants.ENCODE_UTF8);
+        Cipher c = getCipher(Cipher.DECRYPT_MODE);
+        byte[] decValue = c.doFinal(decodedValue);
 
-		c.init(mode, cryptKey, new IvParameterSpec(iv));
-		return c;
-	}
+        return new String(decValue);
+    }
 
-	/**
-	 * Generate key.
-	 *
-	 * @param key the key
-	 * @param salt the salt
-	 * @return the key
-	 * @throws NoSuchAlgorithmException the no such algorithm exception
-	 * @throws UnsupportedEncodingException the unsupported encoding exception
-	 * @throws InvalidKeySpecException the invalid key spec exception
-	 */
-	private static void generateKeyIfNotAvailable(String key, String salt) throws NoSuchAlgorithmException,
-			UnsupportedEncodingException, InvalidKeySpecException {
-		if (null == cryptKey) {
-			LOG.debug("Generating Key...");
-			SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-			char[] password = key.toCharArray();
-			byte[] saltBytes = salt.getBytes(CoreConstants.ENCODE_UTF8);
+    /**
+     * Gets the cipher.
+     *
+     * @param mode the mode
+     * @return the cipher
+     * @throws InvalidKeyException the invalid key exception
+     * @throws InvalidAlgorithmParameterException the invalid algorithm parameter exception
+     * @throws UnsupportedEncodingException the unsupported encoding exception
+     * @throws NoSuchAlgorithmException the no such algorithm exception
+     * @throws NoSuchPaddingException the no such padding exception
+     */
+    private Cipher getCipher(int mode) throws InvalidKeyException, InvalidAlgorithmParameterException,
+            UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException {
+        Cipher c = Cipher.getInstance(ALGORYITHM);
 
-			KeySpec spec = new PBEKeySpec(password, saltBytes, 65536, 128);
-			SecretKey tmp = factory.generateSecret(spec);
-			byte[] encoded = tmp.getEncoded();
-			cryptKey =  new SecretKeySpec(encoded, "AES");
-		}
-	}
-	
+        byte[] iv = CoreConstants.IV.getBytes(CoreConstants.ENCODE_UTF8);
+
+        c.init(mode, cryptKey, new IvParameterSpec(iv));
+        return c;
+    }
+
+    /**
+     * Generate key.
+     * 
+     * @param key
+     *            the key
+     * @param salt
+     *            the salt
+     * @return the key
+     * @throws NoSuchAlgorithmException
+     *             the no such algorithm exception
+     * @throws UnsupportedEncodingException
+     *             the unsupported encoding exception
+     * @throws InvalidKeySpecException
+     *             the invalid key spec exception
+     */
+    private static void generateKeyIfNotAvailable(String key, String salt) throws NoSuchAlgorithmException,
+            UnsupportedEncodingException, InvalidKeySpecException {
+        if (null == cryptKey) {
+            LOG.debug("Generating Key...");
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            char[] password = key.toCharArray();
+            byte[] saltBytes = salt.getBytes(CoreConstants.ENCODE_UTF8);
+
+            KeySpec spec = new PBEKeySpec(password, saltBytes, 65536, 128);
+            SecretKey tmp = factory.generateSecret(spec);
+            byte[] encoded = tmp.getEncoded();
+            cryptKey = new SecretKeySpec(encoded, "AES");
+        }
+    }
+
     /**
      * Gets the Encryptor.
      *
      * @param key the key
      * @param salt the salt
      * @return the Encryptor
+     * @throws NoSuchAlgorithmException the no such algorithm exception
+     * @throws UnsupportedEncodingException the unsupported encoding exception
+     * @throws InvalidKeySpecException the invalid key spec exception
      */
-    public static EncryptionUtil getInstance(String key, String salt) {
+    public static EncryptionUtil getInstance(String key, String salt) throws NoSuchAlgorithmException,
+            UnsupportedEncodingException, InvalidKeySpecException {
         if (instance == null) {
             synchronized (EncryptionUtil.class) {
                 if (instance == null) {
                     instance = new EncryptionUtil();
-                    try {
-						generateKeyIfNotAvailable(key, salt);
-					} catch (NoSuchAlgorithmException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (InvalidKeySpecException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+                    generateKeyIfNotAvailable(key, salt);
                 }
             }
         }

@@ -18,8 +18,19 @@
 
 package org.audit4j.core.layout;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 import org.audit4j.core.CoreConstants;
 import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.exception.Audit4jRuntimeException;
 import org.audit4j.core.exception.InitializationException;
 import org.audit4j.core.util.EncryptionUtil;
 
@@ -32,62 +43,118 @@ import org.audit4j.core.util.EncryptionUtil;
  */
 public class SecureLayout extends SimpleLayout {
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = -5678939488854601303L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = -5678939488854601303L;
 
-	private String key;
+    /** The key. */
+    private String key;
 
-	private String salt;
+    /** The salt. */
+    private String salt;
 
-	private EncryptionUtil util;
+    /** The util. */
+    private EncryptionUtil util;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.audit4j.core.SimpleLayout#format(org.audit4j.core.dto.AuditEvent)
-	 */
-	@Override
-	public String format(AuditEvent event) {
-		String formatText = super.format(event);
-		try {
-			return util.encrypt(formatText);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.audit4j.core.SimpleLayout#format(org.audit4j.core.dto.AuditEvent)
+     */
+    @Override
+    public String format(AuditEvent event) {
+        String formatText = super.format(event);
 
-	@Override
-	public void init() throws InitializationException {
-		if (key == null) {
-			key = CoreConstants.DEFAULT_SECURE_KEY;
-		}
-		if (salt == null) {
-			salt = CoreConstants.DEFAULT_SECURE_SALT;
-		}
-		util = EncryptionUtil.getInstance(key, salt);
-	}
+        try {
+            return util.encrypt(formatText);
+        } catch (InvalidKeyException e) {
+            throw new Audit4jRuntimeException("", e);
+        } catch (IllegalBlockSizeException e) {
+            throw new Audit4jRuntimeException("", e);
+        } catch (BadPaddingException e) {
+            throw new Audit4jRuntimeException("", e);
+        } catch (UnsupportedEncodingException e) {
+            throw new Audit4jRuntimeException("", e);
+        } catch (InvalidAlgorithmParameterException e) {
+            throw new Audit4jRuntimeException("", e);
+        } catch (NoSuchAlgorithmException e) {
+            throw new Audit4jRuntimeException("", e);
+        } catch (NoSuchPaddingException e) {
+            throw new Audit4jRuntimeException("", e);
+        }
+    }
 
-	@Override
-	public void stop() {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.audit4j.core.layout.SimpleLayout#init()
+     */
+    @Override
+    public void init() throws InitializationException {
+        if (key == null) {
+            key = CoreConstants.DEFAULT_SECURE_KEY;
+        }
+        if (salt == null) {
+            salt = CoreConstants.DEFAULT_SECURE_SALT;
+        }
+        try {
+            util = EncryptionUtil.getInstance(key, salt);
+        } catch (NoSuchAlgorithmException e) {
+            throw new InitializationException("Could not Initialize the layout: " + SecureLayout.class.getName(), e);
+        } catch (UnsupportedEncodingException e) {
+            throw new InitializationException("Could not Initialize the layout: " + SecureLayout.class.getName(), e);
+        } catch (InvalidKeySpecException e) {
+            throw new InitializationException("Could not Initialize the layout: " + SecureLayout.class.getName(), e);
+        }
+        super.init();
+    }
 
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.audit4j.core.layout.SimpleLayout#stop()
+     */
+    @Override
+    public void stop() {
+        super.stop();
+        util = null;
+    }
 
-	public String getKey() {
-		return key;
-	}
+    /**
+     * Gets the key.
+     * 
+     * @return the key
+     */
+    public String getKey() {
+        return key;
+    }
 
-	public void setKey(String key) {
-		this.key = key;
-	}
+    /**
+     * Sets the key.
+     * 
+     * @param key
+     *            the new key
+     */
+    public void setKey(String key) {
+        this.key = key;
+    }
 
-	public String getSalt() {
-		return salt;
-	}
+    /**
+     * Gets the salt.
+     * 
+     * @return the salt
+     */
+    public String getSalt() {
+        return salt;
+    }
 
-	public void setSalt(String salt) {
-		this.salt = salt;
-	}
+    /**
+     * Sets the salt.
+     * 
+     * @param salt
+     *            the new salt
+     */
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
 }

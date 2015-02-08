@@ -18,8 +18,6 @@
 
 package org.audit4j.core;
 
-import java.lang.reflect.Method;
-
 import org.audit4j.core.dto.AuditBase;
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.exception.HandlerException;
@@ -78,35 +76,6 @@ public abstract class AuditProcessor<T extends AuditBase> {
                 }
             }
         }
-    }
-
-    /**
-     * Gets the actor.
-     * 
-     * @param handler
-     *            the handler
-     * @return the actor
-     */
-    @Deprecated
-    protected String getActor(final Handler handler) {
-        return configContext.getMetaData().getActor();
-    }
-
-    /**
-     * Gets the action.
-     * 
-     * @param action
-     *            the action
-     * @param method
-     *            the method
-     * @return the action
-     */
-    @Deprecated
-    protected String getAction(String action, Method method) {
-        if (action.equals(CoreConstants.ACTION.equals(action))) {
-            return method.getName();
-        }
-        return action;
     }
 
     public void setConfigContext(ConcurrentConfigurationContext configContext) {

@@ -84,7 +84,7 @@ public final class CoreConstants {
 	public static final String DEFAULT_ACTOR = "Audit4j User";
 
 	/** The Constant ACTION. */
-	public static final String ACTION = "action";
+	public static final String DEFAULT_ACTION = "action";
 
 	/** The Constant SALT. */
 	public static final String DEFAULT_SECURE_SALT = "232332324";
@@ -99,5 +99,7 @@ public final class CoreConstants {
 	public static final String ENCODE_UTF8 = "UTF-8";
 
 	/** The Constant EMBEDED_DB_NAME. */
-	public static final String EMBEDED_DB_NAME = "audit4j";
+	public static final String DEFAULT_EMBEDED_DB_NAME = "audit4j";
+	
+	public static final String DEFAULT_DATE_FORMAT = "MM/dd/yyyy HH:mm:ss";
 }

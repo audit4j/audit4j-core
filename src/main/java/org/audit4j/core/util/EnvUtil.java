@@ -79,6 +79,10 @@ public class EnvUtil {
 		return isJDK_N_OrHigher(7);
 	}
 
+	public static String getJavaersion(){
+	    return System.getProperty("java.version");
+	} 
+	
 	/**
 	 * Checks if is janino available.
 	 * 

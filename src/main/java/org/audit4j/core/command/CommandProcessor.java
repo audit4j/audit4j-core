@@ -2,7 +2,9 @@ package org.audit4j.core.command;
 
 import java.util.Map;
 
-import org.audit4j.core.Registry;
+import org.audit4j.core.ErrorGuide;
+import org.audit4j.core.PreConfigurationContext;
+import org.audit4j.core.exception.InitializationException;
 import org.audit4j.core.util.Log;
 
 /**
@@ -24,12 +26,16 @@ public final class CommandProcessor {
      */
     public void process(Map<String, String> options) {
         Log.info("Initializing Commands...");
-        System.out.println(options);
         for (Map.Entry<String, String> entry : options.entrySet()) {
-            AbstractCommand command = Registry.getCommandByOptionName(entry.getKey());
+            AbstractCommand command = PreConfigurationContext.getCommandByOptionName(entry.getKey());
             if (null != command) {
                 command.setOptions(options);
-                command.init();
+                try {
+                    command.init();
+                } catch (InitializationException e) {
+                    Log.error("There is a problem in the : option you configured: ", entry.getKey(),
+                            ErrorGuide.getGuide(ErrorGuide.OPTION_ERROR));
+                }
                 command.execute();
                 command.stop();
             }

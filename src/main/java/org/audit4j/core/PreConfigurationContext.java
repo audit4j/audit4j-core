@@ -15,7 +15,7 @@ import org.audit4j.core.filter.AuditEventFilter;
  *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
-public final class Registry {
+public final class PreConfigurationContext {
 
     /** The Constant commands. */
     private static final Map<String, AbstractCommand> commands = new HashMap<String, AbstractCommand>();
@@ -101,7 +101,7 @@ public final class Registry {
     /**
      * Instantiates a new registry.
      */
-    private Registry() {
+    private PreConfigurationContext() {
         // Private Constructor
     }
 

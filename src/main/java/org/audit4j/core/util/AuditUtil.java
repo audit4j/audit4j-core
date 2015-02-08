@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.audit4j.core;
+package org.audit4j.core.util;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -44,30 +44,6 @@ public final class AuditUtil {
 	}
 
 	/**
-	 * Builds the query.
-	 * 
-	 * @param paramMap
-	 *            the param map
-	 * @param action
-	 *            the action
-	 * @return the string
-	 */
-	public static String buildQuery(final Map<String, String> paramMap, String action) {
-		if (paramMap != null) {
-			final StringBuilder buff = new StringBuilder();
-			if (action != null) {
-				buff.append(action).append("==>");
-			}
-			for (final Map.Entry<String, String> entry : paramMap.entrySet()) {
-				buff.append(entry.getKey()).append(":").append(entry.getValue()).append(" , ");
-			}
-			return buff.toString();
-		} else {
-			return "No data for selectred audit criteria";
-		}
-	}
-
-	/**
 	 * Transform map.
 	 * 
 	 * @param paramMap
@@ -90,30 +66,6 @@ public final class AuditUtil {
 	 */
 	protected Long getUUID() {
 		return UUID.randomUUID().getMostSignificantBits();
-	}
-
-	/**
-	 * Report.
-	 * 
-	 * @param msg
-	 *            the msg
-	 * @param t
-	 *            the t
-	 */
-	static final public void report(String msg, Throwable t) {
-		System.err.println(msg);
-		System.err.println("Reported exception:");
-		t.printStackTrace();
-	}
-
-	/**
-	 * Report.
-	 * 
-	 * @param msg
-	 *            the msg
-	 */
-	static final public void report(String msg) {
-		System.err.println("AUDIT4J: " + msg);
 	}
 	
     /**

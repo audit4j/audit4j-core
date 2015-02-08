@@ -1,5 +1,9 @@
 package org.audit4j.core;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 import org.audit4j.core.util.EncryptionUtil;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,9 +17,13 @@ public class EncryptionUtilTest {
 
 	/**
 	 * Test.
+	 *
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws UnsupportedEncodingException the unsupported encoding exception
+	 * @throws InvalidKeySpecException the invalid key spec exception
 	 */
 	@Test
-	public void test() {
+	public void test() throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeySpecException {
 		EncryptionUtil util =  EncryptionUtil.getInstance("1234", "abcd");
 		String raw = "testRaw";
 		try {

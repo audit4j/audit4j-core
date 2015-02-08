@@ -22,32 +22,35 @@ import org.audit4j.core.util.Log;
 
 /**
  * The Class InitializationException.
- *
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
 public class InitializationException extends RuntimeException {
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 6213325255955496474L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 6213325255955496474L;
 
-	/**
-	 * Instantiates a new initialization exception.
-	 *
-	 * @param message the message
-	 */
-	public InitializationException(String message) {
-		super(message);
-		Log.error("Failed to initialize Audit4j: " + message);
-	}
-	
-	/**
-	 * Instantiates a new initialization exception.
-	 *
-	 * @param message the message
-	 * @param t the t
-	 */
-	public InitializationException(String message, Throwable t) {
-		super(message, t);
-		Log.error("Failed to initialize Audit4j: " + message, t);
-	}
+    /**
+     * Instantiates a new initialization exception.
+     * 
+     * @param message
+     *            the message
+     */
+    public InitializationException(String message) {
+        super(message);
+        Log.error("Failed to initialize Audit4j: " + message);
+    }
+
+    /**
+     * Instantiates a new initialization exception.
+     * 
+     * @param message
+     *            the message
+     * @param t
+     *            the t
+     */
+    public InitializationException(String message, Throwable t) {
+        super(message, t);
+        Log.error("Failed to initialize Audit4j: " + message, t);
+    }
 }

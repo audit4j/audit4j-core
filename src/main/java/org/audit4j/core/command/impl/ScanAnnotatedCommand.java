@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.Set;
 
-import org.audit4j.core.Registry;
+import org.audit4j.core.PreConfigurationContext;
 import org.audit4j.core.annotation.Audit;
 import org.audit4j.core.command.AbstractCommand;
 import org.audit4j.core.exception.InitializationException;
@@ -74,7 +74,7 @@ public class ScanAnnotatedCommand extends AbstractCommand {
                 throw new InitializationException("", e);
             }
         }
-        Registry.addAnnotationFilter(filter);
+        PreConfigurationContext.addAnnotationFilter(filter);
     }
 
     /* (non-Javadoc)

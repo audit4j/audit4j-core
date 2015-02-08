@@ -35,6 +35,7 @@ import org.audit4j.core.io.AsyncAuditOutputStream;
 import org.audit4j.core.io.AuditEventOutputStream;
 import org.audit4j.core.io.AuditOutputStream;
 import org.audit4j.core.io.AuditProcessOutputStream;
+import org.audit4j.core.util.EnvUtil;
 import org.audit4j.core.util.Log;
 import org.audit4j.core.util.StopWatch;
 
@@ -42,9 +43,9 @@ import org.audit4j.core.util.StopWatch;
  * The Audit4j Context. This will load and execute required resources in to the
  * memory when initializing audit4j, Context makes sure necessary resources
  * provide when running audit4j. And this will release the memory allocated by
- * audit4j when shutdown the audit4j.
+ * audit4j when shutdown.
  * 
- * <p/>
+ * <p>
  * Available public methods:
  * </p>
  * <ul>
@@ -53,7 +54,10 @@ import org.audit4j.core.util.StopWatch;
  * Audit4j</li>
  * <li>{@link #enable()} Enable audit4j.</li>
  * <li>{@link #disable()} Disable audit4j.</li>
- * <li>{@link #getConfigContext()} get audit4j configurations.</li>
+ * <li>{@link #terminate()} Terminate audit4j.</li>
+ * <li>{@link #getConfigContext()} get initialized configurations.</li>
+ * <li>{@link #setConfig(Configuration conf)} set initial and external configurations in to
+ * context.</li>
  * </ul>
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
@@ -80,6 +84,9 @@ public final class Context {
     /** The config context. */
     private static ConcurrentConfigurationContext configContext;
 
+    /** The Constant INIT_FAILED. */
+    private static final String INIT_FAILED = "initialization failed.!!";
+
     /**
      * Initialize the Audit4j instance. This will ensure the single audit4j
      * instance and single Configuration repository load in to the memory.
@@ -92,21 +99,24 @@ public final class Context {
                 && (configContext.getRunStatus().equals(RunStatus.READY) || configContext.getRunStatus().equals(
                         RunStatus.STOPPED))) {
             Log.info("Initializing Audit4j...");
+            // Check system environment;
+            checkEnvironment();
             Log.info("Loading Configurations...");
+            
             if (conf == null) {
                 loadConfig();
             }
             Log.info("Validating Configurations...");
             if (conf == null) {
-                configContext.setRunStatus(RunStatus.TERMINATED);
-                throw new InitializationException("initialization failed.!!");
+                terminate();
+                throw new InitializationException(INIT_FAILED);
             }
 
             try {
                 ValidationManager.validateConfigurations(conf);
             } catch (ValidationException e1) {
-                configContext.setRunStatus(RunStatus.TERMINATED);
-                throw new InitializationException("initialization failed.!!", e1);
+                terminate();
+                throw new InitializationException(INIT_FAILED, e1);
             }
 
             // Extract options.
@@ -147,7 +157,7 @@ public final class Context {
 
             stopWatch.stop();
             Long initializationTime = stopWatch.getLastTaskTimeMillis();
-            Log.info("Audit4j initialized. Total time: " + initializationTime + "ms");
+            Log.info("Audit4j initialized. Total time: ", initializationTime, "ms");
         }
     }
 
@@ -166,13 +176,12 @@ public final class Context {
             annotationAuditStream.close();
 
             Log.info("Shutdown handlers...");
-            for (Handler handler : conf.getHandlers()) {
+            for (Handler handler : configContext.getHandlers()) {
                 handler.stop();
                 Log.info(handler.getClass().getName() + " shutdown.");
             }
 
             Log.info("Disposing configurations...");
-            conf = null;
             initialized = false;
             configContext.setRunStatus(RunStatus.STOPPED);
             Log.info("Audit4j shutdown completed.");
@@ -206,12 +215,37 @@ public final class Context {
     }
 
     /**
+     * Terminate Audit4j core services.
+     * 
+     * @since 2.3.0
+     */
+    final static void terminate() {
+        Log.warn("Audit4j Terminated due to critical error.");
+        configContext.setRunStatus(RunStatus.TERMINATED);
+    }
+
+    /**
      * Gets the config context.
      * 
      * @return the config context
      */
     static ConcurrentConfigurationContext getConfigContext() {
         return configContext;
+    }
+
+    /**
+     * Check environment.
+     * 
+     * @since 2.3.0
+     */
+    private final static void checkEnvironment() {
+        // Check java support.!
+        boolean javaSupport = EnvUtil.isJDK7OrHigher();
+        if (!javaSupport) {
+            Log.error("Your Java version (", EnvUtil.getJavaersion(), ") is not supported for Audit4j. ",
+                    ErrorGuide.getGuide(ErrorGuide.JAVA_VERSION_ERROR));
+            throw new InitializationException("Java version is not supported.");
+        }
     }
 
     /**
@@ -228,11 +262,11 @@ public final class Context {
                 TroubleshootManager.troubleshootConfiguration(e);
                 conf = ConfigUtil.readConfig(configFilePath);
             } catch (TroubleshootException e2) {
-                configContext.setRunStatus(RunStatus.TERMINATED);
-                throw new InitializationException("Initialization failed.!!", e2);
+                terminate();
+                throw new InitializationException(INIT_FAILED);
             } catch (ConfigurationException e1) {
-                configContext.setRunStatus(RunStatus.TERMINATED);
-                throw new InitializationException("Initialization failed.!!", e1);
+                terminate();
+                throw new InitializationException(INIT_FAILED);
             }
         }
     }
@@ -253,8 +287,9 @@ public final class Context {
         String[] args = extractOptions(optionText);
         for (String arg : args) {
             String[] option = StringUtils.split(arg, CoreConstants.EQ_CHAR);
-            if (!Registry.getOptions().contains(option[0])) {
-                Log.warn("Invalid option: " + option[0] + " Please check your configurations.");
+            if (!PreConfigurationContext.getOptions().contains(option[0])) {
+                Log.warn("Invalid option: ", option[0], " Please check your configurations. ",
+                        ErrorGuide.getGuide(ErrorGuide.INVALID_OPTION));
             }
             options.put(option[0], option[1]);
         }
@@ -278,11 +313,12 @@ public final class Context {
      * @since 2.3.0
      */
     private static void loadRegistry() {
-        for (AuditEventFilter filter : Registry.getPrefilters()) {
+        // Load audit filters to runtime configurations.
+        for (AuditEventFilter filter : PreConfigurationContext.getPrefilters()) {
             configContext.addFilter(filter);
         }
-
-        for (AuditAnnotationFilter annotationFilter : Registry.getPreannotationfilters()) {
+        // Load audit annotation filters to runtime configurations.
+        for (AuditAnnotationFilter annotationFilter : PreConfigurationContext.getPreannotationfilters()) {
             configContext.addAnnotationFilter(annotationFilter);
         }
     }
@@ -292,11 +328,6 @@ public final class Context {
      */
     private static void initHandlers() {
         Log.info("Initializing Handlers...");
-        if (conf.getHandlers() == null || conf.getHandlers().isEmpty()) {
-            Log.error("No handlers found in the config file.");
-            disable();
-            return;
-        }
         for (Handler handler : conf.getHandlers()) {
             try {
                 if (!configContext.getHandlers().contains(handler)) {
@@ -306,8 +337,10 @@ public final class Context {
                 }
                 Log.info(handler.getClass().getName() + " Initialized.");
             } catch (InitializationException e) {
-                configContext.setRunStatus(RunStatus.TERMINATED);
-                throw new InitializationException("initialization failed.!!", e);
+                Log.error("There is a problem in the hander: ", handler.getClass().getName(),
+                        ErrorGuide.getGuide(ErrorGuide.HANDLER_ERROR));
+                terminate();
+                throw new InitializationException(INIT_FAILED, e);
             }
         }
     }
@@ -322,8 +355,10 @@ public final class Context {
             configContext.setLayout(conf.getLayout());
             Log.info(conf.getLayout().getClass().getName() + " Initialized.");
         } catch (InitializationException e) {
-            configContext.setRunStatus(RunStatus.TERMINATED);
-            throw new InitializationException("initialization failed.!!", e);
+            Log.error("There is a problem in the layout: ", conf.getLayout().getClass().getName(), " you configured.",
+                    ErrorGuide.getGuide(ErrorGuide.LAYOUT_ERROR));
+            terminate();
+            throw new InitializationException(INIT_FAILED);
         }
 
     }
@@ -395,7 +430,7 @@ public final class Context {
      * 
      * @return true, if is initialized
      * 
-     * @Deprecated use {@link #getStatus()} instead.
+     * @deprecated use {@link #getStatus()} instead.
      */
     @Deprecated
     public boolean isInitialized() {

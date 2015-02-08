@@ -33,8 +33,7 @@ import com.gs.collections.impl.map.mutable.ConcurrentHashMap;
  * Configuration item store. All configuration items which are used by the
  * running components store here. Items loaded by the context.
  * 
- * <p/>Below Items store here:
- * </p>
+ * <p>Below Items store here:</p>
  * <ul>
  * <li>Available handlers.</li>
  * <li>Audit event filters.</li>
@@ -43,7 +42,7 @@ import com.gs.collections.impl.map.mutable.ConcurrentHashMap;
  * <li>Additional configuration properties.</li>
  * </ul>
  * 
- * </p> #ThreadSafe#
+ * <p> #ThreadSafe# </p>
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */

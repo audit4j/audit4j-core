@@ -25,7 +25,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,8 +61,6 @@ public final class ConfigUtil {
 	 */
 	static Configuration createDummyConfig() {
 		Configuration conf = new Configuration();
-		conf.setVersion("1.0.0.RELEASE");
-		conf.setReleased(new Date());
 		List<Handler> handlers = new ArrayList<>();
 		/*DatabaseAuditHandler handler = new DatabaseAuditHandler();
 		handler.setEmbedded("true");

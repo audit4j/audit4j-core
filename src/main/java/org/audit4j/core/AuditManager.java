@@ -115,12 +115,10 @@ public final class AuditManager {
      * @return single instance of AuditHelper
      */
     public static AuditManager getInstance() {
-        if (auditManager == null) {
-            synchronized (AuditManager.class) {
-                if (auditManager == null) {
-                    auditManager = new AuditManager();
-                    init();
-                }
+        synchronized (AuditManager.class) {
+            if (auditManager == null) {
+                auditManager = new AuditManager();
+                init();
             }
         }
         return auditManager;
@@ -137,7 +135,7 @@ public final class AuditManager {
      * 
      * @since 2.1.0
      */
-    
+
     public static AuditManager getConfigurationInstance(Configuration configuration) {
         Context.setConfig(configuration);
         return getInstance();

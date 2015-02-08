@@ -18,6 +18,8 @@
 
 package org.audit4j.core.filter;
 
+import java.io.Serializable;
+
 import org.audit4j.core.dto.AuditEvent;
 
 /**
@@ -25,7 +27,7 @@ import org.audit4j.core.dto.AuditEvent;
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
-public interface AuditEventFilter {
+public interface AuditEventFilter extends Serializable {
     
     boolean accepts(AuditEvent event);
     

@@ -20,11 +20,11 @@ package org.audit4j.core.layout;
 
 import java.util.Date;
 
-import org.audit4j.core.AuditUtil;
 import org.audit4j.core.CoreConstants;
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.dto.Field;
 import org.audit4j.core.exception.InitializationException;
+import org.audit4j.core.util.ConcurrentDateFormatAccess;
 
 /**
  * The Class SimpleLayout.
@@ -38,6 +38,7 @@ public class SimpleLayout implements Layout {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 5057576669171592167L;
 
+	private String dateFormat = CoreConstants.DEFAULT_DATE_FORMAT;
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -47,9 +48,9 @@ public class SimpleLayout implements Layout {
 	public String format(AuditEvent event) {
 		final StringBuilder buff = new StringBuilder();
 		if (null != event.getTimestamp()) {
-			buff.append(AuditUtil.dateToString(event.getTimestamp(), "MM/dd/yyyy HH:mm:ss"));
+			buff.append(new ConcurrentDateFormatAccess(dateFormat).convertDateToString(event.getTimestamp()));
 		} else {
-			buff.append(AuditUtil.dateToString(new Date(), "MM/dd/yyyy HH:mm:ss"));
+			buff.append(new ConcurrentDateFormatAccess(dateFormat).convertDateToString(new Date()));
 		}
 		buff.append(CoreConstants.PIPE);
 		if (null != event.getTimestamp()) {
@@ -86,4 +87,12 @@ public class SimpleLayout implements Layout {
 		// TODO Auto-generated method stub
 		
 	}
+
+    public String getDateFormat() {
+        return dateFormat;
+    }
+
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
+    }
 }

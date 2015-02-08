@@ -22,9 +22,9 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.audit4j.core.AuditUtil;
 import org.audit4j.core.CoreConstants;
 import org.audit4j.core.TroubleshootManager;
+import org.audit4j.core.util.AuditUtil;
 
 /**
  * The Class FileHandlerUtil.
