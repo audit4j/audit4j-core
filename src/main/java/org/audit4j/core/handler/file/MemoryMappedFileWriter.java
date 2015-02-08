@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Janith Bandara, This source is a part of 
+ * Copyright (c) 2014-2015 Janith Bandara, This source is a part of
  * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
@@ -28,16 +28,31 @@ import java.nio.charset.Charset;
 
 import org.audit4j.core.CoreConstants;
 
+/**
+ * The Class MemoryMappedFileWriter.
+ *
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ */
 public class MemoryMappedFileWriter extends AuditFileWriter implements Serializable {
 
 	/** The path. */
 	private final String path;
+	
+	/** The out. */
 	MappedByteBuffer out;
 
+	/**
+	 * Instantiates a new memory mapped file writer.
+	 *
+	 * @param path the path
+	 */
 	public MemoryMappedFileWriter(String path) {
 		this.path = path;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.audit4j.core.handler.file.AuditFileWriter#init()
+	 */
 	@Override
 	public void init() {
 		int count = 10485760;
@@ -59,6 +74,9 @@ public class MemoryMappedFileWriter extends AuditFileWriter implements Serializa
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.audit4j.core.handler.file.AuditFileWriter#write(java.lang.String)
+	 */
 	@Override
 	public AuditFileWriter write(String event) {
 
@@ -67,6 +85,9 @@ public class MemoryMappedFileWriter extends AuditFileWriter implements Serializa
 		return this;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.audit4j.core.handler.file.AuditFileWriter#stop()
+	 */
 	@Override
 	public void stop() {
 		// TODO Auto-generated method stub

@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2014 Janith Bandara. All Rights Reserved. 
- * This source is a part of Audit4j - An open source auditing framework.
+ * Copyright (c) 2014-2015 Janith Bandara, This source is a part of
+ * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

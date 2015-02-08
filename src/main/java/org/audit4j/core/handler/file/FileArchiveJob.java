@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Janith Bandara, This source is a part of 
+ * Copyright (c) 2014-2015 Janith Bandara, This source is a part of
  * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
@@ -28,10 +28,19 @@ import java.util.zip.ZipOutputStream;
 
 import org.audit4j.core.util.Log;
 
+/**
+ * The Class FileArchiveJob.
+ *
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ */
 public class FileArchiveJob extends ArchiveJob {
 
+	/** The buffer. */
 	byte[] buffer = new byte[1024];
 
+	/* (non-Javadoc)
+	 * @see org.audit4j.core.handler.file.ArchiveJob#archive()
+	 */
 	@Override
 	public void archive() {
 		Log.info("Starting archiving...");

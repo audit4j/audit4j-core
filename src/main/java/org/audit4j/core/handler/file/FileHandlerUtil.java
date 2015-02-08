@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Janith Bandara, This source is a part of 
+ * Copyright (c) 2014-2015 Janith Bandara, This source is a part of
  * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
@@ -23,8 +23,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.audit4j.core.CoreConstants;
-import org.audit4j.core.TroubleshootManager;
 import org.audit4j.core.util.AuditUtil;
+import org.audit4j.core.util.EnvUtil;
 
 /**
  * The Class FileHandlerUtil.
@@ -167,7 +167,7 @@ public final class FileHandlerUtil {
 		if (path == null) {
 			return null;
 		}
-		if (TroubleshootManager.isWindows()) {
+		if (EnvUtil.isWindows()) {
 			return separatorsToWindows(path);
 		} else {
 			return separatorsToUnix(path);
