@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2014-2015 Janith Bandara, This source is a part of
-=======
- * Copyright 2014 Janith Bandara, This source is a part of
->>>>>>> 8b76a53fd65d1fa87cf0839012fb0acd7945deef
  * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *

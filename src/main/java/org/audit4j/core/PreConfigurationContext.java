@@ -29,7 +29,7 @@ import org.audit4j.core.filter.AuditAnnotationFilter;
 import org.audit4j.core.filter.AuditEventFilter;
 
 /**
- * Registry for internal resource configurations.
+ * Registry for internal initial resource configurations.
  *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */

@@ -33,6 +33,7 @@ import org.audit4j.core.exception.ConfigurationException;
 import org.audit4j.core.exception.TroubleshootException;
 import org.audit4j.core.handler.ConsoleAuditHandler;
 import org.audit4j.core.handler.Handler;
+import org.audit4j.core.handler.file.FileAuditHandler;
 import org.audit4j.core.layout.SimpleLayout;
 
 import com.esotericsoftware.yamlbeans.YamlException;
@@ -62,19 +63,17 @@ public final class ConfigUtil {
 	static Configuration createDummyConfig() {
 		Configuration conf = new Configuration();
 		List<Handler> handlers = new ArrayList<>();
-		/*DatabaseAuditHandler handler = new DatabaseAuditHandler();
-		handler.setEmbedded("true");
-		handler.setDb_driver("driver");
-		handler.setDb_url("");
-		handler.setDb_user("audit4juser");
-		handler.setDb_password("password");
-		handlers.add(handler);*/
+		FileAuditHandler handler = new FileAuditHandler();
+		handler.setArchive("true");
+		handler.setCronPattern("1d1M");
+		handlers.add(handler);
 		//FileAuditHandler handler = new FileAuditHandler();
 		//handlers.add(handler);
 		ConsoleAuditHandler handler2 = new ConsoleAuditHandler();
 		handlers.add(handler2);
 		conf.setHandlers(handlers);
 		conf.setLayout(new SimpleLayout());
+		conf.setOptions("sd");
 		Map<String,String> properties = new HashMap<String,String>();
 		properties.put("log.file.location", "$user.dir");
 		conf.setProperties(properties);
@@ -88,7 +87,7 @@ public final class ConfigUtil {
 	static void generateConfigFromObject() {
 		YamlWriter writer;
 		try {
-			writer = new YamlWriter(new FileWriter("auit4j.conf.yml"));
+			writer = new YamlWriter(new FileWriter("audit4j.conf.yml"));
 			writer.getConfig().setClassTag("Configuration", Configuration.class);
 			writer.write(createDummyConfig());
 			writer.close();
