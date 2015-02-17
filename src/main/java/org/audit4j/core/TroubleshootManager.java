@@ -81,7 +81,7 @@ public final class TroubleshootManager {
 	 */
 	public static void troubleshootConfiguration(ConfigurationException e) {
 		if (e.getId().equals("CONF_001")) {
-			System.err.println("Audit4j:WARN Initial confguration file not found. \n"
+			System.err.println("Audit4j:WARN Initial configuration file not found. \n"
 					+ "Audit4j: Creating a new configuration file - " + CoreConstants.CONFIG_FILE_NAME);
 			ConfigUtil.generateConfigFromText();
 		} else if (e.getId().equals("CONF_002")) {
