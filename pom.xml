@@ -37,8 +37,8 @@
 			<organizationUrl>http://audit4j.org</organizationUrl>
 			<email>janith@audit4j.org</email>
 			<roles>
-				<role>owner</role>
-				<role>developer</role>
+				<role>Architect</role>
+				<role>Developer</role>
 			</roles>
 			<timezone>+05:30</timezone>
 		</developer>

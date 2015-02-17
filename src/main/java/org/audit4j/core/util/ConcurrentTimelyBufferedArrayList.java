@@ -18,41 +18,54 @@
 
 package org.audit4j.core.util;
 
+import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.RandomAccess;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * The Class CircularTimelyBufferedArrayList.
- *
- * @param <E> the element type
+ * 
+ * @param <E>
+ *            the element type
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
-public class TimelyBufferedArrayList<E> extends AbstractList<E> implements RandomAccess{
+public class ConcurrentTimelyBufferedArrayList<E> extends AbstractList<E> implements RandomAccess, Serializable,
+        Cloneable {
+
+    /**
+     * asdas
+     */
+    private static final long serialVersionUID = 8870953621895891238L;
 
     /** The buff. */
-    private final List<E> buff = new ArrayList<E>();
-    
+    private final List<E> buff = new CopyOnWriteArrayList<E>();
+
     /** The listener. */
     private final BufferedListener<E> listener;
 
     /**
      * Instantiates a new circular timely buffered array list.
-     *
-     * @param timeInMills the time in mills
-     * @param listener the listener
+     * 
+     * @param timeInMills
+     *            the time in mills
+     * @param listener
+     *            the listener
      */
-    public TimelyBufferedArrayList(final int timeInMills, final BufferedListener<E> listener) {
+    public ConcurrentTimelyBufferedArrayList(final int timeInMills, final BufferedListener<E> listener) {
         this.listener = listener;
         Timer time = new Timer();
         ScheduleConsumer consumer = new ScheduleConsumer();
         time.schedule(consumer, 0, timeInMills);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.util.AbstractList#get(int)
      */
     @Override
@@ -60,7 +73,9 @@ public class TimelyBufferedArrayList<E> extends AbstractList<E> implements Rando
         return buff.get(index);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.util.AbstractList#add(java.lang.Object)
      */
     @Override
@@ -68,7 +83,9 @@ public class TimelyBufferedArrayList<E> extends AbstractList<E> implements Rando
         return buff.add(e);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.util.AbstractCollection#size()
      */
     @Override
@@ -76,14 +93,16 @@ public class TimelyBufferedArrayList<E> extends AbstractList<E> implements Rando
         return buff.size();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.util.AbstractCollection#isEmpty()
      */
     @Override
     public boolean isEmpty() {
         return buff.isEmpty();
     }
-    
+
     @Override
     public void clear() {
         buff.clear();
@@ -91,7 +110,7 @@ public class TimelyBufferedArrayList<E> extends AbstractList<E> implements Rando
 
     /**
      * Gets the buffered.
-     *
+     * 
      * @return the buffered
      */
     public List<E> getBuffered() {
@@ -102,40 +121,42 @@ public class TimelyBufferedArrayList<E> extends AbstractList<E> implements Rando
 
     /**
      * The Class ScheduleConsumer.
-     *
+     * 
      * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
      */
     public class ScheduleConsumer extends TimerTask {
 
-        /* (non-Javadoc)
+        /*
+         * (non-Javadoc)
+         * 
          * @see java.util.TimerTask#run()
          */
         @Override
         public void run() {
             if (!isEmpty()) {
                 listener.accept(getBuffered());
-            }  
+            }
         }
 
     }
 
     /**
-     * The listener interface for receiving buffered events.
-     * The class that is interested in processing a buffered
-     * event implements this interface, and the object created
-     * with that class is registered with a component using the
-     * component's addBufferedListener method. When
-     * the buffered event occurs, that object's appropriate
-     * method is invoked.
-     *
-     * @param <E> the element type
+     * The listener interface for receiving buffered events. The class that is
+     * interested in processing a buffered event implements this interface, and
+     * the object created with that class is registered with a component using
+     * the component's addBufferedListener method. When the buffered event
+     * occurs, that object's appropriate method is invoked.
+     * 
+     * @param <E>
+     *            the element type
      */
     public interface BufferedListener<E> {
-        
+
         /**
          * Accept.
-         *
-         * @param buffered list
+         * 
+         * @param buffered
+         *            list
          */
         void accept(List<E> buffered);
     }
