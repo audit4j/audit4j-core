@@ -27,6 +27,8 @@ import java.util.Date;
  * The Class ConcurrentDateFormatAccess.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 2.3.0
  */
 public class ConcurrentDateFormatAccess {
 
@@ -43,7 +45,7 @@ public class ConcurrentDateFormatAccess {
         this.format = format;
     }
 
-    /** The df. */
+    /** The date format. */
     private final ThreadLocal<DateFormat> dateFormat = new ThreadLocal<DateFormat>() {
         @Override
         public DateFormat get() {

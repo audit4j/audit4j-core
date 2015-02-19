@@ -136,7 +136,8 @@ public final class Context {
                     }
                 }
             }
-
+            configContext.getProperties().putAll(conf.getProperties());
+            
             // Initialize handlers.
             initHandlers();
 
@@ -331,7 +332,7 @@ public final class Context {
         for (Handler handler : conf.getHandlers()) {
             try {
                 if (!configContext.getHandlers().contains(handler)) {
-                    handler.setProperties(conf.getProperties());
+                    handler.setProperties(configContext.getProperties());
                     handler.init();
                     configContext.addHandler(handler);
                 }

@@ -33,6 +33,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @param <E>
  *            the element type
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 2.3.0
  */
 public class ConcurrentTimelyBufferedArrayList<E> extends AbstractList<E> implements RandomAccess, Serializable,
         Cloneable {

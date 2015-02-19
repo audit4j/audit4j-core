@@ -26,9 +26,17 @@ import org.audit4j.core.dto.AuditEvent;
  * The Interface AuditEventFilter.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 2.2.0
  */
 public interface AuditEventFilter extends Serializable {
     
+    /**
+     * Accepts.
+     *
+     * @param event the event
+     * @return true, if successful
+     */
     boolean accepts(AuditEvent event);
     
 }

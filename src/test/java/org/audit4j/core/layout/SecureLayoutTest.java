@@ -1,8 +1,12 @@
 package org.audit4j.core.layout;
 
+import static org.junit.Assert.assertNotNull;
+
+import org.audit4j.core.Audit4jTestBase;
 import org.audit4j.core.dto.AuditEvent;
-import org.junit.*;
-import static org.junit.Assert.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * The class <code>SecureLayoutTest</code> contains tests for the class <code>{@link SecureLayout}</code>.
@@ -11,7 +15,7 @@ import static org.junit.Assert.*;
  * @author JanithB
  * @version $Revision: 1.0 $
  */
-public class SecureLayoutTest {
+public class SecureLayoutTest extends Audit4jTestBase{
     /**
      * Run the SecureLayout() constructor test.
      *
@@ -36,14 +40,15 @@ public class SecureLayoutTest {
     public void testFormat_1()
         throws Exception {
         SecureLayout fixture = new SecureLayout();
-        fixture.setSalt("");
-        fixture.setKey("");
+        fixture.init();
+        fixture.setSalt("232332324");
+        fixture.setKey("Aud1T4jSecureKey");
         AuditEvent event = new AuditEvent();
 
         String result = fixture.format(event);
 
         // add additional test code here
-        assertEquals(null, result);
+        assertNotNull(result);
     }
 
     /**
@@ -57,14 +62,14 @@ public class SecureLayoutTest {
     public void testFormat_2()
         throws Exception {
         SecureLayout fixture = new SecureLayout();
-        fixture.setSalt("");
-        fixture.setKey("");
+        fixture.init();
+        fixture.setSalt("232332324");
+        fixture.setKey("Aud1T4jSecureKey");
         AuditEvent event = new AuditEvent();
 
         String result = fixture.format(event);
 
-        // add additional test code here
-        assertEquals(null, result);
+        assertNotNull(result);
     }
 
     /**
@@ -78,13 +83,13 @@ public class SecureLayoutTest {
     public void testGetKey_1()
         throws Exception {
         SecureLayout fixture = new SecureLayout();
-        fixture.setSalt("");
-        fixture.setKey("");
+        fixture.init();
+        fixture.setSalt("232332324");
+        fixture.setKey("Aud1T4jSecureKey");
 
         String result = fixture.getKey();
 
-        // add additional test code here
-        assertEquals("", result);
+        assertNotNull(result);
     }
 
     /**
@@ -98,13 +103,13 @@ public class SecureLayoutTest {
     public void testGetSalt_1()
         throws Exception {
         SecureLayout fixture = new SecureLayout();
-        fixture.setSalt("");
-        fixture.setKey("");
+        fixture.init();
+        fixture.setSalt("232332324");
+        fixture.setKey("Aud1T4jSecureKey");
 
         String result = fixture.getSalt();
 
-        // add additional test code here
-        assertEquals("", result);
+        assertNotNull(result);
     }
 
     /**
@@ -118,8 +123,8 @@ public class SecureLayoutTest {
     public void testInit_1()
         throws Exception {
         SecureLayout fixture = new SecureLayout();
-        fixture.setSalt((String) null);
-        fixture.setKey((String) null);
+        fixture.setSalt("232332324");
+        fixture.setKey("Aud1T4jSecureKey");
 
         fixture.init();
 

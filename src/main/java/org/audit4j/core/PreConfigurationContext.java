@@ -32,6 +32,8 @@ import org.audit4j.core.filter.AuditEventFilter;
  * Registry for internal initial resource configurations.
  *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 2.3.0
  */
 public final class PreConfigurationContext {
 

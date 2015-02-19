@@ -153,7 +153,7 @@ public final class AuditManager {
         return getInstance();
     }
 
-    public static void shutdown() {
+    public void shutdown() {
         Context.stop();
     }
 }

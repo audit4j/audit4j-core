@@ -7,7 +7,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ SmokeTestSuite.class, Audit4jCoreTestSuit.class, IntTestSuite.class })
+@SuiteClasses({ SmokeTestSuite.class, Audit4jCoreUnitTestSuit.class, IntTestSuite.class })
 public class Audit4jTestRunner {
 
 }

@@ -24,15 +24,31 @@ import java.util.Set;
 import org.audit4j.core.dto.AnnotationAuditEvent;
 import org.audit4j.core.filter.AuditAnnotationFilter;
 
+/**
+ * The Class ScanAnnotatedFilter.
+ *
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 2.3.0
+ */
 public class ScanAnnotatedFilter implements AuditAnnotationFilter {
 
+    /** The classes. */
     public Set<Class<?>> classes = new HashSet<>();
     
+    /* (non-Javadoc)
+     * @see org.audit4j.core.filter.AuditAnnotationFilter#accepts(org.audit4j.core.dto.AnnotationAuditEvent)
+     */
     @Override
     public boolean accepts(AnnotationAuditEvent auditDto) {
         return classes.contains(auditDto.getClazz());
     }
 
+    /**
+     * Adds the class.
+     *
+     * @param clazz the clazz
+     */
     public void addClass(Class<?> clazz){
         classes.add(clazz);
     }

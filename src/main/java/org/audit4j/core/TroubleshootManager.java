@@ -49,12 +49,13 @@ public final class TroubleshootManager {
             throw new TroubleshootException(
                     "Invalid Audit event type,\n Audit4j: Audit Event should not null, This event will not be logged by the Audit4j.");
         } else if (event.getActor() == null) {
-            if (Context.getConfigContext().getMetaData() == null || Context.getConfigContext().getMetaData().getClass().equals(DummyMetaData.class)) {
+            if (Context.getConfigContext().getMetaData() == null
+                    || Context.getConfigContext().getMetaData().getClass().equals(DummyMetaData.class)) {
                 event.setActor(CoreConstants.DEFAULT_ACTOR);
-                Log.warn("Audit4j:WARN If you are not parsing the actor to the AuditEvent,\n"
-                        + "Audit4j:WARN you should make a your own AuditMetaData implementation. \n"
-                        + "Audit4j:WARN otherwise actor will be hard coded as \"" + CoreConstants.DEFAULT_ACTOR
-                        + "\" in the audit log. " + "\nAudit4j: See " + ErrorGuide.NULL_ACTOR + " for further details.");
+                Log.warn("If you are not parsing the actor to the AuditEvent, "
+                        + "you should make a your own AuditMetaData implementation. "
+                        + "otherwise actor will be hard coded as \"" + CoreConstants.DEFAULT_ACTOR
+                        + "\" in the audit log. See " + ErrorGuide.NULL_ACTOR + " for further details.");
 
             } else {
                 event.setActor(Context.getConfigContext().getMetaData().getActor());
@@ -95,4 +96,5 @@ public final class TroubleshootManager {
         String os = System.getProperty("os.name");
         return os.startsWith("Windows");
     }
+
 }

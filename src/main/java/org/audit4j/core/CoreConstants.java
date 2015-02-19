@@ -58,6 +58,16 @@ public final class CoreConstants {
 
 	/** The Constant DASH_CHAR. */
 	public static final char DASH_CHAR = '-';
+	
+	public static final char OPEN_BRACES_CHAR = '{';
+	
+	public static final char CLOSE_BRACES_CHAR = '}';
+	
+	public static final String BRACKETS = "[]";
+	
+	public static final char OPEN_BRACKETS_CHAR = '[';
+	
+	public static final char CLOSE_BRACKETS_CHAR = ']';
 
 	/** The Constant ARROW. */
 	public static final String ARROW = "==>";
@@ -79,6 +89,8 @@ public final class CoreConstants {
 
 	/** The Constant NEW_LINE. */
 	public static final String NEW_LINE = "\n";
+	
+	public static final String NULL = "null";
 
 	/** The Constant DEFAULT_ACTOR. */
 	public static final String DEFAULT_ACTOR = "Audit4j User";

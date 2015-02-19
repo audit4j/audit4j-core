@@ -21,6 +21,8 @@ package org.audit4j.core.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.audit4j.core.util.ToString;
+
 /**
  * The Class AuditEvent.
  * 
@@ -162,7 +164,7 @@ public class AuditEvent extends AuditBase {
 		if (value == null) {
 			this.fields.add(new Field(name, null, null));
 		} else {
-			this.fields.add(new Field(name, value.toString(), type.toString()));
+			this.fields.add(new Field(name, ToString.toStringIfNotImplemented(value), type.toString()));
 		}
 	}
 
@@ -178,7 +180,7 @@ public class AuditEvent extends AuditBase {
 		if (value == null) {
 			this.fields.add(new Field(name, null, null));
 		} else {
-			this.fields.add(new Field(name, value.toString(), value.getClass().getName()));
+			this.fields.add(new Field(name, ToString.toStringIfNotImplemented(value), value.getClass().getName()));
 		}
 	}
 

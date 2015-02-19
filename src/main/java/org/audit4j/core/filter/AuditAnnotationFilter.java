@@ -20,8 +20,21 @@ package org.audit4j.core.filter;
 
 import org.audit4j.core.dto.AnnotationAuditEvent;
 
+/**
+ * The Interface AuditAnnotationFilter.
+ *
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 2.3.0
+ */
 public interface AuditAnnotationFilter {
 
+    /**
+     * Accepts.
+     *
+     * @param annotationEvent the annotation event
+     * @return true, if successful
+     */
     boolean accepts(AnnotationAuditEvent annotationEvent);
 
 }

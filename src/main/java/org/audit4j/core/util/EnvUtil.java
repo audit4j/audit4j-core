@@ -81,6 +81,11 @@ public class EnvUtil {
 		return isJDK_N_OrHigher(7);
 	}
 
+	/**
+	 * Gets the javaersion.
+	 *
+	 * @return the javaersion
+	 */
 	public static String getJavaersion(){
 	    return System.getProperty("java.version");
 	} 
