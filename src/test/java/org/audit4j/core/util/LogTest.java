@@ -1,11 +1,15 @@
 package org.audit4j.core.util;
 
-import org.junit.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
- * The class <code>LogTest</code> contains tests for the class <code>{@link Log}</code>.
- *
+ * The class <code>LogTest</code> contains tests for the class
+ * <code>{@link Log}</code>.
+ * 
  * @generatedBy CodePro at 2/4/15 9:26 AM
  * @author JanithB
  * @version $Revision: 1.0 $
@@ -13,12 +17,11 @@ import static org.junit.Assert.*;
 public class LogTest {
     /**
      * Run the Log() constructor test.
-     *
+     * 
      * @generatedBy CodePro at 2/4/15 9:26 AM
      */
     @Test
-    public void testLog_1()
-        throws Exception {
+    public void testLog_1() throws Exception {
         Log result = new Log();
         assertNotNull(result);
         // add additional test code here
@@ -26,14 +29,13 @@ public class LogTest {
 
     /**
      * Run the void error(Object) method test.
-     *
+     * 
      * @throws Exception
-     *
+     * 
      * @generatedBy CodePro at 2/4/15 9:26 AM
      */
     @Test
-    public void testError_1()
-        throws Exception {
+    public void testError_1() throws Exception {
         Object message = new Object();
 
         Log.error(message);
@@ -43,32 +45,27 @@ public class LogTest {
 
     /**
      * Run the void error(Object,Throwable) method test.
-     *
+     * 
      * @throws Exception
-     *
+     * 
      * @generatedBy CodePro at 2/4/15 9:26 AM
      */
     @Test
-    public void testError_2()
-        throws Exception {
+    public void testError_2() {
         Object message = new Object();
         Throwable t = new Throwable();
-
         Log.error(message, t);
-
-        // add additional test code here
     }
 
     /**
      * Run the void info(Object) method test.
-     *
+     * 
      * @throws Exception
-     *
+     * 
      * @generatedBy CodePro at 2/4/15 9:26 AM
      */
     @Test
-    public void testInfo_1()
-        throws Exception {
+    public void testInfo_1() throws Exception {
         Object message = new Object();
 
         Log.info(message);
@@ -78,14 +75,13 @@ public class LogTest {
 
     /**
      * Run the void warn(Object) method test.
-     *
+     * 
      * @throws Exception
-     *
+     * 
      * @generatedBy CodePro at 2/4/15 9:26 AM
      */
     @Test
-    public void testWarn_1()
-        throws Exception {
+    public void testWarn_1() throws Exception {
         Object message = new Object();
 
         Log.warn(message);
@@ -95,14 +91,13 @@ public class LogTest {
 
     /**
      * Run the void warn(Object,Throwable) method test.
-     *
+     * 
      * @throws Exception
-     *
+     * 
      * @generatedBy CodePro at 2/4/15 9:26 AM
      */
     @Test
-    public void testWarn_2()
-        throws Exception {
+    public void testWarn_2() throws Exception {
         Object message = new Object();
         Throwable t = new Throwable();
 
@@ -113,37 +108,36 @@ public class LogTest {
 
     /**
      * Perform pre-test initialization.
-     *
+     * 
      * @throws Exception
-     *         if the initialization fails for some reason
-     *
+     *             if the initialization fails for some reason
+     * 
      * @generatedBy CodePro at 2/4/15 9:26 AM
      */
     @Before
-    public void setUp()
-        throws Exception {
+    public void setUp() throws Exception {
         // add additional set up code here
     }
 
     /**
      * Perform post-test clean-up.
-     *
+     * 
      * @throws Exception
-     *         if the clean-up fails for some reason
-     *
+     *             if the clean-up fails for some reason
+     * 
      * @generatedBy CodePro at 2/4/15 9:26 AM
      */
     @After
-    public void tearDown()
-        throws Exception {
+    public void tearDown() throws Exception {
         // Add additional tear down code here
     }
 
     /**
      * Launch the test.
-     *
-     * @param args the command line arguments
-     *
+     * 
+     * @param args
+     *            the command line arguments
+     * 
      * @generatedBy CodePro at 2/4/15 9:26 AM
      */
     public static void main(String[] args) {
