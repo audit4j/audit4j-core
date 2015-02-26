@@ -18,6 +18,7 @@
 
 package org.audit4j.core.util;
 
+import java.io.File;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,52 +28,53 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
-
 /**
  * The Class AuditUtil.
- *
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
  * @since 1.0
  */
 public final class AuditUtil {
 
-	/**
-	 * Instantiates a new audit util.
-	 */
-	private AuditUtil() {
-	}
+    /**
+     * Instantiates a new audit util.
+     */
+    private AuditUtil() {
+    }
 
-	/**
-	 * Transform map.
-	 * 
-	 * @param paramMap
-	 *            the param map
-	 * @return the map
-	 */
-	public static Map<String, String> transformMap(final Map<String, Object> paramMap) {
-		final Map<String, String> paramStrMap = new LinkedHashMap<String, String>();
-		for (final Map.Entry<String, Object> entry : paramMap.entrySet()) {
-			paramStrMap.put(entry.getKey(), entry.getValue().toString());
-		}
+    /**
+     * Transform map.
+     * 
+     * @param paramMap
+     *            the param map
+     * @return the map
+     */
+    public static Map<String, String> transformMap(final Map<String, Object> paramMap) {
+        final Map<String, String> paramStrMap = new LinkedHashMap<String, String>();
+        for (final Map.Entry<String, Object> entry : paramMap.entrySet()) {
+            paramStrMap.put(entry.getKey(), entry.getValue().toString());
+        }
 
-		return paramStrMap;
-	}
+        return paramStrMap;
+    }
 
-	/**
-	 * Gets the uuid.
-	 * 
-	 * @return the uuid
-	 */
-	protected Long getUUID() {
-		return UUID.randomUUID().getMostSignificantBits();
-	}
-	
+    /**
+     * Gets the uuid.
+     * 
+     * @return the uuid
+     */
+    protected Long getUUID() {
+        return UUID.randomUUID().getMostSignificantBits();
+    }
+
     /**
      * Date to string.
      * 
-     * @param date the date
-     * @param format the format
+     * @param date
+     *            the date
+     * @param format
+     *            the format
      * @return the string
      */
     public static String dateToString(final Date date, final String format) {
@@ -82,16 +84,31 @@ public final class AuditUtil {
         final DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
         return dateFormat.format(date);
     }
-    
 
     /**
      * Time stamp to string.
-     *
-     * @param timestamp the timestamp
-     * @param format the format
+     * 
+     * @param timestamp
+     *            the timestamp
+     * @param format
+     *            the format
      * @return the string
      */
     public static String timeStampToString(final Timestamp timestamp, final String format) {
         return dateToString(new Date(timestamp.getTime()), format);
     }
+
+    /**
+     * Checks if is file exists.
+     *
+     * @param filePathString the file path string
+     * @return true, if is file exists
+     */
+    public static boolean isFileExists(String filePathString) {
+        File file = new File(filePathString);
+        if (file.exists() && !file.isDirectory())
+            return true;
+        return false;
+    }
+
 }

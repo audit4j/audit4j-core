@@ -18,14 +18,16 @@
 
 package org.audit4j.core.handler.file;
 
+import org.audit4j.core.Initializable;
 import org.audit4j.core.extra.cron4j.Scheduler;
+import org.audit4j.core.util.Log;
 
 /**
  * The Class ArchiveManager.
  *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
-public class ArchiveManager {
+public class ArchiveManager implements Initializable{
 
 	/** The date pattern. */
 	private String datePattern;
@@ -37,19 +39,20 @@ public class ArchiveManager {
 	private String cronPattern;
 
 	/** The job. */
-	private ArchiveJob job;
+	private ArchiveJob archiveJob;
 
+	/** The scheculer. */
+	private Scheduler scheculer;
 	/**
 	 * Inits the.
 	 */
-	public void init() {
-		Scheduler s = new Scheduler();
-		System.out.println("Start Archive Manager");
-		s.schedule(cronPattern, new Runnable() {
+	@Override
+    public void init() {
+	    Log.info("Starting Archive Manager");
+		scheculer = new Scheduler();
+		scheculer.schedule(cronPattern, new Runnable() {
 			@Override
 			public void run() {
-				System.out.println("Start Archive Manager");
-				ArchiveJob archiveJob = job;
 				archiveJob.setArchiveDateDiff(extractArchiveDateCount(datePattern));
 				archiveJob.setPath(path);
 				archiveJob.archive();
@@ -113,6 +116,14 @@ public class ArchiveManager {
 	 * @param job the new job
 	 */
 	public void setJob(ArchiveJob job) {
-		this.job = job;
+		this.archiveJob = job;
 	}
+
+    /* (non-Javadoc)
+     * @see org.audit4j.core.Initializable#stop()
+     */
+    @Override
+    public void stop() {
+        scheculer.stop();
+    }
 }

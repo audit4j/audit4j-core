@@ -35,6 +35,7 @@ import org.audit4j.core.io.AsyncAuditOutputStream;
 import org.audit4j.core.io.AuditEventOutputStream;
 import org.audit4j.core.io.AuditOutputStream;
 import org.audit4j.core.io.AuditProcessOutputStream;
+import org.audit4j.core.util.AuditUtil;
 import org.audit4j.core.util.EnvUtil;
 import org.audit4j.core.util.Log;
 import org.audit4j.core.util.StopWatch;
@@ -56,8 +57,8 @@ import org.audit4j.core.util.StopWatch;
  * <li>{@link #disable()} Disable audit4j.</li>
  * <li>{@link #terminate()} Terminate audit4j.</li>
  * <li>{@link #getConfigContext()} get initialized configurations.</li>
- * <li>{@link #setConfig(Configuration conf)} set initial and external configurations in to
- * context.</li>
+ * <li>{@link #setConfig(Configuration conf)} set initial and external
+ * configurations in to context.</li>
  * </ul>
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
@@ -102,7 +103,7 @@ public final class Context {
             // Check system environment;
             checkEnvironment();
             Log.info("Loading Configurations...");
-            
+
             if (conf == null) {
                 loadConfig();
             }
@@ -137,7 +138,7 @@ public final class Context {
                 }
             }
             configContext.getProperties().putAll(conf.getProperties());
-            
+
             // Initialize handlers.
             initHandlers();
 
@@ -160,6 +161,42 @@ public final class Context {
             Long initializationTime = stopWatch.getLastTaskTimeMillis();
             Log.info("Audit4j initialized. Total time: ", initializationTime, "ms");
         }
+    }
+
+    /**
+     * Initialize audit4j with external configurations.
+     * 
+     * This method allows to external plugins can inject the configurations.
+     * Since the security reasons, this allows to create one time configuration
+     * setting to Audit4j.
+     * 
+     * @param configuration
+     *            the configuration
+     * @return the audit manager
+     * 
+     * @since 2.3.1
+     */
+    public static void initWithConfiguration(Configuration configuration) {
+        Context.setConfig(configuration);
+        init();
+    }
+
+    /**
+     * Initialize audit4j with external configuration file.
+     * 
+     * This method allows to external plugins can inject the configurations.
+     * Since the security reasons, this allows to create one time configuration
+     * setting to Audit4j.
+     * 
+     * @param configuration
+     *            the configuration
+     * @return the audit manager
+     * 
+     * @since 2.3.1
+     */
+    public static void initWithConfiguration(String configFilePath) {
+        Context.setConfigFilePath(configFilePath);
+        init();
     }
 
     /**
@@ -255,6 +292,10 @@ public final class Context {
     private final static void loadConfig() {
         if (null == configFilePath) {
             configFilePath = CoreConstants.CONFIG_FILE_NAME;
+        } else {
+            if (AuditUtil.isFileExists(configFilePath)) {
+                throw new InitializationException("The given configuration file is not exists.");
+            }
         }
         try {
             conf = ConfigUtil.readConfig(configFilePath);

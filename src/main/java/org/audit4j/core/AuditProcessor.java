@@ -66,13 +66,14 @@ public abstract class AuditProcessor<T extends AuditBase> {
         }
         if (execute) {
             // event.setActor(getConf().getMetaData().getActor());
+            String formattedEvent = configContext.getLayout().format(event);
             for (final Handler handler : configContext.getHandlers()) {
                 handler.setAuditEvent(event);
-                handler.setQuery(configContext.getLayout().format(event));
+                handler.setQuery(formattedEvent);
                 try {
                     handler.handle();
                 } catch (HandlerException e) {
-                    Log.warn("Failed to submit audit event.");
+                    Log.warn("Failed to submit audit event.", e);
                 }
             }
         }

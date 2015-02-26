@@ -1,14 +1,19 @@
 package org.audit4j.core;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.List;
 import java.util.Map;
+
 import org.audit4j.core.filter.AuditEventFilter;
 import org.audit4j.core.handler.ConsoleAuditHandler;
 import org.audit4j.core.handler.Handler;
 import org.audit4j.core.layout.Layout;
 import org.audit4j.core.layout.SimpleLayout;
-import org.junit.*;
-import static org.junit.Assert.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * The class <code>ConcurrentConfigurationContextTest</code> contains tests for the class <code>{@link ConcurrentConfigurationContext}</code>.
@@ -18,9 +23,11 @@ import static org.junit.Assert.*;
  * @version $Revision: 1.0 $
  */
 public class ConcurrentConfigurationContextTest {
+    
     /**
      * Run the ConcurrentConfigurationContext() constructor test.
      *
+     * @throws Exception the exception
      * @generatedBy CodePro at 2/4/15 9:28 AM
      */
     @Test
@@ -34,8 +41,7 @@ public class ConcurrentConfigurationContextTest {
     /**
      * Run the void addFilter(AuditEventFilter) method test.
      *
-     * @throws Exception
-     *
+     * @throws Exception the exception
      * @generatedBy CodePro at 2/4/15 9:28 AM
      */
     @Test
@@ -57,8 +63,7 @@ public class ConcurrentConfigurationContextTest {
     /**
      * Run the void addHandler(Handler) method test.
      *
-     * @throws Exception
-     *
+     * @throws Exception the exception
      * @generatedBy CodePro at 2/4/15 9:28 AM
      */
     @Test
@@ -80,8 +85,7 @@ public class ConcurrentConfigurationContextTest {
     /**
      * Run the void addProperty(String,String) method test.
      *
-     * @throws Exception
-     *
+     * @throws Exception the exception
      * @generatedBy CodePro at 2/4/15 9:28 AM
      */
     @Test
@@ -104,8 +108,7 @@ public class ConcurrentConfigurationContextTest {
     /**
      * Run the List<AuditEventFilter> getFilters() method test.
      *
-     * @throws Exception
-     *
+     * @throws Exception the exception
      * @generatedBy CodePro at 2/4/15 9:28 AM
      */
     @Test
@@ -128,8 +131,7 @@ public class ConcurrentConfigurationContextTest {
     /**
      * Run the List<Handler> getHandlers() method test.
      *
-     * @throws Exception
-     *
+     * @throws Exception the exception
      * @generatedBy CodePro at 2/4/15 9:28 AM
      */
     @Test
@@ -152,8 +154,7 @@ public class ConcurrentConfigurationContextTest {
     /**
      * Run the Layout getLayout() method test.
      *
-     * @throws Exception
-     *
+     * @throws Exception the exception
      * @generatedBy CodePro at 2/4/15 9:28 AM
      */
     @Test
@@ -175,8 +176,7 @@ public class ConcurrentConfigurationContextTest {
     /**
      * Run the MetaData getMetaData() method test.
      *
-     * @throws Exception
-     *
+     * @throws Exception the exception
      * @generatedBy CodePro at 2/4/15 9:28 AM
      */
     @Test
@@ -199,8 +199,7 @@ public class ConcurrentConfigurationContextTest {
     /**
      * Run the Map<String, String> getProperties() method test.
      *
-     * @throws Exception
-     *
+     * @throws Exception the exception
      * @generatedBy CodePro at 2/4/15 9:28 AM
      */
     @Test
@@ -223,8 +222,7 @@ public class ConcurrentConfigurationContextTest {
     /**
      * Run the RunStatus getRunStatus() method test.
      *
-     * @throws Exception
-     *
+     * @throws Exception the exception
      * @generatedBy CodePro at 2/4/15 9:28 AM
      */
     @Test
@@ -249,8 +247,7 @@ public class ConcurrentConfigurationContextTest {
     /**
      * Run the void setLayout(Layout) method test.
      *
-     * @throws Exception
-     *
+     * @throws Exception the exception
      * @generatedBy CodePro at 2/4/15 9:28 AM
      */
     @Test
@@ -272,8 +269,7 @@ public class ConcurrentConfigurationContextTest {
     /**
      * Run the void setMetaData(MetaData) method test.
      *
-     * @throws Exception
-     *
+     * @throws Exception the exception
      * @generatedBy CodePro at 2/4/15 9:28 AM
      */
     @Test
@@ -295,8 +291,7 @@ public class ConcurrentConfigurationContextTest {
     /**
      * Run the void setRunStatus(RunStatus) method test.
      *
-     * @throws Exception
-     *
+     * @throws Exception the exception
      * @generatedBy CodePro at 2/4/15 9:28 AM
      */
     @Test

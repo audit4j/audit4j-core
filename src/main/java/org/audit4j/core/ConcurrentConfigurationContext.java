@@ -57,10 +57,8 @@ public final class ConcurrentConfigurationContext {
     /** The Constant filters. */
     private final List<AuditEventFilter> filters = new CopyOnWriteArrayList<AuditEventFilter>();
 
-    
     /** The Constant filters. */
     private final List<AuditAnnotationFilter> annotationFilters = new CopyOnWriteArrayList<AuditAnnotationFilter>();
-
     
     /** The layout. */
     private Layout layout;

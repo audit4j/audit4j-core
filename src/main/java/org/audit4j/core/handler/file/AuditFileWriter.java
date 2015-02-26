@@ -18,13 +18,15 @@
 
 package org.audit4j.core.handler.file;
 
+import org.audit4j.core.Initializable;
+
 
 /**
  * The Class AuditFileWriter.
  *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
-public abstract class AuditFileWriter {
+public abstract class AuditFileWriter implements Initializable{
 	
 	/**
 	 * Write.
@@ -34,13 +36,4 @@ public abstract class AuditFileWriter {
 	 */
 	public abstract AuditFileWriter write(String event);
 	
-	/**
-	 * Inits the.
-	 */
-	public abstract void init();
-	
-	/**
-	 * Stop.
-	 */
-	public abstract void stop();
 }

@@ -39,9 +39,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class ConcurrentTimelyBufferedArrayList<E> extends AbstractList<E> implements RandomAccess, Serializable,
         Cloneable {
 
-    /**
-     * asdas
-     */
+    /** asdas. */
     private static final long serialVersionUID = 8870953621895891238L;
 
     /** The buff. */
@@ -49,6 +47,12 @@ public class ConcurrentTimelyBufferedArrayList<E> extends AbstractList<E> implem
 
     /** The listener. */
     private final BufferedListener<E> listener;
+    
+    /** The consumer. */
+    ScheduleConsumer consumer;
+    
+    /** The time. */
+    Timer time;
 
     /**
      * Instantiates a new circular timely buffered array list.
@@ -60,8 +64,8 @@ public class ConcurrentTimelyBufferedArrayList<E> extends AbstractList<E> implem
      */
     public ConcurrentTimelyBufferedArrayList(final int timeInMills, final BufferedListener<E> listener) {
         this.listener = listener;
-        Timer time = new Timer();
-        ScheduleConsumer consumer = new ScheduleConsumer();
+        time = new Timer();
+        consumer = new ScheduleConsumer();
         time.schedule(consumer, 0, timeInMills);
     }
 
@@ -105,6 +109,17 @@ public class ConcurrentTimelyBufferedArrayList<E> extends AbstractList<E> implem
         return buff.isEmpty();
     }
 
+    /**
+     * Close.
+     */
+    public void close() {
+        time.cancel();
+        consumer.cancel();
+    }
+
+    /* (non-Javadoc)
+     * @see java.util.AbstractList#clear()
+     */
     @Override
     public void clear() {
         buff.clear();
@@ -148,9 +163,8 @@ public class ConcurrentTimelyBufferedArrayList<E> extends AbstractList<E> implem
      * the object created with that class is registered with a component using
      * the component's addBufferedListener method. When the buffered event
      * occurs, that object's appropriate method is invoked.
-     * 
-     * @param <E>
-     *            the element type
+     *
+     * @param <E> the element type
      */
     public interface BufferedListener<E> {
 

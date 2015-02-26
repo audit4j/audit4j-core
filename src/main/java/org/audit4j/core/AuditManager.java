@@ -134,25 +134,70 @@ public final class AuditManager {
      * @return the configuration instance
      * 
      * @since 2.1.0
+     * 
+     * @deprecated
      */
-
+    @Deprecated
     public static AuditManager getConfigurationInstance(Configuration configuration) {
         Context.setConfig(configuration);
         return getInstance();
     }
 
     /**
-     * Inits the with configuration.
+     * @deprecated
+     * This method allows to external plugins can inject the configurations.
+     * Since the security reasons, this allows to create one time configuration
+     * setting to Audit4j.
      * 
      * @param configuration
      *            the configuration
      * @return the audit manager
+     * 
+     * @since 2.3.0
      */
+    @Deprecated
     public static AuditManager initWithConfiguration(Configuration configuration) {
         Context.setConfig(configuration);
         return getInstance();
     }
+    
+    /**
+     * This method allows to external plugins can inject the configurations.
+     * Since the security reasons, this allows to create one time configuration
+     * setting to Audit4j.
+     * 
+     * @param configuration
+     *            the configuration
+     * @return the audit manager
+     * 
+     * @since 2.3.1
+     */
+    public static AuditManager startWithConfiguration(Configuration configuration) {
+        Context.setConfig(configuration);
+        return getInstance();
+    }
 
+    /**
+     * Initialize audit4j with external configuration file.
+     * 
+     * This method allows to external plugins can inject the configurations.
+     * Since the security reasons, this allows to create one time configuration
+     * setting to Audit4j.
+     * 
+     * @param configuration
+     *            the configuration
+     * @return the audit manager
+     * 
+     * @since 2.3.1
+     */
+    public static AuditManager startWithConfiguration(String configFilePath) {
+        Context.setConfigFilePath(configFilePath);
+        return getInstance();
+    }
+    
+    /**
+     * Shutdown.
+     */
     public void shutdown() {
         Context.stop();
     }

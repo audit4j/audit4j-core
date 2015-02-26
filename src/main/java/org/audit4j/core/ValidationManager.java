@@ -76,7 +76,7 @@ public final class ValidationManager {
         }
         if (null == conf.getLayout()) {
             Log.error("Layout should not be null, A layout implementation shuld be configured in the configuration",
-                    ErrorGuide.getGuide(ErrorGuide.EMPTY_HANDLERS));
+                    ErrorGuide.getGuide(ErrorGuide.EMPTY_LAYOUT));
             throw new ValidationException("Configuration error", ValidationException.VALIDATION_LEVEL_INVALID);
         }
 

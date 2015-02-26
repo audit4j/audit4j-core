@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.audit4j.core.exception.InitializationException;
 import org.audit4j.core.util.Log;
 
 /**
@@ -83,5 +84,17 @@ public class FileArchiveJob extends ArchiveJob {
 			}
 		}
 	}
+
+    @Override
+    public void init() throws InitializationException {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void stop() {
+        // TODO Auto-generated method stub
+        
+    }
 
 }

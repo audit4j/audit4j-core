@@ -18,6 +18,10 @@
 
 package org.audit4j.core.handler.file;
 
+import java.io.Serializable;
+
+import org.audit4j.core.Initializable;
+
 /**
  * The Class ArchiveJob.
  *
@@ -25,7 +29,7 @@ package org.audit4j.core.handler.file;
  * 
  * @since 1.0.1
  */
-public abstract class ArchiveJob {
+public abstract class ArchiveJob implements Initializable, Serializable{
 	
 	/** The archive date diff. */
 	protected Integer archiveDateDiff;
