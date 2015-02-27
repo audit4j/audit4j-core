@@ -1,7 +1,6 @@
 package org.audit4j.core.layout;
 
 import static org.junit.Assert.assertNotNull;
-import jsr166e.extra.ReadMostlyVector;
 
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.dto.Field;
@@ -42,7 +41,7 @@ public class SimpleLayoutTest {
         throws Exception {
         SimpleLayout fixture = new SimpleLayout();
         AuditEvent event = new AuditEvent("", "", "", new Field[] {});
-        event.setFields(new ReadMostlyVector());
+       // event.setFields(new ReadMostlyVector());
 
         String result = fixture.format(event);
 

@@ -77,6 +77,12 @@
 			<artifactId>javassist</artifactId>
 			<version>3.12.1.GA</version>
 		</dependency>
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<version>1.2</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 
@@ -86,7 +92,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<!-- or whatever version you use -->
 					<source>1.7</source>
 					<target>1.7</target>
 					<!-- [#2413] Make compiler warnings a bit more visible But don't fail 
@@ -98,6 +103,27 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<finalName> ${project.build.finalName}-all</finalName>
+					<appendAssemblyId>false</appendAssemblyId>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<configuration>
 					<excludePackageNames>org.audit4j.core.extra.*</excludePackageNames>
@@ -105,8 +131,7 @@
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
-						<!-- Restrict execution of source compilation to install -->
-						<phase>install</phase>
+						<phase>deploy</phase>
 						<goals>
 							<goal>jar</goal>
 						</goals>
@@ -118,7 +143,7 @@
 				<artifactId>maven-source-plugin</artifactId>
 				<executions>
 					<execution>
-						<phase>install</phase>
+						<phase>deploy</phase>
 						<goals>
 							<goal>jar</goal>
 						</goals>
@@ -130,7 +155,7 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<tagNameFormat>v@{project.version}</tagNameFormat>
+					<tagNameFormat>@{project.version}</tagNameFormat>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -218,15 +243,15 @@
 					<excludePackageNames>org.audit4j.core.extra.*</excludePackageNames>
 				</configuration>
 				<reportSets>
-					<reportSet><!-- by default, id = "default" -->
-						<reports><!-- select non-aggregate reports -->
+					<reportSet>
+						<reports>
 							<report>javadoc</report>
 							<report>test-javadoc</report>
 						</reports>
 					</reportSet>
-					<reportSet><!-- aggregate reportSet, to define in poms having modules -->
+					<reportSet>
 						<id>aggregate</id>
-						<inherited>false</inherited><!-- don't run aggregate in child modules -->
+						<inherited>false</inherited>
 						<reports>
 							<report>aggregate</report>
 						</reports>

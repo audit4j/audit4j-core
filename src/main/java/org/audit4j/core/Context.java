@@ -43,21 +43,25 @@ import org.audit4j.core.util.StopWatch;
 /**
  * The Audit4j Context. This will load and execute required resources in to the
  * memory when initializing audit4j, Context makes sure necessary resources
- * provide when running audit4j. And this will release the memory allocated by
- * audit4j when shutdown.
+ * provide when running audit4j and it's plugins. Also this will ensure to
+ * release the memory allocated by audit4j when shutdown.
  * 
  * <p>
  * Available public methods:
  * </p>
  * <ul>
  * <li>{@link #init()} Initialize the Audit4j context.</li>
+ * <li>{@link #initWithConfiguration(Configuration configuration)} Initialize
+ * the Audit4j context with external configurations.</li>
+ * <li>{@link #initWithConfiguration(String configFilePath)} Initialize the
+ * Audit4j context with external configuration file.</li>
  * <li>{@link #stop()} Shutdown Audit4j. This will free memory allocated by the
  * Audit4j</li>
  * <li>{@link #enable()} Enable audit4j.</li>
  * <li>{@link #disable()} Disable audit4j.</li>
  * <li>{@link #terminate()} Terminate audit4j.</li>
  * <li>{@link #getConfigContext()} get initialized configurations.</li>
- * <li>{@link #setConfig(Configuration conf)} set initial and external
+ * <li>{@link #setConfig(Configuration configuration)} set initial and external
  * configurations in to context.</li>
  * </ul>
  * 
@@ -122,6 +126,7 @@ public final class Context {
 
             // Extract options.
             Map<String, String> options = processOptions(conf.getOptions());
+            
             // Execute commands.
             if (options != null) {
                 CommandProcessor.getInstance().process(options);
@@ -172,7 +177,6 @@ public final class Context {
      * 
      * @param configuration
      *            the configuration
-     * @return the audit manager
      * 
      * @since 2.3.1
      */
@@ -188,10 +192,8 @@ public final class Context {
      * Since the security reasons, this allows to create one time configuration
      * setting to Audit4j.
      * 
-     * @param configuration
-     *            the configuration
-     * @return the audit manager
-     * 
+     * @param configFilePath
+     *            the config file path
      * @since 2.3.1
      */
     public static void initWithConfiguration(String configFilePath) {
@@ -495,5 +497,4 @@ public final class Context {
     private Context() {
         // Nothing here.
     }
-
 }

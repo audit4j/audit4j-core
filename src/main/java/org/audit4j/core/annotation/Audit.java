@@ -24,6 +24,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import javax.interceptor.InterceptorBinding;
+
 
 /**
  * The Interface Audit.
@@ -32,6 +34,7 @@ import java.lang.annotation.Target;
  * 
  * @since 1.0.0
  */
+@InterceptorBinding
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.TYPE, ElementType.METHOD })
