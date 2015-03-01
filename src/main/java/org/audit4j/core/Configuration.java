@@ -25,8 +25,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.audit4j.core.filter.AuditEventFilter;
+import org.audit4j.core.handler.ConsoleAuditHandler;
 import org.audit4j.core.handler.Handler;
 import org.audit4j.core.layout.Layout;
+import org.audit4j.core.layout.SimpleLayout;
 
 /**
  * The Class Configuration.
@@ -63,6 +65,34 @@ public class Configuration implements Serializable {
      */
     public Configuration() {
 
+    }
+    
+    /** Return new static instance. 
+     * 
+     * @since 2.3.1
+     * */
+    public static Configuration INSTANCE = new Configuration();
+    
+    /** Return default configurations of audit4j. 
+     * 
+     * @since 2.3.1
+     * */
+    public static Configuration DEFAULT = getDefault();
+    
+    /**
+     * Gets the default.
+     *
+     * @return the default
+     * 
+     * @since 2.3.1
+     */
+    private static Configuration getDefault(){
+        Configuration config = new Configuration();
+        config.addHandler(new ConsoleAuditHandler());
+        config.setMetaData(new DummyMetaData());
+        config.setLayout(new SimpleLayout());
+        config.addProperty("log.file.location", "user.dir");
+        return config;
     }
     
     /**

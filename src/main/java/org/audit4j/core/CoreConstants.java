@@ -20,98 +20,115 @@ package org.audit4j.core;
 
 /**
  * The Class CoreConstants.
- *
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
- *
+ * 
  * @since 1.0.0
  */
 public final class CoreConstants {
 
-	/** The Constant APP_NAME. */
-	public static final String APP_NAME = "Audit4j";
+    /** The Constant APP_NAME. */
+    public static final String APP_NAME = "Audit4j";
 
-	/** The Constant RELEASE_VERSION. */
-	public static final String RELEASE_VERSION = "2.2.0";
+    /** The Constant RELEASE_VERSION. */
+    public static final String RELEASE_VERSION = "2.2.0";
 
-	/** The Constant RELEASE_DATE. */
-	public static final String RELEASE_DATE = "2014-08-29T12:40:21.077Z";
+    /** The Constant RELEASE_DATE. */
+    public static final String RELEASE_DATE = "2014-08-29T12:40:21.077Z";
 
-	/** The Constant SUPPORT_JAVA_VERSION. */
-	public static final String SUPPORT_JAVA_VERSION = "7";
+    /** The Constant SUPPORT_JAVA_VERSION. */
+    public static final String SUPPORT_JAVA_VERSION = "7";
 
-	/** The Constant AUDIT_EXTENTION. */
-	public static final String AUDIT_EXTENTION = ".audit";
+    /** The Constant AUDIT_EXTENTION. */
+    public static final String AUDIT_EXTENTION = ".audit";
 
-	/** The Constant SITE_URL. */
-	public static final String SITE_URL = "http://audit4j.org";
+    /** The Constant SITE_URL. */
+    public static final String SITE_URL = "http://audit4j.org";
 
-	/** The Constant CONFIG_FILE_NAME. */
-	public static final String CONFIG_FILE_NAME = "audit4j.conf.yml";
+    /** The Constant CONFIG_FILE_NAME. */
+    public static final String CONFIG_FILE_NAME = "audit4j.conf.yml";
 
-	/** The Constant COLON_CHAR. */
-	public static final char COLON_CHAR = ':';
+    /** The Constant COLON_CHAR. */
+    public static final char COLON_CHAR = ':';
 
-	/** The Constant COMMA_CHAR. */
-	public static final char COMMA_CHAR = ',';
-	
-	public static final char EQ_CHAR = '=';
+    /** The Constant COLON. */
+    public static final String COLON = ":";
 
-	/** The Constant DASH_CHAR. */
-	public static final char DASH_CHAR = '-';
-	
-	public static final char OPEN_BRACES_CHAR = '{';
-	
-	public static final char CLOSE_BRACES_CHAR = '}';
-	
-	public static final String BRACKETS = "[]";
-	
-	public static final char OPEN_BRACKETS_CHAR = '[';
-	
-	public static final char CLOSE_BRACKETS_CHAR = ']';
+    /** The Constant SEMI_COLON_CHAR. */
+    public static final char SEMI_COLON_CHAR = ';';
 
-	/** The Constant ARROW. */
-	public static final String ARROW = "==>";
+    /** The Constant SEMI_COLON. */
+    public static final String SEMI_COLON = ";";
 
-	/** The Constant PIPE. */
-	public static final char PIPE = '|';
+    /** The Constant COMMA_CHAR. */
+    public static final char COMMA_CHAR = ',';
 
-	/** The Constant SPACE. */
-	public static final char SPACE = ' ';
+    /** The Constant EQ_CHAR. */
+    public static final char EQ_CHAR = '=';
 
-	/** The Constant WINDOWS_SEPARATOR. */
-	public static final char WINDOWS_SEPARATOR = '\\';
+    /** The Constant DASH_CHAR. */
+    public static final char DASH_CHAR = '-';
 
-	/** The Constant UNIX_SEPARATOR. */
-	public static final char UNIX_SEPARATOR = '/';
+    /** The Constant OPEN_BRACES_CHAR. */
+    public static final char OPEN_BRACES_CHAR = '{';
 
-	/** The Constant READ_WRITE. */
-	public static final String READ_WRITE = "rw";
+    /** The Constant CLOSE_BRACES_CHAR. */
+    public static final char CLOSE_BRACES_CHAR = '}';
 
-	/** The Constant NEW_LINE. */
-	public static final String NEW_LINE = "\n";
-	
-	public static final String NULL = "null";
+    /** The Constant BRACKETS. */
+    public static final String BRACKETS = "[]";
 
-	/** The Constant DEFAULT_ACTOR. */
-	public static final String DEFAULT_ACTOR = "Audit4j User";
+    /** The Constant OPEN_BRACKETS_CHAR. */
+    public static final char OPEN_BRACKETS_CHAR = '[';
 
-	/** The Constant ACTION. */
-	public static final String DEFAULT_ACTION = "action";
+    /** The Constant CLOSE_BRACKETS_CHAR. */
+    public static final char CLOSE_BRACKETS_CHAR = ']';
 
-	/** The Constant SALT. */
-	public static final String DEFAULT_SECURE_SALT = "232332324";
+    /** The Constant ARROW. */
+    public static final String ARROW = "==>";
 
-	/** The Constant DEFAULT_SECURE_KEY. */
-	public static final String DEFAULT_SECURE_KEY = "Aud1T4jSecureKey";
+    /** The Constant PIPE. */
+    public static final char PIPE = '|';
 
-	/** The Constant IV. */
-	public static final String IV = "e675f725e675f725";
+    /** The Constant SPACE. */
+    public static final char SPACE = ' ';
 
-	/** The Constant ENCODE_UTF8. */
-	public static final String ENCODE_UTF8 = "UTF-8";
+    /** The Constant WINDOWS_SEPARATOR. */
+    public static final char WINDOWS_SEPARATOR = '\\';
 
-	/** The Constant EMBEDED_DB_NAME. */
-	public static final String DEFAULT_EMBEDED_DB_NAME = "audit4j";
-	
-	public static final String DEFAULT_DATE_FORMAT = "MM/dd/yyyy HH:mm:ss";
+    /** The Constant UNIX_SEPARATOR. */
+    public static final char UNIX_SEPARATOR = '/';
+
+    /** The Constant READ_WRITE. */
+    public static final String READ_WRITE = "rw";
+
+    /** The Constant NEW_LINE. */
+    public static final String NEW_LINE = "\n";
+
+    /** The Constant NULL. */
+    public static final String NULL = "null";
+
+    /** The Constant DEFAULT_ACTOR. */
+    public static final String DEFAULT_ACTOR = "Audit4j User";
+
+    /** The Constant ACTION. */
+    public static final String DEFAULT_ACTION = "action";
+
+    /** The Constant SALT. */
+    public static final String DEFAULT_SECURE_SALT = "232332324";
+
+    /** The Constant DEFAULT_SECURE_KEY. */
+    public static final String DEFAULT_SECURE_KEY = "Aud1T4jSecureKey";
+
+    /** The Constant IV. */
+    public static final String IV = "e675f725e675f725";
+
+    /** The Constant ENCODE_UTF8. */
+    public static final String ENCODE_UTF8 = "UTF-8";
+
+    /** The Constant EMBEDED_DB_NAME. */
+    public static final String DEFAULT_EMBEDED_DB_NAME = "audit4j";
+
+    /** The Constant DEFAULT_DATE_FORMAT. */
+    public static final String DEFAULT_DATE_FORMAT = "MM/dd/yyyy HH:mm:ss";
 }
