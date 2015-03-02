@@ -36,6 +36,9 @@ public final class ErrorGuide {
 	/** The Constant CONFIG_ERROR. */
 	public static final String CONFIG_ERROR = ERROR_URL + "configfile";
 	
+	/** The Constant CONFIG_NOT_EXISTS. */
+	public static final String CONFIG_NOT_EXISTS = ERROR_URL + "configfileNotExists";
+	
     /** The Constant JAVA_VERSION_ERROR. */
     public static final String JAVA_VERSION_ERROR = ERROR_URL + "javaVersion";
     

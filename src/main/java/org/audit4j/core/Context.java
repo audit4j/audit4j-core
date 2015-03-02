@@ -126,7 +126,7 @@ public final class Context {
 
             // Extract options.
             Map<String, String> options = processOptions(conf.getOptions());
-            
+
             // Execute commands.
             if (options != null) {
                 CommandProcessor.getInstance().process(options);
@@ -295,8 +295,9 @@ public final class Context {
         if (null == configFilePath) {
             configFilePath = CoreConstants.CONFIG_FILE_NAME;
         } else {
-            if (AuditUtil.isFileExists(configFilePath)) {
-                throw new InitializationException("The given configuration file is not exists.");
+            if (!AuditUtil.isFileExists(configFilePath)) {
+                throw new InitializationException("The given configuration file does not exists."
+                        + ErrorGuide.getGuide(ErrorGuide.CONFIG_NOT_EXISTS));
             }
         }
         try {

@@ -79,7 +79,7 @@ public final class TroubleshootManager {
         if (e.getId().equals("CONF_001")) {
             Log.warn("Initial confguration file not found. Creating a new configuration file - ",
                     CoreConstants.CONFIG_FILE_NAME);
-            ConfigUtil.generateConfigFromText();
+            ConfigUtil.generateConfigFromObject();
         } else if (e.getId().equals("CONF_002")) {
             Log.error("Configuration file currupted or invalid configuration. ",
                     ErrorGuide.getGuide(ErrorGuide.CONFIG_ERROR));
