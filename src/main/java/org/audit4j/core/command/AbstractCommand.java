@@ -48,7 +48,7 @@ public abstract class AbstractCommand implements Initializable {
      *
      * @param options the options
      */
-    public void setOptions(Map<String, String> options) {
+    void setOptions(Map<String, String> options) {
         this.options = options;
     }
 
@@ -56,4 +56,25 @@ public abstract class AbstractCommand implements Initializable {
      * Execute.
      */
     public abstract void execute();
+    
+    /**
+     * Gets the command.
+     *
+     * @return the command
+     */
+    public abstract String getCommand();
+    
+    /**
+     * Gets the command name.
+     *
+     * @return the command name
+     */
+    public abstract String getCommandName();
+    
+    /**
+     * Gets the command description.
+     *
+     * @return the command description
+     */
+    public abstract String getCommandDescription();
 }

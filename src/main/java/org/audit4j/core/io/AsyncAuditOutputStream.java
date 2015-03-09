@@ -65,8 +65,7 @@ public class AsyncAuditOutputStream implements AuditOutputStream {
 
         this.outputStream = outputStream;
         b = new Boundary();
-        deferred = Streams.<AuditEvent> defer().env(ENV).dispatcher(Environment.RING_BUFFER)
-                .dispatcher(Environment.WORK_QUEUE).get();
+        deferred = Streams.<AuditEvent> defer().env(ENV).dispatcher(Environment.RING_BUFFER).get();
         Stream<AuditEvent> stream = deferred.compose();
         stream.consume(b.bind(new Consumer<AuditEvent>() {
             @Override

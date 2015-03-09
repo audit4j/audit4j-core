@@ -21,6 +21,7 @@ package org.audit4j.core.util;
 import java.io.File;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -83,6 +84,19 @@ public final class AuditUtil {
         }
         final DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
         return dateFormat.format(date);
+    }
+    
+    /**
+     * Convert string to date.
+     *
+     * @param dateString the date string
+     * @param format the format
+     * @return the date
+     * @throws ParseException the parse exception
+     */
+    public static Date stringTodate(String dateString, String format) throws ParseException {
+        final DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
+        return dateFormat.parse(dateString);
     }
 
     /**

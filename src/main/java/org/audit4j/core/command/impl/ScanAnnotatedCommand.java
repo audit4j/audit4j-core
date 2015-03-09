@@ -31,8 +31,11 @@ import org.audit4j.core.extra.scannotation.AnnotationDB;
 import org.audit4j.core.filter.impl.ScanAnnotatedFilter;
 
 /**
- * The Class ScanAnnotatedCommand.
- *
+ * Scan Annotated Command.
+ * 
+ * Scan annotations in initialization time and store the information. These
+ * information will use later to speedup the event processing.
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
  * @since 2.3.0
@@ -42,12 +45,30 @@ public class ScanAnnotatedCommand extends AbstractCommand {
     /** The db. */
     AnnotationDB db;
 
-    /* (non-Javadoc)
+    @Override
+    public String getCommand() {
+        return "-scanAnnotated";
+    }
+
+    @Override
+    public String getCommandName() {
+        return "Scan Annotated Command";
+    }
+
+    @Override
+    public String getCommandDescription() {
+        return "Scan annotations in initialization time and store the information. "
+                + "These information will use later to speedup the event processing";
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.audit4j.core.Initializable#init()
      */
     @Override
     public void init() {
-        String packageName = getOptions().get("-scanAnnotated");
+        String packageName = getOptions().get(getCommand());
 
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
@@ -77,7 +98,9 @@ public class ScanAnnotatedCommand extends AbstractCommand {
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.audit4j.core.command.AbstractCommand#execute()
      */
     @Override
@@ -95,12 +118,13 @@ public class ScanAnnotatedCommand extends AbstractCommand {
         PreConfigurationContext.addAnnotationFilter(filter);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.audit4j.core.Initializable#stop()
      */
     @Override
     public void stop() {
         db = null;
     }
-
 }

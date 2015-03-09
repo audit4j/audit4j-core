@@ -31,7 +31,7 @@
 	</scm>
 	<developers>
 		<developer>
-			<id>janith</id>
+			<id>janithb</id>
 			<name>Janith Bandara</name>
 			<organization>Audit4j</organization>
 			<organizationUrl>http://audit4j.org</organizationUrl>
@@ -58,9 +58,20 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>1.10.19</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>3.3</version>
 		</dependency>
 		<dependency>
 			<groupId>com.esotericsoftware.yamlbeans</groupId>

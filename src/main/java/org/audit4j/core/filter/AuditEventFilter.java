@@ -31,6 +31,8 @@ import org.audit4j.core.dto.AuditEvent;
  */
 public interface AuditEventFilter extends Serializable {
     
+    public POJOQuery<AuditEvent> query = new POJOQuery<>();
+    
     /**
      * Accepts.
      *

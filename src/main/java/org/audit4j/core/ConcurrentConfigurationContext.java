@@ -26,6 +26,7 @@ import org.audit4j.core.filter.AuditAnnotationFilter;
 import org.audit4j.core.filter.AuditEventFilter;
 import org.audit4j.core.handler.Handler;
 import org.audit4j.core.layout.Layout;
+import org.audit4j.core.util.annotation.ThreadSafe;
 
 import com.gs.collections.impl.map.mutable.ConcurrentHashMap;
 
@@ -33,7 +34,9 @@ import com.gs.collections.impl.map.mutable.ConcurrentHashMap;
  * Configuration item store. All configuration items which are used by the
  * running components store here. Items loaded by the context.
  * 
- * <p>Below Items store here:</p>
+ * <p>
+ * Below Items store here:
+ * </p>
  * <ul>
  * <li>Available handlers.</li>
  * <li>Audit event filters.</li>
@@ -42,10 +45,9 @@ import com.gs.collections.impl.map.mutable.ConcurrentHashMap;
  * <li>Additional configuration properties.</li>
  * </ul>
  * 
- * <p> #ThreadSafe# </p>
- * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
+@ThreadSafe
 public final class ConcurrentConfigurationContext {
 
     /** The handlers. */
@@ -59,7 +61,7 @@ public final class ConcurrentConfigurationContext {
 
     /** The Constant filters. */
     private final List<AuditAnnotationFilter> annotationFilters = new CopyOnWriteArrayList<AuditAnnotationFilter>();
-    
+
     /** The layout. */
     private Layout layout;
 
@@ -166,10 +168,9 @@ public final class ConcurrentConfigurationContext {
         filters.add(filter);
     }
 
-    
     /**
      * Gets the annotation filters.
-     *
+     * 
      * @return the annotation filters
      */
     public List<AuditAnnotationFilter> getAnnotationFilters() {
@@ -178,12 +179,14 @@ public final class ConcurrentConfigurationContext {
 
     /**
      * Adds the annotation filter.
-     *
-     * @param annotationFilter the annotation filter
+     * 
+     * @param annotationFilter
+     *            the annotation filter
      */
-    public void addAnnotationFilter(AuditAnnotationFilter annotationFilter){
+    public void addAnnotationFilter(AuditAnnotationFilter annotationFilter) {
         annotationFilters.add(annotationFilter);
     }
+
     /**
      * Gets the run status.
      * 

@@ -22,6 +22,8 @@ import java.text.NumberFormat;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.audit4j.core.util.annotation.NotThreadSafe;
+
 /**
  * Simple stop watch, allowing for timing of a number of tasks, exposing total
  * running time and running time for each named task.
@@ -30,6 +32,7 @@ import java.util.List;
  * 
  * @since 2.3.0
  */
+@NotThreadSafe("Not thread safe")
 public class StopWatch {
 
     /**

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.audit4j.core.handler.file;
+package org.audit4j.core.handler.file.archive;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -27,6 +27,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.audit4j.core.exception.InitializationException;
+import org.audit4j.core.handler.file.FileHandlerUtil;
 import org.audit4j.core.util.Log;
 
 /**
@@ -44,7 +45,8 @@ public class FileArchiveJob extends ArchiveJob {
 	 */
 	@Override
 	public void archive() {
-		Log.info("Starting archiving...");
+		Log.info("Starting local archiving...");
+		
 		String fileName = FileHandlerUtil.generateAuditFileName(FileHandlerUtil.substractDate(new Date(),
 				archiveDateDiff));
 		String archiveFileName = FileHandlerUtil.generateAuditArchiveFileName(FileHandlerUtil.substractDate(new Date(),
@@ -96,5 +98,4 @@ public class FileArchiveJob extends ArchiveJob {
         // TODO Auto-generated method stub
         
     }
-
 }

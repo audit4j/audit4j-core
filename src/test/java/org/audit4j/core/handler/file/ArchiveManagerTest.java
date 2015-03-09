@@ -1,5 +1,6 @@
 package org.audit4j.core.handler.file;
 
+import org.audit4j.core.handler.file.archive.ArchiveManager;
 import org.junit.Assert;
 import org.junit.Test;
 

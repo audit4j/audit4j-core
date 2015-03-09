@@ -23,6 +23,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.audit4j.core.util.annotation.ThreadSafe;
+
 /**
  * The Class ConcurrentDateFormatAccess.
  * 
@@ -30,6 +32,7 @@ import java.util.Date;
  * 
  * @since 2.3.0
  */
+@ThreadSafe
 public class ConcurrentDateFormatAccess {
 
     /** The format. */

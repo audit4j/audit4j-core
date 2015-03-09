@@ -51,7 +51,7 @@ public final class CommandProcessor {
                 try {
                     command.init();
                 } catch (InitializationException e) {
-                    Log.error("There is a problem in the : option you configured: ", entry.getKey(),
+                    Log.error("There is a problem in the option you configured: ", entry.getKey(),
                             ErrorGuide.getGuide(ErrorGuide.OPTION_ERROR));
                 }
                 command.execute();

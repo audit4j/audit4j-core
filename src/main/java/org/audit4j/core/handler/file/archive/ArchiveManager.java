@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.audit4j.core.handler.file;
+package org.audit4j.core.handler.file.archive;
 
 import org.audit4j.core.Initializable;
 import org.audit4j.core.extra.cron4j.Scheduler;

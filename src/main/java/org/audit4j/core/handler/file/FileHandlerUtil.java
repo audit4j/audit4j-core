@@ -97,8 +97,8 @@ public final class FileHandlerUtil {
 	 */
 	public static String generateAuditArchiveFileName(Date date) {
 		StringBuffer name = new StringBuffer();
-		name.append("Audit_Log-").append(AuditUtil.dateToString(date, "yyyy-MM-dd"))
-				.append(".auditarchive");
+		name.append("Audit_Archive-").append(AuditUtil.dateToString(date, "yyyy-MM-dd"))
+				.append(CoreConstants.AUDIT_ARCHIVE_EXTENTION);
 		return name.toString();
 	}
 

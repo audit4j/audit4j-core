@@ -30,7 +30,7 @@ import org.audit4j.core.filter.AuditEventFilter;
 
 /**
  * Registry for internal initial resource configurations.
- *
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
  * @since 2.3.0
@@ -50,14 +50,16 @@ public final class PreConfigurationContext {
     private static final List<AuditAnnotationFilter> preAnnotationFilters = new ArrayList<AuditAnnotationFilter>();
 
     static {
-        options.add("-scanAnnotated");
-        commands.put("-scanAnnotated", new ScanAnnotatedCommand());
+        ScanAnnotatedCommand scanAnnotated = new ScanAnnotatedCommand();
+        options.add(scanAnnotated.getCommand());
+        commands.put(scanAnnotated.getCommand(), scanAnnotated);
     }
 
     /**
      * Gets the command by option name.
-     *
-     * @param optionName the option name
+     * 
+     * @param optionName
+     *            the option name
      * @return the command by option name
      */
     public static AbstractCommand getCommandByOptionName(String optionName) {
@@ -66,7 +68,7 @@ public final class PreConfigurationContext {
 
     /**
      * Gets the options.
-     *
+     * 
      * @return the options
      */
     public static List<String> getOptions() {
@@ -75,7 +77,7 @@ public final class PreConfigurationContext {
 
     /**
      * Gets the commands.
-     *
+     * 
      * @return the commands
      */
     public static Map<String, AbstractCommand> getCommands() {
@@ -84,7 +86,7 @@ public final class PreConfigurationContext {
 
     /**
      * Gets the prefilters.
-     *
+     * 
      * @return the prefilters
      */
     public static List<AuditEventFilter> getPrefilters() {
@@ -93,8 +95,9 @@ public final class PreConfigurationContext {
 
     /**
      * Adds the filter.
-     *
-     * @param filter the filter
+     * 
+     * @param filter
+     *            the filter
      */
     public static void addFilter(AuditEventFilter filter) {
         preFilters.add(filter);
@@ -102,8 +105,9 @@ public final class PreConfigurationContext {
 
     /**
      * Adds the annotation filter.
-     *
-     * @param filter the filter
+     * 
+     * @param filter
+     *            the filter
      */
     public static void addAnnotationFilter(AuditAnnotationFilter filter) {
         preAnnotationFilters.add(filter);
@@ -111,7 +115,7 @@ public final class PreConfigurationContext {
 
     /**
      * Gets the preannotationfilters.
-     *
+     * 
      * @return the preannotationfilters
      */
     public static List<AuditAnnotationFilter> getPreannotationfilters() {

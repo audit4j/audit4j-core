@@ -27,6 +27,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.audit4j.core.util.annotation.ThreadSafe;
+
 /**
  * The Class CircularTimelyBufferedArrayList.
  * 
@@ -36,6 +38,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * 
  * @since 2.3.0
  */
+@ThreadSafe
 public class ConcurrentTimelyBufferedArrayList<E> extends AbstractList<E> implements RandomAccess, Serializable,
         Cloneable {
 

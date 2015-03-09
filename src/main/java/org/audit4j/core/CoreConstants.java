@@ -41,6 +41,9 @@ public final class CoreConstants {
 
     /** The Constant AUDIT_EXTENTION. */
     public static final String AUDIT_EXTENTION = ".audit";
+    
+    /** The Constant AUDIT_ARCHIVE_EXTENTION. */
+    public static final String AUDIT_ARCHIVE_EXTENTION = ".auditarchive";
 
     /** The Constant SITE_URL. */
     public static final String SITE_URL = "http://audit4j.org";

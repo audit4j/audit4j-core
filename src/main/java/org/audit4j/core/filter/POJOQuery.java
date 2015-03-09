@@ -308,6 +308,7 @@ public class POJOQuery<O> {
 		 * @return true, if successful
 		 */
 		public boolean evaluate() {
+		    atQuery = null;
 			return result;
 		}
 	}
