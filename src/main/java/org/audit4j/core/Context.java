@@ -209,6 +209,8 @@ public final class Context {
      */
     final static void stop() {
         if (configContext.getRunStatus().equals(RunStatus.RUNNING)) {
+            configContext.setRunStatus(RunStatus.STOPPED);
+            initialized = false;
             Log.info("Preparing to shutdown Audit4j...");
 
             Log.info("Closing Streams...");
@@ -222,8 +224,7 @@ public final class Context {
             }
 
             Log.info("Disposing configurations...");
-            initialized = false;
-            configContext.setRunStatus(RunStatus.STOPPED);
+            
             Log.info("Audit4j shutdown completed.");
         } else {
             Log.info("No active Audit4j instance. Cancelling shutdown request.");

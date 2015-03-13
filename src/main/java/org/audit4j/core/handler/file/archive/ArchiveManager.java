@@ -18,112 +18,101 @@
 
 package org.audit4j.core.handler.file.archive;
 
+import java.util.List;
+
 import org.audit4j.core.Initializable;
 import org.audit4j.core.extra.cron4j.Scheduler;
 import org.audit4j.core.util.Log;
 
 /**
  * The Class ArchiveManager.
- *
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
-public class ArchiveManager implements Initializable{
+public class ArchiveManager implements Initializable {
 
-	/** The date pattern. */
-	private String datePattern;
+    /** The jobs. */
+    private List<AbstractArchiveJob> jobs;
 
-	/** The path. */
-	private String path;
+    /** The scheduler. */
+    private Scheduler scheduler;
 
-	/** The cron pattern. */
-	private String cronPattern;
+    /** The archive env. */
+    private final ArchiveEnv archiveEnv;
 
-	/** The job. */
-	private ArchiveJob archiveJob;
+    /**
+     * Instantiates a new archive manager.
+     *
+     * @param archiveEnv the archive env
+     */
+    public ArchiveManager(ArchiveEnv archiveEnv) {
+        this.archiveEnv = archiveEnv;
+    }
 
-	/** The scheculer. */
-	private Scheduler scheculer;
-	/**
-	 * Inits the.
-	 */
-	@Override
+    /**
+     * Inits the.
+     */
+    @Override
     public void init() {
-	    Log.info("Starting Archive Manager");
-		scheculer = new Scheduler();
-		scheculer.schedule(cronPattern, new Runnable() {
-			@Override
-			public void run() {
-				archiveJob.setArchiveDateDiff(extractArchiveDateCount(datePattern));
-				archiveJob.setPath(path);
-				archiveJob.archive();
-			}
-		});
-	}
+        Log.info("Starting Archive Manager");
+        if (archiveEnv.getArchiveMethod().equals(ArchiveMethod.SIMPLE)) {
+            executeArchive();
+        } else if (archiveEnv.getArchiveMethod().equals(ArchiveMethod.SCHEDULED)) {
+            jobs = new JobFactory().getJobs(archiveEnv);
+            scheduler = new Scheduler();
+            scheduler.schedule(archiveEnv.getCronPattern(), new Runnable() {
+                @Override
+                public void run() {
+                    executeArchive();
+                }
+            });
+        }
+    }
 
-	/**
-	 * Extract archive date count.
-	 *
-	 * @param datePattern the date pattern
-	 * @return the integer
-	 */
-	public Integer extractArchiveDateCount(String datePattern) {
-		int dateCount = 0;
-		String[] splits = datePattern.split("d|M|y");
-		if (splits.length>0) {
-			dateCount = dateCount + Integer.valueOf(splits[0]);
-		}
-		
-		if (splits.length>1) {
-			dateCount = dateCount + (Integer.valueOf(splits[1]) * 30);
-		}
-		
-		if (splits.length>2) {
-			dateCount = dateCount + (Integer.valueOf(splits[2]) * 365);
-		}
-		return dateCount;
-	}
+    /**
+     * Execute archive.
+     */
+    private void executeArchive() {
+        for (AbstractArchiveJob archiveJob : jobs) {
+            archiveJob.setArchiveDateDiff(extractArchiveDateCount(archiveEnv.getDatePattern()));
+            archiveJob.setPath(archiveEnv.getDirPath());
+            archiveJob.setCompressionExtention(archiveEnv.getCompression().getExtention());
+            archiveJob.archive();
+        }
+    }
 
-	/**
-	 * Sets the archive date.
-	 *
-	 * @param datePattern the new archive date
-	 */
-	public void setArchiveDate(String datePattern) {
-		this.datePattern = datePattern;
-	}
+    /**
+     * Extract archive date count.
+     * 
+     * @param datePattern
+     *            the date pattern
+     * @return the integer
+     */
+    public Integer extractArchiveDateCount(String datePattern) {
+        int dateCount = 0;
+        String[] splits = datePattern.split("d|M|y");
+        if (splits.length > 0) {
+            dateCount = dateCount + Integer.valueOf(splits[0]);
+        }
+        if (splits.length > 1) {
+            dateCount = dateCount + (Integer.valueOf(splits[1]) * 30);
+        }
+        if (splits.length > 2) {
+            dateCount = dateCount + (Integer.valueOf(splits[2]) * 365);
+        }
+        return dateCount;
+    }
 
-	/**
-	 * Sets the path.
-	 *
-	 * @param path the new path
-	 */
-	public void setPath(String path) {
-		this.path = path;
-	}
-
-	/**
-	 * Sets the cron pattern.
-	 *
-	 * @param cronPattern the new cron pattern
-	 */
-	public void setCronPattern(String cronPattern) {
-		this.cronPattern = cronPattern;
-	}
-
-	/**
-	 * Sets the job.
-	 *
-	 * @param job the new job
-	 */
-	public void setJob(ArchiveJob job) {
-		this.archiveJob = job;
-	}
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.audit4j.core.Initializable#stop()
+     */
+    /**
+     * Stop.
      */
     @Override
     public void stop() {
-        scheculer.stop();
+        scheduler.stop();
     }
 }

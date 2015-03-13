@@ -36,6 +36,7 @@ public class URLConfigurationIntTest extends IntTestBase {
 
     @Test
     public void testInitWithConfigUri() {
+        System.out.println("starting");
         AuditManager.startWithConfiguration(configFileLocation);
         AuditManager.getInstance().audit(getSampleAuditEvent());
     }

@@ -115,10 +115,10 @@ public final class AuditManager {
      * @return single instance of AuditHelper
      */
     public static AuditManager getInstance() {
+        init();
         synchronized (AuditManager.class) {
             if (auditManager == null) {
                 auditManager = new AuditManager();
-                init();
             }
         }
         return auditManager;

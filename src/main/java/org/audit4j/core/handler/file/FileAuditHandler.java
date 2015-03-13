@@ -24,8 +24,7 @@ import java.security.AccessController;
 
 import org.audit4j.core.exception.InitializationException;
 import org.audit4j.core.handler.Handler;
-import org.audit4j.core.handler.file.archive.ArchiveJob;
-import org.audit4j.core.handler.file.archive.ArchiveManager;
+import org.audit4j.core.handler.file.archive.AbstractArchiveJob;
 
 /**
  * The Class FileAuditHandler.
@@ -54,7 +53,7 @@ public class FileAuditHandler extends Handler {
 	private String cronPattern;
 
 	/** The job. */
-	private ArchiveJob job;
+	private AbstractArchiveJob job;
 	
 	private String auditFilePrefix = "Audit_Log-";
 
@@ -77,14 +76,14 @@ public class FileAuditHandler extends Handler {
 		// + getProperty("log.file.location"));
 		// }
 		
-		if (null != archive && "true".equals(archive)) {
-			ArchiveManager manager = new ArchiveManager();
-			manager.setArchiveDate(datePattern);
-			manager.setCronPattern(cronPattern);
-			manager.setPath(getProperty("log.file.location"));
-			manager.setJob(job);
-			manager.init();
-		}
+//		if (null != archive && "true".equals(archive)) {
+//			ArchiveManager manager = new ArchiveManager();
+//			manager.setArchiveDate(datePattern);
+//			manager.setCronPattern(cronPattern);
+//			manager.setPath(getProperty("log.file.location"));
+//			manager.setJob(job);
+//			manager.init();
+//		}
 	}
 
 	/*

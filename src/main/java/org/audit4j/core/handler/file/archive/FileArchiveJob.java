@@ -35,7 +35,7 @@ import org.audit4j.core.util.Log;
  *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
-public class FileArchiveJob extends ArchiveJob {
+public class FileArchiveJob extends AbstractArchiveJob {
 
 	/** The buffer. */
 	byte[] buffer = new byte[1024];

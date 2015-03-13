@@ -24,7 +24,6 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Date;
 
-import org.audit4j.core.CoreConstants;
 import org.audit4j.core.Initializable;
 import org.audit4j.core.exception.Audit4jRuntimeException;
 import org.audit4j.core.util.AuditUtil;
@@ -36,7 +35,7 @@ import org.audit4j.core.util.AuditUtil;
  * 
  * @since 1.0.1
  */
-public abstract class ArchiveJob implements Initializable, Serializable {
+public abstract class AbstractArchiveJob implements Initializable, Serializable {
 
     /** The archive date diff. */
     protected Integer archiveDateDiff;
@@ -47,11 +46,21 @@ public abstract class ArchiveJob implements Initializable, Serializable {
     /** The archive options. */
     protected String archiveOptions;
 
+    /** The compression extention. */
+    protected String compressionExtention;
+
     /**
      * Archive.
      */
     abstract void archive();
 
+    /**
+     * Gets the available files.
+     *
+     * @param logFileLocation the log file location
+     * @param maxDate the max date
+     * @return the available files
+     */
     protected File[] getAvailableFiles(final String logFileLocation, final Date maxDate) {
 
         File dir = new File(logFileLocation);
@@ -59,7 +68,7 @@ public abstract class ArchiveJob implements Initializable, Serializable {
         return dir.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String fileName) {
-                boolean extentionMatch = fileName.endsWith(CoreConstants.AUDIT_EXTENTION);
+                boolean extentionMatch = fileName.endsWith(compressionExtention);
                 boolean dateMatch = maxDate.before(fileCreatedDate(fileName));
                 return dateMatch && extentionMatch;
             }
@@ -67,6 +76,12 @@ public abstract class ArchiveJob implements Initializable, Serializable {
 
     }
 
+    /**
+     * File created date.
+     *
+     * @param fileName the file name
+     * @return the date
+     */
     private Date fileCreatedDate(String fileName) {
         String[] splittedWithoutExtention = fileName.split(".");
         String fileNameWithoutExtention = splittedWithoutExtention[0];
@@ -107,6 +122,15 @@ public abstract class ArchiveJob implements Initializable, Serializable {
      */
     public void setArchiveOptions(String archiveOptions) {
         this.archiveOptions = archiveOptions;
+    }
+
+    /**
+     * Sets the compression extention.
+     *
+     * @param compressionExtention the new compression extention
+     */
+    public void setCompressionExtention(String compressionExtention) {
+        this.compressionExtention = compressionExtention;
     }
 
 }

@@ -50,15 +50,21 @@ class ServletContexConfigSupport {
         String properties = servletContext.getInitParameter(ContextConfigParams.PARAM_PROPERTIES);
 
         Configuration config = Configuration.INSTANCE;
-        config.setHandlers(new ReflectUtil<Handler>().getNewInstanceList(handlers.split(";")));
+        if (handlers != null && !handlers.equals("")) {
+            config.setHandlers(new ReflectUtil<Handler>().getNewInstanceList(handlers.split(";")));
+        }
         config.setLayout(new ReflectUtil<Layout>().getNewInstance(layout));
-        config.setFilters(new ReflectUtil<AuditEventFilter>().getNewInstanceList(filters.split(";")));
+        if (filters != null && !filters.equals("")) {
+            config.setFilters(new ReflectUtil<AuditEventFilter>().getNewInstanceList(filters.split(";")));
+        }
         config.setOptions(options);
         config.setMetaData(new ReflectUtil<MetaData>().getNewInstance(metaData));
-        String[] propertiesList = properties.split(";");
-        for (String property : propertiesList) {
-            String[] keyValue = property.split(":");
-            config.addProperty(keyValue[0], keyValue[1]);
+        if (properties != null && !properties.equals("")) {
+            String[] propertiesList = properties.split(";");
+            for (String property : propertiesList) {
+                String[] keyValue = property.split(":");
+                config.addProperty(keyValue[0], keyValue[1]);
+            }
         }
         return config;
     }
