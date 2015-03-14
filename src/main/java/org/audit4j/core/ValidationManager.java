@@ -28,6 +28,7 @@ import java.io.Serializable;
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.exception.ValidationException;
 import org.audit4j.core.handler.Handler;
+import org.audit4j.core.handler.file.FileAuditHandler;
 import org.audit4j.core.util.Log;
 
 /**
@@ -158,5 +159,9 @@ public final class ValidationManager {
         }
 
         return (true);
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(isSerializable(new FileAuditHandler()));
     }
 }

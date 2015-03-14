@@ -71,9 +71,6 @@ import org.audit4j.core.util.StopWatch;
  */
 public final class Context {
 
-    /** The initialize lock. */
-    private static boolean initialized = false;
-
     /** The Configuration instance. One time initialize. */
     private static Configuration conf;
 
@@ -99,10 +96,11 @@ public final class Context {
     final static void init() {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start("Audit4jInit");
-        configContext = new ConcurrentConfigurationContext();
-        if (!initialized
-                && (configContext.getRunStatus().equals(RunStatus.READY) || configContext.getRunStatus().equals(
-                        RunStatus.STOPPED))) {
+        if (configContext == null) {
+            configContext = new ConcurrentConfigurationContext();
+        }
+        if (configContext.getRunStatus().equals(RunStatus.READY)
+                || configContext.getRunStatus().equals(RunStatus.STOPPED)) {
             Log.info("Initializing Audit4j...");
             // Check system environment;
             checkEnvironment();
@@ -159,7 +157,6 @@ public final class Context {
 
             configContext.setMetaData(conf.getMetaData());
 
-            initialized = true;
             configContext.setRunStatus(RunStatus.RUNNING);
 
             stopWatch.stop();
@@ -210,7 +207,6 @@ public final class Context {
     final static void stop() {
         if (configContext.getRunStatus().equals(RunStatus.RUNNING)) {
             configContext.setRunStatus(RunStatus.STOPPED);
-            initialized = false;
             Log.info("Preparing to shutdown Audit4j...");
 
             Log.info("Closing Streams...");
@@ -224,7 +220,8 @@ public final class Context {
             }
 
             Log.info("Disposing configurations...");
-            
+            //configContext = null;
+            conf = null;
             Log.info("Audit4j shutdown completed.");
         } else {
             Log.info("No active Audit4j instance. Cancelling shutdown request.");
@@ -469,18 +466,6 @@ public final class Context {
      */
     final static AnnotationAuditOutputStream getAnnotationStream() {
         return annotationAuditStream;
-    }
-
-    /**
-     * Checks if is initialized.
-     * 
-     * @return true, if is initialized
-     * 
-     * @deprecated use {@link #getStatus()} instead.
-     */
-    @Deprecated
-    public boolean isInitialized() {
-        return initialized;
     }
 
     /**

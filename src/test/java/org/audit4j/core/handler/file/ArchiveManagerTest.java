@@ -1,17 +1,21 @@
 package org.audit4j.core.handler.file;
 
+import org.junit.Test;
+
 
 public class ArchiveManagerTest {
 
-	/*@Test
+    
+	@Test
 	public void testExtractArchiveDateCount_d(){
 	    
-		ArchiveManager manager  = new ArchiveManager();
-		int numOfdates = manager.extractArchiveDateCount("1d");
-		Assert.assertEquals(1, numOfdates);
+		//ArchiveManager manager  = new ArchiveManager();
+		//int numOfdates = manager.extractArchiveDateCount("1d");
+	//	Assert.assertEquals(1, numOfdates);
 		
 	}
 	
+	/*
 	@Test
 	public void testExtractArchiveDateCount_d_M(){
 		ArchiveManager manager  = new ArchiveManager();

@@ -117,6 +117,7 @@ public final class AuditManager {
     public static AuditManager getInstance() {
         init();
         synchronized (AuditManager.class) {
+            
             if (auditManager == null) {
                 auditManager = new AuditManager();
             }
@@ -144,10 +145,9 @@ public final class AuditManager {
     }
 
     /**
-     * @deprecated
-     * This method allows to external plugins can inject the configurations.
-     * Since the security reasons, this allows to create one time configuration
-     * setting to Audit4j.
+     * @deprecated This method allows to external plugins can inject the
+     *             configurations. Since the security reasons, this allows to
+     *             create one time configuration setting to Audit4j.
      * 
      * @param configuration
      *            the configuration
@@ -160,7 +160,7 @@ public final class AuditManager {
         Context.setConfig(configuration);
         return getInstance();
     }
-    
+
     /**
      * This method allows to external plugins can inject the configurations.
      * Since the security reasons, this allows to create one time configuration
@@ -194,7 +194,7 @@ public final class AuditManager {
         Context.setConfigFilePath(configFilePath);
         return getInstance();
     }
-    
+
     /**
      * Shutdown.
      */

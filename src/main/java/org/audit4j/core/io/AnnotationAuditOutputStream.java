@@ -47,7 +47,7 @@ public class AnnotationAuditOutputStream {
     Deferred<AnnotationAuditEvent, Stream<AnnotationAuditEvent>> annotationDeferred = null;
 
     /** The Constant ENV. */
-    static final Environment ENV = new Environment();
+    static Environment ENV ;
 
     /** The b. */
     Boundary b = null;
@@ -59,6 +59,7 @@ public class AnnotationAuditOutputStream {
      *            the output stream
      */
     public AnnotationAuditOutputStream(final AuditOutputStream outputStream) {
+        ENV = new Environment();
         this.outputStream = outputStream;
         b = new Boundary();
 

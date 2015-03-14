@@ -36,12 +36,12 @@ public class ScanAnnotationOptionIntTest extends IntTestBase {
         AuditManager manager = AuditManager.getInstance();
         boolean status = manager.audit(getSampleNullAnnotationEvent());
         watchStop();
-       // assertFalse(status);
+        // assertFalse(status);
         TimeUnit.SECONDS.sleep(2);
     }
-    
+
     @After
-    public void after(){
-        //AuditManager.shutdown();
+    public void after() {
+        AuditManager.getInstance().shutdown();
     }
 }

@@ -47,7 +47,7 @@ public class AsyncAuditOutputStream implements AuditOutputStream {
     Deferred<AnnotationAuditEvent, Stream<AnnotationAuditEvent>> annotationDeferred = null;
 
     /** The Constant ENV. */
-    static final Environment ENV = new Environment();
+    static Environment ENV;
 
     /** The b. */
     Boundary b = null;
@@ -62,7 +62,7 @@ public class AsyncAuditOutputStream implements AuditOutputStream {
      *            the output stream
      */
     public AsyncAuditOutputStream(final AuditOutputStream outputStream) {
-
+        ENV = new Environment();
         this.outputStream = outputStream;
         b = new Boundary();
         deferred = Streams.<AuditEvent> defer().env(ENV).dispatcher(Environment.RING_BUFFER).get();

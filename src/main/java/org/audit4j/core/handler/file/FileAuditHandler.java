@@ -19,6 +19,7 @@
 package org.audit4j.core.handler.file;
 
 import java.io.FilePermission;
+import java.io.Serializable;
 import java.security.AccessControlException;
 import java.security.AccessController;
 
@@ -33,14 +34,15 @@ import org.audit4j.core.handler.file.archive.AbstractArchiveJob;
  * 
  * @since 1.0.0
  */
-public class FileAuditHandler extends Handler {
+public class FileAuditHandler extends Handler implements Serializable {
 
-	/** asdas. */
-	private static final long serialVersionUID = 1L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = -1137506723185823390L;
 
-	/** The writer. */
+    /** The writer. */
 	AuditFileWriter writer;
 
+	/** The archive. */
 	private String archive;
 	
 	/** The date pattern. */
@@ -55,12 +57,18 @@ public class FileAuditHandler extends Handler {
 	/** The job. */
 	private AbstractArchiveJob job;
 	
+	/** The audit file prefix. */
 	private String auditFilePrefix = "Audit_Log-";
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.audit4j.core.handler.Handler#init()
+	 */
+	/**
+	 * Inits the.
+	 *
+	 * @throws InitializationException the initialization exception
 	 */
 	@Override
 	public void init() throws InitializationException {
@@ -91,6 +99,9 @@ public class FileAuditHandler extends Handler {
 	 * 
 	 * @see org.audit4j.core.handler.Handler#handle()
 	 */
+	/**
+	 * Handle.
+	 */
 	@Override
 	public void handle() {
 		writer.write(getQuery());
@@ -114,6 +125,11 @@ public class FileAuditHandler extends Handler {
 	
 	
 
+	/**
+	 * Sets the archive.
+	 *
+	 * @param archive the new archive
+	 */
 	public void setArchive(String archive) {
 		this.archive = archive;
 	}
@@ -145,10 +161,18 @@ public class FileAuditHandler extends Handler {
 		this.cronPattern = cronPattern;
 	}
 
+	/**
+	 * Sets the audit file prefix.
+	 *
+	 * @param auditFilePrefix the new audit file prefix
+	 */
 	public void setAuditFilePrefix(String auditFilePrefix) {
         this.auditFilePrefix = auditFilePrefix;
     }
 
+    /**
+     * Stop.
+     */
     @Override
 	public void stop() {
 		writer.stop();

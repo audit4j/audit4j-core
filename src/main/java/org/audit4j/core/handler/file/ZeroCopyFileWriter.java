@@ -40,123 +40,130 @@ import org.audit4j.core.CoreConstants;
  * @since 1.0.1
  */
 public final class ZeroCopyFileWriter extends AuditFileWriter implements Serializable {
-	
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = -1982643461500366178L;
-	
-	/** The random access file. */
-	RandomAccessFile randomAccessFile;
-	
-	/** The file channel. */
-	FileChannel fileChannel;
 
-	/** The path. */
-	private final String path;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = -1982643461500366178L;
 
-	/**
-	 * Instantiates a new zero copy file writer.
-	 *
-	 * @param path the path
-	 */
-	public ZeroCopyFileWriter(String path) {
-		this.path = path;
-	}
+    /** The random access file. */
+    RandomAccessFile randomAccessFile;
 
-	/* (non-Javadoc)
-	 * @see org.audit4j.core.handler.file.AuditFileWriter#init()
-	 */
-	@Override
-	public void init() {
+    /** The file channel. */
+    FileChannel fileChannel;
 
-		String realPath = FileHandlerUtil.generateOutputFilePath(path);
-		try {
-			if (FileHandlerUtil.isFileAlreadyExists(realPath)) {
+    /** The path. */
+    private final String path;
 
-				randomAccessFile = new RandomAccessFile(realPath, CoreConstants.READ_WRITE);
+    /**
+     * Instantiates a new zero copy file writer.
+     * 
+     * @param path
+     *            the path
+     */
+    public ZeroCopyFileWriter(String path) {
+        this.path = path;
+    }
 
-			} else {
-				randomAccessFile = new RandomAccessFile(new File(realPath), CoreConstants.READ_WRITE);
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.audit4j.core.handler.file.AuditFileWriter#init()
+     */
+    @Override
+    public void init() {
+        
+    }
 
-		fileChannel = randomAccessFile.getChannel();
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.audit4j.core.io.AuditOutputStream#write(org.audit4j.core.dto.AuditEvent
+     * )
+     */
+    @Override
+    public ZeroCopyFileWriter write(String event) {
+        String realPath = FileHandlerUtil.generateOutputFilePath(path);
+        try {
+            if (FileHandlerUtil.isFileAlreadyExists(realPath)) {
+                randomAccessFile = new RandomAccessFile(realPath, CoreConstants.READ_WRITE);
+            } else {
+                randomAccessFile = new RandomAccessFile(new File(realPath), CoreConstants.READ_WRITE);
+            }
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.audit4j.core.io.AuditOutputStream#write(org.audit4j.core.dto.AuditEvent
-	 * )
-	 */
-	@Override
-	public ZeroCopyFileWriter write(String event) {
-		String str2 = event + CoreConstants.NEW_LINE;
+        fileChannel = randomAccessFile.getChannel();
+        
+        String str2 = event + CoreConstants.NEW_LINE;
 
-		long numBytes = str2.getBytes().length;
+        long numBytes = str2.getBytes().length;
 
-		InputStream inputStream = new ByteArrayInputStream(str2.getBytes(Charset.forName("UTF-8")));
+        InputStream inputStream = new ByteArrayInputStream(str2.getBytes(Charset.forName("UTF-8")));
 
-		try {
+        try {
 
-			// move the cursor to the end of the file
-			randomAccessFile.seek(randomAccessFile.length());
+            // move the cursor to the end of the file
+            randomAccessFile.seek(randomAccessFile.length());
 
-			// obtain the a file channel from the RandomAccessFile
-			try (ReadableByteChannel inputChannel = Channels.newChannel(inputStream);
-			) {
-				fileChannel.transferFrom(inputChannel, randomAccessFile.length(), numBytes);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+            // obtain the a file channel from the RandomAccessFile
+            try (ReadableByteChannel inputChannel = Channels.newChannel(inputStream);) {
+                fileChannel.transferFrom(inputChannel, randomAccessFile.length(), numBytes);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return this;
-	}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return this;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.audit4j.core.io.AuditOutputStream#close()
-	 */
-	/**
-	 * Close.
-	 */
-	public void close() {
-		try {
-			randomAccessFile.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.audit4j.core.io.AuditOutputStream#close()
+     */
+    /**
+     * Close.
+     */
+    public void close() {
+        try {
+            randomAccessFile.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#clone()
-	 */
-	@Override
-	public Object clone() {
-		return null;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#clone()
+     */
+    @Override
+    public Object clone() {
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.audit4j.core.handler.file.AuditFileWriter#stop()
-	 */
-	@Override
-	public void stop() {
-		try {
-			randomAccessFile.close();
-			fileChannel.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.audit4j.core.handler.file.AuditFileWriter#stop()
+     */
+    @Override
+    public void stop() {
+        try {
+            if (randomAccessFile != null) {
+                randomAccessFile.close();
+                fileChannel.close();
+            }
+            randomAccessFile = null;
+            fileChannel = null;
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 }

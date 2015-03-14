@@ -30,7 +30,7 @@ public class SmokeTest {
         Log.info(watch.getTotalTime());
 
         watch.start("smoke_event");
-        manager.audit(builder.build());
+        AuditManager.getInstance().audit(builder.build());
         watch.stop();
         Log.info(watch.getTotalTime());
         TimeUnit.SECONDS.sleep(4);
