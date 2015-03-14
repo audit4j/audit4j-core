@@ -18,15 +18,14 @@
 
 package org.audit4j.core.annotation;
 
-
 /**
  * The Enum SelectionType.
- *
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
 public enum SelectionType {
 
-	/** The all. */
-	ALL, /** The marked. */
- MARKED; /** The not selected. */
+    /** The all. */
+    ALL, /** The marked. */
+    MARKED;
 }

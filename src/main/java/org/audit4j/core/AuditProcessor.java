@@ -65,7 +65,6 @@ public abstract class AuditProcessor<T extends AuditBase> {
             }
         }
         if (execute) {
-            // event.setActor(getConf().getMetaData().getActor());
             String formattedEvent = configContext.getLayout().format(event);
             for (final Handler handler : configContext.getHandlers()) {
                 handler.setAuditEvent(event);
@@ -79,6 +78,11 @@ public abstract class AuditProcessor<T extends AuditBase> {
         }
     }
 
+    /**
+     * Sets the config context.
+     *
+     * @param configContext the new config context
+     */
     public void setConfigContext(ConcurrentConfigurationContext configContext) {
         this.configContext = configContext;
     }

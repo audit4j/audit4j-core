@@ -8,21 +8,10 @@ import java.lang.annotation.Target;
 
 import javax.interceptor.InterceptorBinding;
 
-/**
- * The Interface ThreadSafe.
- *
- * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
- */
 @InterceptorBinding
 @Documented
 @Retention(RetentionPolicy.SOURCE)
-@Target(value = { ElementType.TYPE })
-public @interface ThreadSafe {
+@Target(value = { ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD })
+public @interface Beeta {
 
-    /**
-     * Value.
-     *
-     * @return the string
-     */
-    public String value() default "";
 }

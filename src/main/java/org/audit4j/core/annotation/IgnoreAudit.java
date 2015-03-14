@@ -27,6 +27,9 @@ import java.lang.annotation.Target;
 /**
  * Audit Ignore Annotation.
  * 
+ * When The particular class marked for audit using @Audit annotation but
+ * specific method should not be audited, This annotation can be added.
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
  * @since 2.2.0

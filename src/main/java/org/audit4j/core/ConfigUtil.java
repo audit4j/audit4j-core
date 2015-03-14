@@ -49,8 +49,9 @@ final class ConfigUtil {
 
 	/**
 	 * Generate config from object.
+	 * @throws ConfigurationException 
 	 */
-	static void generateConfigFromObject() {
+	static void generateConfigFromObject() throws ConfigurationException {
 		YamlWriter writer;
 		try {
 			writer = new YamlWriter(new FileWriter("audit4j.conf.yml"));
@@ -58,8 +59,7 @@ final class ConfigUtil {
 			writer.write(Configuration.DEFAULT);
 			writer.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ConfigurationException("Configuration Exception", "CONF_002");
 		}
 	}
 

@@ -53,7 +53,7 @@ public class SimpleLayout implements Layout {
 			buff.append(new ConcurrentDateFormatAccess(dateFormat).convertDateToString(new Date()));
 		}
 		buff.append(CoreConstants.PIPE);
-		if (null != event.getTimestamp()) {
+		if (null != event.getUuid()) {
 			buff.append(event.getUuid().toString());
 			buff.append(CoreConstants.PIPE);
 		}

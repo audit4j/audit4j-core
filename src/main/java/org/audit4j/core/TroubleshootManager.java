@@ -20,6 +20,7 @@ package org.audit4j.core;
 
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.exception.ConfigurationException;
+import org.audit4j.core.exception.InitializationException;
 import org.audit4j.core.exception.TroubleshootException;
 import org.audit4j.core.util.Log;
 
@@ -79,22 +80,15 @@ public final class TroubleshootManager {
         if (e.getId().equals("CONF_001")) {
             Log.warn("Initial confguration file not found. Creating a new configuration file - ",
                     CoreConstants.CONFIG_FILE_NAME);
-            ConfigUtil.generateConfigFromObject();
+            try {
+                ConfigUtil.generateConfigFromObject();
+            } catch (ConfigurationException e1) {
+                throw new InitializationException("Initialization Failed.! Unable to create new configuration file.");
+            }
         } else if (e.getId().equals("CONF_002")) {
             Log.error("Configuration file currupted or invalid configuration. ",
                     ErrorGuide.getGuide(ErrorGuide.CONFIG_ERROR));
             throw new TroubleshootException("Configuration error", e);
         }
     }
-
-    /**
-     * Checks if is windows.
-     * 
-     * @return true, if is windows
-     */
-    public static boolean isWindows() {
-        String os = System.getProperty("os.name");
-        return os.startsWith("Windows");
-    }
-
 }

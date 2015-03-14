@@ -23,12 +23,14 @@ import java.net.UnknownHostException;
 import org.audit4j.core.CoreConstants;
 import org.audit4j.core.exception.Audit4jRuntimeException;
 import org.audit4j.core.exception.InitializationException;
+import org.audit4j.core.util.annotation.Beeta;
 
 /**
  * The Class FTPArchiveJob.
  *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
+@Beeta
 public class FTPArchiveJob extends AbstractArchiveJob {
 
     /** The Constant serialVersionUID. */

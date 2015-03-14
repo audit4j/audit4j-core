@@ -21,6 +21,9 @@ package org.audit4j.core.handler.file.archive;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.audit4j.core.util.annotation.Beeta;
+
+@Beeta
 public class JobFactory {
 
     public List<AbstractArchiveJob> getJobs(ArchiveEnv env){

@@ -25,8 +25,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * The Interface AuditField.
- *
+ * The AuditField annotation.
+ * 
+ * This Annotation is used to mark parameters which will include in the audit
+ * event.
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
  * @since 1.0.0
@@ -36,10 +39,10 @@ import java.lang.annotation.Target;
 @Target(value = { ElementType.PARAMETER })
 public @interface AuditField {
 
-	/**
-	 * Field.
-	 * 
-	 * @return the string
-	 */
-	public String field();
+    /**
+     * Field.
+     * 
+     * @return the string
+     */
+    public String field();
 }

@@ -38,7 +38,7 @@ import org.audit4j.core.dto.Field;
 public class AnnotationTransformer {
 
     /**
-     * Transform to event.
+     * Transform annotation informations to Audit Event object.
      * 
      * @param annotationEvent
      *            the annotation event

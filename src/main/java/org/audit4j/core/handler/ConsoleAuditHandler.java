@@ -29,6 +29,7 @@ import org.audit4j.core.exception.InitializationException;
  */
 public class ConsoleAuditHandler extends Handler {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -4570535029942402303L;
 	
 	/*
@@ -43,12 +44,18 @@ public class ConsoleAuditHandler extends Handler {
 		stream.println(logText);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.audit4j.core.Initializable#init()
+	 */
 	@Override
 	public void init() throws InitializationException {
 		// TODO Auto-generated method stub
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.audit4j.core.Initializable#stop()
+	 */
 	@Override
 	public void stop() {
 		// TODO Auto-generated method stub

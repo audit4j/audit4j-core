@@ -27,6 +27,7 @@ import java.util.Date;
 import org.audit4j.core.Initializable;
 import org.audit4j.core.exception.Audit4jRuntimeException;
 import org.audit4j.core.util.AuditUtil;
+import org.audit4j.core.util.annotation.Beeta;
 
 /**
  * The Class ArchiveJob.
@@ -35,6 +36,7 @@ import org.audit4j.core.util.AuditUtil;
  * 
  * @since 1.0.1
  */
+@Beeta
 public abstract class AbstractArchiveJob implements Initializable, Serializable {
 
     /** The archive date diff. */

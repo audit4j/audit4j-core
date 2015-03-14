@@ -45,16 +45,25 @@ public class ScanAnnotatedCommand extends AbstractCommand {
     /** The db. */
     AnnotationDB db;
 
+    /* (non-Javadoc)
+     * @see org.audit4j.core.command.AbstractCommand#getCommand()
+     */
     @Override
     public String getCommand() {
         return "-scanAnnotated";
     }
 
+    /* (non-Javadoc)
+     * @see org.audit4j.core.command.AbstractCommand#getCommandName()
+     */
     @Override
     public String getCommandName() {
         return "Scan Annotated Command";
     }
 
+    /* (non-Javadoc)
+     * @see org.audit4j.core.command.AbstractCommand#getCommandDescription()
+     */
     @Override
     public String getCommandDescription() {
         return "Scan annotations in initialization time and store the information. "

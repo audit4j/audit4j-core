@@ -21,6 +21,7 @@ package org.audit4j.core.web;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
 import org.audit4j.core.AuditManager;
 
@@ -29,7 +30,8 @@ import org.audit4j.core.AuditManager;
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
-public class AuditContextListener implements ServletContextListener {
+@WebListener
+public class AuditContextListener3 implements ServletContextListener {
 
     /** The config support. */
     private ServletContexConfigSupport configSupport = null;
@@ -43,13 +45,11 @@ public class AuditContextListener implements ServletContextListener {
      */
     @Override
     public void contextInitialized(ServletContextEvent contextEvent) {
-        if (!isServletSpec3OrHigher(contextEvent.getServletContext())) {
-            configSupport = new ServletContexConfigSupport();
-            if (configSupport.hasHandlers(contextEvent.getServletContext())) {
-                AuditManager.startWithConfiguration(configSupport.loadConfig(contextEvent.getServletContext()));
-            } else {
-                AuditManager.startWithConfiguration(getConfFilePath(contextEvent.getServletContext()));
-            }
+        configSupport = new ServletContexConfigSupport();
+        if (configSupport.hasHandlers(contextEvent.getServletContext())) {
+            AuditManager.startWithConfiguration(configSupport.loadConfig(contextEvent.getServletContext()));
+        } else {
+            AuditManager.startWithConfiguration(getConfFilePath(contextEvent.getServletContext()));
         }
     }
 
@@ -65,19 +65,6 @@ public class AuditContextListener implements ServletContextListener {
     }
 
     /**
-     * Checks if is servlet spec 3 or higher.
-     *
-     * @param context the context
-     * @return true, if is servlet spec3 or higher
-     */
-    public boolean isServletSpec3OrHigher(ServletContext context) {
-        if (context.getMajorVersion() >= 3) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Gets the conf file path.
      * 
      * @param context
@@ -87,5 +74,4 @@ public class AuditContextListener implements ServletContextListener {
     private String getConfFilePath(ServletContext context) {
         return context.getRealPath("/WEB-INF/classes");
     }
-
 }

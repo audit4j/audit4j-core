@@ -24,6 +24,8 @@ import org.audit4j.core.Initializable;
 
 /**
  * The Class AbstractCommand.
+ * 
+ * This abstration can be used to add commands options in to the platform.
  *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 

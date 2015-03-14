@@ -26,10 +26,12 @@ import java.lang.annotation.Target;
 
 import javax.interceptor.InterceptorBinding;
 
-
 /**
- * The Interface Audit.
- *
+ * The Audit annotation.
+ * 
+ * This annotation can be used either in class level or method level. When
+ * applying this annotation, the class or methos is marked as auditable.
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
  * @since 1.0.0
@@ -39,18 +41,18 @@ import javax.interceptor.InterceptorBinding;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.TYPE, ElementType.METHOD })
 public @interface Audit {
-	
-	/**
-	 * Action.
-	 * 
-	 * @return the string
-	 */
-	public String action() default "action";
 
-	/**
-	 * Selection.
-	 * 
-	 * @return the string
-	 */
-	public SelectionType selection() default SelectionType.ALL;
+    /**
+     * Action.
+     * 
+     * @return the string
+     */
+    public String action() default "action";
+
+    /**
+     * Selection.
+     * 
+     * @return the string
+     */
+    public SelectionType selection() default SelectionType.ALL;
 }

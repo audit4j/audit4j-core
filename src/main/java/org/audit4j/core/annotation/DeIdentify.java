@@ -25,8 +25,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * The Interface DeIdentify.
- *
+ * The DeIdentify annotation.
+ * 
+ * This can be used to deidentify certain fields. This applies a mask for
+ * certain characters with ‘*’ charactor.
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
  * @since 2.0
@@ -36,32 +39,32 @@ import java.lang.annotation.Target;
 @Target(value = { ElementType.PARAMETER })
 public @interface DeIdentify {
 
-	/**
-	 * Left.
-	 *
-	 * @return the int
-	 */
-	public int left() default 0;
+    /**
+     * Left.
+     * 
+     * @return the int
+     */
+    public int left() default 0;
 
-	/**
-	 * Right.
-	 *
-	 * @return the int
-	 */
-	public int right() default 0;
+    /**
+     * Right.
+     * 
+     * @return the int
+     */
+    public int right() default 0;
 
-	/**
-	 * From left.
-	 *
-	 * @return the int
-	 */
-	public int fromLeft() default 0;
+    /**
+     * From left.
+     * 
+     * @return the int
+     */
+    public int fromLeft() default 0;
 
-	/**
-	 * From right.
-	 *
-	 * @return the int
-	 */
-	public int fromRight() default 0;
+    /**
+     * From right.
+     * 
+     * @return the int
+     */
+    public int fromRight() default 0;
 
 }

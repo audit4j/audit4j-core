@@ -23,12 +23,14 @@ import java.util.List;
 import org.audit4j.core.Initializable;
 import org.audit4j.core.extra.cron4j.Scheduler;
 import org.audit4j.core.util.Log;
+import org.audit4j.core.util.annotation.Beeta;
 
 /**
  * The Class ArchiveManager.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
+@Beeta
 public class ArchiveManager implements Initializable {
 
     /** The jobs. */
