@@ -25,9 +25,11 @@ import javax.servlet.ServletContextListener;
 import org.audit4j.core.AuditManager;
 
 /**
- * The Class ServletContexConfigSupport.
+ * The AuditContextListener3 for Servlet spec 2.x.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 2.3.1
  */
 public class AuditContextListener implements ServletContextListener {
 

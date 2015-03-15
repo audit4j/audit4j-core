@@ -24,12 +24,16 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 import org.audit4j.core.AuditManager;
+import org.audit4j.core.util.annotation.Beeta;
 
 /**
- * The Class ServletContexConfigSupport.
+ * The AuditContextListener3 for Servlet spec 3.x.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 2.3.1
  */
+@Beeta
 @WebListener
 public class AuditContextListener3 implements ServletContextListener {
 

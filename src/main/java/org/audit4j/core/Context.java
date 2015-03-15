@@ -220,7 +220,7 @@ public final class Context {
             }
 
             Log.info("Disposing configurations...");
-            //configContext = null;
+            configContext = null;
             conf = null;
             Log.info("Audit4j shutdown completed.");
         } else {

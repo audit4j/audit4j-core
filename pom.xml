@@ -106,8 +106,12 @@
 			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.floreysoft</groupId>
+			<artifactId>jmte</artifactId>
+			<version>3.1.1</version>
+		</dependency>
 	</dependencies>
-
 
 	<build>
 		<plugins>
@@ -138,7 +142,7 @@
 				<executions>
 					<execution>
 						<id>make-assembly</id>
-						<phase>package</phase>
+						<phase>assembly</phase>
 						<goals>
 							<goal>single</goal>
 						</goals>

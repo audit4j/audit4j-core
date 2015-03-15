@@ -30,7 +30,7 @@ import org.audit4j.core.util.ToString;
  * 
  * @since 1.0.0
  */
-public class AuditEvent extends AuditBase {
+public class AuditEvent extends Event {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -7009763987501353992L;

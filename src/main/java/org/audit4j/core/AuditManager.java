@@ -145,14 +145,13 @@ public final class AuditManager {
     }
 
     /**
-     * @deprecated This method allows to external plugins can inject the
-     *             configurations. Since the security reasons, this allows to
-     *             create one time configuration setting to Audit4j.
-     * 
-     * @param configuration
-     *            the configuration
+     * Inits the with configuration.
+     *
+     * @param configuration the configuration
      * @return the audit manager
-     * 
+     * @deprecated This method allows to external plugins can inject the
+     * configurations. Since the security reasons, this allows to
+     * create one time configuration setting to Audit4j.
      * @since 2.3.0
      */
     @Deprecated
@@ -183,11 +182,9 @@ public final class AuditManager {
      * This method allows to external plugins can inject the configurations.
      * Since the security reasons, this allows to create one time configuration
      * setting to Audit4j.
-     * 
-     * @param configuration
-     *            the configuration
+     *
+     * @param configFilePath the config file path
      * @return the audit manager
-     * 
      * @since 2.3.1
      */
     public static AuditManager startWithConfiguration(String configFilePath) {
