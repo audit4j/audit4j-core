@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
  * The DeIdentify annotation.
  * 
  * This can be used to deidentify certain fields. This applies a mask for
- * certain characters with ‘*’ charactor.
+ * certain characters with '*' character.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
