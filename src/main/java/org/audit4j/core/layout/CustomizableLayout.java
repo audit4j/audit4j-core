@@ -7,6 +7,7 @@ import java.util.Map;
 import org.audit4j.core.CoreConstants;
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.exception.InitializationException;
+import org.audit4j.core.util.JMTEDateRendrer;
 
 import com.floreysoft.jmte.Engine;
 
@@ -14,6 +15,8 @@ import com.floreysoft.jmte.Engine;
  * The Class CustomizableLayout.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 2.4.0
  */
 public class CustomizableLayout implements Layout {
 

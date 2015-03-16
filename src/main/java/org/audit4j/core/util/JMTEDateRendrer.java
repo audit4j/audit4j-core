@@ -1,9 +1,7 @@
-package org.audit4j.core.layout;
+package org.audit4j.core.util;
 
 import java.util.Date;
 import java.util.Locale;
-
-import org.audit4j.core.util.ConcurrentDateFormatAccess;
 
 import com.floreysoft.jmte.Renderer;
 
@@ -11,14 +9,19 @@ import com.floreysoft.jmte.Renderer;
  * The Class JMTEDateRendrer.
  *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 2.4.0
  */
-class JMTEDateRendrer implements Renderer<Date> {
+public class JMTEDateRendrer implements Renderer<Date> {
 
     /** The date format. */
     private String dateFormat;
 
-    /* (non-Javadoc)
+    /**
+     * {@inheritDoc}
+     * 
      * @see com.floreysoft.jmte.Renderer#render(java.lang.Object, java.util.Locale)
+     *
      */
     @Override
     public String render(Date date, Locale local) {
@@ -28,10 +31,11 @@ class JMTEDateRendrer implements Renderer<Date> {
 
     /**
      * Sets the date format.
-     *
-     * @param dateFormat the new date format
+     * 
+     * @param dateFormat
+     *            the new date format
      */
-    void setDateFormat(final String dateFormat) {
+    public void setDateFormat(final String dateFormat) {
         this.dateFormat = dateFormat;
     }
 }
