@@ -14,8 +14,6 @@ import org.audit4j.core.exception.InitializationException;
 
 public class MBeanAgent implements Initializable {
 
-    private static final int DEFAULT_NO_THREADS = 10;
-    private static final String DEFAULT_SCHEMA = "default";
 
     private MBeanServer mbeanServer;
 
@@ -34,7 +32,7 @@ public class MBeanAgent implements Initializable {
             e1.printStackTrace();
         }
         try {
-            mbs.registerMBean(null, name);
+            mbeanServer.registerMBean(null, name);
         } catch (InstanceAlreadyExistsException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
