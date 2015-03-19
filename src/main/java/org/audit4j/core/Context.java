@@ -39,6 +39,7 @@ import org.audit4j.core.util.AuditUtil;
 import org.audit4j.core.util.EnvUtil;
 import org.audit4j.core.util.Log;
 import org.audit4j.core.util.StopWatch;
+import org.audit4j.schedule.Schedulers;
 
 /**
  * The Audit4j Context. This will load and execute required resources in to the
@@ -156,6 +157,10 @@ public final class Context {
             }
 
             configContext.setMetaData(conf.getMetaData());
+
+            // Execute Scheduler tasks.
+            Log.info("Executing Schedulers...");
+            Schedulers.taskRegistry().scheduleAll();
 
             configContext.setRunStatus(RunStatus.RUNNING);
 
