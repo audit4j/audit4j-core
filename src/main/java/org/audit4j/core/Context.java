@@ -35,6 +35,7 @@ import org.audit4j.core.io.AsyncAuditOutputStream;
 import org.audit4j.core.io.AuditEventOutputStream;
 import org.audit4j.core.io.AuditOutputStream;
 import org.audit4j.core.io.AuditProcessOutputStream;
+import org.audit4j.core.jmx.MBeanAgent;
 import org.audit4j.core.util.AuditUtil;
 import org.audit4j.core.util.EnvUtil;
 import org.audit4j.core.util.Log;
@@ -161,6 +162,10 @@ public final class Context {
             // Execute Scheduler tasks.
             Log.info("Executing Schedulers...");
             Schedulers.taskRegistry().scheduleAll();
+            
+            MBeanAgent agent = new MBeanAgent();
+            agent.init();
+            agent.registerMbeans();
 
             configContext.setRunStatus(RunStatus.RUNNING);
 

@@ -28,26 +28,37 @@ package org.audit4j.core;
 public enum RunStatus {
 
     /** Audit4j in this state is inactive and ready to initialize */
-    READY,
+    READY("READY"),
 
     /** Audit4j in this state is operational. */
-    RUNNING,
+    RUNNING("RUNNING"),
 
     /**
      * Audit4j stopped and ready to initialize. All the resources loaded in to
      * the memory cleared.
      */
-    STOPPED,
+    STOPPED("STOPPED"),
 
     /**
      * Manually disabled the audit4j but all resources are loaded and ready to
      * run. Will not audit the events.
      */
-    DISABLED,
+    DISABLED("DISABLED"),
 
     /**
      * Audit4j in this state has encountered a problem and may not be
      * operational.
      */
-    TERMINATED;
+    TERMINATED("TERMINATED");
+    
+    private String name;
+    
+    public String getName() {
+        return name;
+    }
+
+
+    RunStatus(String name){
+        
+    }
 }

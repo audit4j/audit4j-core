@@ -113,6 +113,5 @@ public class ArchiveManager implements Initializable {
      */
     @Override
     public void stop() {
-        scheduler.stop();
     }
 }
