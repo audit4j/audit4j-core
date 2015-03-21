@@ -162,10 +162,13 @@ public final class Context {
             // Execute Scheduler tasks.
             Log.info("Executing Schedulers...");
             Schedulers.taskRegistry().scheduleAll();
-            
-            MBeanAgent agent = new MBeanAgent();
-            agent.init();
-            agent.registerMbeans();
+
+            if (conf.getJmx() != null) {
+                MBeanAgent agent = new MBeanAgent();
+                agent.setJmxConfig(conf.getJmx());
+                agent.init();
+                agent.registerMbeans();
+            }
 
             configContext.setRunStatus(RunStatus.RUNNING);
 

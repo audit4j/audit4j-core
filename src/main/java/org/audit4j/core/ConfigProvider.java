@@ -20,9 +20,29 @@ package org.audit4j.core;
 
 import org.audit4j.core.exception.ConfigurationException;
 
-public interface ConfigService {
+/**
+ * The Interface ConfigProvider.
+ *
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * @since
+ */
+public interface ConfigProvider {
 
+	/**
+	 * Read config.
+	 *
+	 * @param filePath the file path
+	 * @return the configuration
+	 * @throws ConfigurationException the configuration exception
+	 */
 	Configuration readConfig(final String filePath) throws ConfigurationException;
 
+	/**
+	 * Generate dummy config.
+	 *
+	 * @param config the config
+	 * @param filePath the file path
+	 * @throws ConfigurationException the configuration exception
+	 */
 	void generateDummyConfig(Configuration config, final String filePath) throws ConfigurationException;
 }

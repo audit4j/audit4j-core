@@ -15,25 +15,26 @@ public class MBeanAgent implements Initializable {
 
     private MBeanServer mbeanServer;
 
+    private JMXConfig jmxConfig;
+
     @Override
     public void init() throws InitializationException {
+        Log.info("Initializing JMX monitoring...");
         mbeanServer = ManagementFactory.getPlatformMBeanServer();
     }
 
     public void registerMbeans() {
         ServerAdminMBean serverAdministrationBean = new ServerAdmin();
         try {
-            Log.info("Starting Mbeans");
-            mbeanServer.registerMBean(serverAdministrationBean, JMXUtils.getObjectName(serverAdministrationBean));
+
+            mbeanServer.registerMBean(serverAdministrationBean,
+                    JMXUtils.getObjectName(jmxConfig.getContextName(), "ServerAdmin"));
         } catch (InstanceAlreadyExistsException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new InitializationException("Could not initialize the MBean.!", e);
         } catch (MBeanRegistrationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new InitializationException("Could not initialize the MBean.!", e);
         } catch (NotCompliantMBeanException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new InitializationException("Could not initialize the MBean.!", e);
         }
 
     }
@@ -43,4 +44,7 @@ public class MBeanAgent implements Initializable {
         // mbeanServer.unregisterMBean(name)
     }
 
+    public void setJmxConfig(JMXConfig jmxConfig) {
+        this.jmxConfig = jmxConfig;
+    }
 }
