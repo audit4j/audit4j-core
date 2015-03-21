@@ -1,6 +1,6 @@
-package org.audit4j.schedule;
+package org.audit4j.core.schedule;
 
-import org.audit4j.schedule.util.ErrorHandler;
+import org.audit4j.core.schedule.util.ErrorHandler;
 
 
 /**

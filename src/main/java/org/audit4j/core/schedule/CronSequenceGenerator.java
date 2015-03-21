@@ -1,4 +1,4 @@
-package org.audit4j.schedule;
+package org.audit4j.core.schedule;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +10,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
-import org.audit4j.schedule.util.StringUtils;
+import org.audit4j.core.schedule.util.StringUtils;
 
 public class CronSequenceGenerator {
 

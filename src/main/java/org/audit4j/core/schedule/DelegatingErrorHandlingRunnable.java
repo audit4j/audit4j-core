@@ -1,8 +1,8 @@
-package org.audit4j.schedule;
+package org.audit4j.core.schedule;
 
 import java.lang.reflect.UndeclaredThrowableException;
 
-import org.audit4j.schedule.util.ErrorHandler;
+import org.audit4j.core.schedule.util.ErrorHandler;
 
 /**
  * Runnable wrapper that catches any exception or error thrown from its delegate

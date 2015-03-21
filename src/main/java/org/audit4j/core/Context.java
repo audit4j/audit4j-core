@@ -36,11 +36,11 @@ import org.audit4j.core.io.AuditEventOutputStream;
 import org.audit4j.core.io.AuditOutputStream;
 import org.audit4j.core.io.AuditProcessOutputStream;
 import org.audit4j.core.jmx.MBeanAgent;
+import org.audit4j.core.schedule.Schedulers;
 import org.audit4j.core.util.AuditUtil;
 import org.audit4j.core.util.EnvUtil;
 import org.audit4j.core.util.Log;
 import org.audit4j.core.util.StopWatch;
-import org.audit4j.schedule.Schedulers;
 
 /**
  * The Audit4j Context. This will load and execute required resources in to the

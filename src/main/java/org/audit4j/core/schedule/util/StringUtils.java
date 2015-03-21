@@ -1,4 +1,4 @@
-package org.audit4j.schedule.util;
+package org.audit4j.core.schedule.util;
 
 import java.util.ArrayList;
 import java.util.Collection;

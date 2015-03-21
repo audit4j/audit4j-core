@@ -1,4 +1,4 @@
-package org.audit4j.schedule.util;
+package org.audit4j.core.schedule.util;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;

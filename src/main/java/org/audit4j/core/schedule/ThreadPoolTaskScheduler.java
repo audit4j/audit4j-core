@@ -1,4 +1,4 @@
-package org.audit4j.schedule;
+package org.audit4j.core.schedule;
 
 import java.util.Date;
 import java.util.concurrent.Callable;
@@ -13,8 +13,8 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-import org.audit4j.schedule.util.ClassUtils;
-import org.audit4j.schedule.util.ErrorHandler;
+import org.audit4j.core.schedule.util.ClassUtils;
+import org.audit4j.core.schedule.util.ErrorHandler;
 
 /**
  * Implementation of Spring's {@link TaskScheduler} interface, wrapping a native

@@ -1,4 +1,4 @@
-package org.audit4j.schedule;
+package org.audit4j.core.schedule;
 
 public class IntervalTask extends Task {
 

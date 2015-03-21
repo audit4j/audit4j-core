@@ -1,8 +1,8 @@
-package org.audit4j.schedule;
+package org.audit4j.core.schedule;
 
 import java.util.concurrent.ThreadFactory;
 
-import org.audit4j.schedule.util.CustomizableThreadCreator;
+import org.audit4j.core.schedule.util.CustomizableThreadCreator;
 
 /**
  * Implementation of the {@link java.util.concurrent.ThreadFactory} interface,

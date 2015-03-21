@@ -1,4 +1,4 @@
-package org.audit4j.schedule;
+package org.audit4j.core.schedule;
 
 import java.util.Date;
 import java.util.concurrent.Delayed;
@@ -8,7 +8,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import org.audit4j.schedule.util.ErrorHandler;
+import org.audit4j.core.schedule.util.ErrorHandler;
  
 /**
  * Internal adapter that reschedules an underlying {@link Runnable} according to

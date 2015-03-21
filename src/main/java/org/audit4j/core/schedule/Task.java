@@ -1,4 +1,4 @@
-package org.audit4j.schedule;
+package org.audit4j.core.schedule;
 
 /**
 * Holder class defining a {@code Runnable} to be executed as a task, typically at a

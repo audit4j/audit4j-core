@@ -1,4 +1,4 @@
-package org.audit4j.schedule;
+package org.audit4j.core.schedule;
 
 import java.util.Date;
 import java.util.concurrent.Executor;
@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 import javax.enterprise.concurrent.LastExecution;
 import javax.enterprise.concurrent.ManagedScheduledExecutorService;
 
-import org.audit4j.schedule.util.ErrorHandler;
+import org.audit4j.core.schedule.util.ErrorHandler;
 
 /**
  * Adapter that takes a {@code java.util.concurrent.ScheduledExecutorService}
