@@ -18,6 +18,7 @@
 
 package org.audit4j.core;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -91,6 +92,8 @@ public final class Context {
     /** The Constant INIT_FAILED. */
     private static final String INIT_FAILED = "initialization failed.!!";
 
+    private static final ContextLifeCycle lifeCycle = ContextLifeCycle.getInstance();
+
     /**
      * Initialize the Audit4j instance. This will ensure the single audit4j
      * instance and single Configuration repository load in to the memory.
@@ -101,8 +104,8 @@ public final class Context {
         if (configContext == null) {
             configContext = new ConcurrentConfigurationContext();
         }
-        if (configContext.getRunStatus().equals(RunStatus.READY)
-                || configContext.getRunStatus().equals(RunStatus.STOPPED)) {
+
+        if (lifeCycle.getStatus().equals(RunStatus.READY) || lifeCycle.getStatus().equals(RunStatus.STOPPED)) {
             Log.info("Initializing Audit4j...");
             // Check system environment;
             checkEnvironment();
@@ -163,6 +166,7 @@ public final class Context {
             Log.info("Executing Schedulers...");
             Schedulers.taskRegistry().scheduleAll();
 
+            // Initialize monitoring support if available in the configurations.
             if (conf.getJmx() != null) {
                 MBeanAgent agent = new MBeanAgent();
                 agent.setJmxConfig(conf.getJmx());
@@ -170,8 +174,8 @@ public final class Context {
                 agent.registerMbeans();
             }
 
-            configContext.setRunStatus(RunStatus.RUNNING);
-
+            lifeCycle.setStatus(RunStatus.RUNNING);
+            lifeCycle.setStartUpTime(new Date().getTime());
             stopWatch.stop();
             Long initializationTime = stopWatch.getLastTaskTimeMillis();
             Log.info("Audit4j initialized. Total time: ", initializationTime, "ms");
@@ -218,8 +222,8 @@ public final class Context {
      * @since 2.2.0
      */
     final static void stop() {
-        if (configContext.getRunStatus().equals(RunStatus.RUNNING)) {
-            configContext.setRunStatus(RunStatus.STOPPED);
+        if (lifeCycle.getStatus().equals(RunStatus.RUNNING) || lifeCycle.getStatus().equals(RunStatus.DISABLED)) {
+            lifeCycle.setStatus(RunStatus.STOPPED);
             Log.info("Preparing to shutdown Audit4j...");
 
             Log.info("Closing Streams...");
@@ -247,11 +251,10 @@ public final class Context {
      * @since 2.2.0
      */
     final static void enable() {
-        if (configContext.getRunStatus().equals(RunStatus.READY)
-                || configContext.getRunStatus().equals(RunStatus.STOPPED)) {
+        if (lifeCycle.getStatus().equals(RunStatus.READY) || lifeCycle.getStatus().equals(RunStatus.STOPPED)) {
             init();
-        } else if (configContext.getRunStatus().equals(RunStatus.DISABLED)) {
-            configContext.setRunStatus(RunStatus.RUNNING);
+        } else if (lifeCycle.getStatus().equals(RunStatus.DISABLED)) {
+            lifeCycle.setStatus(RunStatus.RUNNING);
         }
     }
 
@@ -262,7 +265,7 @@ public final class Context {
      */
     final static void disable() {
         Log.warn("Audit4j Disabled.!!");
-        configContext.setRunStatus(RunStatus.DISABLED);
+        lifeCycle.setStatus(RunStatus.DISABLED);
     }
 
     /**
@@ -272,7 +275,7 @@ public final class Context {
      */
     final static void terminate() {
         Log.warn("Audit4j Terminated due to critical error.");
-        configContext.setRunStatus(RunStatus.TERMINATED);
+        lifeCycle.setStatus(RunStatus.TERMINATED);
     }
 
     /**
@@ -488,13 +491,13 @@ public final class Context {
      * @since 2.2.0
      */
     public static RunStatus getStatus() {
-        return configContext.getRunStatus();
+        return lifeCycle.getStatus();
     }
 
     /**
      * Private singalton.
      */
     private Context() {
-        // Nothing here.
+
     }
 }

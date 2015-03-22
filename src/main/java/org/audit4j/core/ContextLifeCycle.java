@@ -11,12 +11,12 @@ public final class ContextLifeCycle {
 
     /** The status. */
     private RunStatus status = RunStatus.READY;
+    
+    /** The start up time. */
+    private Long startUpTime;
 
     /** The instance. */
     private static ContextLifeCycle instance;
-
-    /** The start up time. */
-    private Long startUpTime;
 
     /**
      * Gets the status.

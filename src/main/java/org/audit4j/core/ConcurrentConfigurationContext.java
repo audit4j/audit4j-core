@@ -70,7 +70,12 @@ public final class ConcurrentConfigurationContext {
     /** The meta data. */
     private MetaData metaData;
 
-    /** The run status. */
+    /**
+     * The run status.
+     * 
+     * @deprecated see {@link ContextLifeCycle.getStatus()} instead.
+     * */
+    @Deprecated
     private RunStatus runStatus = RunStatus.READY;
 
     /**
@@ -193,7 +198,10 @@ public final class ConcurrentConfigurationContext {
      * Gets the run status.
      * 
      * @return the run status
+     * 
+     * @deprecated see {@link ContextLifeCycle.getStatus()} instead.
      */
+    @Deprecated
     public RunStatus getRunStatus() {
         return runStatus;
     }
@@ -203,7 +211,9 @@ public final class ConcurrentConfigurationContext {
      * 
      * @param runStatus
      *            the new run status
+     * @deprecated see {@link ContextLifeCycle.getStatus()} instead.
      */
+    @Deprecated
     public void setRunStatus(RunStatus runStatus) {
         this.runStatus = runStatus;
     }

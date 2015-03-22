@@ -27,7 +27,7 @@ package org.audit4j.core;
  */
 public enum RunStatus {
 
-    /** Audit4j in this state is inactive and ready to initialize */
+    /** Audit4j in this state is inactive and ready to initialize. */
     READY("READY"),
 
     /** Audit4j in this state is operational. */
@@ -51,14 +51,25 @@ public enum RunStatus {
      */
     TERMINATED("TERMINATED");
     
+    /** The name. */
     private String name;
     
+    /**
+     * Gets the name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
 
+    /**
+     * Instantiates a new run status.
+     *
+     * @param name the name
+     */
     RunStatus(String name){
-        
+        this.name = name;
     }
 }

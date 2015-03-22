@@ -29,10 +29,10 @@ import org.audit4j.core.exception.ConfigurationException;
 public interface ConfigProvider {
 
 	/**
-	 * Read config.
+	 * Read configuration form source.
 	 *
 	 * @param filePath the file path
-	 * @return the configuration
+	 * @return the configuration object
 	 * @throws ConfigurationException the configuration exception
 	 */
 	Configuration readConfig(final String filePath) throws ConfigurationException;
