@@ -106,6 +106,8 @@ public final class Context {
         }
 
         if (lifeCycle.getStatus().equals(RunStatus.READY) || lifeCycle.getStatus().equals(RunStatus.STOPPED)) {
+            Audit4jBanner banner = new Audit4jBanner();
+            banner.printBanner();
             Log.info("Initializing Audit4j...");
             // Check system environment;
             checkEnvironment();
@@ -138,7 +140,9 @@ public final class Context {
             // Load Registry configurations.
             loadRegistry();
 
-            if (conf.getProperties() != null) {
+            if (conf.getProperties() == null) {
+                conf.setProperties(new HashMap<String, String>());
+            } else {
                 for (Map.Entry<String, String> entry : conf.getProperties().entrySet()) {
                     if (System.getProperties().containsKey(entry.getValue())) {
                         conf.getProperties().put(entry.getKey(), System.getProperty(entry.getValue()));

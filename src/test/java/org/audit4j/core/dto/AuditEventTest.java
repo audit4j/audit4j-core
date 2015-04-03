@@ -1,9 +1,15 @@
 package org.audit4j.core.dto;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.List;
+
 import jsr166e.extra.ReadMostlyVector;
-import org.junit.*;
-import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * The class <code>AuditEventTest</code> contains tests for the class <code>{@link AuditEvent}</code>.
@@ -31,7 +37,6 @@ public class AuditEventTest {
         assertEquals(null, result.getOrigin());
         assertEquals(null, result.getAction());
         assertEquals(null, result.getActor());
-        assertEquals(null, result.getTimestamp());
         assertEquals(null, result.getAuditId());
         assertEquals(null, result.getUuid());
     }
@@ -56,7 +61,6 @@ public class AuditEventTest {
         assertEquals(null, result.getOrigin());
         assertEquals("", result.getAction());
         assertEquals("", result.getActor());
-        assertEquals(null, result.getTimestamp());
         assertEquals(null, result.getAuditId());
         assertEquals(null, result.getUuid());
     }
@@ -81,7 +85,6 @@ public class AuditEventTest {
         assertEquals(null, result.getOrigin());
         assertEquals("", result.getAction());
         assertEquals("", result.getActor());
-        assertEquals(null, result.getTimestamp());
         assertEquals(null, result.getAuditId());
         assertEquals(null, result.getUuid());
     }
@@ -107,7 +110,6 @@ public class AuditEventTest {
         assertEquals("", result.getOrigin());
         assertEquals("", result.getAction());
         assertEquals("", result.getActor());
-        assertEquals(null, result.getTimestamp());
         assertEquals(null, result.getAuditId());
         assertEquals(null, result.getUuid());
     }
@@ -133,7 +135,6 @@ public class AuditEventTest {
         assertEquals("", result.getOrigin());
         assertEquals("", result.getAction());
         assertEquals("", result.getActor());
-        assertEquals(null, result.getTimestamp());
         assertEquals(null, result.getAuditId());
         assertEquals(null, result.getUuid());
     }

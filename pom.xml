@@ -5,7 +5,7 @@
 	<artifactId>audit4j-core</artifactId>
 	<packaging>jar</packaging>
 	<name>Audit4j - Core</name>
-	<version>2.3.1</version>
+	<version>2.4.0-SNAPSHOT</version>
 	<url>http://audit4j.org</url>
 	<description>Audit4j - An open-source auditing framework for Java, Core</description>
 	<organization>
@@ -27,7 +27,7 @@
 		<connection>scm:git:git@github.com:audit4j/audit4j-core.git</connection>
 		<developerConnection>scm:git:git@github.com:audit4j/audit4j-core.git</developerConnection>
 		<url>scm:git:git@github.com:audit4j/audit4j-core.git</url>
-		<tag>v2.3.0</tag>
+		<tag>v2.4.0-SNAPSHOT</tag>
 	</scm>
 	<developers>
 		<developer>
@@ -141,6 +141,18 @@
 					<compilerArgs>
 						<arg>-Xlint:varargs</arg>
 					</compilerArgs>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+						</manifest>
+					</archive>
 				</configuration>
 			</plugin>
 			<plugin>

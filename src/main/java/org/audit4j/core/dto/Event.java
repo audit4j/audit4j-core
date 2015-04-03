@@ -42,6 +42,12 @@ public class Event implements Serializable {
     /** The timestamp. */
     private Date timestamp;
 
+    /** The meta. */
+    private EventMeta meta;
+
+    /**
+     * Instantiates a new event.
+     */
     public Event() {
         this.timestamp = new Date();
     }
@@ -101,5 +107,48 @@ public class Event implements Serializable {
      */
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
+    }
+
+    /**
+     * Sets the repository.
+     *
+     * @param repository the new repository
+     */
+    public void setRepository(String repository) {
+        if (meta == null) {
+            meta = new EventMeta();
+        }
+        meta.setRepository(repository);
+    }
+
+    /**
+     * Sets the client.
+     *
+     * @param client the new client
+     */
+    public void setClient(String client) {
+        if (meta == null) {
+            meta = new EventMeta();
+        }
+        meta.setClient(client);
+    }
+
+    /**
+     * Gets the meta.
+     * 
+     * @return the meta
+     */
+    public EventMeta getMeta() {
+        return meta;
+    }
+
+    /**
+     * Sets the meta.
+     * 
+     * @param meta
+     *            the new meta
+     */
+    public void setMeta(EventMeta meta) {
+        this.meta = meta;
     }
 }

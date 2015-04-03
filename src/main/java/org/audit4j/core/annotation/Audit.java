@@ -55,4 +55,11 @@ public @interface Audit {
      * @return the string
      */
     public SelectionType selection() default SelectionType.ALL;
+
+    /**
+     * Repository.
+     *
+     * @return the string
+     */
+    public String tag() default "default";
 }
