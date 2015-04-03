@@ -34,7 +34,7 @@ public class MBeanAgent implements Initializable {
      */
     @Override
     public void init() throws InitializationException {
-        Log.info("Initializing JMX monitoring...");
+        Log.info("Initializing JMX...");
         mbeanServer = ManagementFactory.getPlatformMBeanServer();
     }
 

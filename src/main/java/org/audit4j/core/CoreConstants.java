@@ -49,7 +49,7 @@ public final class CoreConstants {
     public static final String SITE_URL = "http://audit4j.org";
 
     /** The Constant CONFIG_FILE_NAME. */
-    public static final String CONFIG_FILE_NAME = "audit4j.conf.yml";
+    public static final String DEFAULT_CONFIG_FILE_NAME = "audit4j.conf.yml";
 
     /** The Constant COLON_CHAR. */
     public static final char COLON_CHAR = ':';

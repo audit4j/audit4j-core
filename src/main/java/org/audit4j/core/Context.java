@@ -18,6 +18,7 @@
 
 package org.audit4j.core;
 
+import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +27,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.audit4j.core.command.CommandProcessor;
 import org.audit4j.core.exception.ConfigurationException;
 import org.audit4j.core.exception.InitializationException;
-import org.audit4j.core.exception.TroubleshootException;
 import org.audit4j.core.exception.ValidationException;
 import org.audit4j.core.filter.AuditAnnotationFilter;
 import org.audit4j.core.filter.AuditEventFilter;
@@ -38,7 +38,6 @@ import org.audit4j.core.io.AuditOutputStream;
 import org.audit4j.core.io.AuditProcessOutputStream;
 import org.audit4j.core.jmx.MBeanAgent;
 import org.audit4j.core.schedule.Schedulers;
-import org.audit4j.core.util.AuditUtil;
 import org.audit4j.core.util.EnvUtil;
 import org.audit4j.core.util.Log;
 import org.audit4j.core.util.StopWatch;
@@ -310,27 +309,16 @@ public final class Context {
      * Load configuration items.
      */
     private final static void loadConfig() {
-        if (null == configFilePath) {
-            configFilePath = CoreConstants.CONFIG_FILE_NAME;
-        } else {
-            if (!AuditUtil.isFileExists(configFilePath)) {
-                throw new InitializationException("The given configuration file does not exists."
-                        + ErrorGuide.getGuide(ErrorGuide.CONFIG_NOT_EXISTS));
-            }
+        String scannedConfigFilePath = null;
+        if (configFilePath == null || new File(configFilePath).isDirectory()) {
+            scannedConfigFilePath = Configurations.scanConfigFile(configFilePath);
         }
+
         try {
-            conf = ConfigUtil.readConfig(configFilePath);
+            conf = Configurations.loadConfig(scannedConfigFilePath);
         } catch (ConfigurationException e) {
-            try {
-                TroubleshootManager.troubleshootConfiguration(e);
-                conf = ConfigUtil.readConfig(configFilePath);
-            } catch (TroubleshootException e2) {
-                terminate();
-                throw new InitializationException(INIT_FAILED);
-            } catch (ConfigurationException e1) {
-                terminate();
-                throw new InitializationException(INIT_FAILED);
-            }
+            terminate();
+            throw new InitializationException(INIT_FAILED, e);
         }
     }
 
@@ -502,6 +490,6 @@ public final class Context {
      * Private singalton.
      */
     private Context() {
-
+        // Nothing here. Private Constructor
     }
 }

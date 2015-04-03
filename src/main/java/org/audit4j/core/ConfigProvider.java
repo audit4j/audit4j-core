@@ -26,7 +26,7 @@ import org.audit4j.core.exception.ConfigurationException;
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * @since
  */
-public interface ConfigProvider {
+public interface ConfigProvider<T> {
 
 	/**
 	 * Read configuration form source.
@@ -35,7 +35,7 @@ public interface ConfigProvider {
 	 * @return the configuration object
 	 * @throws ConfigurationException the configuration exception
 	 */
-	Configuration readConfig(final String filePath) throws ConfigurationException;
+	T readConfig(final String filePath) throws ConfigurationException;
 
 	/**
 	 * Generate dummy config.
@@ -44,5 +44,5 @@ public interface ConfigProvider {
 	 * @param filePath the file path
 	 * @throws ConfigurationException the configuration exception
 	 */
-	void generateDummyConfig(Configuration config, final String filePath) throws ConfigurationException;
+	void generateConfig(T config, final String filePath) throws ConfigurationException;
 }

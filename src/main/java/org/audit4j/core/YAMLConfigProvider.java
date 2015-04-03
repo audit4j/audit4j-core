@@ -31,25 +31,31 @@ import com.esotericsoftware.yamlbeans.YamlWriter;
 
 /**
  * The Class YAMLConfigProvider.
- *
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
  * @since 2.4.0
  */
-public class YAMLConfigProvider implements ConfigProvider {
+public class YAMLConfigProvider<T> implements ConfigProvider<T> {
+
+    private final Class<T> clazz;
+
+    public YAMLConfigProvider(Class<T> clazz) {
+        this.clazz = clazz;
+    }
 
     /**
      * {@inheritDoc}
      * 
      * @see org.audit4j.core.ConfigProvider#readConfig(java.lang.String)
-     *
+     * 
      */
     @Override
-    public Configuration readConfig(String filePath) throws ConfigurationException {
+    public T readConfig(String filePath) throws ConfigurationException {
         try {
             YamlReader reader = new YamlReader(new FileReader(filePath));
-            reader.getConfig().setClassTag("Configuration", Configuration.class);
-            return (Configuration) reader.read();
+            reader.getConfig().setClassTag("Configuration", clazz);
+            return (T) reader.read();
         } catch (FileNotFoundException e) {
             throw new ConfigurationException("Configuration Exception", "CONF_001", e);
         } catch (YamlException e) {
@@ -61,20 +67,20 @@ public class YAMLConfigProvider implements ConfigProvider {
     /**
      * {@inheritDoc}
      * 
-     * @see org.audit4j.core.ConfigProvider#generateDummyConfig(org.audit4j.core.Configuration, java.lang.String)
-     *
+     * @see org.audit4j.core.ConfigProvider#generateConfig(org.audit4j.core.Configuration,
+     *      java.lang.String)
+     * 
      */
     @Override
-    public void generateDummyConfig(Configuration config, String filePath) throws ConfigurationException {
+    public void generateConfig(T config, String filePath) throws ConfigurationException {
         YamlWriter writer;
         try {
             writer = new YamlWriter(new FileWriter(filePath));
-            writer.getConfig().setClassTag("Configuration", Configuration.class);
+            writer.getConfig().setClassTag("Configuration", clazz);
             writer.write(Configuration.DEFAULT);
             writer.close();
         } catch (IOException e) {
             throw new ConfigurationException("Configuration Exception", "CONF_002");
         }
     }
-
 }

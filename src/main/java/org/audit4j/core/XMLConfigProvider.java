@@ -14,36 +14,44 @@ import com.thoughtworks.xstream.io.xml.StaxDriver;
 
 /**
  * The Class XMLConfigProvider.
- *
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * @param <T>
  * 
  * @since 2.4.0
  */
-public class XMLConfigProvider implements ConfigProvider {
+public class XMLConfigProvider<T> implements ConfigProvider<T> {
 
+    private final Class<T> clazz;
+
+    public XMLConfigProvider(Class<T> clazz) {
+        this.clazz = clazz;
+    }
+    
     /**
      * {@inheritDoc}
      * 
      * @see org.audit4j.core.ConfigProvider#readConfig(java.lang.String)
-     *
+     * 
      */
     @Override
-    public Configuration readConfig(String filePath) throws ConfigurationException {
+    public T readConfig(String filePath) throws ConfigurationException {
         XStream xstream = new XStream(new StaxDriver());
-        xstream.alias("configuration", Configuration.class);
-        return (Configuration) xstream.fromXML(new File(filePath));
+        xstream.alias("configuration", clazz);
+        return (T) xstream.fromXML(new File(filePath));
     }
 
     /**
      * {@inheritDoc}
      * 
-     * @see org.audit4j.core.ConfigProvider#generateDummyConfig(org.audit4j.core.Configuration, java.lang.String)
-     *
+     * @see org.audit4j.core.ConfigProvider#generateConfig(org.audit4j.core.Configuration,
+     *      java.lang.String)
+     * 
      */
     @Override
-    public void generateDummyConfig(Configuration config, String filePath) throws ConfigurationException {
+    public void generateConfig(T config, String filePath) throws ConfigurationException {
         XStream xstream = new XStream(new StaxDriver());
-        xstream.alias("configuration", Configuration.class);
+        xstream.alias("configuration", clazz);
         BufferedOutputStream stdout = null;
         try {
             stdout = new BufferedOutputStream(new FileOutputStream(filePath));
@@ -53,5 +61,4 @@ public class XMLConfigProvider implements ConfigProvider {
         }
         xstream.marshal(config, new PrettyPrintWriter(new OutputStreamWriter(stdout)));
     }
-
 }
