@@ -23,11 +23,25 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.audit4j.core.AuditManager;
+import org.audit4j.core.util.EnvUtil;
 
 /**
- * The Class ServletContexConfigSupport.
+ * The AuditContextListener3 for Servlet spec 2.x.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ *         <pre>
+ * {@code
+ * <listener>
+ *     <listener-class>
+ *              org.audit4j.core.web.AuditContextListener 
+ *     </listener-class>
+ * </listener> 
+ * }
+ * </pre>
+ * 
+ * 
+ * @since 2.3.1
  */
 public class AuditContextListener implements ServletContextListener {
 
@@ -43,7 +57,7 @@ public class AuditContextListener implements ServletContextListener {
      */
     @Override
     public void contextInitialized(ServletContextEvent contextEvent) {
-        if (!isServletSpec3OrHigher(contextEvent.getServletContext())) {
+        if (!EnvUtil.isServletSpec3OrHigher(contextEvent.getServletContext())) {
             configSupport = new ServletContexConfigSupport();
             if (configSupport.hasHandlers(contextEvent.getServletContext())) {
                 AuditManager.startWithConfiguration(configSupport.loadConfig(contextEvent.getServletContext()));
@@ -62,19 +76,6 @@ public class AuditContextListener implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent contextEvent) {
         AuditManager.getInstance().shutdown();
-    }
-
-    /**
-     * Checks if is servlet spec 3 or higher.
-     *
-     * @param context the context
-     * @return true, if is servlet spec3 or higher
-     */
-    public boolean isServletSpec3OrHigher(ServletContext context) {
-        if (context.getMajorVersion() >= 3) {
-            return true;
-        }
-        return false;
     }
 
     /**

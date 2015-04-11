@@ -5,7 +5,7 @@
 	<artifactId>audit4j-core</artifactId>
 	<packaging>jar</packaging>
 	<name>Audit4j - Core</name>
-	<version>2.3.1</version>
+	<version>2.4.0-SNAPSHOT</version>
 	<url>http://audit4j.org</url>
 	<description>Audit4j - An open-source auditing framework for Java, Core</description>
 	<organization>
@@ -27,7 +27,7 @@
 		<connection>scm:git:git@github.com:audit4j/audit4j-core.git</connection>
 		<developerConnection>scm:git:git@github.com:audit4j/audit4j-core.git</developerConnection>
 		<url>scm:git:git@github.com:audit4j/audit4j-core.git</url>
-		<tag>v2.3.0</tag>
+		<tag>v2.4.0-SNAPSHOT</tag>
 	</scm>
 	<developers>
 		<developer>
@@ -74,9 +74,19 @@
 			<version>3.3</version>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+		<dependency>
 			<groupId>com.esotericsoftware.yamlbeans</groupId>
 			<artifactId>yamlbeans</artifactId>
 			<version>1.08</version>
+		</dependency>
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.8</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectreactor</groupId>
@@ -106,8 +116,22 @@
 			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.floreysoft</groupId>
+			<artifactId>jmte</artifactId>
+			<version>3.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.enterprise.concurrent</groupId>
+			<artifactId>javax.enterprise.concurrent-api</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.management.j2ee</groupId>
+			<artifactId>management-api</artifactId>
+			<version>1.1-rev-1</version>
+		</dependency>
 	</dependencies>
-
 
 	<build>
 		<plugins>
@@ -126,6 +150,18 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.5.3</version>
 				<configuration>
@@ -138,7 +174,7 @@
 				<executions>
 					<execution>
 						<id>make-assembly</id>
-						<phase>package</phase>
+						<phase>assembly</phase>
 						<goals>
 							<goal>single</goal>
 						</goals>

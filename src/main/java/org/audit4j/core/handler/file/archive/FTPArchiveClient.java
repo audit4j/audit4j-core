@@ -74,7 +74,7 @@ public final class FTPArchiveClient {
      * Inits the.
      *
      * @param args the args
-     * @throws UnknownHostException 
+     * @throws UnknownHostException the unknown host exception
      */
     public static void init(String[] args) throws UnknownHostException {
         boolean storeFile = false, binaryTransfer = false, error = false, listFiles = false, listNames = false, hidden = false;

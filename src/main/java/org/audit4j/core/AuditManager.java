@@ -92,21 +92,15 @@ public final class AuditManager {
      */
     public boolean audit(AnnotationAuditEvent annotationEvent) {
         List<AuditAnnotationFilter> filters = Context.getConfigContext().getAnnotationFilters();
-
-        boolean execute = true;
         if (!filters.isEmpty()) {
             for (AuditAnnotationFilter filter : filters) {
                 if (!filter.accepts(annotationEvent)) {
-                    execute = false;
-                    break;
+                    return false;
                 }
             }
         }
-        if (execute) {
-            Context.getAnnotationStream().write(annotationEvent);
-            return true;
-        }
-        return false;
+        Context.getAnnotationStream().write(annotationEvent);
+        return true;
     }
 
     /**
@@ -117,7 +111,7 @@ public final class AuditManager {
     public static AuditManager getInstance() {
         init();
         synchronized (AuditManager.class) {
-            
+
             if (auditManager == null) {
                 auditManager = new AuditManager();
             }
@@ -145,14 +139,14 @@ public final class AuditManager {
     }
 
     /**
-     * @deprecated This method allows to external plugins can inject the
-     *             configurations. Since the security reasons, this allows to
-     *             create one time configuration setting to Audit4j.
+     * Inits the with configuration.
      * 
      * @param configuration
      *            the configuration
      * @return the audit manager
-     * 
+     * @deprecated This method allows to external plugins can inject the
+     *             configurations. Since the security reasons, this allows to
+     *             create one time configuration setting to Audit4j.
      * @since 2.3.0
      */
     @Deprecated
@@ -184,10 +178,9 @@ public final class AuditManager {
      * Since the security reasons, this allows to create one time configuration
      * setting to Audit4j.
      * 
-     * @param configuration
-     *            the configuration
+     * @param configFilePath
+     *            the config file path
      * @return the audit manager
-     * 
      * @since 2.3.1
      */
     public static AuditManager startWithConfiguration(String configFilePath) {
@@ -200,5 +193,19 @@ public final class AuditManager {
      */
     public void shutdown() {
         Context.stop();
+    }
+    
+    /**
+     * Enable.
+     */
+    public void enable() {
+        Context.enable();
+    }
+    
+    /**
+     * Disable.
+     */
+    public void disable() {
+        Context.disable();
     }
 }

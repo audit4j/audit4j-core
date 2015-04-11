@@ -34,67 +34,73 @@ import com.esotericsoftware.yamlbeans.YamlWriter;
 
 /**
  * The Class ConfigUtil.
- *
+ * 
+ * @deprecated see {@link Configurations} for more info.
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
  * @since 1.0.1
  */
+@Deprecated
 final class ConfigUtil {
 
-	/**
-	 * Instantiates a new config util.
-	 */
-	private ConfigUtil() {
-	}
+    /**
+     * Instantiates a new config util.
+     */
+    private ConfigUtil() {
+    }
 
-	/**
-	 * Generate config from object.
-	 * @throws ConfigurationException 
-	 */
-	static void generateConfigFromObject() throws ConfigurationException {
-		YamlWriter writer;
-		try {
-			writer = new YamlWriter(new FileWriter("audit4j.conf.yml"));
-			writer.getConfig().setClassTag("Configuration", Configuration.class);
-			writer.write(Configuration.DEFAULT);
-			writer.close();
-		} catch (IOException e) {
-			throw new ConfigurationException("Configuration Exception", "CONF_002");
-		}
-	}
+    /**
+     * Generate config from object.
+     * 
+     * @throws ConfigurationException
+     */
+    static void generateConfigFromObject() throws ConfigurationException {
+        YamlWriter writer;
+        try {
+            writer = new YamlWriter(new FileWriter("audit4j.conf.yml"));
+            writer.getConfig().setClassTag("Configuration", Configuration.class);
+            writer.write(Configuration.DEFAULT);
+            writer.close();
+        } catch (IOException e) {
+            throw new ConfigurationException("Configuration Exception", "CONF_002");
+        }
+    }
 
-	/**
-	 * Read config.
-	 *
-	 * @param filePath the file path
-	 * @return the configuration
-	 * @throws ConfigurationException the configuration exception
-	 */
-	static Configuration readConfig(final String filePath) throws ConfigurationException {
-		try {
-			YamlReader reader = new YamlReader(new FileReader(filePath));
-			reader.getConfig().setClassTag("Configuration", Configuration.class);
+    /**
+     * Read config.
+     * 
+     * @param filePath
+     *            the file path
+     * @return the configuration
+     * @throws ConfigurationException
+     *             the configuration exception
+     */
+    static Configuration readConfig(final String filePath) throws ConfigurationException {
+        try {
+            YamlReader reader = new YamlReader(new FileReader(filePath));
+            reader.getConfig().setClassTag("Configuration", Configuration.class);
 
-			return (Configuration) reader.read();
+            return (Configuration) reader.read();
 
-		} catch (FileNotFoundException e) {
-			throw new ConfigurationException("Configuration Exception", "CONF_001", e);
-		} catch (YamlException e) {
-			throw new ConfigurationException("Configuration Exception", "CONF_002", e);
-		}
-	}
-	
-	/**
-	 * Gets the handler class names.
-	 *
-	 * @param handlers the handlers
-	 * @return the handler class names
-	 */
-	static List<String> getHandlerClassNames(List<Handler> handlers){
-		List<String> handlerClassNameList = new ArrayList<>();
-		for (Handler handler : handlers) {
-			handlerClassNameList.add(handler.getClass().getName());
-		}
-		return handlerClassNameList;
-	}
+        } catch (FileNotFoundException e) {
+            throw new ConfigurationException("Configuration Exception", "CONF_001", e);
+        } catch (YamlException e) {
+            throw new ConfigurationException("Configuration Exception", "CONF_002", e);
+        }
+    }
+
+    /**
+     * Gets the handler class names.
+     * 
+     * @param handlers
+     *            the handlers
+     * @return the handler class names
+     */
+    static List<String> getHandlerClassNames(List<Handler> handlers) {
+        List<String> handlerClassNameList = new ArrayList<>();
+        for (Handler handler : handlers) {
+            handlerClassNameList.add(handler.getClass().getName());
+        }
+        return handlerClassNameList;
+    }
 }

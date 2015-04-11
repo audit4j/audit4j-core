@@ -21,6 +21,7 @@ package org.audit4j.core.io;
 import org.audit4j.core.AuditEventProcessor;
 import org.audit4j.core.AuditProcessor;
 import org.audit4j.core.ConcurrentConfigurationContext;
+import org.audit4j.core.LifeCycleContext;
 import org.audit4j.core.RunStatus;
 import org.audit4j.core.dto.AuditEvent;
 
@@ -57,7 +58,7 @@ public class AuditProcessOutputStream implements AuditOutputStream {
 	 */
 	@Override
 	public AuditProcessOutputStream write(AuditEvent event) {
-		if (configContext.getRunStatus().equals(RunStatus.RUNNING)) {
+		if (LifeCycleContext.getInstance().getStatus().equals(RunStatus.RUNNING)) {
 			processor.process(event);
 		}
 		return this;

@@ -21,137 +21,183 @@ package org.audit4j.core.annotation;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
-
 /**
  * The Class AuditAnnotationAttributes.
- *
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
  * @since 1.0.0
  */
 public class AuditAnnotationAttributes {
 
-	/** The Constant ACTION. */
-	private final static String ACTION = "action";
+    /** The Constant ACTION. */
+    private final static String ACTION = "action";
 
-	/**
-	 * Checks for annotation.
-	 * 
-	 * @param clazz
-	 *            the clazz
-	 * @return the boolean
-	 */
-	public Boolean hasAnnotation(final Class<?> clazz) {
-		final Annotation[] annotations = clazz.getAnnotations();
-		for (final Annotation annotation : annotations) {
-			if (annotation instanceof Audit) {
-				return true;
-			}
-		}
-		return false;
-	}
+    /** The Constant DEFAULT_REPOSITORY. */
+    private final static String DEFAULT_REPOSITORY = "default";
 
-	/**
-	 * Checks for annotation.
-	 * 
-	 * @param method
-	 *            the method
-	 * @return the boolean
-	 */
-	public Boolean hasAnnotation(final Method method) {
-		final Annotation[] annotations = method.getAnnotations();
-		for (final Annotation annotation : annotations) {
-			if (annotation instanceof Audit) {
-				return true;
-			}
-		}
-		return false;
-	}
+    /**
+     * Checks for annotation.
+     * 
+     * @param clazz
+     *            the clazz
+     * @return the boolean
+     */
+    public Boolean hasAnnotation(final Class<?> clazz) {
+        final Annotation[] annotations = clazz.getAnnotations();
+        for (final Annotation annotation : annotations) {
+            if (annotation instanceof Audit) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	/**
-	 * Gets the selection.
-	 * 
-	 * @param clazz
-	 *            the clazz
-	 * @return the selection
-	 */
-	public SelectionType getSelection(final Class<?> clazz) {
-		final Annotation[] annotations = clazz.getAnnotations();
-		return getSelection(annotations);
-	}
+    /**
+     * Checks for annotation.
+     * 
+     * @param method
+     *            the method
+     * @return the boolean
+     */
+    public Boolean hasAnnotation(final Method method) {
+        final Annotation[] annotations = method.getAnnotations();
+        for (final Annotation annotation : annotations) {
+            if (annotation instanceof Audit) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	/**
-	 * Gets the selection.
-	 * 
-	 * @param method
-	 *            the method
-	 * @return the selection
-	 */
-	public SelectionType getSelection(final Method method) {
-		final Annotation[] annotations = method.getAnnotations();
-		return getSelection(annotations);
-	}
+    /**
+     * Gets the selection.
+     * 
+     * @param clazz
+     *            the clazz
+     * @return the selection
+     */
+    public SelectionType getSelection(final Class<?> clazz) {
+        final Annotation[] annotations = clazz.getAnnotations();
+        return getSelection(annotations);
+    }
 
-	/**
-	 * Gets the selection.
-	 * 
-	 * @param annotations
-	 *            the annotations
-	 * @return the selection
-	 */
-	private SelectionType getSelection(final Annotation[] annotations) {
-		for (final Annotation annotation : annotations) {
-			if (annotation instanceof Audit) {
-				final Audit audit = (Audit) annotation;
-				return audit.selection();
-			}
-		}
-		return null;
-	}
+    /**
+     * Gets the selection.
+     * 
+     * @param method
+     *            the method
+     * @return the selection
+     */
+    public SelectionType getSelection(final Method method) {
+        final Annotation[] annotations = method.getAnnotations();
+        return getSelection(annotations);
+    }
 
-	/**
-	 * Gets the action.
-	 *
-	 * @param clazz the clazz
-	 * @param method the method
-	 * @return the action
-	 */
-	public String getAction(final Class<?> clazz, final Method method) {
-		final Annotation[] annotations = clazz.getAnnotations();
-		return this.getAction(annotations, method);
-	}
+    /**
+     * Gets the selection.
+     * 
+     * @param annotations
+     *            the annotations
+     * @return the selection
+     */
+    private SelectionType getSelection(final Annotation[] annotations) {
+        for (final Annotation annotation : annotations) {
+            if (annotation instanceof Audit) {
+                final Audit audit = (Audit) annotation;
+                return audit.selection();
+            }
+        }
+        return null;
+    }
 
-	/**
-	 * Gets the action.
-	 * 
-	 * @param method
-	 *            the method
-	 * @return the action
-	 */
-	public String getAction(final Method method) {
-		final Annotation[] annotations = method.getAnnotations();
-		return this.getAction(annotations, method);
-	}
+    /**
+     * Gets the action.
+     * 
+     * @param clazz
+     *            the clazz
+     * @param method
+     *            the method
+     * @return the action
+     */
+    public String getAction(final Class<?> clazz, final Method method) {
+        final Annotation[] annotations = clazz.getAnnotations();
+        return this.getAction(annotations, method);
+    }
 
-	/**
-	 * Gets the action.
-	 *
-	 * @param annotations the annotations
-	 * @param method the method
-	 * @return the action
-	 */
-	private String getAction(final Annotation[] annotations, final Method method) {
-		for (final Annotation annotation : annotations) {
-			if (annotation instanceof Audit) {
-				final Audit audit = (Audit) annotation;
-				String action = audit.action();
-				if (ACTION.equals(action)) {
-					return method.getName();
-				} else {
-					return action;
-				}
-			}
-		}
-		return null;
-	}
+    /**
+     * Gets the action.
+     * 
+     * @param method
+     *            the method
+     * @return the action
+     */
+    public String getAction(final Method method) {
+        final Annotation[] annotations = method.getAnnotations();
+        return this.getAction(annotations, method);
+    }
+    
+    /**
+     * Gets the repository.
+     *
+     * @param clazz the clazz
+     * @param method the method
+     * @return the repository
+     */
+    public String getTag(final Class<?> clazz, final Method method) {
+        final Annotation[] annotations = clazz.getAnnotations();
+        return this.getTag(annotations, method);
+    }
+
+    /**
+     * Gets the repository.
+     *
+     * @param method the method
+     * @return the repository
+     */
+    public String getTag(final Method method) {
+        final Annotation[] annotations = method.getAnnotations();
+        return this.getTag(annotations, method);
+    }
+
+    /**
+     * Gets the action.
+     * 
+     * @param annotations
+     *            the annotations
+     * @param method
+     *            the method
+     * @return the action
+     */
+    private String getAction(final Annotation[] annotations, final Method method) {
+        for (final Annotation annotation : annotations) {
+            if (annotation instanceof Audit) {
+                final Audit audit = (Audit) annotation;
+                String action = audit.action();
+                if (ACTION.equals(action)) {
+                    return method.getName();
+                } else {
+                    return action;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Gets the repository.
+     *
+     * @param annotations the annotations
+     * @param method the method
+     * @return the repository
+     */
+    private String getTag(final Annotation[] annotations, final Method method) {
+        for (final Annotation annotation : annotations) {
+            if (annotation instanceof Audit) {
+                final Audit audit = (Audit) annotation;
+                return audit.tag();
+            }
+        }
+        return null;
+    }
 }

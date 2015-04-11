@@ -21,7 +21,8 @@ package org.audit4j.core.handler.file.archive;
 import java.util.List;
 
 import org.audit4j.core.Initializable;
-import org.audit4j.core.extra.cron4j.Scheduler;
+import org.audit4j.core.schedule.CronTrigger;
+import org.audit4j.core.schedule.Schedulers;
 import org.audit4j.core.util.Log;
 import org.audit4j.core.util.annotation.Beeta;
 
@@ -36,16 +37,14 @@ public class ArchiveManager implements Initializable {
     /** The jobs. */
     private List<AbstractArchiveJob> jobs;
 
-    /** The scheduler. */
-    private Scheduler scheduler;
-
     /** The archive env. */
     private final ArchiveEnv archiveEnv;
 
     /**
      * Instantiates a new archive manager.
-     *
-     * @param archiveEnv the archive env
+     * 
+     * @param archiveEnv
+     *            the archive env
      */
     public ArchiveManager(ArchiveEnv archiveEnv) {
         this.archiveEnv = archiveEnv;
@@ -61,8 +60,7 @@ public class ArchiveManager implements Initializable {
             executeArchive();
         } else if (archiveEnv.getArchiveMethod().equals(ArchiveMethod.SCHEDULED)) {
             jobs = new JobFactory().getJobs(archiveEnv);
-            scheduler = new Scheduler();
-            scheduler.schedule(archiveEnv.getCronPattern(), new Runnable() {
+            Schedulers.taskRegistry().registor(new CronTrigger(archiveEnv.getCronPattern()), new Runnable() {
                 @Override
                 public void run() {
                     executeArchive();
@@ -115,6 +113,5 @@ public class ArchiveManager implements Initializable {
      */
     @Override
     public void stop() {
-        scheduler.stop();
     }
 }

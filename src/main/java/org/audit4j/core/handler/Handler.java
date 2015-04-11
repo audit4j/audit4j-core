@@ -30,91 +30,92 @@ import org.audit4j.core.exception.HandlerException;
  * 
  * @author Janith Bandara
  */
-public abstract class Handler implements Initializable, Serializable{
+public abstract class Handler implements Initializable, Serializable {
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = -8636058037478806582L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = -8636058037478806582L;
 
-	/** The query. */
-	private String query;
+    /** The query. */
+    private String query;
 
-	/** The audit event. */
-	private AuditEvent auditEvent;
+    /** The audit event. */
+    private AuditEvent auditEvent;
 
-	/** The properties. */
-	private Map<String, String> properties;
+    /** The properties. */
+    private Map<String, String> properties;
 
-	/**
-	 * Close.
-	 */
-	public void close() {
-		query = null;
-		auditEvent = null;
-	}
-	
-	/**
-	 * Handle.
-	 *
-	 * @throws HandlerException the handler exception
-	 */
-	public abstract void handle() throws HandlerException;
+    /**
+     * Close.
+     */
+    public void close() {
+        query = null;
+        auditEvent = null;
+    }
 
-	/**
-	 * Sets the query.
-	 * 
-	 * @param query
-	 *            the new query
-	 */
-	public void setQuery(final String query) {
-		this.query = query;
-	}
+    /**
+     * Handle.
+     * 
+     * @throws HandlerException
+     *             the handler exception
+     */
+    public abstract void handle() throws HandlerException;
 
-	/**
-	 * Gets the audit event.
-	 * 
-	 * @return the audit event
-	 */
-	public AuditEvent getAuditEvent() {
-		return auditEvent;
-	}
+    /**
+     * Sets the query.
+     * 
+     * @param query
+     *            the new query
+     */
+    public void setQuery(final String query) {
+        this.query = query;
+    }
 
-	/**
-	 * Sets the audit event.
-	 * 
-	 * @param auditEvent
-	 *            the new audit event
-	 */
-	public void setAuditEvent(AuditEvent auditEvent) {
-		this.auditEvent = auditEvent;
-	}
+    /**
+     * Gets the audit event.
+     * 
+     * @return the audit event
+     */
+    public AuditEvent getAuditEvent() {
+        return auditEvent;
+    }
 
-	/**
-	 * Gets the query.
-	 * 
-	 * @return the query
-	 */
-	public String getQuery() {
-		return query;
-	}
+    /**
+     * Sets the audit event.
+     * 
+     * @param auditEvent
+     *            the new audit event
+     */
+    public void setAuditEvent(AuditEvent auditEvent) {
+        this.auditEvent = auditEvent;
+    }
 
-	
-	/**
-	 * Gets the property.
-	 *
-	 * @param key the key
-	 * @return the property
-	 */
-	public String getProperty(String key) {
-		return properties.get(key);
-	}
+    /**
+     * Gets the query.
+     * 
+     * @return the query
+     */
+    public String getQuery() {
+        return query;
+    }
 
-	/**
-	 * Sets the properties.
-	 *
-	 * @param properties the properties
-	 */
-	public void setProperties(Map<String, String> properties) {
-		this.properties = properties;
-	}
+    /**
+     * Gets the property.
+     * 
+     * @param key
+     *            the key
+     * @return the property
+     */
+    public String getProperty(String key) {
+        return properties.get(key);
+    }
 
+    /**
+     * Sets the properties.
+     * 
+     * @param properties
+     *            the properties
+     */
+    public void setProperties(Map<String, String> properties) {
+        this.properties = properties;
+    }
 }

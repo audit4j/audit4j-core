@@ -18,6 +18,8 @@
 
 package org.audit4j.core;
 
+import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +27,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.audit4j.core.command.CommandProcessor;
 import org.audit4j.core.exception.ConfigurationException;
 import org.audit4j.core.exception.InitializationException;
-import org.audit4j.core.exception.TroubleshootException;
 import org.audit4j.core.exception.ValidationException;
 import org.audit4j.core.filter.AuditAnnotationFilter;
 import org.audit4j.core.filter.AuditEventFilter;
@@ -35,7 +36,8 @@ import org.audit4j.core.io.AsyncAuditOutputStream;
 import org.audit4j.core.io.AuditEventOutputStream;
 import org.audit4j.core.io.AuditOutputStream;
 import org.audit4j.core.io.AuditProcessOutputStream;
-import org.audit4j.core.util.AuditUtil;
+import org.audit4j.core.jmx.MBeanAgent;
+import org.audit4j.core.schedule.Schedulers;
 import org.audit4j.core.util.EnvUtil;
 import org.audit4j.core.util.Log;
 import org.audit4j.core.util.StopWatch;
@@ -89,6 +91,8 @@ public final class Context {
     /** The Constant INIT_FAILED. */
     private static final String INIT_FAILED = "initialization failed.!!";
 
+    private static final LifeCycleContext lifeCycle = LifeCycleContext.getInstance();
+
     /**
      * Initialize the Audit4j instance. This will ensure the single audit4j
      * instance and single Configuration repository load in to the memory.
@@ -99,8 +103,10 @@ public final class Context {
         if (configContext == null) {
             configContext = new ConcurrentConfigurationContext();
         }
-        if (configContext.getRunStatus().equals(RunStatus.READY)
-                || configContext.getRunStatus().equals(RunStatus.STOPPED)) {
+
+        if (lifeCycle.getStatus().equals(RunStatus.READY) || lifeCycle.getStatus().equals(RunStatus.STOPPED)) {
+            Audit4jBanner banner = new Audit4jBanner();
+            banner.printBanner();
             Log.info("Initializing Audit4j...");
             // Check system environment;
             checkEnvironment();
@@ -133,7 +139,9 @@ public final class Context {
             // Load Registry configurations.
             loadRegistry();
 
-            if (conf.getProperties() != null) {
+            if (conf.getProperties() == null) {
+                conf.setProperties(new HashMap<String, String>());
+            } else {
                 for (Map.Entry<String, String> entry : conf.getProperties().entrySet()) {
                     if (System.getProperties().containsKey(entry.getValue())) {
                         conf.getProperties().put(entry.getKey(), System.getProperty(entry.getValue()));
@@ -157,8 +165,20 @@ public final class Context {
 
             configContext.setMetaData(conf.getMetaData());
 
-            configContext.setRunStatus(RunStatus.RUNNING);
+            // Execute Scheduler tasks.
+            Log.info("Executing Schedulers...");
+            Schedulers.taskRegistry().scheduleAll();
 
+            // Initialize monitoring support if available in the configurations.
+            if (conf.getJmx() != null) {
+                MBeanAgent agent = new MBeanAgent();
+                agent.setJmxConfig(conf.getJmx());
+                agent.init();
+                agent.registerMbeans();
+            }
+
+            lifeCycle.setStatus(RunStatus.RUNNING);
+            lifeCycle.setStartUpTime(new Date().getTime());
             stopWatch.stop();
             Long initializationTime = stopWatch.getLastTaskTimeMillis();
             Log.info("Audit4j initialized. Total time: ", initializationTime, "ms");
@@ -205,8 +225,8 @@ public final class Context {
      * @since 2.2.0
      */
     final static void stop() {
-        if (configContext.getRunStatus().equals(RunStatus.RUNNING)) {
-            configContext.setRunStatus(RunStatus.STOPPED);
+        if (lifeCycle.getStatus().equals(RunStatus.RUNNING) || lifeCycle.getStatus().equals(RunStatus.DISABLED)) {
+            lifeCycle.setStatus(RunStatus.STOPPED);
             Log.info("Preparing to shutdown Audit4j...");
 
             Log.info("Closing Streams...");
@@ -220,7 +240,7 @@ public final class Context {
             }
 
             Log.info("Disposing configurations...");
-            //configContext = null;
+            configContext = null;
             conf = null;
             Log.info("Audit4j shutdown completed.");
         } else {
@@ -234,11 +254,10 @@ public final class Context {
      * @since 2.2.0
      */
     final static void enable() {
-        if (configContext.getRunStatus().equals(RunStatus.READY)
-                || configContext.getRunStatus().equals(RunStatus.STOPPED)) {
+        if (lifeCycle.getStatus().equals(RunStatus.READY) || lifeCycle.getStatus().equals(RunStatus.STOPPED)) {
             init();
-        } else if (configContext.getRunStatus().equals(RunStatus.DISABLED)) {
-            configContext.setRunStatus(RunStatus.RUNNING);
+        } else if (lifeCycle.getStatus().equals(RunStatus.DISABLED)) {
+            lifeCycle.setStatus(RunStatus.RUNNING);
         }
     }
 
@@ -249,7 +268,7 @@ public final class Context {
      */
     final static void disable() {
         Log.warn("Audit4j Disabled.!!");
-        configContext.setRunStatus(RunStatus.DISABLED);
+        lifeCycle.setStatus(RunStatus.DISABLED);
     }
 
     /**
@@ -259,7 +278,7 @@ public final class Context {
      */
     final static void terminate() {
         Log.warn("Audit4j Terminated due to critical error.");
-        configContext.setRunStatus(RunStatus.TERMINATED);
+        lifeCycle.setStatus(RunStatus.TERMINATED);
     }
 
     /**
@@ -290,27 +309,16 @@ public final class Context {
      * Load configuration items.
      */
     private final static void loadConfig() {
-        if (null == configFilePath) {
-            configFilePath = CoreConstants.CONFIG_FILE_NAME;
-        } else {
-            if (!AuditUtil.isFileExists(configFilePath)) {
-                throw new InitializationException("The given configuration file does not exists."
-                        + ErrorGuide.getGuide(ErrorGuide.CONFIG_NOT_EXISTS));
-            }
+        String scannedConfigFilePath = null;
+        if (configFilePath == null || new File(configFilePath).isDirectory()) {
+            scannedConfigFilePath = Configurations.scanConfigFile(configFilePath);
         }
+
         try {
-            conf = ConfigUtil.readConfig(configFilePath);
+            conf = Configurations.loadConfig(scannedConfigFilePath);
         } catch (ConfigurationException e) {
-            try {
-                TroubleshootManager.troubleshootConfiguration(e);
-                conf = ConfigUtil.readConfig(configFilePath);
-            } catch (TroubleshootException e2) {
-                terminate();
-                throw new InitializationException(INIT_FAILED);
-            } catch (ConfigurationException e1) {
-                terminate();
-                throw new InitializationException(INIT_FAILED);
-            }
+            terminate();
+            throw new InitializationException(INIT_FAILED, e);
         }
     }
 
@@ -475,13 +483,13 @@ public final class Context {
      * @since 2.2.0
      */
     public static RunStatus getStatus() {
-        return configContext.getRunStatus();
+        return lifeCycle.getStatus();
     }
 
     /**
      * Private singalton.
      */
     private Context() {
-        // Nothing here.
+        // Nothing here. Private Constructor
     }
 }

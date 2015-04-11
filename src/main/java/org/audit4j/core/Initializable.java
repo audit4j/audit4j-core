@@ -22,15 +22,17 @@ import org.audit4j.core.exception.InitializationException;
 
 /**
  * The Interface Initializable.
- *
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
 public interface Initializable {
 
     /**
-     * Initialize the component.
-     *
-     * @throws InitializationException the initialization exception
+     * Initialize the component. Implementations should override this method to
+     * perform any initialization logic necessary.
+     * 
+     * @throws InitializationException
+     *             the initialization exception
      */
     void init() throws InitializationException;
 

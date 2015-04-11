@@ -27,7 +27,7 @@ import java.lang.reflect.Method;
  * 
  * @since 1.0.0
  */
-public class AnnotationAuditEvent extends AuditBase {
+public class AnnotationAuditEvent extends Event {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 2830800466963787273L;
