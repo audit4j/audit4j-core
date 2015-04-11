@@ -91,7 +91,7 @@ public final class Context {
     /** The Constant INIT_FAILED. */
     private static final String INIT_FAILED = "initialization failed.!!";
 
-    private static final ContextLifeCycle lifeCycle = ContextLifeCycle.getInstance();
+    private static final LifeCycleContext lifeCycle = LifeCycleContext.getInstance();
 
     /**
      * Initialize the Audit4j instance. This will ensure the single audit4j

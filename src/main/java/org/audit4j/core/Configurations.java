@@ -1,6 +1,8 @@
 package org.audit4j.core;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.apache.commons.io.FilenameUtils;
 import org.audit4j.core.exception.ConfigurationException;
@@ -108,4 +110,19 @@ public class Configurations {
 
         return provider;
     }
+    
+    static Path getEnvironemtVariableConfigFilePath(){
+        final String value = System.getenv("AUDIT4J_CONF_FILE_PATH");
+        return Paths.get(value);
+    }
+    
+    static Path getSystemPropertyConfigFilePAth(){
+        final String path = System.getProperty("audit4j.conf.file.path");
+        return Paths.get(path);
+    }
+    
+    static Path getClasspathConfigPath(){
+        return null;
+    }
+    
 }

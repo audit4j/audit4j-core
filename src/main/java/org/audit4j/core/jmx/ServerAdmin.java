@@ -1,7 +1,7 @@
 package org.audit4j.core.jmx;
 
 import org.audit4j.core.AuditManager;
-import org.audit4j.core.ContextLifeCycle;
+import org.audit4j.core.LifeCycleContext;
 import org.audit4j.core.util.Log;
 
 /**
@@ -14,13 +14,13 @@ import org.audit4j.core.util.Log;
 public class ServerAdmin implements ServerAdminMBean {
 
     /** The life cycle. */
-    private final ContextLifeCycle lifeCycle;
+    private final LifeCycleContext lifeCycle;
 
     /**
      * Instantiates a new server admin impl.
      */
     ServerAdmin() {
-        this.lifeCycle = ContextLifeCycle.getInstance();
+        this.lifeCycle = LifeCycleContext.getInstance();
     }
 
     /**
@@ -42,7 +42,7 @@ public class ServerAdmin implements ServerAdminMBean {
      */
     @Override
     public String getServerStatus() {
-        return ContextLifeCycle.getInstance().getStatus().getName();
+        return LifeCycleContext.getInstance().getStatus().getName();
     }
 
     /**

@@ -7,7 +7,7 @@ package org.audit4j.core;
  * 
  * @since 2.4.0
  */
-public final class ContextLifeCycle {
+public final class LifeCycleContext {
 
     /** The status. */
     private RunStatus status = RunStatus.READY;
@@ -16,7 +16,7 @@ public final class ContextLifeCycle {
     private Long startUpTime;
 
     /** The instance. */
-    private static ContextLifeCycle instance;
+    private static LifeCycleContext instance;
 
     /**
      * Gets the status.
@@ -33,7 +33,7 @@ public final class ContextLifeCycle {
      * @return true, if is alive
      */
     public boolean isAlive() {
-        if (ContextLifeCycle.getInstance().getStatus() == RunStatus.RUNNING) {
+        if (LifeCycleContext.getInstance().getStatus() == RunStatus.RUNNING) {
             return true;
         }
         return false;
@@ -70,7 +70,7 @@ public final class ContextLifeCycle {
     /**
      * Instantiates a new context life cycle.
      */
-    private ContextLifeCycle() {
+    private LifeCycleContext() {
     }
 
     /**
@@ -78,10 +78,10 @@ public final class ContextLifeCycle {
      *
      * @return single instance of ContextLifeCycle
      */
-    public static ContextLifeCycle getInstance() {
-        synchronized (ContextLifeCycle.class) {
+    public static LifeCycleContext getInstance() {
+        synchronized (LifeCycleContext.class) {
             if (instance == null) {
-                instance = new ContextLifeCycle();
+                instance = new LifeCycleContext();
             }
         }
         return instance;
