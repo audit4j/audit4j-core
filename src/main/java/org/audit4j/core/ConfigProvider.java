@@ -18,31 +18,50 @@
 
 package org.audit4j.core;
 
+import java.io.InputStream;
+
 import org.audit4j.core.exception.ConfigurationException;
 
 /**
  * The Interface ConfigProvider.
+ * The provider Interface for various configuration provider implementations.
  *
+ * @param <T> the generic type
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
- * @since
+ * 
+ * @since 2.4.0
  */
 public interface ConfigProvider<T> {
 
-	/**
-	 * Read configuration form source.
-	 *
-	 * @param filePath the file path
-	 * @return the configuration object
-	 * @throws ConfigurationException the configuration exception
-	 */
-	T readConfig(final String filePath) throws ConfigurationException;
+    /**
+     * Read configuration form source.
+     * 
+     * @param filePath
+     *            the file path
+     * @return the configuration object
+     * @throws ConfigurationException
+     *             the configuration exception
+     */
+    T readConfig(final String filePath) throws ConfigurationException;
 
-	/**
-	 * Generate dummy config.
-	 *
-	 * @param config the config
-	 * @param filePath the file path
-	 * @throws ConfigurationException the configuration exception
-	 */
-	void generateConfig(T config, final String filePath) throws ConfigurationException;
+    /**
+     * Read configuration from source.
+     *
+     * @param fileAsStream the file as stream using {@link InputStream}
+     * @return the t
+     * @throws ConfigurationException the configuration exception
+     */
+    T readConfig(final InputStream fileAsStream) throws ConfigurationException;
+
+    /**
+     * Generate dummy config.
+     * 
+     * @param config
+     *            the config
+     * @param filePath
+     *            the file path
+     * @throws ConfigurationException
+     *             the configuration exception
+     */
+    void generateConfig(T config, final String filePath) throws ConfigurationException;
 }

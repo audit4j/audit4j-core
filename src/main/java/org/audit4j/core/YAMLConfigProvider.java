@@ -22,6 +22,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import org.audit4j.core.exception.ConfigurationException;
 
@@ -31,15 +33,21 @@ import com.esotericsoftware.yamlbeans.YamlWriter;
 
 /**
  * The Class YAMLConfigProvider.
- * 
+ *
+ * @param <T> the generic type
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
- * 
  * @since 2.4.0
  */
 public class YAMLConfigProvider<T> implements ConfigProvider<T> {
 
+    /** The clazz. */
     private final Class<T> clazz;
 
+    /**
+     * Instantiates a new yAML config provider.
+     *
+     * @param clazz the clazz
+     */
     public YAMLConfigProvider(Class<T> clazz) {
         this.clazz = clazz;
     }
@@ -50,6 +58,7 @@ public class YAMLConfigProvider<T> implements ConfigProvider<T> {
      * @see org.audit4j.core.ConfigProvider#readConfig(java.lang.String)
      * 
      */
+    @SuppressWarnings("unchecked")
     @Override
     public T readConfig(String filePath) throws ConfigurationException {
         try {
@@ -61,7 +70,25 @@ public class YAMLConfigProvider<T> implements ConfigProvider<T> {
         } catch (YamlException e) {
             throw new ConfigurationException("Configuration Exception", "CONF_002", e);
         }
-
+    }
+    
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.ConfigProvider#readConfig(java.io.InputStream)
+     *
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public T readConfig(InputStream fileAsStream) throws ConfigurationException {
+        InputStreamReader streamReader = new InputStreamReader(fileAsStream);
+        try {
+            YamlReader reader = new YamlReader(streamReader);
+            reader.getConfig().setClassTag("Configuration", clazz);
+            return (T) reader.read();
+        } catch (YamlException e) {
+            throw new ConfigurationException("Configuration Exception", "CONF_002", e);
+        }
     }
 
     /**
@@ -83,4 +110,6 @@ public class YAMLConfigProvider<T> implements ConfigProvider<T> {
             throw new ConfigurationException("Configuration Exception", "CONF_002");
         }
     }
+
+
 }

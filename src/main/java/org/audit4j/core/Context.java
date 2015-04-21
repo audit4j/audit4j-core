@@ -18,7 +18,6 @@
 
 package org.audit4j.core;
 
-import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -310,12 +309,8 @@ public final class Context {
      */
     private final static void loadConfig() {
         String scannedConfigFilePath = null;
-        if (configFilePath == null || new File(configFilePath).isDirectory()) {
-            scannedConfigFilePath = Configurations.scanConfigFile(configFilePath);
-        }
-
         try {
-            conf = Configurations.loadConfig(scannedConfigFilePath);
+            conf = Configurations.loadConfig(configFilePath);
         } catch (ConfigurationException e) {
             terminate();
             throw new InitializationException(INIT_FAILED, e);
