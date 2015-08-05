@@ -308,7 +308,6 @@ public final class Context {
      * Load configuration items.
      */
     private final static void loadConfig() {
-        String scannedConfigFilePath = null;
         try {
             conf = Configurations.loadConfig(configFilePath);
         } catch (ConfigurationException e) {

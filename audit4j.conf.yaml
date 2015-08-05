@@ -1,0 +1,7 @@
+!Configuration
+handlers: 
+- !org.audit4j.core.handler.ConsoleAuditHandler {}
+layout: !org.audit4j.core.layout.SimpleLayout {}
+metaData: !org.audit4j.core.DummyMetaData {}
+properties: 
+   log.file.location: user.dir

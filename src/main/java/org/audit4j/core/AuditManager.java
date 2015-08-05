@@ -191,21 +191,21 @@ public final class AuditManager {
     /**
      * Shutdown.
      */
-    public void shutdown() {
+    public static void shutdown() {
         Context.stop();
     }
     
     /**
      * Enable.
      */
-    public void enable() {
+    public static void enable() {
         Context.enable();
     }
     
     /**
      * Disable.
      */
-    public void disable() {
+    public static void disable() {
         Context.disable();
     }
 }
