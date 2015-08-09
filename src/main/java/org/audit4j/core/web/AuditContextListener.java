@@ -23,10 +23,11 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.audit4j.core.AuditManager;
+import org.audit4j.core.Context;
 import org.audit4j.core.util.EnvUtil;
 
 /**
- * The AuditContextListener3 for Servlet spec 2.x.
+ * The AuditContextListener for Servlet spec 2.x.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
@@ -57,12 +58,14 @@ public class AuditContextListener implements ServletContextListener {
      */
     @Override
     public void contextInitialized(ServletContextEvent contextEvent) {
-        if (!EnvUtil.isServletSpec3OrHigher(contextEvent.getServletContext())) {
-            configSupport = new ServletContexConfigSupport();
-            if (configSupport.hasHandlers(contextEvent.getServletContext())) {
-                AuditManager.startWithConfiguration(configSupport.loadConfig(contextEvent.getServletContext()));
-            } else {
+        configSupport = new ServletContexConfigSupport();
+        if (configSupport.hasHandlers(contextEvent.getServletContext())) {
+            AuditManager.startWithConfiguration(configSupport.loadConfig(contextEvent.getServletContext()));
+        } else {
+            if (EnvUtil.hasConfigFileExists(getConfFilePath(contextEvent.getServletContext()))) {
                 AuditManager.startWithConfiguration(getConfFilePath(contextEvent.getServletContext()));
+            } else {
+                Context.setConfigFilePath(getConfFilePath(contextEvent.getServletContext()));
             }
         }
     }

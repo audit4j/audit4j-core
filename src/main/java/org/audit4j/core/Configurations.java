@@ -23,19 +23,19 @@ import org.audit4j.core.util.Log;
 public class Configurations {
 
     /** The Constant XML_EXTENTION. */
-    static final String XML_EXTENTION = "xml";
+    public static final String XML_EXTENTION = "xml";
 
     /** The Constant YML_EXTENTION. */
-    static final String YML_EXTENTION = "yml";
+    public static final String YML_EXTENTION = "yml";
 
     /** The Constant YAML_EXTENTION. */
-    static final String YAML_EXTENTION = "yaml";
+    public static final String YAML_EXTENTION = "yaml";
 
     /** The Constant CONFIG_FILE_NAME. */
-    static final String CONFIG_FILE_NAME = "audit4j.conf";
+    public static final String CONFIG_FILE_NAME = "audit4j.conf";
 
     /** The Constant DEFAULT_CONFIG_FILE_NAME. */
-    static final String DEFAULT_CONFIG_FILE_NAME = "audit4j.conf.yml";
+    public static final String DEFAULT_CONFIG_FILE_NAME = "audit4j.conf.yml";
 
     /** The Constant CONFIG_PROPERTY_EXCEPTION_ID. */
     static final String CONFIG_PROPERTY_EXCEPTION_ID = "CONF_004";

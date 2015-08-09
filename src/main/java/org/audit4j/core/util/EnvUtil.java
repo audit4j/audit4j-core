@@ -18,10 +18,14 @@
 
 package org.audit4j.core.util;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+
+import org.audit4j.core.Configurations;
+import org.audit4j.core.exception.ConfigurationException;
 
 /**
  * The Class EnvUtil.
@@ -130,4 +134,22 @@ public class EnvUtil {
         String os = System.getProperty("os.name");
         return os.startsWith("Windows");
     }
+
+    /**
+     * Checks whether config file exists in directory.
+     *
+     * @param dirPath the dir path
+     * @return true, if successful
+     * @throws ConfigurationException the configuration exception
+     */
+    public static boolean hasConfigFileExists(String dirPath) {
+        String filePath = dirPath + File.separator + Configurations.CONFIG_FILE_NAME + ".";
+        if (AuditUtil.isFileExists(filePath + Configurations.YML_EXTENTION)
+                || AuditUtil.isFileExists(filePath + Configurations.YAML_EXTENTION)
+                || AuditUtil.isFileExists(filePath + Configurations.XML_EXTENTION)) {
+            return true;
+        }
+        return false;
+    }
+
 }
