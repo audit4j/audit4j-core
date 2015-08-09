@@ -8,7 +8,7 @@ public class ZeroCopyFileWriterTest {
     
     @Test
     public void testWriter(){
-     writer = new ZeroCopyFileWriter("C:/tmp");
+/*     writer = new ZeroCopyFileWriter("C:/tmp");
      writer.init();
      writer.write("asdsadsad");
      //writer.stop();
@@ -17,7 +17,7 @@ public class ZeroCopyFileWriterTest {
      writer.write("adasd");
      
      writer.write("adasd");
-     writer.stop();
+     writer.stop();*/
      
     }
 }

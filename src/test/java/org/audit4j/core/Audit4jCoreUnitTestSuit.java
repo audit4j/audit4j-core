@@ -16,7 +16,6 @@ import org.audit4j.core.layout.SecureLayoutTest;
 import org.audit4j.core.layout.SimpleLayoutTest;
 import org.audit4j.core.util.EncryptionUtilTest;
 import org.audit4j.core.util.EnvUtilTest;
-import org.audit4j.core.util.LogTest;
 import org.audit4j.core.util.StopWatchTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -30,7 +29,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ ValidationManagerTest.class, EncryptionUtilTest.class, TroubleshootManagerTest.class,
         ArchiveManagerTest.class, AnnotationTransformerTests.class, SecureLayoutTest.class,
-        SimpleLayoutTest.class, EnvUtilTest.class, EncryptionUtilTest.class, LogTest.class, StopWatchTest.class,
+        SimpleLayoutTest.class, EnvUtilTest.class, EncryptionUtilTest.class, StopWatchTest.class,
         ConfigurationExceptionTest.class, HandlerExceptionTest.class, InitializationExceptionTest.class,
         TroubleshootExceptionTest.class, ValidationExceptionTest.class, AuditBaseTest.class, AuditEventTest.class,
         AuditLevelTest.class, EventBuilderTest.class, FieldTest.class, AuditAnnotationAttributesTests.class })

@@ -51,7 +51,8 @@ public class AnnotationTransformer {
         final AuditFieldAnnotationAttribute fieldAttributes = new AuditFieldAnnotationAttribute();
         List<Field> fields = null;
         AuditEvent event = null;
-        String action = "";
+        String action = null;
+        String tag = null;
 
         if (auditAttributes.hasAnnotation(annotationEvent.getClazz())
                 && !ignoreAttributes.hasAnnotation(annotationEvent.getMethod())) {
@@ -63,7 +64,9 @@ public class AnnotationTransformer {
                 fields = fieldAttributes.getMarkedFields(annotationEvent.getMethod(), annotationEvent.getArgs());
             }
             action = auditAttributes.getAction(annotationEvent.getClazz(), annotationEvent.getMethod());
+            tag = auditAttributes.getTag(annotationEvent.getClazz(), annotationEvent.getMethod());
             event.setAction(action);
+            event.setTag(tag);
             event.setFields(fields);
         } else if (!auditAttributes.hasAnnotation(annotationEvent.getClazz())
                 && auditAttributes.hasAnnotation(annotationEvent.getMethod())) {
@@ -75,7 +78,9 @@ public class AnnotationTransformer {
                 fields = fieldAttributes.getMarkedFields(annotationEvent.getMethod(), annotationEvent.getArgs());
             }
             action = auditAttributes.getAction(annotationEvent.getMethod());
+            tag = auditAttributes.getTag(annotationEvent.getMethod());
             event.setAction(action);
+            event.setTag(tag);
             event.setFields(fields);
         }
         return event;

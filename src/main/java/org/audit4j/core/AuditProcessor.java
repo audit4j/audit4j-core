@@ -18,7 +18,7 @@
 
 package org.audit4j.core;
 
-import org.audit4j.core.dto.AuditBase;
+import org.audit4j.core.dto.Event;
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.exception.HandlerException;
 import org.audit4j.core.filter.AuditEventFilter;
@@ -35,7 +35,7 @@ import org.audit4j.core.util.Log;
  * 
  * @since 1.0
  */
-public abstract class AuditProcessor<T extends AuditBase> {
+public abstract class AuditProcessor<T extends Event> {
 
     /** The conf. */
     private ConcurrentConfigurationContext configContext;

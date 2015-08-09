@@ -72,10 +72,25 @@ class ServletContexConfigSupport {
     }
 
     /**
+     * Can search config file.
+     *
+     * @param servletContext the servlet context
+     * @return true, if successful
+     */
+    boolean canSearchConfigFile(ServletContext servletContext) {
+        String searchConfigFile = servletContext.getInitParameter("searchConfigFile");
+        if (searchConfigFile == null || searchConfigFile.equals("")) {
+            return false;
+        } else if ("true".equals(searchConfigFile)) {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
      * Checks for handlers.
-     * 
-     * @param servletContext
-     *            the servlet context
+     *
+     * @param servletContext the servlet context
      * @return true, if successful
      */
     boolean hasHandlers(ServletContext servletContext) {
