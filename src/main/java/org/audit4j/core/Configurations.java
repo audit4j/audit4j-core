@@ -278,7 +278,7 @@ public class Configurations {
         try {
             return new FileInputStream(resourceFile);
         } catch (FileNotFoundException e) {
-            Log.error("File Resource could not be resolved. Given Resource:" + resourceFile, e);
+            Log.error("File Resource could not be resolvedfor given Resource:" + resourceFile, e);
             throw new ConfigurationException("File Resource could not be resolve", FILE_NOT_FOUND_EXCEPTION_ID,e);
         }
     }
