@@ -27,6 +27,7 @@ import java.util.Map;
 import org.audit4j.core.filter.AuditEventFilter;
 import org.audit4j.core.handler.ConsoleAuditHandler;
 import org.audit4j.core.handler.Handler;
+import org.audit4j.core.jmx.JMXConfig;
 import org.audit4j.core.layout.Layout;
 import org.audit4j.core.layout.SimpleLayout;
 
@@ -59,6 +60,9 @@ public class Configuration implements Serializable {
 
     /** The options. */
     private String options;
+    
+    /** The jmx configurations. */
+    private JMXConfig jmx;
 
     /**
      * Instantiates a new configuration.
@@ -266,5 +270,27 @@ public class Configuration implements Serializable {
      */
     public void setOptions(String options) {
         this.options = options;
+    }
+
+    /**
+     * Gets the jmx configurations.
+     *
+     * @return jmx configurations
+     * 
+     * @since 2.4.0
+     */
+    public JMXConfig getJmx() {
+        return jmx;
+    }
+
+    /**
+     * Sets the jmx configurations.
+     *
+     * @param jmx the jmx configurations
+     * 
+     * @since 2.4.0
+     */
+    public void setJmx(JMXConfig jmx) {
+        this.jmx = jmx;
     }
 }

@@ -35,4 +35,17 @@ public class SmokeTest {
         Log.info(watch.getTotalTime());
         TimeUnit.SECONDS.sleep(4);
     }
+
+    public static void main(String[] args) {
+        AuditManager manager = AuditManager.getInstance();
+        int count = 0;
+        while (count < 100000) {
+            EventBuilder builder = new EventBuilder();
+            builder.addActor("Dummy Actor").addAction("myMethod").addOrigin("Origin1")
+                    .addField("myParam1Name", "param1").addField("myParam2Name", new Integer(2));
+            AuditEvent event = builder.build();
+            manager.audit(event);
+            count++;
+        }
+    }
 }

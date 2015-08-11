@@ -27,7 +27,6 @@ import java.io.Serializable;
 
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.exception.ValidationException;
-import org.audit4j.core.handler.Handler;
 import org.audit4j.core.handler.file.FileAuditHandler;
 import org.audit4j.core.util.Log;
 
@@ -80,13 +79,12 @@ public final class ValidationManager {
                     ErrorGuide.getGuide(ErrorGuide.EMPTY_LAYOUT));
             throw new ValidationException("Configuration error", ValidationException.VALIDATION_LEVEL_INVALID);
         }
-
-        for (Handler handler : conf.getHandlers()) {
+  /*      for (Handler handler : conf.getHandlers()) {
             if (!isSerializable(handler)) {
                 throw new ValidationException("Handler implementation(" + handler.getClass().getName()
                         + ") shuold be a serializable type.", ValidationException.VALIDATION_LEVEL_INVALID);
             }
-        }
+        }*/
 
         if (!isSerializable(conf.getLayout())) {
             throw new ValidationException("Layout implementation(" + conf.getLayout().getClass().getName()
@@ -160,7 +158,7 @@ public final class ValidationManager {
 
         return (true);
     }
-    
+
     public static void main(String[] args) {
         System.out.println(isSerializable(new FileAuditHandler()));
     }

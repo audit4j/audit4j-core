@@ -1,5 +1,7 @@
 package org.audit4j.core;
 
+import java.util.Date;
+
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.dto.EventBuilder;
 import org.audit4j.core.handler.ConsoleAuditHandler;
@@ -15,7 +17,7 @@ public class Audit4jTestBase {
     protected AuditEvent getSampleAuditEvent() {
         String actor = "Dummy Actor";
         EventBuilder builder = new EventBuilder();
-        builder.addActor(actor).addAction("myMethod").addOrigin("Origin").addField("myParam1Name", "param1")
+        builder.addTimestamp(new Date()).addActor(actor).addAction("myMethod").addOrigin("Origin").addField("myParam1Name", "param1")
                 .addField("myParam2Name", new Integer(2));
         AuditEvent event = builder.build();
         return event;
