@@ -12,13 +12,13 @@ import java.io.PrintStream;
 class Audit4jBanner {
 
     /** The Constant BANNER. */
-    private static final String[] BANNER = { "    _             _ _ _   _  _   _ ",
-            "   / \\  _   _  __| (_) |_| || | (_)", "  / _ \\| | | |/ _` | | __| || |_| |",
-            " / ___ \\ |_| | (_| | | |_|__   _| |", "/_/   \\_\\__,_|\\__,_|_|\\__|  |_|_/ |",
-            "                              |__/ " };
+    private static final String[] BANNER = { "     _             _ _ _   _  _   _ ",
+            "    / \\  _   _  __| (_) |_| || | (_)", "   / _ \\| | | |/ _` | | __| || |_| |",
+            "  / ___ \\ |_| | (_| | | |_|__   _| |", " /_/   \\_\\__,_|\\__,_|_|\\__|  |_|_/ |",
+            "                               |__/ " };
 
     /** The Constant line. */
-    private static final String line = "===========================";
+    private static final String line = " ===========================";
 
     /**
      * Prints the banner.
@@ -35,5 +35,6 @@ class Audit4jBanner {
         } else {
             printStream.println("(v" + version + ")");
         }
+        printStream.println();
     }
 }

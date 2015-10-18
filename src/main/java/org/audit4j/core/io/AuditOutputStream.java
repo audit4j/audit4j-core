@@ -27,7 +27,7 @@ import org.audit4j.core.dto.AuditEvent;
  * 
  * @since 2.0.0
  */
-public interface AuditOutputStream {
+public interface AuditOutputStream<T extends AuditEvent> {
 
     /**
      * Write.
@@ -35,7 +35,7 @@ public interface AuditOutputStream {
      * @param event the event
      * @return the audit output stream
      */
-    AuditOutputStream write(AuditEvent event);
+    AuditOutputStream<T> write(T event);
     
     /**
      * Close.

@@ -99,6 +99,12 @@ public final class ToString {
                             } else {
                                 builder.append(toString(objValue));
                             }
+                        } catch (IllegalArgumentException e) {
+                            throw new Audit4jRuntimeException(
+                                    "Error due to converting object to string representation. ", e);
+                        } catch (IllegalAccessException e) {
+                            throw new Audit4jRuntimeException(
+                                    "Error due to converting object to string representation. ", e);
                         } catch (Exception e) {
                             throw new Audit4jRuntimeException(
                                     "Error due to converting object to string representation. ", e);

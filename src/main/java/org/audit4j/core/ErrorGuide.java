@@ -43,7 +43,7 @@ public final class ErrorGuide {
     public static final String JAVA_VERSION_ERROR = ERROR_URL + "javaVersion";
     
     /** The Constant INVALID_OPTION. */
-    public static final String INVALID_OPTION = ERROR_URL + "invalidOption";
+    public static final String INVALID_COMMAND = ERROR_URL + "invalidCommand";
     
     /** The Constant NO_HANDLERS. */
     public static final String EMPTY_HANDLERS = ERROR_URL + "noHandlers";

@@ -18,6 +18,8 @@
 
 package org.audit4j.core.command;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.audit4j.core.Initializable;
@@ -34,24 +36,30 @@ import org.audit4j.core.Initializable;
 public abstract class AbstractCommand implements Initializable {
 
     /** The options. */
-    private Map<String, String> options;
+    private Map<String, String> commands;
 
     /**
      * Gets the options.
      *
      * @return the options
      */
-    public Map<String, String> getOptions() {
-        return options;
+    public Map<String, String> getCommands() {
+        return commands;
     }
 
     /**
      * Sets the options.
      *
-     * @param options the options
+     * @param commands the options
      */
-    void setOptions(Map<String, String> options) {
-        this.options = options;
+    void setCommands(Map<String, String> commands) {
+        this.commands = commands;
+    }
+    
+    protected List<String> getOptionsByCommand(String command){
+        String rawOption = commands.get(command);
+        String[] options = rawOption.split(" ");
+        return Arrays.asList(options);
     }
 
     /**
@@ -65,13 +73,6 @@ public abstract class AbstractCommand implements Initializable {
      * @return the command
      */
     public abstract String getCommand();
-    
-    /**
-     * Gets the command name.
-     *
-     * @return the command name
-     */
-    public abstract String getCommandName();
     
     /**
      * Gets the command description.

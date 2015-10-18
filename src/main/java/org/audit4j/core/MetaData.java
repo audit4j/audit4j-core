@@ -28,11 +28,18 @@ import java.io.Serializable;
  * @since 1.0.0
  */
 public interface MetaData extends Serializable{
-
+    
 	/**
-	 * Gets the actor.
+	 * Gets the actor from external implementation.
 	 *
 	 * @return the actor
 	 */
 	String getActor();
+	
+	/**
+	 * Gets the origin from external implementation.
+	 *
+	 * @return the origin
+	 */
+	String getOrigin();
 }

@@ -24,7 +24,7 @@ public class SmokeTest {
         Log.info(watch.getTotalTime());
         watch.start();
         AuditManager manager = AuditManager.getInstance();
-        manager.audit(event);
+        //manager.audit(event);
 
         watch.stop();
         Log.info(watch.getTotalTime());

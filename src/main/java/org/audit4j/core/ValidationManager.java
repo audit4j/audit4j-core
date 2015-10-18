@@ -54,7 +54,7 @@ public final class ValidationManager {
      *             the validation exception
      */
     public static void validateEvent(AuditEvent event) throws ValidationException {
-        if (event == null || event.getActor() == null) {
+        if (event == null) {
             throw new ValidationException("Invalid Input", ValidationException.VALIDATION_LEVEL_WARN);
         }
     }
@@ -79,12 +79,13 @@ public final class ValidationManager {
                     ErrorGuide.getGuide(ErrorGuide.EMPTY_LAYOUT));
             throw new ValidationException("Configuration error", ValidationException.VALIDATION_LEVEL_INVALID);
         }
-  /*      for (Handler handler : conf.getHandlers()) {
-            if (!isSerializable(handler)) {
-                throw new ValidationException("Handler implementation(" + handler.getClass().getName()
-                        + ") shuold be a serializable type.", ValidationException.VALIDATION_LEVEL_INVALID);
-            }
-        }*/
+        /*
+         * for (Handler handler : conf.getHandlers()) { if
+         * (!isSerializable(handler)) { throw new
+         * ValidationException("Handler implementation(" +
+         * handler.getClass().getName() + ") shuold be a serializable type.",
+         * ValidationException.VALIDATION_LEVEL_INVALID); } }
+         */
 
         if (!isSerializable(conf.getLayout())) {
             throw new ValidationException("Layout implementation(" + conf.getLayout().getClass().getName()

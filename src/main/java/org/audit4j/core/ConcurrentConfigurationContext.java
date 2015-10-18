@@ -195,6 +195,18 @@ public final class ConcurrentConfigurationContext {
     }
 
     /**
+     * Checks for meta data available in configuration.
+     *
+     * @return true, if successful
+     */
+    public boolean hasMetadata(){
+        if(Context.getConfigContext().getMetaData() == null){
+            return false;
+        }
+        return true;
+    }
+    
+    /**
      * Gets the run status.
      * 
      * @return the run status

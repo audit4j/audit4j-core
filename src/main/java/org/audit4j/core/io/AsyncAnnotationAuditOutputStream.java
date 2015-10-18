@@ -38,10 +38,10 @@ import reactor.function.support.Boundary;
  * 
  * @since 2.0.0
  */
-public class AnnotationAuditOutputStream {
+public class AsyncAnnotationAuditOutputStream implements AuditOutputStream<AnnotationAuditEvent>{
 
     /** The output stream. */
-    AuditOutputStream outputStream;
+    AuditOutputStream<AuditEvent> outputStream;
 
     /** The annotation deferred. */
     Deferred<AnnotationAuditEvent, Stream<AnnotationAuditEvent>> annotationDeferred = null;
@@ -58,7 +58,7 @@ public class AnnotationAuditOutputStream {
      * @param outputStream
      *            the output stream
      */
-    public AnnotationAuditOutputStream(final AuditOutputStream outputStream) {
+    public AsyncAnnotationAuditOutputStream(final AuditOutputStream<AuditEvent> outputStream) {
         ENV = new Environment();
         this.outputStream = outputStream;
         b = new Boundary();
@@ -85,7 +85,8 @@ public class AnnotationAuditOutputStream {
      *            the event
      * @return the annotation audit output stream
      */
-    public AnnotationAuditOutputStream write(AnnotationAuditEvent event) {
+    @Override
+    public AsyncAnnotationAuditOutputStream write(AnnotationAuditEvent event) {
         annotationDeferred.accept(event);
         b.await();
         return this;
@@ -102,7 +103,7 @@ public class AnnotationAuditOutputStream {
      *            the args
      * @return the annotation audit output stream
      */
-    public AnnotationAuditOutputStream write(Class<?> clazz, Method method, Object[] args) {
+    public AsyncAnnotationAuditOutputStream write(Class<?> clazz, Method method, Object[] args) {
         AnnotationAuditEvent event = new AnnotationAuditEvent();
         event.setClazz(clazz);
         event.setMethod(method);
@@ -115,6 +116,7 @@ public class AnnotationAuditOutputStream {
     /**
      * Close.
      */
+    @Override
     public void close() {
         ENV.shutdown();
         if (outputStream != null) {

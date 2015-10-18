@@ -18,54 +18,51 @@
 
 package org.audit4j.core.io;
 
-import org.audit4j.core.ValidationManager;
+import org.audit4j.core.MetadataHandler;
 import org.audit4j.core.dto.AuditEvent;
-import org.audit4j.core.exception.ValidationException;
 
 /**
- * The Class AuditEventOutputStream.
- * 
+ * The Class MetadataLookupStream.
+ *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
- * @since 2.0.0
+ * @since 2.4.0
  */
-public class AuditEventOutputStream implements AuditOutputStream<AuditEvent> {
+public class MetadataLookupStream implements AuditOutputStream<AuditEvent> {
 
+    /** The handler. */
+    MetadataHandler handler;
+    
     /** The output stream. */
     AuditOutputStream<AuditEvent> outputStream;
-
+    
     /**
-     * Instantiates a new audit event output stream.
-     * 
-     * @param outputStream
-     *            the output stream
+     * Instantiates a new metadata lookup stream.
+     *
+     * @param outputStream the output stream
      */
-    public AuditEventOutputStream(AuditOutputStream<AuditEvent> outputStream) {
+    public MetadataLookupStream(AuditOutputStream<AuditEvent> outputStream) {
         this.outputStream = outputStream;
+        handler = new MetadataHandler();
     }
-
-    /*
-     * (non-Javadoc)
+    
+    /**
+     * {@inheritDoc}
      * 
-     * @see
-     * org.audit4j.core.io.AuditOutputStream#write(org.audit4j.core.dto.AuditEvent
-     * )
+     * @see org.audit4j.core.io.AuditOutputStream#write(org.audit4j.core.dto.AuditEvent)
+     *
      */
     @Override
-    public AuditEventOutputStream write(AuditEvent event) {
-        try {
-            ValidationManager.validateEvent(event);
-            outputStream.write(event);
-        } catch (ValidationException e) {
-
-        }
-        return this;
+    public AuditOutputStream<AuditEvent> write(AuditEvent event) {
+         outputStream.write(handler.enhanceFromMetadata(event));
+         return outputStream;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * {@inheritDoc}
      * 
      * @see org.audit4j.core.io.AuditOutputStream#close()
+     *
      */
     @Override
     public void close() {
@@ -75,6 +72,12 @@ public class AuditEventOutputStream implements AuditOutputStream<AuditEvent> {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see java.lang.Object#clone()
+     *
+     */
     @Override
     public Object clone() {
         return null;

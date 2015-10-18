@@ -54,14 +54,6 @@ public class ScanAnnotatedCommand extends AbstractCommand {
     }
 
     /* (non-Javadoc)
-     * @see org.audit4j.core.command.AbstractCommand#getCommandName()
-     */
-    @Override
-    public String getCommandName() {
-        return "Scan Annotated Command";
-    }
-
-    /* (non-Javadoc)
      * @see org.audit4j.core.command.AbstractCommand#getCommandDescription()
      */
     @Override
@@ -77,7 +69,7 @@ public class ScanAnnotatedCommand extends AbstractCommand {
      */
     @Override
     public void init() {
-        String packageName = getOptions().get(getCommand());
+        String packageName = getCommands().get(getCommand());
 
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 

@@ -59,7 +59,7 @@ class ServletContexConfigSupport {
         if (filters != null && !filters.equals("")) {
             config.setFilters(new ReflectUtil<AuditEventFilter>().getNewInstanceList(filters.split(";")));
         }
-        config.setOptions(options);
+        config.setCommands(options);
         config.setMetaData(new ReflectUtil<MetaData>().getNewInstance(metaData));
         if (properties != null && !properties.equals("")) {
             String[] propertiesList = properties.split(";");

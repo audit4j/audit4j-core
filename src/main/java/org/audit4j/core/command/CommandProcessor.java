@@ -45,9 +45,9 @@ public final class CommandProcessor {
     public void process(Map<String, String> options) {
         Log.info("Initializing Commands...");
         for (Map.Entry<String, String> entry : options.entrySet()) {
-            AbstractCommand command = PreConfigurationContext.getCommandByOptionName(entry.getKey());
+            AbstractCommand command = PreConfigurationContext.getCommandByName(entry.getKey());
             if (null != command) {
-                command.setOptions(options);
+                command.setCommands(options);
                 try {
                     command.init();
                 } catch (InitializationException e) {

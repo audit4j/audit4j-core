@@ -30,10 +30,7 @@ import org.audit4j.core.dto.AuditEvent;
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
-public class AuditProcessOutputStream implements AuditOutputStream {
-
-	/** The config. */
-	private final ConcurrentConfigurationContext configContext;
+public class AuditProcessOutputStream implements AuditOutputStream<AuditEvent> {
 
 	/** The processor. */
 	private final AuditProcessor<AuditEvent> processor;
@@ -44,7 +41,6 @@ public class AuditProcessOutputStream implements AuditOutputStream {
 	 * @param configContext the config context
 	 */
 	public AuditProcessOutputStream(ConcurrentConfigurationContext configContext) {
-		this.configContext = configContext;
 		processor = AuditEventProcessor.getInstance();
 		processor.setConfigContext(configContext);
 	}

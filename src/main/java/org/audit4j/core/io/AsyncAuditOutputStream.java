@@ -35,10 +35,13 @@ import reactor.function.support.Boundary;
  * 
  * @since 2.0.0
  */
-public class AsyncAuditOutputStream implements AuditOutputStream {
+public class AsyncAuditOutputStream implements AuditOutputStream<AuditEvent> {
 
     /** The output stream. */
-    final AuditOutputStream outputStream;
+    AuditOutputStream<AuditEvent> outputStream;
+    
+    /** The annotation stream. */
+    AuditOutputStream<AnnotationAuditEvent> annotationStream;
 
     /** The deferred. */
     Deferred<AuditEvent, Stream<AuditEvent>> deferred = null;
@@ -57,13 +60,15 @@ public class AsyncAuditOutputStream implements AuditOutputStream {
 
     /**
      * Instantiates a new async audit output stream.
-     * 
-     * @param outputStream
-     *            the output stream
+     *
+     * @param outputStream the output stream
+     * @param annotationStream the annotation stream
      */
-    public AsyncAuditOutputStream(final AuditOutputStream outputStream) {
-        ENV = new Environment();
+    public AsyncAuditOutputStream(final AuditOutputStream<AuditEvent> outputStream, final AuditOutputStream<AnnotationAuditEvent> annotationStream) {
         this.outputStream = outputStream;
+        this.annotationStream = annotationStream;
+        
+        ENV = new Environment();
         b = new Boundary();
         deferred = Streams.<AuditEvent> defer().env(ENV).dispatcher(Environment.RING_BUFFER).get();
         Stream<AuditEvent> stream = deferred.compose();
@@ -82,10 +87,21 @@ public class AsyncAuditOutputStream implements AuditOutputStream {
      * org.audit4j.core.io.AuditOutputStream#write(org.audit4j.core.dto.AuditEvent
      * )
      */
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.io.AuditOutputStream#write(org.audit4j.core.dto.AuditEvent)
+     *
+     */
     @Override
     public AsyncAuditOutputStream write(AuditEvent event) {
-        deferred.accept(event);
-        b.await();
+        if (event instanceof AnnotationAuditEvent) {
+            annotationStream.write((AnnotationAuditEvent) event);
+        } else {
+            deferred.accept(event);
+            b.await();
+        }
+        
         return this;
     }
 
@@ -93,6 +109,12 @@ public class AsyncAuditOutputStream implements AuditOutputStream {
      * (non-Javadoc)
      * 
      * @see org.audit4j.core.io.AuditOutputStream#close()
+     */
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.io.AuditOutputStream#close()
+     *
      */
     @Override
     public void close() {
@@ -106,6 +128,12 @@ public class AsyncAuditOutputStream implements AuditOutputStream {
      * (non-Javadoc)
      * 
      * @see java.lang.Object#clone()
+     */
+    /**
+     * {@inheritDoc}
+     * 
+     * @see java.lang.Object#clone()
+     *
      */
     @Override
     public Object clone() {

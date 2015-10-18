@@ -38,4 +38,9 @@ public class DummyMetaData implements MetaData{
 		return CoreConstants.DEFAULT_ACTOR;
 	}
 
+    @Override
+    public String getOrigin() {
+        return null;
+    }
+
 }

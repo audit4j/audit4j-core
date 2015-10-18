@@ -94,6 +94,7 @@ public class Configurations {
     static ConfigurationStream resolveConfigFileAsStream(String configFilePath) throws ConfigurationException {
         InputStream fileStream = null;
         String fileExtention = null;
+        
         if (configFilePath != null) {
             if (new File(configFilePath).isDirectory()) {
                 String path = scanConfigFile(configFilePath);

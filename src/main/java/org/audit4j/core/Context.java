@@ -24,17 +24,20 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.audit4j.core.command.CommandProcessor;
+import org.audit4j.core.command.impl.MetadataCommand;
+import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.exception.ConfigurationException;
 import org.audit4j.core.exception.InitializationException;
 import org.audit4j.core.exception.ValidationException;
 import org.audit4j.core.filter.AuditAnnotationFilter;
 import org.audit4j.core.filter.AuditEventFilter;
 import org.audit4j.core.handler.Handler;
-import org.audit4j.core.io.AnnotationAuditOutputStream;
+import org.audit4j.core.io.AsyncAnnotationAuditOutputStream;
 import org.audit4j.core.io.AsyncAuditOutputStream;
 import org.audit4j.core.io.AuditEventOutputStream;
 import org.audit4j.core.io.AuditOutputStream;
 import org.audit4j.core.io.AuditProcessOutputStream;
+import org.audit4j.core.io.MetadataLookupStream;
 import org.audit4j.core.jmx.MBeanAgent;
 import org.audit4j.core.schedule.Schedulers;
 import org.audit4j.core.util.EnvUtil;
@@ -79,11 +82,8 @@ public final class Context {
     private static String configFilePath;
 
     /** The audit output stream. */
-    private static AuditOutputStream auditStream;
-
-    /** The audit annotation stream. */
-    private static AnnotationAuditOutputStream annotationAuditStream;
-
+    private static AuditOutputStream<AuditEvent> auditStream;
+    
     /** The config context. */
     private static ConcurrentConfigurationContext configContext;
 
@@ -128,11 +128,11 @@ public final class Context {
             }
 
             // Extract options.
-            Map<String, String> options = processOptions(conf.getOptions());
+            Map<String, String> commands = processCommands(conf.getCommands());
 
             // Execute commands.
-            if (options != null) {
-                CommandProcessor.getInstance().process(options);
+            if (commands != null) {
+                CommandProcessor.getInstance().process(commands);
             }
 
             // Load Registry configurations.
@@ -230,7 +230,6 @@ public final class Context {
 
             Log.info("Closing Streams...");
             auditStream.close();
-            annotationAuditStream.close();
 
             Log.info("Shutdown handlers...");
             for (Handler handler : configContext.getHandlers()) {
@@ -324,21 +323,21 @@ public final class Context {
      * @return the map
      * @since 2.3.0
      */
-    private static Map<String, String> processOptions(String optionText) {
+    private static Map<String, String> processCommands(String optionText) {
         if (optionText == null || optionText.isEmpty()) {
             return null;
         }
-        Map<String, String> options = new HashMap<String, String>();
+        Map<String, String> commands = new HashMap<String, String>();
         String[] args = extractOptions(optionText);
         for (String arg : args) {
             String[] option = StringUtils.split(arg, CoreConstants.EQ_CHAR);
-            if (!PreConfigurationContext.getOptions().contains(option[0])) {
-                Log.warn("Invalid option: ", option[0], " Please check your configurations. ",
-                        ErrorGuide.getGuide(ErrorGuide.INVALID_OPTION));
+            if (!PreConfigurationContext.getAvailableCommands().contains(option[0])) {
+                Log.warn("Invalid command: ", option[0], " Please check your configurations. ",
+                        ErrorGuide.getGuide(ErrorGuide.INVALID_COMMAND));
             }
-            options.put(option[0], option[1]);
+            commands.put(option[0], option[1]);
         }
-        return options;
+        return commands;
     }
 
     /**
@@ -413,9 +412,19 @@ public final class Context {
      */
     private static void initStreams() {
         Log.info("Initializing Streams...");
-        AsyncAuditOutputStream asyncStream = new AsyncAuditOutputStream(new AuditProcessOutputStream(configContext));
-        auditStream = new AuditEventOutputStream(asyncStream);
-        annotationAuditStream = new AnnotationAuditOutputStream(auditStream);
+        MetadataCommand command =  (MetadataCommand) PreConfigurationContext.getCommandByName("-metadata");
+        if (command.isAsync()) {
+            AsyncAnnotationAuditOutputStream asyncAnnotationStream = new AsyncAnnotationAuditOutputStream(new AuditProcessOutputStream(Context.getConfigContext()));
+            MetadataLookupStream metadataStream = new MetadataLookupStream(new AuditProcessOutputStream(Context.getConfigContext()));
+            AsyncAuditOutputStream asyncStream = new AsyncAuditOutputStream(metadataStream, asyncAnnotationStream);
+            auditStream = new AuditEventOutputStream(asyncStream);
+        } else {
+            AsyncAnnotationAuditOutputStream asyncAnnotationStream = new AsyncAnnotationAuditOutputStream(new AuditProcessOutputStream(Context.getConfigContext()));
+            AsyncAuditOutputStream asyncStream = new AsyncAuditOutputStream(new AuditProcessOutputStream(Context.getConfigContext()), asyncAnnotationStream);
+            MetadataLookupStream metadataStream = new MetadataLookupStream(asyncStream);
+            auditStream = new AuditEventOutputStream(metadataStream);
+        }
+        
         Log.info("Audit Streams Initialized.");
     }
 
@@ -457,18 +466,11 @@ public final class Context {
      * 
      * @return the audit stream
      */
-    final static AuditOutputStream getAuditStream() {
+    final static AuditOutputStream<AuditEvent> getAuditStream() {
         return auditStream;
     }
 
-    /**
-     * Gets the annotation stream.
-     * 
-     * @return the annotation stream
-     */
-    final static AnnotationAuditOutputStream getAnnotationStream() {
-        return annotationAuditStream;
-    }
+
 
     /**
      * Gets the running status.

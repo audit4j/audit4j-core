@@ -99,7 +99,7 @@ public final class AuditManager {
                 }
             }
         }
-        Context.getAnnotationStream().write(annotationEvent);
+        Context.getAuditStream().write(annotationEvent);
         return true;
     }
 

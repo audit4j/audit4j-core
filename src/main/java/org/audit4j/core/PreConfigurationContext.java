@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.audit4j.core.command.AbstractCommand;
+import org.audit4j.core.command.impl.MetadataCommand;
 import org.audit4j.core.command.impl.ScanAnnotatedCommand;
 import org.audit4j.core.filter.AuditAnnotationFilter;
 import org.audit4j.core.filter.AuditEventFilter;
@@ -41,7 +42,7 @@ public final class PreConfigurationContext {
     private static final Map<String, AbstractCommand> commands = new HashMap<String, AbstractCommand>();
 
     /** The Constant options. */
-    private static final List<String> options = new ArrayList<String>();
+    private static final List<String> availableCommands = new ArrayList<String>();
 
     /** The Constant preFilters. */
     private static final List<AuditEventFilter> preFilters = new ArrayList<AuditEventFilter>();
@@ -51,28 +52,32 @@ public final class PreConfigurationContext {
 
     static {
         ScanAnnotatedCommand scanAnnotated = new ScanAnnotatedCommand();
-        options.add(scanAnnotated.getCommand());
+        availableCommands.add(scanAnnotated.getCommand());
         commands.put(scanAnnotated.getCommand(), scanAnnotated);
+
+        MetadataCommand metadataCommand = new MetadataCommand();
+        availableCommands.add(metadataCommand.getCommand());
+        commands.put(metadataCommand.getCommand(), metadataCommand);
     }
 
     /**
      * Gets the command by option name.
      * 
-     * @param optionName
+     * @param commandName
      *            the option name
      * @return the command by option name
      */
-    public static AbstractCommand getCommandByOptionName(String optionName) {
-        return commands.get(optionName);
+    public static AbstractCommand getCommandByName(String commandName) {
+        return commands.get(commandName);
     }
-
+    
     /**
      * Gets the options.
      * 
      * @return the options
      */
-    public static List<String> getOptions() {
-        return options;
+    public static List<String> getAvailableCommands() {
+        return availableCommands;
     }
 
     /**

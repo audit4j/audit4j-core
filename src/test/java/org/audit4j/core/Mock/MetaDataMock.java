@@ -18,4 +18,9 @@ public class MetaDataMock implements MetaData{
     public String toString() {
         return "TestMetaData [getActor()=" + getActor() + "]";
     }
+
+    @Override
+    public String getOrigin() {
+        return "Test Origin";
+    }
 }

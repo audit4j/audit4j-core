@@ -59,7 +59,7 @@ public class Configuration implements Serializable {
     private List<AuditEventFilter> filters;
 
     /** The options. */
-    private String options;
+    private String commands;
     
     /** The jmx configurations. */
     private JMXConfig jmx;
@@ -257,8 +257,8 @@ public class Configuration implements Serializable {
      * 
      * @since 2.3.0
      */
-    public String getOptions() {
-        return options;
+    public String getCommands() {
+        return commands;
     }
 
     /**
@@ -268,8 +268,8 @@ public class Configuration implements Serializable {
      * 
      * @since 2.3.0
      */
-    public void setOptions(String options) {
-        this.options = options;
+    public void setCommands(String options) {
+        this.commands = options;
     }
 
     /**
