@@ -12,25 +12,42 @@ import java.util.TimeZone;
 
 import org.audit4j.core.schedule.util.StringUtils;
 
+/**
+ * The Class CronSequenceGenerator.
+ *
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ */
 public class CronSequenceGenerator {
 
+    /** The seconds. */
     private final BitSet seconds = new BitSet(60);
+    
+    /** The minutes. */
     private final BitSet minutes = new BitSet(60);
+    
+    /** The hours. */
     private final BitSet hours = new BitSet(24);
+    
+    /** The days of week. */
     private final BitSet daysOfWeek = new BitSet(7);
+    
+    /** The days of month. */
     private final BitSet daysOfMonth = new BitSet(31);
+    
+    /** The months. */
     private final BitSet months = new BitSet(12);
+    
+    /** The expression. */
     private final String expression;
+    
+    /** The time zone. */
     private final TimeZone timeZone;
 
     /**
      * Construct a {@link CronSequenceGenerator} from the pattern provided,
      * using the default {@link TimeZone}.
-     * 
-     * @param expression
-     *            a space-separated list of time fields
-     * @throws IllegalArgumentException
-     *             if the pattern cannot be parsed
+     *
+     * @param expression a space-separated list of time fields
      * @see java.util.TimeZone#getDefault()
      */
     public CronSequenceGenerator(String expression) {
@@ -40,13 +57,9 @@ public class CronSequenceGenerator {
     /**
      * Construct a {@link CronSequenceGenerator} from the pattern provided,
      * using the specified {@link TimeZone}.
-     * 
-     * @param expression
-     *            a space-separated list of time fields
-     * @param timeZone
-     *            the TimeZone to use for generated trigger times
-     * @throws IllegalArgumentException
-     *             if the pattern cannot be parsed
+     *
+     * @param expression a space-separated list of time fields
+     * @param timeZone the TimeZone to use for generated trigger times
      */
     public CronSequenceGenerator(String expression, TimeZone timeZone) {
         this.expression = expression;
@@ -89,6 +102,12 @@ public class CronSequenceGenerator {
         return calendar.getTime();
     }
 
+    /**
+     * Do next.
+     *
+     * @param calendar the calendar
+     * @param dot the dot
+     */
     private void doNext(Calendar calendar, int dot) {
         List<Integer> resets = new ArrayList<Integer>();
         int second = calendar.get(Calendar.SECOND);
@@ -130,6 +149,17 @@ public class CronSequenceGenerator {
         }
     }
 
+    /**
+     * Find next day.
+     *
+     * @param calendar the calendar
+     * @param daysOfMonth the days of month
+     * @param dayOfMonth the day of month
+     * @param daysOfWeek the days of week
+     * @param dayOfWeek the day of week
+     * @param resets the resets
+     * @return the int
+     */
     private int findNextDay(Calendar calendar, BitSet daysOfMonth, int dayOfMonth, BitSet daysOfWeek, int dayOfWeek,
             List<Integer> resets) {
         int count = 0;
@@ -151,19 +181,15 @@ public class CronSequenceGenerator {
     /**
      * Search the bits provided for the next set bit after the value provided,
      * and reset the calendar.
-     * 
-     * @param bits
-     *            a {@link BitSet} representing the allowed values of the field
-     * @param value
-     *            the current value of the field
-     * @param calendar
-     *            the calendar to increment as we move through the bits
-     * @param field
-     *            the field to increment in the calendar (@see {@link Calendar}
-     *            for the static constants defining valid fields)
-     * @param lowerOrders
-     *            the Calendar field ids that should be reset (i.e. the ones of
-     *            lower significance than the field of interest)
+     *
+     * @param bits a {@link BitSet} representing the allowed values of the field
+     * @param value the current value of the field
+     * @param calendar the calendar to increment as we move through the bits
+     * @param field the field to increment in the calendar (@see {@link Calendar}
+     * for the static constants defining valid fields)
+     * @param nextField the next field
+     * @param lowerOrders the Calendar field ids that should be reset (i.e. the ones of
+     * lower significance than the field of interest)
      * @return the value of the calendar field that is next in the sequence
      */
     private int findNext(BitSet bits, int value, Calendar calendar, int field, int nextField, List<Integer> lowerOrders) {
@@ -183,6 +209,9 @@ public class CronSequenceGenerator {
 
     /**
      * Reset the calendar setting all the fields provided to zero.
+     *
+     * @param calendar the calendar
+     * @param fields the fields
      */
     private void reset(Calendar calendar, List<Integer> fields) {
         for (int field : fields) {
@@ -193,6 +222,9 @@ public class CronSequenceGenerator {
     // Parsing logic invoked by the constructor
     /**
      * Parse the given pattern expression.
+     *
+     * @param expression the expression
+     * @throws IllegalArgumentException the illegal argument exception
      */
     private void parse(String expression) throws IllegalArgumentException {
         String[] fields = StringUtils.tokenizeToStringArray(expression, " ");
@@ -216,7 +248,9 @@ public class CronSequenceGenerator {
     /**
      * Replace the values in the commaSeparatedList (case insensitive) with
      * their index in the list.
-     * 
+     *
+     * @param value the value
+     * @param commaSeparatedList the comma separated list
      * @return a new string with the values from the list replaced
      */
     private String replaceOrdinals(String value, String commaSeparatedList) {
@@ -228,6 +262,12 @@ public class CronSequenceGenerator {
         return value;
     }
 
+    /**
+     * Sets the days of month.
+     *
+     * @param bits the bits
+     * @param field the field
+     */
     private void setDaysOfMonth(BitSet bits, String field) {
         int max = 31;
         // Days of month start with 1 (in Cron and Calendar) so add one
@@ -236,6 +276,13 @@ public class CronSequenceGenerator {
         bits.clear(0);
     }
 
+    /**
+     * Sets the days.
+     *
+     * @param bits the bits
+     * @param field the field
+     * @param max the max
+     */
     private void setDays(BitSet bits, String field, int max) {
         if (field.contains("?")) {
             field = "*";
@@ -243,6 +290,12 @@ public class CronSequenceGenerator {
         setNumberHits(bits, field, 0, max);
     }
 
+    /**
+     * Sets the months.
+     *
+     * @param bits the bits
+     * @param value the value
+     */
     private void setMonths(BitSet bits, String value) {
         int max = 12;
         value = replaceOrdinals(value, "FOO,JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC");
@@ -258,6 +311,14 @@ public class CronSequenceGenerator {
         }
     }
 
+    /**
+     * Sets the number hits.
+     *
+     * @param bits the bits
+     * @param value the value
+     * @param min the min
+     * @param max the max
+     */
     private void setNumberHits(BitSet bits, String value, int min, int max) {
         String[] fields = StringUtils.delimitedListToStringArray(value, ",");
         for (String field : fields) {
@@ -283,6 +344,14 @@ public class CronSequenceGenerator {
         }
     }
 
+    /**
+     * Gets the range.
+     *
+     * @param field the field
+     * @param min the min
+     * @param max the max
+     * @return the range
+     */
     private int[] getRange(String field, int min, int max) {
         int[] result = new int[2];
         if (field.contains("*")) {
@@ -312,10 +381,21 @@ public class CronSequenceGenerator {
         return result;
     }
 
+    /**
+     * Gets the expression.
+     *
+     * @return the expression
+     */
     String getExpression() {
         return this.expression;
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     *
+     */
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof CronSequenceGenerator)) {
@@ -327,12 +407,24 @@ public class CronSequenceGenerator {
                 && cron.minutes.equals(this.minutes) && cron.seconds.equals(this.seconds);
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see java.lang.Object#hashCode()
+     *
+     */
     @Override
     public int hashCode() {
         return 37 + 17 * this.months.hashCode() + 29 * this.daysOfMonth.hashCode() + 37 * this.daysOfWeek.hashCode()
                 + 41 * this.hours.hashCode() + 53 * this.minutes.hashCode() + 61 * this.seconds.hashCode();
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see java.lang.Object#toString()
+     *
+     */
     @Override
     public String toString() {
         return getClass().getSimpleName() + ": " + this.expression;

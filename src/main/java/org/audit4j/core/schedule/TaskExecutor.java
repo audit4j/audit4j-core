@@ -3,7 +3,8 @@ package org.audit4j.core.schedule;
 import java.util.concurrent.Executor;
 
 /**
- * Simple task executor interface that abstracts the execution of a
+ * Simple task executor interface that abstracts the execution of a.
+ *
  * {@link Runnable}.
  * 
  * <p>
@@ -25,11 +26,8 @@ public interface TaskExecutor extends Executor {
      * The call might return immediately if the implementation uses an
      * asynchronous execution strategy, or might block in the case of
      * synchronous execution.
-     * 
-     * @param task
-     *            the {@code Runnable} to execute (never {@code null})
-     * @throws TaskRejectedException
-     *             if the given task was not accepted
+     *
+     * @param task the {@code Runnable} to execute (never {@code null})
      */
     @Override
     void execute(Runnable task);

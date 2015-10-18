@@ -193,7 +193,7 @@ public class ConcurrentConfigurationContextTest {
 
         // add additional test code here
         assertNotNull(result);
-        assertEquals("Audit4j User", result.getActor());
+        assertEquals(CoreConstants.DEFAULT_ACTOR, result.getActor());
     }
 
     /**

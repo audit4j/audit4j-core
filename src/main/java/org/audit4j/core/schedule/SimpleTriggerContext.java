@@ -9,8 +9,14 @@ import java.util.Date;
  * @since 3.0
  */
 public class SimpleTriggerContext implements TriggerContext {
+    
+    /** The last scheduled execution time. */
     private volatile Date lastScheduledExecutionTime;
+    
+    /** The last actual execution time. */
     private volatile Date lastActualExecutionTime;
+    
+    /** The last completion time. */
     private volatile Date lastCompletionTime;
 
     /**
@@ -51,16 +57,34 @@ public class SimpleTriggerContext implements TriggerContext {
         this.lastCompletionTime = lastCompletionTime;
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.TriggerContext#lastScheduledExecutionTime()
+     *
+     */
     @Override
     public Date lastScheduledExecutionTime() {
         return this.lastScheduledExecutionTime;
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.TriggerContext#lastActualExecutionTime()
+     *
+     */
     @Override
     public Date lastActualExecutionTime() {
         return this.lastActualExecutionTime;
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.TriggerContext#lastCompletionTime()
+     *
+     */
     @Override
     public Date lastCompletionTime() {
         return this.lastCompletionTime;

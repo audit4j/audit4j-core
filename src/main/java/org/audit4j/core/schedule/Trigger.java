@@ -5,6 +5,8 @@ import java.util.Date;
 /**
  * Common interface for trigger objects that determine the next execution time
  * of a task that they get associated with.
+ *
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
 public interface Trigger {
 

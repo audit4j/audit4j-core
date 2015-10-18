@@ -68,6 +68,8 @@ public class AnnotationTransformer {
             event.setAction(action);
             event.setTag(tag);
             event.setFields(fields);
+            event.setActor(annotationEvent.getActor());
+            event.setOrigin(annotationEvent.getOrigin());
         } else if (!auditAttributes.hasAnnotation(annotationEvent.getClazz())
                 && auditAttributes.hasAnnotation(annotationEvent.getMethod())) {
             event = new AuditEvent();
@@ -82,7 +84,10 @@ public class AnnotationTransformer {
             event.setAction(action);
             event.setTag(tag);
             event.setFields(fields);
+            event.setActor(annotationEvent.getActor());
+            event.setOrigin(annotationEvent.getOrigin());
         }
+        
         return event;
     }
 }

@@ -147,11 +147,9 @@ public class Schedulers {
 
     /**
      * Schedule.
-     * 
-     * @param task
-     *            the task
-     * @param trigger
-     *            the trigger
+     *
+     * @param trigger the trigger
+     * @param task the task
      * @return the string
      */
     public String schedule(Trigger trigger, Runnable task) {
@@ -288,6 +286,13 @@ public class Schedulers {
             return regInstance;
         }
 
+        /**
+         * Registor.
+         *
+         * @param trigger the trigger
+         * @param task the task
+         * @return the task registrar
+         */
         public TaskRegistrar registor(Trigger trigger, Runnable task) {
             triggerTasks.add(new TriggerTask(task, trigger));
             return regInstance;

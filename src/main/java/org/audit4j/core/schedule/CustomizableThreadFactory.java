@@ -9,7 +9,6 @@ import org.audit4j.core.schedule.util.CustomizableThreadCreator;
  * allowing for customizing the created threads (name, priority, etc).
  * 
  * <p>
- * See the base class {@link org.springframework.util.CustomizableThreadCreator}
  * for details on the available configuration options.
  * 
  * @author Juergen Hoeller
@@ -36,6 +35,12 @@ public class CustomizableThreadFactory extends CustomizableThreadCreator impleme
         super(threadNamePrefix);
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see java.util.concurrent.ThreadFactory#newThread(java.lang.Runnable)
+     *
+     */
     @Override
     public Thread newThread(Runnable runnable) {
         return createThread(runnable);

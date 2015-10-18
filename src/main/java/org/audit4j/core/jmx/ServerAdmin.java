@@ -37,7 +37,7 @@ public class ServerAdmin implements ServerAdminMBean {
     /**
      * {@inheritDoc}
      * 
-     * @see org.audit4j.core.jmx.ServerAdminMBean#serverStatus()
+     * @see org.audit4j.core.jmx.ServerAdminMBean#getServerStatus()
      * 
      */
     @Override

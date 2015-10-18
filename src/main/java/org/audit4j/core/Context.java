@@ -127,7 +127,7 @@ public final class Context {
                 throw new InitializationException(INIT_FAILED, e1);
             }
 
-            // Extract options.
+            // Extract commands.
             Map<String, String> commands = processCommands(conf.getCommands());
 
             // Execute commands.
@@ -328,14 +328,14 @@ public final class Context {
             return null;
         }
         Map<String, String> commands = new HashMap<String, String>();
-        String[] args = extractOptions(optionText);
+        String[] args = extractCommands(optionText);
         for (String arg : args) {
-            String[] option = StringUtils.split(arg, CoreConstants.EQ_CHAR);
-            if (!PreConfigurationContext.getAvailableCommands().contains(option[0])) {
-                Log.warn("Invalid command: ", option[0], " Please check your configurations. ",
+            String[] command = StringUtils.split(arg, CoreConstants.EQ_CHAR);
+            if (!PreConfigurationContext.getAvailableCommands().contains(command[0])) {
+                Log.warn("Invalid command: ", command[0], " Please check your configurations. ",
                         ErrorGuide.getGuide(ErrorGuide.INVALID_COMMAND));
             }
-            commands.put(option[0], option[1]);
+            commands.put(command[0], command[1]);
         }
         return commands;
     }
@@ -347,7 +347,7 @@ public final class Context {
      *            the option text
      * @return the string[]
      */
-    private static String[] extractOptions(String optionText) {
+    private static String[] extractCommands(String optionText) {
         return StringUtils.split(optionText);
     }
 

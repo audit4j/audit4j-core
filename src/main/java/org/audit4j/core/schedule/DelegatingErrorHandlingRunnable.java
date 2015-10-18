@@ -13,7 +13,11 @@ import org.audit4j.core.schedule.util.ErrorHandler;
  * @since 3.0
  */
 public class DelegatingErrorHandlingRunnable implements Runnable {
+    
+    /** The delegate. */
     private final Runnable delegate;
+    
+    /** The error handler. */
     private final ErrorHandler errorHandler;
 
     /**
@@ -31,6 +35,12 @@ public class DelegatingErrorHandlingRunnable implements Runnable {
         this.errorHandler = errorHandler;
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see java.lang.Runnable#run()
+     *
+     */
     @Override
     public void run() {
         try {
@@ -42,6 +52,12 @@ public class DelegatingErrorHandlingRunnable implements Runnable {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see java.lang.Object#toString()
+     *
+     */
     @Override
     public String toString() {
         return "DelegatingErrorHandlingRunnable for " + this.delegate;

@@ -3,6 +3,7 @@ package org.audit4j.core.Int.event.annotation;
 import java.lang.reflect.Method;
 
 import org.audit4j.core.AuditManager;
+import org.audit4j.core.Configuration;
 import org.audit4j.core.Mock.ClassAnnotationMock;
 import org.audit4j.core.dto.AnnotationAuditEvent;
 import org.junit.After;
@@ -18,7 +19,7 @@ public class ClassAnnotationTest {
 
     @Test
     public void testAnnotation_selection_all() {
-        AuditManager manager = AuditManager.getInstance();
+        AuditManager manager = AuditManager.startWithConfiguration(Configuration.DEFAULT);
         Method annoMethod = null;
         try {
             annoMethod = ClassAnnotationMock.class.getMethod("testClassAnnotation_selection_all", String.class);

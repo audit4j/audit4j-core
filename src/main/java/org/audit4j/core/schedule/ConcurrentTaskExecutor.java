@@ -44,6 +44,8 @@ import javax.enterprise.concurrent.ManagedTask;
  * @see ThreadPoolTaskExecutor
  */
 public class ConcurrentTaskExecutor implements AsyncTaskExecutor, SchedulingTaskExecutor {
+    
+    /** The managed executor service class. */
     private static Class<?> managedExecutorServiceClass;
     static {
         try {
@@ -53,7 +55,11 @@ public class ConcurrentTaskExecutor implements AsyncTaskExecutor, SchedulingTask
             managedExecutorServiceClass = null;
         }
     }
+    
+    /** The concurrent executor. */
     private Executor concurrentExecutor;
+    
+    /** The adapted executor. */
     private TaskExecutorAdapter adaptedExecutor;
 
     /**
@@ -67,15 +73,14 @@ public class ConcurrentTaskExecutor implements AsyncTaskExecutor, SchedulingTask
     }
 
     /**
-     * Create a new ConcurrentTaskExecutor, using the given
+     * Create a new ConcurrentTaskExecutor, using the given.
+     *
+     * @param concurrentExecutor the {@link java.util.concurrent.Executor} to delegate to
      * {@link java.util.concurrent.Executor}.
      * <p>
      * Autodetects a JSR-236
      * {@link javax.enterprise.concurrent.ManagedExecutorService} in order to
      * expose {@link javax.enterprise.concurrent.ManagedTask} adapters for it.
-     * 
-     * @param concurrentExecutor
-     *            the {@link java.util.concurrent.Executor} to delegate to
      */
     public ConcurrentTaskExecutor(Executor concurrentExecutor) {
         setConcurrentExecutor(concurrentExecutor);
@@ -85,6 +90,8 @@ public class ConcurrentTaskExecutor implements AsyncTaskExecutor, SchedulingTask
      * Specify the {@link java.util.concurrent.Executor} to delegate to.
      * <p>
      * Autodetects a JSR-236
+     *
+     * @param concurrentExecutor the new concurrent executor
      * {@link javax.enterprise.concurrent.ManagedExecutorService} in order to
      * expose {@link javax.enterprise.concurrent.ManagedTask} adapters for it.
      */
@@ -105,26 +112,52 @@ public class ConcurrentTaskExecutor implements AsyncTaskExecutor, SchedulingTask
     /**
      * Return the {@link java.util.concurrent.Executor} that this adapter
      * delegates to.
+     *
+     * @return the concurrent executor
      */
     public final Executor getConcurrentExecutor() {
         return this.concurrentExecutor;
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.TaskExecutor#execute(java.lang.Runnable)
+     *
+     */
     @Override
     public void execute(Runnable task) {
         this.adaptedExecutor.execute(task);
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.AsyncTaskExecutor#execute(java.lang.Runnable, long)
+     *
+     */
     @Override
     public void execute(Runnable task, long startTimeout) {
         this.adaptedExecutor.execute(task, startTimeout);
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.AsyncTaskExecutor#submit(java.lang.Runnable)
+     *
+     */
     @Override
     public Future<?> submit(Runnable task) {
         return this.adaptedExecutor.submit(task);
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.AsyncTaskExecutor#submit(java.util.concurrent.Callable)
+     *
+     */
     @Override
     public <T> Future<T> submit(Callable<T> task) {
         return this.adaptedExecutor.submit(task);
@@ -132,6 +165,8 @@ public class ConcurrentTaskExecutor implements AsyncTaskExecutor, SchedulingTask
 
     /**
      * This task executor prefers short-lived work units.
+     *
+     * @return true, if successful
      */
     @Override
     public boolean prefersShortLivedTasks() {
@@ -143,22 +178,49 @@ public class ConcurrentTaskExecutor implements AsyncTaskExecutor, SchedulingTask
      * Callables with a JSR-236 ManagedTask, exposing a long-running hint based
      * on {@link SchedulingAwareRunnable} and an identity name based on the
      * task's {@code toString()} representation.
+     *
+     * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+     * @since
      */
     private static class ManagedTaskExecutorAdapter extends TaskExecutorAdapter {
+        
+        /**
+         * Instantiates a new managed task executor adapter.
+         *
+         * @param concurrentExecutor the concurrent executor
+         */
         public ManagedTaskExecutorAdapter(Executor concurrentExecutor) {
             super(concurrentExecutor);
         }
 
+        /**
+         * {@inheritDoc}
+         * 
+         * @see org.audit4j.core.schedule.TaskExecutorAdapter#execute(java.lang.Runnable)
+         *
+         */
         @Override
         public void execute(Runnable task) {
             super.execute(ManagedTaskBuilder.buildManagedTask(task, task.toString()));
         }
 
+        /**
+         * {@inheritDoc}
+         * 
+         * @see org.audit4j.core.schedule.TaskExecutorAdapter#submit(java.lang.Runnable)
+         *
+         */
         @Override
         public Future<?> submit(Runnable task) {
             return super.submit(ManagedTaskBuilder.buildManagedTask(task, task.toString()));
         }
 
+        /**
+         * {@inheritDoc}
+         * 
+         * @see org.audit4j.core.schedule.TaskExecutorAdapter#submit(java.util.concurrent.Callable)
+         *
+         */
         @Override
         public <T> Future<T> submit(Callable<T> task) {
             return super.submit(ManagedTaskBuilder.buildManagedTask(task, task.toString()));
@@ -169,8 +231,19 @@ public class ConcurrentTaskExecutor implements AsyncTaskExecutor, SchedulingTask
      * Delegate that wraps a given Runnable/Callable with a JSR-236 ManagedTask,
      * exposing a long-running hint based on {@link SchedulingAwareRunnable} and
      * a given identity name.
+     *
+     * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+     * @since
      */
     protected static class ManagedTaskBuilder {
+        
+        /**
+         * Builds the managed task.
+         *
+         * @param task the task
+         * @param identityName the identity name
+         * @return the runnable
+         */
         public static Runnable buildManagedTask(Runnable task, String identityName) {
             Map<String, String> properties = new HashMap<String, String>(2);
             if (task instanceof SchedulingAwareRunnable) {
@@ -181,6 +254,14 @@ public class ConcurrentTaskExecutor implements AsyncTaskExecutor, SchedulingTask
             return ManagedExecutors.managedTask(task, properties, null);
         }
 
+        /**
+         * Builds the managed task.
+         *
+         * @param <T> the generic type
+         * @param task the task
+         * @param identityName the identity name
+         * @return the callable
+         */
         public static <T> Callable<T> buildManagedTask(Callable<T> task, String identityName) {
             Map<String, String> properties = new HashMap<String, String>(1);
             properties.put(ManagedTask.IDENTITY_NAME, identityName);

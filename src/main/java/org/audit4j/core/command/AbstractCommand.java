@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.audit4j.core.CoreConstants;
 import org.audit4j.core.Initializable;
 
 /**
@@ -58,7 +59,7 @@ public abstract class AbstractCommand implements Initializable {
     
     protected List<String> getOptionsByCommand(String command){
         String rawOption = commands.get(command);
-        String[] options = rawOption.split(" ");
+        String[] options = rawOption.split(CoreConstants.COMMA);
         return Arrays.asList(options);
     }
 

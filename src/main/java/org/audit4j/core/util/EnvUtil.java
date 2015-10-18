@@ -25,7 +25,6 @@ import java.util.List;
 import javax.servlet.ServletContext;
 
 import org.audit4j.core.Configurations;
-import org.audit4j.core.exception.ConfigurationException;
 
 /**
  * The Class EnvUtil.
@@ -140,7 +139,6 @@ public class EnvUtil {
      *
      * @param dirPath the dir path
      * @return true, if successful
-     * @throws ConfigurationException the configuration exception
      */
     public static boolean hasConfigFileExists(String dirPath) {
         String filePath = dirPath + File.separator + Configurations.CONFIG_FILE_NAME + ".";

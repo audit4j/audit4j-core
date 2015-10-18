@@ -16,11 +16,10 @@ package org.audit4j.core.schedule;
  * @author Juergen Hoeller
  * @since 2.0
  * @see commonj.work.Work
- * @see org.audit4j.schedule.springframework.core.task.TaskExecutor
  * @see SchedulingTaskExecutor
- * @see org.springframework.scheduling.commonj.WorkManagerTaskExecutor
  */
 public interface SchedulingAwareRunnable extends Runnable {
+    
     /**
      * Return whether the Runnable's operation is long-lived ({@code true})
      * versus short-lived ({@code false}).
@@ -31,6 +30,8 @@ public interface SchedulingAwareRunnable extends Runnable {
      * This should be considered a hint. Of course TaskExecutor implementations
      * are free to ignore this flag and the SchedulingAwareRunnable interface
      * overall.
+     *
+     * @return true, if is long lived
      */
     boolean isLongLived();
 }

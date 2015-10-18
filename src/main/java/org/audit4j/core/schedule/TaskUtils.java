@@ -31,6 +31,11 @@ public abstract class TaskUtils {
 
     /**
      * Decorate the task for error handling. If the provided
+     *
+     * @param task the task
+     * @param errorHandler the error handler
+     * @param isRepeatingTask the is repeating task
+     * @return the delegating error handling runnable
      * {@link ErrorHandler} is not {@code null}, it will be used. Otherwise,
      * repeating tasks will have errors suppressed by default whereas one-shot
      * tasks will have errors propagated by default since those errors may be
@@ -51,6 +56,9 @@ public abstract class TaskUtils {
      * boolean value indicating whether the task will be repeating or not. For
      * repeating tasks it will suppress errors, but for one-time tasks it will
      * propagate. In both cases, the error will be logged.
+     *
+     * @param isRepeatingTask the is repeating task
+     * @return the default error handler
      */
     public static ErrorHandler getDefaultErrorHandler(boolean isRepeatingTask) {
         return (isRepeatingTask ? LOG_AND_SUPPRESS_ERROR_HANDLER : LOG_AND_PROPAGATE_ERROR_HANDLER);
@@ -60,11 +68,20 @@ public abstract class TaskUtils {
      * An {@link ErrorHandler} implementation that logs the Throwable at error
      * level. It does not perform any additional error handling. This can be
      * useful when suppression of errors is the intended behavior.
+     *
+     * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+     * @since
      */
     private static class LoggingErrorHandler implements ErrorHandler {
         // private final Log logger =
         // LogFactory.getLog(LoggingErrorHandler.class);
         //
+        /**
+         * {@inheritDoc}
+         * 
+         * @see org.audit4j.core.schedule.util.ErrorHandler#handleError(java.lang.Throwable)
+         *
+         */
         @Override
         public void handleError(Throwable t) {
             // if (logger.isErrorEnabled()) {
@@ -76,8 +93,18 @@ public abstract class TaskUtils {
     /**
      * An {@link ErrorHandler} implementation that logs the Throwable at error
      * level and then propagates it.
+     *
+     * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+     * @since
      */
     private static class PropagatingErrorHandler extends LoggingErrorHandler {
+        
+        /**
+         * {@inheritDoc}
+         * 
+         * @see org.audit4j.core.schedule.TaskUtils.LoggingErrorHandler#handleError(java.lang.Throwable)
+         *
+         */
         @Override
         public void handleError(Throwable t) {
             super.handleError(t);

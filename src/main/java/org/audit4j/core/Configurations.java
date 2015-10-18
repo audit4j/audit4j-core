@@ -297,8 +297,6 @@ public class Configurations {
     /**
      * The Class ConfigurationStream.
      *
-     * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
-     * @since
      */
     public static class ConfigurationStream {
         

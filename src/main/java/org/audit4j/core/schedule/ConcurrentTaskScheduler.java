@@ -32,8 +32,7 @@ import org.audit4j.core.schedule.util.ErrorHandler;
  * <p>
  * Note that there is a pre-built {@link ThreadPoolTaskScheduler} that allows
  * for defining a {@link java.util.concurrent.ScheduledThreadPoolExecutor} in
- * bean style, exposing it as a Spring
- * {@link org.springframework.scheduling.TaskScheduler} directly. This is a
+ * bean style directly. This is a
  * convenient alternative to a raw ScheduledThreadPoolExecutor definition with a
  * separate definition of the present adapter class.
  * 
@@ -43,22 +42,29 @@ import org.audit4j.core.schedule.util.ErrorHandler;
  * @see java.util.concurrent.ScheduledExecutorService
  * @see java.util.concurrent.ScheduledThreadPoolExecutor
  * @see java.util.concurrent.Executors
- * @see DefaultManagedTaskScheduler
  * @see ThreadPoolTaskScheduler
  */
 public class ConcurrentTaskScheduler extends ConcurrentTaskExecutor implements TaskScheduler {
+
+    /** The managed scheduled executor service class. */
     private static Class<?> managedScheduledExecutorServiceClass;
     static {
         try {
-            managedScheduledExecutorServiceClass = Class.forName(
-                    "javax.enterprise.concurrent.ManagedScheduledExecutorService");
+            managedScheduledExecutorServiceClass = Class
+                    .forName("javax.enterprise.concurrent.ManagedScheduledExecutorService");
         } catch (ClassNotFoundException ex) {
             // JSR-236 API not available...
             managedScheduledExecutorServiceClass = null;
         }
     }
+
+    /** The scheduled executor. */
     private ScheduledExecutorService scheduledExecutor;
+
+    /** The enterprise concurrent scheduler. */
     private boolean enterpriseConcurrentScheduler = false;
+
+    /** The error handler. */
     private ErrorHandler errorHandler;
 
     /**
@@ -73,18 +79,18 @@ public class ConcurrentTaskScheduler extends ConcurrentTaskExecutor implements T
     }
 
     /**
-     * Create a new ConcurrentTaskScheduler, using the given
-     * {@link java.util.concurrent.ScheduledExecutorService} as shared delegate.
-     * <p>
-     * Autodetects a JSR-236
-     * {@link javax.enterprise.concurrent.ManagedScheduledExecutorService} in
-     * order to use it for trigger-based scheduling if possible, instead of
-     * Spring's local trigger management.
+     * Create a new ConcurrentTaskScheduler, using the given.
      * 
      * @param scheduledExecutor
      *            the {@link java.util.concurrent.ScheduledExecutorService} to
      *            delegate to for
-     *            {@link org.springframework.scheduling.SchedulingTaskExecutor}
+     *            {@link java.util.concurrent.ScheduledExecutorService} as
+     *            shared delegate.
+     *            <p>
+     *            Autodetects a JSR-236
+     *            {@link javax.enterprise.concurrent.ManagedScheduledExecutorService}
+     *            in order to use it for trigger-based scheduling if possible,
+     *            instead of Spring's local trigger management.
      *            as well as {@link TaskScheduler} invocations
      */
     public ConcurrentTaskScheduler(ScheduledExecutorService scheduledExecutor) {
@@ -93,22 +99,20 @@ public class ConcurrentTaskScheduler extends ConcurrentTaskExecutor implements T
     }
 
     /**
-     * Create a new ConcurrentTaskScheduler, using the given
-     * {@link java.util.concurrent.Executor} and
-     * {@link java.util.concurrent.ScheduledExecutorService} as delegates.
-     * <p>
-     * Autodetects a JSR-236
-     * {@link javax.enterprise.concurrent.ManagedScheduledExecutorService} in
-     * order to use it for trigger-based scheduling if possible, instead of
-     * Spring's local trigger management.
+     * Create a new ConcurrentTaskScheduler, using the given.
      * 
      * @param concurrentExecutor
      *            the {@link java.util.concurrent.Executor} to delegate to for
-     *            {@link org.springframework.scheduling.SchedulingTaskExecutor}
-     *            invocations
      * @param scheduledExecutor
      *            the {@link java.util.concurrent.ScheduledExecutorService} to
      *            delegate to for {@link TaskScheduler} invocations
+     *            {@link java.util.concurrent.Executor} and
+     *            {@link java.util.concurrent.ScheduledExecutorService} as
+     *            delegates.
+     *            <p>
+     *            Autodetects a JSR-236
+     *            {@link javax.enterprise.concurrent.ManagedScheduledExecutorService}
+     *            in order to use it for trigger-based scheduling if possible,
      */
     public ConcurrentTaskScheduler(Executor concurrentExecutor, ScheduledExecutorService scheduledExecutor) {
         super(concurrentExecutor);
@@ -120,16 +124,18 @@ public class ConcurrentTaskScheduler extends ConcurrentTaskExecutor implements T
      * delegate to.
      * <p>
      * Autodetects a JSR-236
-     * {@link javax.enterprise.concurrent.ManagedScheduledExecutorService} in
-     * order to use it for trigger-based scheduling if possible, instead of
-     * Spring's local trigger management.
-     * <p>
-     * Note: This will only apply to {@link TaskScheduler} invocations. If you
-     * want the given executor to apply to
-     * {@link org.springframework.scheduling.SchedulingTaskExecutor} invocations
-     * as well, pass the same executor reference to
-     * {@link #setConcurrentExecutor}.
      * 
+     * @param scheduledExecutor
+     *            the new scheduled executor
+     *            {@link javax.enterprise.concurrent.ManagedScheduledExecutorService}
+     *            in order to use it for trigger-based scheduling if possible,
+     *            instead of Spring's local trigger management.
+     *            <p>
+     *            Note: This will only apply to {@link TaskScheduler}
+     *            invocations. If you want the given executor to apply to
+     *            {@link org.springframework.scheduling.SchedulingTaskExecutor}
+     *            invocations as well, pass the same executor reference to
+     *            {@link #setConcurrentExecutor}.
      * @see #setConcurrentExecutor
      */
     public final void setScheduledExecutor(ScheduledExecutorService scheduledExecutor) {
@@ -145,12 +151,22 @@ public class ConcurrentTaskScheduler extends ConcurrentTaskExecutor implements T
 
     /**
      * Provide an {@link ErrorHandler} strategy.
+     * 
+     * @param errorHandler
+     *            the new error handler
      */
     public void setErrorHandler(ErrorHandler errorHandler) {
-       // Assert.notNull(errorHandler, "'errorHandler' must not be null");
+        // Assert.notNull(errorHandler, "'errorHandler' must not be null");
         this.errorHandler = errorHandler;
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.TaskScheduler#schedule(java.lang.Runnable,
+     *      org.audit4j.core.schedule.Trigger)
+     * 
+     */
     @Override
     public ScheduledFuture<?> schedule(Runnable task, Trigger trigger) {
         try {
@@ -167,6 +183,13 @@ public class ConcurrentTaskScheduler extends ConcurrentTaskExecutor implements T
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.TaskScheduler#schedule(java.lang.Runnable,
+     *      java.util.Date)
+     * 
+     */
     @Override
     public ScheduledFuture<?> schedule(Runnable task, Date startTime) {
         long initialDelay = startTime.getTime() - System.currentTimeMillis();
@@ -178,6 +201,13 @@ public class ConcurrentTaskScheduler extends ConcurrentTaskExecutor implements T
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.TaskScheduler#scheduleAtFixedRate(java.lang.Runnable,
+     *      java.util.Date, long)
+     * 
+     */
     @Override
     public ScheduledFuture<?> scheduleAtFixedRate(Runnable task, Date startTime, long period) {
         long initialDelay = startTime.getTime() - System.currentTimeMillis();
@@ -190,6 +220,13 @@ public class ConcurrentTaskScheduler extends ConcurrentTaskExecutor implements T
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.TaskScheduler#scheduleAtFixedRate(java.lang.Runnable,
+     *      long)
+     * 
+     */
     @Override
     public ScheduledFuture<?> scheduleAtFixedRate(Runnable task, long period) {
         try {
@@ -201,6 +238,13 @@ public class ConcurrentTaskScheduler extends ConcurrentTaskExecutor implements T
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.TaskScheduler#scheduleWithFixedDelay(java.lang.Runnable,
+     *      java.util.Date, long)
+     * 
+     */
     @Override
     public ScheduledFuture<?> scheduleWithFixedDelay(Runnable task, Date startTime, long delay) {
         long initialDelay = startTime.getTime() - System.currentTimeMillis();
@@ -213,6 +257,13 @@ public class ConcurrentTaskScheduler extends ConcurrentTaskExecutor implements T
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.TaskScheduler#scheduleWithFixedDelay(java.lang.Runnable,
+     *      long)
+     * 
+     */
     @Override
     public ScheduledFuture<?> scheduleWithFixedDelay(Runnable task, long delay) {
         try {
@@ -224,6 +275,15 @@ public class ConcurrentTaskScheduler extends ConcurrentTaskExecutor implements T
         }
     }
 
+    /**
+     * Decorate task.
+     * 
+     * @param task
+     *            the task
+     * @param isRepeatingTask
+     *            the is repeating task
+     * @return the runnable
+     */
     private Runnable decorateTask(Runnable task, boolean isRepeatingTask) {
         Runnable result = TaskUtils.decorateTaskWithErrorHandler(task, this.errorHandler, isRepeatingTask);
         if (this.enterpriseConcurrentScheduler) {
@@ -236,8 +296,21 @@ public class ConcurrentTaskScheduler extends ConcurrentTaskExecutor implements T
      * Delegate that adapts a Spring Trigger to a JSR-236 Trigger. Separated
      * into an inner class in order to avoid a hard dependency on the JSR-236
      * API.
+     * 
+     * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+     * @since
      */
     private class EnterpriseConcurrentTriggerScheduler {
+
+        /**
+         * Schedule.
+         * 
+         * @param task
+         *            the task
+         * @param trigger
+         *            the trigger
+         * @return the scheduled future
+         */
         public ScheduledFuture<?> schedule(Runnable task, final Trigger trigger) {
             ManagedScheduledExecutorService executor = (ManagedScheduledExecutorService) scheduledExecutor;
             return executor.schedule(task, new javax.enterprise.concurrent.Trigger() {

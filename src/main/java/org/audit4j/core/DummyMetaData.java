@@ -40,7 +40,7 @@ public class DummyMetaData implements MetaData{
 
     @Override
     public String getOrigin() {
-        return null;
+        return CoreConstants.DEFAULT_ORIGIN;
     }
 
 }

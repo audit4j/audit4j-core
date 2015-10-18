@@ -94,9 +94,6 @@ public class YAMLConfigProvider<T> implements ConfigProvider<T> {
     /**
      * {@inheritDoc}
      * 
-     * @see org.audit4j.core.ConfigProvider#generateConfig(org.audit4j.core.Configuration,
-     *      java.lang.String)
-     * 
      */
     @Override
     public void generateConfig(T config, String filePath) throws ConfigurationException {

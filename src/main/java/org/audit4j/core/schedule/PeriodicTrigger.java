@@ -25,13 +25,23 @@ import java.util.concurrent.TimeUnit;
  * @since 3.0
  */
 public class PeriodicTrigger implements Trigger {
+    
+    /** The period. */
     private final long period;
+    
+    /** The time unit. */
     private final TimeUnit timeUnit;
+    
+    /** The initial delay. */
     private volatile long initialDelay = 0;
+    
+    /** The fixed rate. */
     private volatile boolean fixedRate = false;
 
     /**
      * Create a trigger with the given period in milliseconds.
+     *
+     * @param period the period
      */
     public PeriodicTrigger(long period) {
         this(period, null);
@@ -41,6 +51,9 @@ public class PeriodicTrigger implements Trigger {
      * Create a trigger with the given period and time unit. The time unit will
      * apply not only to the period but also to any 'initialDelay' value, if
      * configured on this Trigger later via {@link #setInitialDelay(long)}.
+     *
+     * @param period the period
+     * @param timeUnit the time unit
      */
     public PeriodicTrigger(long period, TimeUnit timeUnit) {
         //Assert.isTrue(period >= 0, "period must not be negative");
@@ -52,6 +65,8 @@ public class PeriodicTrigger implements Trigger {
      * Specify the delay for the initial execution. It will be evaluated in
      * terms of this trigger's {@link TimeUnit}. If no time unit was explicitly
      * provided upon instantiation, the default is milliseconds.
+     *
+     * @param initialDelay the new initial delay
      */
     public void setInitialDelay(long initialDelay) {
         this.initialDelay = this.timeUnit.toMillis(initialDelay);
@@ -61,6 +76,8 @@ public class PeriodicTrigger implements Trigger {
      * Specify whether the periodic interval should be measured between the
      * scheduled start times rather than between actual completion times. The
      * latter, "fixed delay" behavior, is the default.
+     *
+     * @param fixedRate the new fixed rate
      */
     public void setFixedRate(boolean fixedRate) {
         this.fixedRate = fixedRate;
@@ -68,6 +85,9 @@ public class PeriodicTrigger implements Trigger {
 
     /**
      * Returns the time after which a task should run again.
+     *
+     * @param triggerContext the trigger context
+     * @return the date
      */
     @Override
     public Date nextExecutionTime(TriggerContext triggerContext) {
@@ -79,6 +99,12 @@ public class PeriodicTrigger implements Trigger {
         return new Date(triggerContext.lastCompletionTime().getTime() + this.period);
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     *
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -91,6 +117,12 @@ public class PeriodicTrigger implements Trigger {
         return (this.fixedRate == other.fixedRate && this.initialDelay == other.initialDelay && this.period == other.period);
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see java.lang.Object#hashCode()
+     *
+     */
     @Override
     public int hashCode() {
         return (this.fixedRate ? 17 : 29) + (int) (37 * this.period) + (int) (41 * this.initialDelay);

@@ -12,7 +12,7 @@ import java.util.concurrent.RejectedExecutionException;
  * Adapter that takes a JDK {@code java.util.concurrent.Executor} and exposes a
  * Spring {@link org.audit4j.schedule.springframework.core.task.TaskExecutor} for it. Also
  * detects an extended {@code java.util.concurrent.ExecutorService}, adapting
- * the {@link org.audit4j.schedule.springframework.core.task.AsyncTaskExecutor} interface
+ * the {@link org.audit4j.schedule.AsyncTaskExecutor} interface
  * accordingly.
  * 
  * @author Juergen Hoeller
@@ -22,6 +22,8 @@ import java.util.concurrent.RejectedExecutionException;
  * @see java.util.concurrent.Executors
  */
 public class TaskExecutorAdapter implements AsyncTaskExecutor {
+    
+    /** The concurrent executor. */
     private final Executor concurrentExecutor;
 
     /**
@@ -38,7 +40,8 @@ public class TaskExecutorAdapter implements AsyncTaskExecutor {
 
     /**
      * Delegates to the specified JDK concurrent executor.
-     * 
+     *
+     * @param task the task
      * @see java.util.concurrent.Executor#execute(Runnable)
      */
     @Override
@@ -51,11 +54,23 @@ public class TaskExecutorAdapter implements AsyncTaskExecutor {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.AsyncTaskExecutor#execute(java.lang.Runnable, long)
+     *
+     */
     @Override
     public void execute(Runnable task, long startTimeout) {
         execute(task);
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.AsyncTaskExecutor#submit(java.lang.Runnable)
+     *
+     */
     @Override
     public Future<?> submit(Runnable task) {
         try {
@@ -72,6 +87,12 @@ public class TaskExecutorAdapter implements AsyncTaskExecutor {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.AsyncTaskExecutor#submit(java.util.concurrent.Callable)
+     *
+     */
     @Override
     public <T> Future<T> submit(Callable<T> task) {
         try {

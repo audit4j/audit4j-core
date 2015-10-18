@@ -6,6 +6,7 @@ import org.audit4j.core.AuditManager;
 import org.audit4j.core.Mock.ClassAnnotationMock;
 import org.audit4j.core.util.Log;
 import org.audit4j.core.util.StopWatch;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,5 +38,10 @@ public class IgnoreAuditAnnotationTest {
         manager.audit(ClassAnnotationMock.class, annoMethod, args);
         watch.stop();
         Log.info(watch.getLastTaskTimeMillis());
+    }
+
+    @After
+    public void after() {
+        AuditManager.shutdown();
     }
 }

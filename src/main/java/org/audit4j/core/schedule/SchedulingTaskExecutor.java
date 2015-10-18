@@ -2,7 +2,7 @@ package org.audit4j.core.schedule;
 
 
 /**
- * A {@link org.audit4j.schedule.springframework.core.task.TaskExecutor} extension exposing
+ * A {@link org.audit4j.schedule.TaskExecutor} extension exposing
  * scheduling characteristics that are relevant to potential task submitters.
  * 
  * <p>
@@ -13,16 +13,12 @@ package org.audit4j.core.schedule;
  * <p>
  * Note: {@link SchedulingTaskExecutor} implementations are encouraged to also
  * implement the
- * {@link org.springframework.core.task.AsyncListenableTaskExecutor} interface.
  * This is not required due to the dependency on Spring 4.0's new
- * {@link org.springframework.util.concurrent.ListenableFuture} interface, which
  * would make it impossible for third-party executor implementations to remain
  * compatible with both Spring 4.0 and Spring 3.x.
  * 
  * @author Juergen Hoeller
  * @since 2.0
- * @see org.audit4j.schedule.springframework.core.task.TaskExecutor
- * @see org.springframework.scheduling.commonj.WorkManagerTaskExecutor
  */
 public interface SchedulingTaskExecutor extends AsyncTaskExecutor {
     /**

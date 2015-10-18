@@ -17,9 +17,9 @@ import org.audit4j.core.schedule.util.ClassUtils;
 import org.audit4j.core.schedule.util.ErrorHandler;
 
 /**
- * Implementation of Spring's {@link TaskScheduler} interface, wrapping a native
+ * Implementation of Spring's {@link TaskScheduler} interface, wrapping a native.
+ *
  * {@link java.util.concurrent.ScheduledThreadPoolExecutor}.
- * 
  * @author Juergen Hoeller
  * @author Mark Fisher
  * @since 3.0
@@ -32,17 +32,28 @@ import org.audit4j.core.schedule.util.ErrorHandler;
 public class ThreadPoolTaskScheduler implements AsyncTaskExecutor, SchedulingTaskExecutor, TaskScheduler {
     // ScheduledThreadPoolExecutor.setRemoveOnCancelPolicy(boolean) only
     // available on JDK 7+
+    /** The Constant setRemoveOnCancelPolicyAvailable. */
     private static final boolean setRemoveOnCancelPolicyAvailable = ClassUtils.hasMethod(
             ScheduledThreadPoolExecutor.class, "setRemoveOnCancelPolicy", boolean.class);
+    
+    /** The pool size. */
     private volatile int poolSize = 1;
+    
+    /** The remove on cancel policy. */
     private volatile boolean removeOnCancelPolicy = false;
+    
+    /** The scheduled executor. */
     private volatile ScheduledExecutorService scheduledExecutor;
+    
+    /** The error handler. */
     private volatile ErrorHandler errorHandler;
 
     /**
      * Set the ScheduledExecutorService's pool size. Default is 1.
      * <p>
      * <b>This setting can be modified at runtime, for example through JMX.</b>
+     *
+     * @param poolSize the new pool size
      */
     public void setPoolSize(int poolSize) {
         // Assert.isTrue(poolSize > 0, "'poolSize' must be 1 or higher");
@@ -61,6 +72,8 @@ public class ThreadPoolTaskScheduler implements AsyncTaskExecutor, SchedulingTas
      * fallback otherwise).
      * <p>
      * <b>This setting can be modified at runtime, for example through JMX.</b>
+     *
+     * @param removeOnCancelPolicy the new removes the on cancel policy
      */
     // @UsesJava7
     public void setRemoveOnCancelPolicy(boolean removeOnCancelPolicy) {
@@ -74,6 +87,8 @@ public class ThreadPoolTaskScheduler implements AsyncTaskExecutor, SchedulingTas
 
     /**
      * Set a custom {@link ErrorHandler} strategy.
+     *
+     * @param errorHandler the new error handler
      */
     public void setErrorHandler(ErrorHandler errorHandler) {
         this.errorHandler = errorHandler;
@@ -81,6 +96,13 @@ public class ThreadPoolTaskScheduler implements AsyncTaskExecutor, SchedulingTas
 
     // @UsesJava7
     // @Override
+    /**
+     * Initialize executor.
+     *
+     * @param threadFactory the thread factory
+     * @param rejectedExecutionHandler the rejected execution handler
+     * @return the executor service
+     */
     protected ExecutorService initializeExecutor(ThreadFactory threadFactory,
             RejectedExecutionHandler rejectedExecutionHandler) {
         this.scheduledExecutor = createExecutor(this.poolSize, threadFactory, rejectedExecutionHandler);
@@ -99,15 +121,12 @@ public class ThreadPoolTaskScheduler implements AsyncTaskExecutor, SchedulingTas
      * <p>
      * The default implementation creates a {@link ScheduledThreadPoolExecutor}.
      * Can be overridden in subclasses to provide custom
-     * {@link ScheduledExecutorService} instances.
-     * 
-     * @param poolSize
-     *            the specified pool size
-     * @param threadFactory
-     *            the ThreadFactory to use
-     * @param rejectedExecutionHandler
-     *            the RejectedExecutionHandler to use
+     *
+     * @param poolSize the specified pool size
+     * @param threadFactory the ThreadFactory to use
+     * @param rejectedExecutionHandler the RejectedExecutionHandler to use
      * @return a new ScheduledExecutorService instance
+     * {@link ScheduledExecutorService} instances.
      * @see #afterPropertiesSet()
      * @see java.util.concurrent.ScheduledThreadPoolExecutor
      */
@@ -150,7 +169,8 @@ public class ThreadPoolTaskScheduler implements AsyncTaskExecutor, SchedulingTas
      * Return the current pool size.
      * <p>
      * Requires an underlying {@link ScheduledThreadPoolExecutor}.
-     * 
+     *
+     * @return the pool size
      * @see #getScheduledThreadPoolExecutor()
      * @see java.util.concurrent.ScheduledThreadPoolExecutor#getPoolSize()
      */
@@ -166,6 +186,8 @@ public class ThreadPoolTaskScheduler implements AsyncTaskExecutor, SchedulingTas
      * Return the current setting for the remove-on-cancel mode.
      * <p>
      * Requires an underlying {@link ScheduledThreadPoolExecutor}.
+     *
+     * @return true, if is removes the on cancel policy
      */
     // @UsesJava7
     public boolean isRemoveOnCancelPolicy() {
@@ -183,7 +205,8 @@ public class ThreadPoolTaskScheduler implements AsyncTaskExecutor, SchedulingTas
      * Return the number of currently active threads.
      * <p>
      * Requires an underlying {@link ScheduledThreadPoolExecutor}.
-     * 
+     *
+     * @return the active count
      * @see #getScheduledThreadPoolExecutor()
      * @see java.util.concurrent.ScheduledThreadPoolExecutor#getActiveCount()
      */
@@ -196,6 +219,12 @@ public class ThreadPoolTaskScheduler implements AsyncTaskExecutor, SchedulingTas
     }
 
     // SchedulingTaskExecutor implementation
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.TaskExecutor#execute(java.lang.Runnable)
+     *
+     */
     @Override
     public void execute(Runnable task) {
         Executor executor = getScheduledExecutor();
@@ -206,11 +235,23 @@ public class ThreadPoolTaskScheduler implements AsyncTaskExecutor, SchedulingTas
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.AsyncTaskExecutor#execute(java.lang.Runnable, long)
+     *
+     */
     @Override
     public void execute(Runnable task, long startTimeout) {
         execute(task);
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.AsyncTaskExecutor#submit(java.lang.Runnable)
+     *
+     */
     @Override
     public Future<?> submit(Runnable task) {
         ExecutorService executor = getScheduledExecutor();
@@ -221,6 +262,12 @@ public class ThreadPoolTaskScheduler implements AsyncTaskExecutor, SchedulingTas
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.AsyncTaskExecutor#submit(java.util.concurrent.Callable)
+     *
+     */
     @Override
     public <T> Future<T> submit(Callable<T> task) {
         ExecutorService executor = getScheduledExecutor();
@@ -235,12 +282,24 @@ public class ThreadPoolTaskScheduler implements AsyncTaskExecutor, SchedulingTas
         }
     }
     
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.SchedulingTaskExecutor#prefersShortLivedTasks()
+     *
+     */
     @Override
     public boolean prefersShortLivedTasks() {
         return true;
     }
 
     // TaskScheduler implementation
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.TaskScheduler#schedule(java.lang.Runnable, org.audit4j.core.schedule.Trigger)
+     *
+     */
     @Override
     public ScheduledFuture<?> schedule(Runnable task, Trigger trigger) {
         ScheduledExecutorService executor = getScheduledExecutor();
@@ -253,6 +312,12 @@ public class ThreadPoolTaskScheduler implements AsyncTaskExecutor, SchedulingTas
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.TaskScheduler#schedule(java.lang.Runnable, java.util.Date)
+     *
+     */
     @Override
     public ScheduledFuture<?> schedule(Runnable task, Date startTime) {
         ScheduledExecutorService executor = getScheduledExecutor();
@@ -264,6 +329,12 @@ public class ThreadPoolTaskScheduler implements AsyncTaskExecutor, SchedulingTas
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.TaskScheduler#scheduleAtFixedRate(java.lang.Runnable, java.util.Date, long)
+     *
+     */
     @Override
     public ScheduledFuture<?> scheduleAtFixedRate(Runnable task, Date startTime, long period) {
         ScheduledExecutorService executor = getScheduledExecutor();
@@ -276,6 +347,12 @@ public class ThreadPoolTaskScheduler implements AsyncTaskExecutor, SchedulingTas
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.TaskScheduler#scheduleAtFixedRate(java.lang.Runnable, long)
+     *
+     */
     @Override
     public ScheduledFuture<?> scheduleAtFixedRate(Runnable task, long period) {
         ScheduledExecutorService executor = getScheduledExecutor();
@@ -286,6 +363,12 @@ public class ThreadPoolTaskScheduler implements AsyncTaskExecutor, SchedulingTas
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.TaskScheduler#scheduleWithFixedDelay(java.lang.Runnable, java.util.Date, long)
+     *
+     */
     @Override
     public ScheduledFuture<?> scheduleWithFixedDelay(Runnable task, Date startTime, long delay) {
         ScheduledExecutorService executor = getScheduledExecutor();
@@ -298,6 +381,12 @@ public class ThreadPoolTaskScheduler implements AsyncTaskExecutor, SchedulingTas
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.schedule.TaskScheduler#scheduleWithFixedDelay(java.lang.Runnable, long)
+     *
+     */
     @Override
     public ScheduledFuture<?> scheduleWithFixedDelay(Runnable task, long delay) {
         ScheduledExecutorService executor = getScheduledExecutor();
@@ -308,19 +397,49 @@ public class ThreadPoolTaskScheduler implements AsyncTaskExecutor, SchedulingTas
         }
     }
 
+    /**
+     * Error handling task.
+     *
+     * @param task the task
+     * @param isRepeatingTask the is repeating task
+     * @return the runnable
+     */
     private Runnable errorHandlingTask(Runnable task, boolean isRepeatingTask) {
         return TaskUtils.decorateTaskWithErrorHandler(task, this.errorHandler, isRepeatingTask);
     }
 
+    /**
+     * The Class DelegatingErrorHandlingCallable.
+     *
+     * @param <V> the value type
+     * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+     * @since
+     */
     private static class DelegatingErrorHandlingCallable<V> implements Callable<V> {
+        
+        /** The delegate. */
         private final Callable<V> delegate;
+        
+        /** The error handler. */
         private final ErrorHandler errorHandler;
 
+        /**
+         * Instantiates a new delegating error handling callable.
+         *
+         * @param delegate the delegate
+         * @param errorHandler the error handler
+         */
         public DelegatingErrorHandlingCallable(Callable<V> delegate, ErrorHandler errorHandler) {
             this.delegate = delegate;
             this.errorHandler = errorHandler;
         }
 
+        /**
+         * {@inheritDoc}
+         * 
+         * @see java.util.concurrent.Callable#call()
+         *
+         */
         @Override
         public V call() throws Exception {
             try {

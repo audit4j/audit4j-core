@@ -2,11 +2,14 @@ package org.audit4j.core.schedule;
 
 
 /**
-* {@link Task} implementation defining a {@code Runnable} to be executed according to a
-* given {@link Trigger}.
-*/
+ * The Class TriggerTask.
+ *
+ * {@link Task} implementation defining a {@code Runnable} to be executed according to a
+ * given {@link Trigger}.
+ */
 public class TriggerTask extends Task {
 
+    /** The trigger. */
     private final Trigger trigger;
 
     /**
@@ -22,6 +25,11 @@ public class TriggerTask extends Task {
         this.trigger = trigger;
     }
 
+    /**
+     * Gets the trigger.
+     *
+     * @return the trigger
+     */
     public Trigger getTrigger() {
         return trigger;
     }

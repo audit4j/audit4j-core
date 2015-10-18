@@ -1,8 +1,16 @@
 package org.audit4j.core.schedule;
 
+/**
+ * The Class IntervalTask.
+ *
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ */
 public class IntervalTask extends Task {
 
+    /** The interval. */
     private final long interval;
+    
+    /** The initial delay. */
     private final long initialDelay;
 
     /**
@@ -33,10 +41,20 @@ public class IntervalTask extends Task {
         this(runnable, interval, 0);
     }
 
+    /**
+     * Gets the interval.
+     *
+     * @return the interval
+     */
     public long getInterval() {
         return this.interval;
     }
 
+    /**
+     * Gets the initial delay.
+     *
+     * @return the initial delay
+     */
     public long getInitialDelay() {
         return this.initialDelay;
     }

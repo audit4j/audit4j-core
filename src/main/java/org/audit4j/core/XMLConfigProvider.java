@@ -65,8 +65,6 @@ public class XMLConfigProvider<T> implements ConfigProvider<T> {
     /**
      * {@inheritDoc}
      * 
-     * @see org.audit4j.core.ConfigProvider#generateConfig(org.audit4j.core.Configuration,
-     *      java.lang.String)
      * 
      */
     @Override
