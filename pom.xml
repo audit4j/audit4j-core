@@ -5,7 +5,7 @@
 	<artifactId>audit4j-core</artifactId>
 	<packaging>jar</packaging>
 	<name>Audit4j - Core</name>
-	<version>2.4.0-SNAPSHOT</version>
+	<version>2.4.0-alpha3</version>
 	<url>http://audit4j.org</url>
 	<description>Audit4j - An open-source auditing framework for Java, Core</description>
 	<organization>
@@ -20,14 +20,14 @@
 		</license>
 	</licenses>
 	<issueManagement>
-		<system>mantis</system>
-		<url>http://audit4j.org/bugs</url>
+		<system>github</system>
+		<url>https://github.com/audit4j/audit4j-core/issues</url>
 	</issueManagement>
 	<scm>
 		<connection>scm:git:git@github.com:audit4j/audit4j-core.git</connection>
 		<developerConnection>scm:git:git@github.com:audit4j/audit4j-core.git</developerConnection>
 		<url>scm:git:git@github.com:audit4j/audit4j-core.git</url>
-		<tag>v2.4.0-SNAPSHOT</tag>
+		<tag>v2.4.0-alpha3</tag>
 	</scm>
 	<developers>
 		<developer>
@@ -43,13 +43,11 @@
 			<timezone>+05:30</timezone>
 		</developer>
 	</developers>
-
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
 		<artifactId>oss-parent</artifactId>
 		<version>7</version>
 	</parent>
-
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -178,7 +176,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<configuration>
-					<excludePackageNames>org.audit4j.core.extra.*</excludePackageNames>
+					<excludePackageNames>org.audit4j.core.extra.*:org.audit4j.core.schedule</excludePackageNames>
 				</configuration>
 				<executions>
 					<execution>
@@ -292,7 +290,7 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.9</version>
 				<configuration>
-					<excludePackageNames>org.audit4j.core.extra.*</excludePackageNames>
+					<excludePackageNames>org.audit4j.core.extra.*:org.audit4j.core.schedule</excludePackageNames>
 				</configuration>
 				<reportSets>
 					<reportSet>
