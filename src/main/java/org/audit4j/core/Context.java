@@ -22,7 +22,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.audit4j.core.command.CommandProcessor;
 import org.audit4j.core.command.impl.MetadataCommand;
 import org.audit4j.core.dto.AuditEvent;
@@ -83,7 +82,7 @@ public final class Context {
 
     /** The audit output stream. */
     private static AuditOutputStream<AuditEvent> auditStream;
-    
+
     /** The config context. */
     private static ConcurrentConfigurationContext configContext;
 
@@ -127,13 +126,8 @@ public final class Context {
                 throw new InitializationException(INIT_FAILED, e1);
             }
 
-            // Extract commands.
-            Map<String, String> commands = processCommands(conf.getCommands());
-
             // Execute commands.
-            if (commands != null) {
-                CommandProcessor.getInstance().process(commands);
-            }
+            CommandProcessor.getInstance().process(conf.getCommands());
 
             // Load Registry configurations.
             loadRegistry();
@@ -316,42 +310,6 @@ public final class Context {
     }
 
     /**
-     * Process options.
-     * 
-     * @param optionText
-     *            the option text
-     * @return the map
-     * @since 2.3.0
-     */
-    private static Map<String, String> processCommands(String optionText) {
-        if (optionText == null || optionText.isEmpty()) {
-            return null;
-        }
-        Map<String, String> commands = new HashMap<String, String>();
-        String[] args = extractCommands(optionText);
-        for (String arg : args) {
-            String[] command = StringUtils.split(arg, CoreConstants.EQ_CHAR);
-            if (!PreConfigurationContext.getAvailableCommands().contains(command[0])) {
-                Log.warn("Invalid command: ", command[0], " Please check your configurations. ",
-                        ErrorGuide.getGuide(ErrorGuide.INVALID_COMMAND));
-            }
-            commands.put(command[0], command[1]);
-        }
-        return commands;
-    }
-
-    /**
-     * Extract options.
-     * 
-     * @param optionText
-     *            the option text
-     * @return the string[]
-     */
-    private static String[] extractCommands(String optionText) {
-        return StringUtils.split(optionText);
-    }
-
-    /**
      * Load initial configurations from Registry.
      * 
      * @since 2.3.0
@@ -412,19 +370,23 @@ public final class Context {
      */
     private static void initStreams() {
         Log.info("Initializing Streams...");
-        MetadataCommand command =  (MetadataCommand) PreConfigurationContext.getCommandByName("-metadata");
+        MetadataCommand command = (MetadataCommand) PreConfigurationContext.getCommandByName("-metadata");
         if (command.isAsync()) {
-            AsyncAnnotationAuditOutputStream asyncAnnotationStream = new AsyncAnnotationAuditOutputStream(new AuditProcessOutputStream(Context.getConfigContext()));
-            MetadataLookupStream metadataStream = new MetadataLookupStream(new AuditProcessOutputStream(Context.getConfigContext()));
+            AsyncAnnotationAuditOutputStream asyncAnnotationStream = new AsyncAnnotationAuditOutputStream(
+                    new AuditProcessOutputStream(Context.getConfigContext()));
+            MetadataLookupStream metadataStream = new MetadataLookupStream(new AuditProcessOutputStream(
+                    Context.getConfigContext()));
             AsyncAuditOutputStream asyncStream = new AsyncAuditOutputStream(metadataStream, asyncAnnotationStream);
             auditStream = new AuditEventOutputStream(asyncStream);
         } else {
-            AsyncAnnotationAuditOutputStream asyncAnnotationStream = new AsyncAnnotationAuditOutputStream(new AuditProcessOutputStream(Context.getConfigContext()));
-            AsyncAuditOutputStream asyncStream = new AsyncAuditOutputStream(new AuditProcessOutputStream(Context.getConfigContext()), asyncAnnotationStream);
+            AsyncAnnotationAuditOutputStream asyncAnnotationStream = new AsyncAnnotationAuditOutputStream(
+                    new AuditProcessOutputStream(Context.getConfigContext()));
+            AsyncAuditOutputStream asyncStream = new AsyncAuditOutputStream(new AuditProcessOutputStream(
+                    Context.getConfigContext()), asyncAnnotationStream);
             MetadataLookupStream metadataStream = new MetadataLookupStream(asyncStream);
             auditStream = new AuditEventOutputStream(metadataStream);
         }
-        
+
         Log.info("Audit Streams Initialized.");
     }
 
@@ -469,8 +431,6 @@ public final class Context {
     final static AuditOutputStream<AuditEvent> getAuditStream() {
         return auditStream;
     }
-
-
 
     /**
      * Gets the running status.

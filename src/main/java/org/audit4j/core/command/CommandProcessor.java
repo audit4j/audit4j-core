@@ -18,8 +18,11 @@
 
 package org.audit4j.core.command;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+import org.audit4j.core.CoreConstants;
 import org.audit4j.core.ErrorGuide;
 import org.audit4j.core.PreConfigurationContext;
 import org.audit4j.core.exception.InitializationException;
@@ -57,10 +60,28 @@ public final class CommandProcessor {
                 command.execute();
                 command.stop();
             }
-            Log.info(entry.getKey() + " Initialized.");
+            Log.info(entry.getKey() + " Command Initialized.");
         }
     }
 
+    public void process(String commandText) {
+        if (commandText == null || commandText.isEmpty()) {
+            return;
+        }
+        Map<String, String> commands = new HashMap<String, String>();
+        String[] args = StringUtils.split(commandText);
+        for (String arg : args) {
+            String[] command = StringUtils.split(arg, CoreConstants.EQ_CHAR);
+            if (!PreConfigurationContext.getAvailableCommands().contains(command[0])) {
+                Log.warn("Invalid command: ", command[0], " Please check your configurations. ",
+                        ErrorGuide.getGuide(ErrorGuide.INVALID_COMMAND));
+            }
+            commands.put(command[0], command[1]);
+        }
+        
+        process(commands);
+    }
+    
     /**
      * Instantiates a new command processor.
      */
