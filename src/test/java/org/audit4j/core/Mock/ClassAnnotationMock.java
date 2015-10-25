@@ -13,7 +13,7 @@ public class ClassAnnotationMock {
 	}
 	
 	@IgnoreAudit
-	public void testClassAnnotation_Ignore(String a) {
+	public void testClassAnnotation_Ignore(@AuditField(field = "a") String a) {
 
 	}
 

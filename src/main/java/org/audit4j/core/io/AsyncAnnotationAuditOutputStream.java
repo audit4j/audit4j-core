@@ -49,6 +49,8 @@ public class AsyncAnnotationAuditOutputStream implements AuditOutputStream<Annot
     /** The Constant ENV. */
     static Environment ENV ;
 
+    AnnotationTransformer transformer;
+    
     /** The b. */
     Boundary b = null;
 
@@ -62,13 +64,13 @@ public class AsyncAnnotationAuditOutputStream implements AuditOutputStream<Annot
         ENV = new Environment();
         this.outputStream = outputStream;
         b = new Boundary();
+        transformer = new AnnotationTransformer();
 
         annotationDeferred = Streams.<AnnotationAuditEvent> defer().env(ENV).dispatcher(Environment.RING_BUFFER).get();
         Stream<AnnotationAuditEvent> annostream = annotationDeferred.compose();
         annostream.consume(b.bind(new Consumer<AnnotationAuditEvent>() {
             @Override
             public void accept(AnnotationAuditEvent annotationEvent) {
-                AnnotationTransformer transformer = new AnnotationTransformer();
                 AuditEvent event = transformer.transformToEvent(annotationEvent);
                 // event is null if annotation is not found
                 if (event != null) {

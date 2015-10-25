@@ -18,7 +18,7 @@ public class IgnoreAuditAnnotationTest {
     }
 
     @Test
-    public void testAnnotation_selection_marked_deidentify_from_right() {
+    public void testIgnoreAuditAnnotation() {
         AuditManager manager = AuditManager.getInstance();
         Method annoMethod = null;
         try {

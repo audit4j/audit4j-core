@@ -18,7 +18,6 @@
 
 package org.audit4j.core.annotation;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 /**
@@ -38,12 +37,6 @@ public class IgnoreAuditAnnotationAttributes {
 	 * @return the boolean
 	 */
 	public Boolean hasAnnotation(final Method method) {
-		final Annotation[] annotations = method.getAnnotations();
-		for (final Annotation annotation : annotations) {
-			if (annotation instanceof IgnoreAudit) {
-				return true;
-			}
-		}
-		return false;
+	    return method.isAnnotationPresent(IgnoreAudit.class);
 	}
 }

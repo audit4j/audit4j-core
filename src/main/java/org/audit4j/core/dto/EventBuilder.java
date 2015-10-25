@@ -96,6 +96,19 @@ public class EventBuilder {
 	}
 	
 	/**
+	 * Adds the tag.
+	 *
+	 * @param name the name
+	 * @return the event builder
+	 * 
+	 * @since 2.4.0
+	 */
+	public EventBuilder addTag(String name){
+	    event.setTag(name);
+	    return this;
+	}
+	
+	/**
 	 * Builds the.
 	 *
 	 * @return the audit event

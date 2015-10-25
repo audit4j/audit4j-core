@@ -37,6 +37,24 @@ import org.audit4j.core.dto.Field;
  */
 public class AnnotationTransformer {
 
+    /** The audit attributes. */
+    private final AuditAnnotationAttributes auditAttributes;
+    
+    /** The ignore attributes. */
+    private final IgnoreAuditAnnotationAttributes ignoreAttributes;
+    
+    /** The field attributes. */
+    private final AuditFieldAnnotationAttribute fieldAttributes;
+    
+    /**
+     * Instantiates a new annotation transformer.
+     */
+    public AnnotationTransformer(){
+        auditAttributes = new AuditAnnotationAttributes();
+        ignoreAttributes = new IgnoreAuditAnnotationAttributes();
+        fieldAttributes = new AuditFieldAnnotationAttribute();
+    }
+    
     /**
      * Transform annotation informations to Audit Event object.
      * 
@@ -46,9 +64,6 @@ public class AnnotationTransformer {
      * @since 2.0.0
      */
     public AuditEvent transformToEvent(AnnotationAuditEvent annotationEvent) {
-        final AuditAnnotationAttributes auditAttributes = new AuditAnnotationAttributes();
-        final IgnoreAuditAnnotationAttributes ignoreAttributes = new IgnoreAuditAnnotationAttributes();
-        final AuditFieldAnnotationAttribute fieldAttributes = new AuditFieldAnnotationAttribute();
         List<Field> fields = null;
         AuditEvent event = null;
         String action = null;
