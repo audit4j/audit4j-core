@@ -29,7 +29,8 @@ import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.dto.Field;
 
 /**
- * The Class AnnotationTransformer.
+ * The Class AnnotationTransformer use to transform annotation information in to
+ * simple audit event.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
@@ -39,22 +40,22 @@ public class AnnotationTransformer {
 
     /** The audit attributes. */
     private final AuditAnnotationAttributes auditAttributes;
-    
+
     /** The ignore attributes. */
     private final IgnoreAuditAnnotationAttributes ignoreAttributes;
-    
+
     /** The field attributes. */
     private final AuditFieldAnnotationAttribute fieldAttributes;
-    
+
     /**
      * Instantiates a new annotation transformer.
      */
-    public AnnotationTransformer(){
+    public AnnotationTransformer() {
         auditAttributes = new AuditAnnotationAttributes();
         ignoreAttributes = new IgnoreAuditAnnotationAttributes();
         fieldAttributes = new AuditFieldAnnotationAttribute();
     }
-    
+
     /**
      * Transform annotation informations to Audit Event object.
      * 
@@ -102,7 +103,7 @@ public class AnnotationTransformer {
             event.setActor(annotationEvent.getActor());
             event.setOrigin(annotationEvent.getOrigin());
         }
-        
+
         return event;
     }
 }
