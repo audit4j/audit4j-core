@@ -111,7 +111,6 @@ public final class AuditManager {
     public static AuditManager getInstance() {
         init();
         synchronized (AuditManager.class) {
-
             if (auditManager == null) {
                 auditManager = new AuditManager();
             }
