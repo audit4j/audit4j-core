@@ -31,17 +31,17 @@ public final class CoreConstants {
     public static final String APP_NAME = "Audit4j";
 
     /** The Constant RELEASE_VERSION. */
-    public static final String RELEASE_VERSION = "2.4.0-alpha3";
+    public static final String RELEASE_VERSION = "2.4.0";
 
     /** The Constant RELEASE_DATE. */
-    public static final String RELEASE_DATE = "2015-08-11T12:40:21.077Z";
+    public static final String RELEASE_DATE = "2015-11-01T12:40:21.077Z";
 
     /** The Constant SUPPORT_JAVA_VERSION. */
     public static final String SUPPORT_JAVA_VERSION = "7";
 
     /** The Constant AUDIT_EXTENTION. */
     public static final String AUDIT_EXTENTION = ".audit";
-    
+
     /** The Constant AUDIT_ARCHIVE_EXTENTION. */
     public static final String AUDIT_ARCHIVE_EXTENTION = ".auditarchive";
 
@@ -50,6 +50,27 @@ public final class CoreConstants {
 
     /** The Constant CONFIG_FILE_NAME. */
     public static final String DEFAULT_CONFIG_FILE_NAME = "audit4j.conf.yml";
+
+    /** The Constant DEFAULT_ACTOR. */
+    public static final String DEFAULT_ACTOR = "Default User";
+
+    /** The Constant DEFAULT_ORIGIN. */
+    public static final String DEFAULT_ORIGIN = "Default Origin";
+
+    /** The Constant ACTION. */
+    public static final String DEFAULT_ACTION = "action";
+
+    /** The Constant SALT. */
+    public static final String DEFAULT_SECURE_SALT = "232332324";
+
+    /** The Constant DEFAULT_SECURE_KEY. */
+    public static final String DEFAULT_SECURE_KEY = "Aud1T4jSecureKey";
+
+    /** The Constant EMBEDED_DB_NAME. */
+    public static final String DEFAULT_EMBEDED_DB_NAME = "audit4j";
+
+    /** The Constant DEFAULT_DATE_FORMAT. */
+    public static final String DEFAULT_DATE_FORMAT = "MM/dd/yyyy HH:mm:ss";
 
     /** The Constant COLON_CHAR. */
     public static final char COLON_CHAR = ':';
@@ -65,7 +86,7 @@ public final class CoreConstants {
 
     /** The Constant COMMA_CHAR. */
     public static final char COMMA_CHAR = ',';
-    
+
     /** The Constant COMMA. */
     public static final String COMMA = ",";
 
@@ -114,29 +135,10 @@ public final class CoreConstants {
     /** The Constant NULL. */
     public static final String NULL = "null";
 
-    /** The Constant DEFAULT_ACTOR. */
-    public static final String DEFAULT_ACTOR = "Default User";
-
-    public static final String DEFAULT_ORIGIN = "Default Origin";
-    
-    /** The Constant ACTION. */
-    public static final String DEFAULT_ACTION = "action";
-
-    /** The Constant SALT. */
-    public static final String DEFAULT_SECURE_SALT = "232332324";
-
-    /** The Constant DEFAULT_SECURE_KEY. */
-    public static final String DEFAULT_SECURE_KEY = "Aud1T4jSecureKey";
-
     /** The Constant IV. */
     public static final String IV = "e675f725e675f725";
 
     /** The Constant ENCODE_UTF8. */
     public static final String ENCODE_UTF8 = "UTF-8";
 
-    /** The Constant EMBEDED_DB_NAME. */
-    public static final String DEFAULT_EMBEDED_DB_NAME = "audit4j";
-
-    /** The Constant DEFAULT_DATE_FORMAT. */
-    public static final String DEFAULT_DATE_FORMAT = "MM/dd/yyyy HH:mm:ss";
 }
