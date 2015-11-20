@@ -18,28 +18,27 @@
 
 package org.audit4j.core;
 
-import java.io.Serializable;
 
 /**
  * The Interface MetaData.
- *
+ * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
  * @since 1.0.0
  */
-public interface MetaData extends Serializable{
-    
-	/**
-	 * Gets the actor from external implementation.
-	 *
-	 * @return the actor
-	 */
-	String getActor();
-	
-	/**
-	 * Gets the origin from external implementation.
-	 *
-	 * @return the origin
-	 */
-	String getOrigin();
+public interface MetaData {
+
+    /**
+     * Gets the actor from external implementation.
+     * 
+     * @return the actor
+     */
+    String getActor();
+
+    /**
+     * Gets the origin from external implementation.
+     * 
+     * @return the origin
+     */
+    String getOrigin();
 }

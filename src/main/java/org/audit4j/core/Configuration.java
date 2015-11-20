@@ -63,7 +63,7 @@ public class Configuration implements Serializable {
     
     /** The jmx configurations. */
     private JMXConfig jmx;
-
+    
     /**
      * Instantiates a new configuration.
      */

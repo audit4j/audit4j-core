@@ -18,12 +18,15 @@
 
 package org.audit4j.core;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.audit4j.core.annotation.AuditAnnotationAttributes;
-import org.audit4j.core.annotation.AuditFieldAnnotationAttribute;
-import org.audit4j.core.annotation.IgnoreAuditAnnotationAttributes;
-import org.audit4j.core.annotation.SelectionType;
+import org.audit4j.core.annotation.Audit;
+import org.audit4j.core.annotation.AuditField;
+import org.audit4j.core.annotation.DeIdentify;
+import org.audit4j.core.annotation.IgnoreAudit;
 import org.audit4j.core.dto.AnnotationAuditEvent;
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.dto.Field;
@@ -38,24 +41,12 @@ import org.audit4j.core.dto.Field;
  */
 public class AnnotationTransformer {
 
-    /** The audit attributes. */
-    private final AuditAnnotationAttributes auditAttributes;
+    private final static String ACTION = "action";
 
-    /** The ignore attributes. */
-    private final IgnoreAuditAnnotationAttributes ignoreAttributes;
-
-    /** The field attributes. */
-    private final AuditFieldAnnotationAttribute fieldAttributes;
-
-    /**
-     * Instantiates a new annotation transformer.
-     */
-    public AnnotationTransformer() {
-        auditAttributes = new AuditAnnotationAttributes();
-        ignoreAttributes = new IgnoreAuditAnnotationAttributes();
-        fieldAttributes = new AuditFieldAnnotationAttribute();
-    }
-
+    // Default Fields serializer
+    private ObjectSerializer serializer = new ObjectToFieldsSerializer();
+    
+    
     /**
      * Transform annotation informations to Audit Event object.
      * 
@@ -65,45 +56,108 @@ public class AnnotationTransformer {
      * @since 2.0.0
      */
     public AuditEvent transformToEvent(AnnotationAuditEvent annotationEvent) {
-        List<Field> fields = null;
         AuditEvent event = null;
-        String action = null;
-        String tag = null;
 
-        if (auditAttributes.hasAnnotation(annotationEvent.getClazz())
-                && !ignoreAttributes.hasAnnotation(annotationEvent.getMethod())) {
+        if (annotationEvent.getClazz().isAnnotationPresent(Audit.class)
+                && !annotationEvent.getMethod().isAnnotationPresent(IgnoreAudit.class)) {
             event = new AuditEvent();
-            final SelectionType selection = auditAttributes.getSelection(annotationEvent.getClazz());
-            if (selection.equals(SelectionType.ALL)) {
-                fields = fieldAttributes.getAllFields(annotationEvent.getMethod(), annotationEvent.getArgs());
-            } else if (selection.equals(SelectionType.MARKED)) {
-                fields = fieldAttributes.getMarkedFields(annotationEvent.getMethod(), annotationEvent.getArgs());
+            Audit audit = annotationEvent.getClazz().getAnnotation(Audit.class);
+
+            // Extract fields
+            event.setFields(getFields(annotationEvent.getMethod(), annotationEvent.getArgs()));
+
+            // Extract Actor
+            String annotationAction = audit.action();
+            if (ACTION.equals(annotationAction)) {
+                event.setAction(annotationEvent.getMethod().getName());
+            } else {
+                event.setAction(annotationAction);
             }
-            action = auditAttributes.getAction(annotationEvent.getClazz(), annotationEvent.getMethod());
-            tag = auditAttributes.getTag(annotationEvent.getClazz(), annotationEvent.getMethod());
-            event.setAction(action);
-            event.setTag(tag);
-            event.setFields(fields);
+
+            // Extract repository
+            event.setRepository(audit.repository());
+
             event.setActor(annotationEvent.getActor());
             event.setOrigin(annotationEvent.getOrigin());
-        } else if (!auditAttributes.hasAnnotation(annotationEvent.getClazz())
-                && auditAttributes.hasAnnotation(annotationEvent.getMethod())) {
+        } else if (!annotationEvent.getClazz().isAnnotationPresent(Audit.class)
+                && annotationEvent.getMethod().isAnnotationPresent(Audit.class)) {
             event = new AuditEvent();
-            final SelectionType selection = auditAttributes.getSelection(annotationEvent.getMethod());
-            if (selection.equals(SelectionType.ALL)) {
-                fields = fieldAttributes.getAllFields(annotationEvent.getMethod(), annotationEvent.getArgs());
-            } else if (selection.equals(SelectionType.MARKED)) {
-                fields = fieldAttributes.getMarkedFields(annotationEvent.getMethod(), annotationEvent.getArgs());
+            Audit audit = annotationEvent.getMethod().getAnnotation(Audit.class);
+
+            // Extract fields
+            event.setFields(getFields(annotationEvent.getMethod(), annotationEvent.getArgs()));
+
+            // Extract Actor
+            String annotationAction = audit.action();
+            if (ACTION.equals(annotationAction)) {
+                event.setAction(annotationEvent.getMethod().getName());
+            } else {
+                event.setAction(annotationAction);
             }
-            action = auditAttributes.getAction(annotationEvent.getMethod());
-            tag = auditAttributes.getTag(annotationEvent.getMethod());
-            event.setAction(action);
-            event.setTag(tag);
-            event.setFields(fields);
+
+            // Extract repository
+            event.setRepository(audit.repository());
+
             event.setActor(annotationEvent.getActor());
             event.setOrigin(annotationEvent.getOrigin());
         }
 
         return event;
+    }
+
+    /**
+     * Extract fields based on annotations.
+     * 
+     * @param method
+     *            : Class method with annotations.
+     * @param params
+     *            : Method parameter values.
+     * 
+     * @return list of fields extracted from method.
+     * 
+     * @since 2.4.1
+     */
+    private List<Field> getFields(final Method method, final Object[] params) {
+        final Annotation[][] parameterAnnotations = method.getParameterAnnotations();
+
+        final List<Field> fields = new ArrayList<Field>();
+
+        int i = 0;
+        String paramName = null;
+        for (final Annotation[] annotations : parameterAnnotations) {
+            final Object object = params[i++];
+            boolean ignoreFlag = false;
+            DeIdentify deidentify = null;
+            for (final Annotation annotation : annotations) {
+                if (annotation instanceof IgnoreAudit) {
+                    ignoreFlag = true;
+                    break;
+                }
+                if (annotation instanceof AuditField) {
+                    final AuditField field = (AuditField) annotation;
+                    paramName = field.field();
+                }
+                if (annotation instanceof DeIdentify) {
+                    deidentify = (DeIdentify) annotation;
+                }
+            }
+
+            if (ignoreFlag) {
+
+            } else {
+                if (null == paramName) {
+                    paramName = "arg" + i;
+                }
+                serializer.serialize(fields, object, paramName, deidentify);
+            }
+
+            paramName = null;
+        }
+        return fields;
+    }
+    
+
+    public void setSerializer(ObjectSerializer serializer) {
+        this.serializer = serializer;
     }
 }

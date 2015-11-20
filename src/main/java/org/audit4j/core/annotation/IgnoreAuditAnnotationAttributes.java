@@ -27,6 +27,7 @@ import java.lang.reflect.Method;
  * 
  * @since 2.2.0
  */
+@Deprecated
 public class IgnoreAuditAnnotationAttributes {
 
 	/**

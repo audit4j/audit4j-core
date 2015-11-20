@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.audit4j.core.dto.Field;
-import org.audit4j.core.util.ToString;
 
 /**
  * The Class AuditFieldAnnotationAttribute.
@@ -33,6 +32,7 @@ import org.audit4j.core.util.ToString;
  * 
  * @since 1.0.0
  */
+@Deprecated
 public class AuditFieldAnnotationAttribute {
 
 	/**
@@ -55,7 +55,7 @@ public class AuditFieldAnnotationAttribute {
 		Class<?> paramType = null;
 		for (final Annotation[] annotations : parameterAnnotations) {
 			final Object object = arg1[i++];
-			paramValue = ToString.toStringIfNotImplemented(object);
+			//paramValue = ObjectToStringSerializer.(object);
 			paramType = object.getClass();
 			for (final Annotation annotation : annotations) {
 				if (annotation instanceof AuditField) {
@@ -102,7 +102,7 @@ public class AuditFieldAnnotationAttribute {
 		Class<?> paramType = null;
 		for (final Annotation[] annotations : parameterAnnotations) {
 			final Object object = arg1[i++];
-			paramValue = ToString.toStringIfNotImplemented(object);
+			//paramValue = ObjectToStringSerializer.toStringIfNotImplemented(object);
 			paramType = object.getClass();
 			for (final Annotation annotation : annotations) {
 				if (annotation instanceof AuditField) {

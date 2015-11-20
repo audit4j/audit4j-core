@@ -7,8 +7,6 @@ import org.audit4j.core.Audit4jTestBase;
 import org.audit4j.core.Mock.ClassAnnotationMock;
 import org.audit4j.core.Mock.NullAnnotationMock;
 import org.audit4j.core.dto.AnnotationAuditEvent;
-import org.audit4j.core.util.Log;
-import org.audit4j.core.util.StopWatch;
 
 /**
  * The Class IntTestBase.
@@ -17,9 +15,6 @@ import org.audit4j.core.util.StopWatch;
  */
 public class IntTestBase extends Audit4jTestBase {
     
-    /** The watch. */
-    StopWatch watch;
-
     /**
      * Gets the sample annotation event.
      *
@@ -63,24 +58,6 @@ public class IntTestBase extends Audit4jTestBase {
     }
 
     /**
-     * Watch start.
-     *
-     * @param name the name
-     */
-    protected void watchStart(String name) {
-        watch = new StopWatch();
-        watch.start(name);
-    }
-
-    /**
-     * Watch stop.
-     */
-    protected void watchStop() {
-        watch.stop();
-        Log.info(watch.getLastTaskName() + "=" + watch.getLastTaskTime() + ":" + watch.getLastTaskTimeMillis() + "ms");
-    }
-
-    /**
      * Safetly flush file.
      *
      * @param filePath the file path
@@ -105,15 +82,16 @@ public class IntTestBase extends Audit4jTestBase {
     /**
      * Before.
      */
+    @Override
     protected void before(){
-        
+        super.before();
     }
     
     /**
      * After.
      */
+    @Override
     protected void after(){
-        watch.reset();
-        watch = null;
+        super.after();
     }
 }

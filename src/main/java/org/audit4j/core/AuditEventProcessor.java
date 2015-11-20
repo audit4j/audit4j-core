@@ -19,39 +19,71 @@
 package org.audit4j.core;
 
 import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.exception.HandlerException;
+import org.audit4j.core.filter.AuditEventFilter;
+import org.audit4j.core.handler.Handler;
+import org.audit4j.core.util.Log;
 
 /**
- * The Class AuditEventProcessor.
+ * This class is used to process audit events. Processing includes, formatting,
+ * validating and execute handlers.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 1.0
  */
-public class AuditEventProcessor extends AuditProcessor<AuditEvent> {
+public class AuditEventProcessor {
 
-    /** The instance. */
-    private static AuditEventProcessor instance;
+    /** The conf. */
+    private ConcurrentConfigurationContext configContext;
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Process the audit event.
      * 
-     * @see
-     * org.audit4j.core.AuditProcessor#process(org.audit4j.core.dto.AuditBase)
+     * @param event
+     *            the event
      */
-    @Override
     public void process(AuditEvent event) {
-        super.executeHandlers(event);
+        boolean execute = true;
+        if (!configContext.getFilters().isEmpty()) {
+            for (AuditEventFilter filter : configContext.getFilters()) {
+                if (!filter.accepts(event)) {
+                    execute = false;
+                    break;
+                }
+            }
+        }
+        if (execute) {
+            executeHandlers(event);
+        }
     }
 
     /**
-     * Gets the single instance of AuditHelper.
+     * Execute handlers.
      * 
-     * @return single instance of AuditHelper
+     * @param event
+     *            the event
      */
-    public static AuditEventProcessor getInstance() {
-        synchronized (AuditEventProcessor.class) {
-            if (instance == null) {
-                instance = new AuditEventProcessor();
+    void executeHandlers(AuditEvent event) {
+        String formattedEvent = configContext.getLayout().format(event);
+        for (final Handler handler : configContext.getHandlers()) {
+            handler.setAuditEvent(event);
+            handler.setQuery(formattedEvent);
+            try {
+                handler.handle();
+            } catch (HandlerException e) {
+                Log.warn("Failed to submit audit event.", e);
             }
         }
-        return instance;
+    }
+
+    /**
+     * Sets the config context.
+     * 
+     * @param configContext
+     *            the new config context
+     */
+    public void setConfigContext(ConcurrentConfigurationContext configContext) {
+        this.configContext = configContext;
     }
 }

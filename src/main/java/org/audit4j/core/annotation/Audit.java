@@ -51,15 +51,29 @@ public @interface Audit {
 
     /**
      * Selection.
-     * 
+     *
      * @return the string
+     * @deprecated : this attribute is no longer using.
+     * 
+     * Selection.
      */
+    @Deprecated
     public SelectionType selection() default SelectionType.ALL;
 
+    /**
+     * Tag.
+     *
+     * @return the string
+     * @deprecated see repository for more information.
+     * Repository.
+     */
+    @Deprecated
+    public String tag() default "default";
+    
     /**
      * Repository.
      *
      * @return the string
      */
-    public String tag() default "default";
+    public String repository() default "default";
 }

@@ -21,8 +21,6 @@ package org.audit4j.core.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.audit4j.core.util.ToString;
-
 /**
  * The Class AuditEvent.
  * 
@@ -49,6 +47,9 @@ public class AuditEvent extends Event {
 
     /** The tag. */
     private String tag;
+    
+    /** The repository. */
+    private String repository;
 
     /**
      * Instantiates a new audit event.
@@ -167,7 +168,7 @@ public class AuditEvent extends Event {
         if (value == null) {
             this.fields.add(new Field(name, null, null));
         } else {
-            this.fields.add(new Field(name, ToString.toStringIfNotImplemented(value), type.toString()));
+            this.fields.add(new Field(name, value.toString(), type.toString()));
         }
     }
 
@@ -183,7 +184,7 @@ public class AuditEvent extends Event {
         if (value == null) {
             this.fields.add(new Field(name, null, null));
         } else {
-            this.fields.add(new Field(name, ToString.toStringIfNotImplemented(value), value.getClass().getName()));
+            this.fields.add(new Field(name, value.toString(), value.getClass().getName()));
         }
     }
 
@@ -232,5 +233,25 @@ public class AuditEvent extends Event {
      */
     public void setTag(final String tag) {
         this.tag = tag;
+    }
+
+    /**
+     * Gets the repository.
+     *
+     * @return the repository
+     */
+    public String getRepository() {
+        return repository;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.audit4j.core.dto.Event#setRepository(java.lang.String)
+     *
+     */
+    @Override
+    public void setRepository(String repository) {
+        this.repository = repository;
     }
 }

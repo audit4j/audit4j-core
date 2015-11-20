@@ -72,6 +72,8 @@ public final class CoreConstants {
     /** The Constant DEFAULT_DATE_FORMAT. */
     public static final String DEFAULT_DATE_FORMAT = "MM/dd/yyyy HH:mm:ss";
 
+    public static final String DEFAULT = "default";
+    
     /** The Constant COLON_CHAR. */
     public static final char COLON_CHAR = ':';
 
@@ -131,9 +133,14 @@ public final class CoreConstants {
 
     /** The Constant NEW_LINE. */
     public static final String NEW_LINE = "\n";
+    
+    public static final char DOLLAR_CHAR = '$';
 
     /** The Constant NULL. */
     public static final String NULL = "null";
+    
+    /** The Constant EMPTY. */
+    public static final String EMPTY = "<empty>";
 
     /** The Constant IV. */
     public static final String IV = "e675f725e675f725";

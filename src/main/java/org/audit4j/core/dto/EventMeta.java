@@ -13,6 +13,7 @@ public class EventMeta {
     public String client;
 
     /** The repository. */
+    @Deprecated
     public String repository;
 
     /**
@@ -39,6 +40,7 @@ public class EventMeta {
      * 
      * @return the repository
      */
+    @Deprecated
     public String getRepository() {
         return repository;
     }
@@ -49,6 +51,7 @@ public class EventMeta {
      * @param repository
      *            the new repository
      */
+    @Deprecated
     public void setRepository(String repository) {
         this.repository = repository;
     }

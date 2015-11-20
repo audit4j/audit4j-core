@@ -16,16 +16,18 @@
  * limitations under the License.
  */
 
-package org.audit4j.core.util;
+package org.audit4j.core;
 
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.List;
 
-import org.audit4j.core.CoreConstants;
+import org.audit4j.core.annotation.DeIdentify;
+import org.audit4j.core.annotation.DeIdentifyUtil;
+import org.audit4j.core.annotation.IgnoreAudit;
 import org.audit4j.core.exception.Audit4jRuntimeException;
 
 /**
@@ -35,10 +37,18 @@ import org.audit4j.core.exception.Audit4jRuntimeException;
  * 
  * @since 2.3.0
  */
-public final class ToString {
+public final class ObjectToStringSerializer implements ObjectSerializer {
 
     /** The Constant visited. */
     private static final ArrayList<Object> visited = new ArrayList<Object>();
+
+    @Override
+    public void serialize(List<org.audit4j.core.dto.Field> auditFields, Object object,
+            String objectName, DeIdentify deidentify) {
+        visited.clear();
+        String text = toString(object, deidentify);
+        auditFields.add(new org.audit4j.core.dto.Field(objectName, text, object.getClass().getName()));
+    }
 
     /**
      * Converts an object to a string representation that lists all fields.
@@ -48,14 +58,19 @@ public final class ToString {
      * @return a string with the object's class name and all field names and
      *         values
      */
-    public final static String toString(Object object) {
+    public final static String toString(Object object, DeIdentify deidentify) {
         StringBuilder builder = new StringBuilder();
         if (object == null) {
             return CoreConstants.NULL;
         }
         Class<?> clazz = object.getClass();
         if (isPrimitive(object)) {
-            return String.valueOf(object);
+            String primitiveValue = String.valueOf(object);
+            if (deidentify != null) {
+                primitiveValue = DeIdentifyUtil.deidentify(primitiveValue, deidentify.left(), deidentify.right(),
+                        deidentify.fromLeft(), deidentify.fromRight());
+            }
+            return primitiveValue;
         }
 
         if (visited.contains(object)) {
@@ -75,7 +90,7 @@ public final class ToString {
                     if (clazz.getComponentType().isPrimitive())
                         builder.append(objVal);
                     else
-                        builder.append(toString(objVal));
+                        builder.append(toString(objVal, null));
                 }
                 return builder.append(CoreConstants.CLOSE_BRACES_CHAR).toString();
             }
@@ -87,17 +102,19 @@ public final class ToString {
                 AccessibleObject.setAccessible(fields, true);
 
                 for (Field field : fields) {
-                    if (!Modifier.isStatic(field.getModifiers())) {
+                    if (!Modifier.isStatic(field.getModifiers()) && !field.isAnnotationPresent(IgnoreAudit.class)) {
                         if (!builder.toString().endsWith(String.valueOf(CoreConstants.OPEN_BRACKETS_CHAR))) {
                             builder.append(CoreConstants.COMMA_CHAR);
                         }
                         builder.append(field.getName()).append(CoreConstants.EQ_CHAR);
+
+                        String paramValue;
                         try {
                             Object objValue = field.get(object);
                             if (isPrimitive(object)) {
-                                builder.append(String.valueOf(object));
+                                paramValue = String.valueOf(object);
                             } else {
-                                builder.append(toString(objValue));
+                                paramValue = toString(objValue, null);
                             }
                         } catch (IllegalArgumentException e) {
                             throw new Audit4jRuntimeException(
@@ -109,6 +126,13 @@ public final class ToString {
                             throw new Audit4jRuntimeException(
                                     "Error due to converting object to string representation. ", e);
                         }
+
+                        if (field.isAnnotationPresent(DeIdentify.class)) {
+                            DeIdentify deidentifyAnn = field.getAnnotation(DeIdentify.class);
+                            paramValue = DeIdentifyUtil.deidentify(paramValue, deidentifyAnn.left(), deidentifyAnn.right(),
+                                    deidentifyAnn.fromLeft(), deidentifyAnn.fromRight());
+                        }
+                        builder.append(paramValue);
                     }
                 }
                 builder.append(CoreConstants.CLOSE_BRACKETS_CHAR);
@@ -131,45 +155,5 @@ public final class ToString {
             return true;
         }
         return false;
-    }
-
-    /**
-     * Checks for to string.
-     * 
-     * @param object
-     *            the object
-     * @return true, if successful
-     */
-    public final static boolean hasToStringMethod(Object object) {
-        Class<?> clazz = object.getClass();
-        try {
-            Method method = clazz.getDeclaredMethod("toString");
-            if (method != null) {
-                return true;
-            }
-        } catch (NoSuchMethodException e) {
-            return false;
-        } catch (SecurityException e) {
-            return false;
-        }
-        return false;
-
-    }
-
-    /**
-     * Generate to string has not.
-     * 
-     * @param object
-     *            the object
-     * @return the string
-     */
-    public final static String toStringIfNotImplemented(Object object) {
-        String paramValue;
-        if (ToString.hasToStringMethod(object)) {
-            paramValue = object.toString();
-        } else {
-            paramValue = ToString.toString(object);
-        }
-        return paramValue;
     }
 }

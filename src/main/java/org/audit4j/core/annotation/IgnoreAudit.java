@@ -36,7 +36,7 @@ import java.lang.annotation.Target;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = { ElementType.METHOD })
+@Target(value = { ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER })
 public @interface IgnoreAudit {
 
 }

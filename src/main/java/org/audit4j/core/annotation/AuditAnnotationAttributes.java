@@ -28,6 +28,7 @@ import java.lang.reflect.Method;
  * 
  * @since 1.0.0
  */
+@Deprecated
 public class AuditAnnotationAttributes {
 
     /** The Constant ACTION. */
@@ -58,6 +59,13 @@ public class AuditAnnotationAttributes {
         return method.isAnnotationPresent(Audit.class);
     }
 
+    public Audit getAnnotation(final Class<?> clazz){
+        return clazz.getAnnotation(Audit.class);
+    }
+    
+    public Audit getAnnotation(final Method method) {
+        return method.getAnnotation(Audit.class);
+    }
     /**
      * Gets the selection.
      * 

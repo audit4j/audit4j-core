@@ -6,6 +6,8 @@ import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.dto.EventBuilder;
 import org.audit4j.core.handler.ConsoleAuditHandler;
 import org.audit4j.core.layout.SimpleLayout;
+import org.audit4j.core.util.Log;
+import org.audit4j.core.util.StopWatch;
 
 /**
  * The Class Audit4jTestBase.
@@ -14,6 +16,9 @@ import org.audit4j.core.layout.SimpleLayout;
  */
 public class Audit4jTestBase {
 
+    /** The watch. */
+    protected StopWatch watch;
+    
     protected AuditEvent getSampleAuditEvent() {
         String actor = "Dummy Actor";
         EventBuilder builder = new EventBuilder();
@@ -29,5 +34,40 @@ public class Audit4jTestBase {
         config.setLayout(new SimpleLayout());
         config.setMetaData(new DummyMetaData());
         return config;
+    }
+    
+    /**
+     * Watch start.
+     *
+     * @param name the name
+     */
+    protected void watchStart(String name) {
+        watch = new StopWatch();
+        watch.start(name);
+    }
+
+    /**
+     * Watch stop.
+     */
+    protected void watchStop() {
+        watch.stop();
+        Log.info(watch.getLastTaskName() + "=" + watch.getLastTaskTime() + ":" + watch.getLastTaskTimeMillis() + "ms");
+    }
+    
+    
+    
+    /**
+     * Before.
+     */
+    protected void before(){
+        
+    }
+    
+    /**
+     * After.
+     */
+    protected void after(){
+        watch.reset();
+        watch = null;
     }
 }

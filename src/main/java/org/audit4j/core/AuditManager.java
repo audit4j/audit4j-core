@@ -43,16 +43,7 @@ public final class AuditManager {
 
     /** The audit manager. */
     private static AuditManager auditManager;
-
-    /**
-     * Initializing context and streams.
-     * 
-     * @since 2.0.0
-     */
-    private static void init() {
-        Context.init();
-    }
-
+    
     /**
      * Audit.
      * 
@@ -109,9 +100,9 @@ public final class AuditManager {
      * @return single instance of AuditHelper
      */
     public static AuditManager getInstance() {
-        init();
         synchronized (AuditManager.class) {
             if (auditManager == null) {
+                Context.init();
                 auditManager = new AuditManager();
             }
         }
@@ -191,6 +182,7 @@ public final class AuditManager {
      * Shutdown.
      */
     public static void shutdown() {
+        auditManager = null;
         Context.stop();
     }
     

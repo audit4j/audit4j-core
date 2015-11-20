@@ -12,7 +12,12 @@ public class MethodAnnotationMock {
 	public void testAnnotation_selection_all(Integer a, String b, MethodAnnotationMock c, Object d, String e) {
 
 	}
+	
+	@Audit
+    public void testAnnotation_Complex(@AuditField(field = "a") String a, @AuditField(field = "object") TestSuperObjectMock object) {
 
+    }
+    
 	@Audit(selection = SelectionType.MARKED)
 	public void testAnnotation_selection_marked(@AuditField(field = "a") Integer a, @AuditField(field = "b") String b,
 			@AuditField(field = "c") MethodAnnotationMock c, Object d,

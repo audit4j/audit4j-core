@@ -19,7 +19,6 @@
 package org.audit4j.core.io;
 
 import org.audit4j.core.AuditEventProcessor;
-import org.audit4j.core.AuditProcessor;
 import org.audit4j.core.ConcurrentConfigurationContext;
 import org.audit4j.core.LifeCycleContext;
 import org.audit4j.core.RunStatus;
@@ -33,7 +32,7 @@ import org.audit4j.core.dto.AuditEvent;
 public class AuditProcessOutputStream implements AuditOutputStream<AuditEvent> {
 
 	/** The processor. */
-	private final AuditProcessor<AuditEvent> processor;
+	private final AuditEventProcessor processor;
 
 	/**
 	 * Instantiates a new audit process output stream.
@@ -41,7 +40,7 @@ public class AuditProcessOutputStream implements AuditOutputStream<AuditEvent> {
 	 * @param configContext the config context
 	 */
 	public AuditProcessOutputStream(ConcurrentConfigurationContext configContext) {
-		processor = AuditEventProcessor.getInstance();
+		processor = new AuditEventProcessor();
 		processor.setConfigContext(configContext);
 	}
 
