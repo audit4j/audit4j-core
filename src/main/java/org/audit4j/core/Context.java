@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.audit4j.core.command.CommandProcessor;
 import org.audit4j.core.command.impl.MetadataCommand;
+import org.audit4j.core.command.impl.ObjectSerializerCommand;
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.exception.ConfigurationException;
 import org.audit4j.core.exception.InitializationException;
@@ -74,378 +75,391 @@ import org.audit4j.core.util.StopWatch;
  */
 public final class Context {
 
-    /** The Configuration instance. One time initialize. */
-    private static Configuration conf;
+	/** The Configuration instance. One time initialize. */
+	private static Configuration conf;
 
-    /** The config file path. */
-    private static String configFilePath;
+	/** The config file path. */
+	private static String configFilePath;
 
-    /** The audit output stream. */
-    private static AuditOutputStream<AuditEvent> auditStream;
+	/** The audit output stream. */
+	private static AuditOutputStream<AuditEvent> auditStream;
 
-    /** The config context. */
-    private static ConcurrentConfigurationContext configContext;
+	/** The config context. */
+	private static ConcurrentConfigurationContext configContext;
 
-    /** The Constant INIT_FAILED. */
-    private static final String INIT_FAILED = "initialization failed.!!";
+	/** The Constant INIT_FAILED. */
+	private static final String INIT_FAILED = "initialization failed.!!";
 
-    private static final LifeCycleContext lifeCycle = LifeCycleContext.getInstance();
+	private static final LifeCycleContext lifeCycle = LifeCycleContext.getInstance();
 
-    /**
-     * Initialize the Audit4j instance. This will ensure the single audit4j
-     * instance and single Configuration repository load in to the memory.
-     */
-    final static void init() {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start("Audit4jInit");
-        if (configContext == null) {
-            configContext = new ConcurrentConfigurationContext();
-        }
+	private static AnnotationTransformer annotationTransformer;
 
-        if (lifeCycle.getStatus().equals(RunStatus.READY) || lifeCycle.getStatus().equals(RunStatus.STOPPED)) {
-            Audit4jBanner banner = new Audit4jBanner();
-            banner.printBanner();
-            Log.info("Initializing Audit4j...");
-            // Check system environment;
-            checkEnvironment();
-            Log.info("Loading Configurations...");
+	/**
+	 * Initialize the Audit4j instance. This will ensure the single audit4j
+	 * instance and single Configuration repository load in to the memory.
+	 */
+	final static void init() {
+		StopWatch stopWatch = new StopWatch();
+		stopWatch.start("Audit4jInit");
+		if (configContext == null) {
+			configContext = new ConcurrentConfigurationContext();
+		}
 
-            if (conf == null) {
-                loadConfig();
-            }
-            Log.info("Validating Configurations...");
-            if (conf == null) {
-                terminate();
-                throw new InitializationException(INIT_FAILED);
-            }
+		if (lifeCycle.getStatus().equals(RunStatus.READY) || lifeCycle.getStatus().equals(RunStatus.STOPPED)) {
+			Audit4jBanner banner = new Audit4jBanner();
+			banner.printBanner();
+			Log.info("Initializing Audit4j...");
+			// Check system environment;
+			checkEnvironment();
+			Log.info("Loading Configurations...");
 
-            try {
-                ValidationManager.validateConfigurations(conf);
-            } catch (ValidationException e1) {
-                terminate();
-                throw new InitializationException(INIT_FAILED, e1);
-            }
+			if (conf == null) {
+				loadConfig();
+			}
+			Log.info("Validating Configurations...");
+			if (conf == null) {
+				terminate();
+				throw new InitializationException(INIT_FAILED);
+			}
 
-            // Execute commands.
-            CommandProcessor.getInstance().process(conf.getCommands());
+			try {
+				ValidationManager.validateConfigurations(conf);
+			} catch (ValidationException e1) {
+				terminate();
+				throw new InitializationException(INIT_FAILED, e1);
+			}
 
-            // Load Registry configurations.
-            loadRegistry();
+			// Execute commands.
+			CommandProcessor.getInstance().process(conf.getCommands());
 
-            if (conf.getProperties() == null) {
-                conf.setProperties(new HashMap<String, String>());
-            } else {
-                for (Map.Entry<String, String> entry : conf.getProperties().entrySet()) {
-                    if (System.getProperties().containsKey(entry.getValue())) {
-                        conf.getProperties().put(entry.getKey(), System.getProperty(entry.getValue()));
-                    }
-                }
-            }
-            configContext.getProperties().putAll(conf.getProperties());
+			// Load Registry configurations.
+			loadRegistry();
 
-            // Initialize handlers.
-            initHandlers();
+			if (conf.getProperties() == null) {
+				conf.setProperties(new HashMap<String, String>());
+			} else {
+				for (Map.Entry<String, String> entry : conf.getProperties().entrySet()) {
+					if (System.getProperties().containsKey(entry.getValue())) {
+						conf.getProperties().put(entry.getKey(), System.getProperty(entry.getValue()));
+					}
+				}
+			}
+			configContext.getProperties().putAll(conf.getProperties());
 
-            // Initialize layouts.
-            initLayout();
+			// Initialize handlers.
+			initHandlers();
 
-            // Initialize IO streams.
-            initStreams();
+			// Initialize layouts.
+			initLayout();
 
-            for (AuditEventFilter filter : conf.getFilters()) {
-                configContext.addFilter(filter);
-            }
+			// Initialize annotation transformer.
+			DefaultAnnotationTransformer defaultAnnotationTransformer = new DefaultAnnotationTransformer();
+			ObjectSerializerCommand serializerCommand = (ObjectSerializerCommand) PreConfigurationContext
+					.getCommandByName("-objectSerializer");
+			if (serializerCommand.getSerializer() == null) {
+				defaultAnnotationTransformer.setSerializer(new ObjectToFieldsSerializer());
+			} else {
+				defaultAnnotationTransformer.setSerializer(serializerCommand.getSerializer());
+			}
+			annotationTransformer = defaultAnnotationTransformer;
+			
+			// Initialize IO streams.
+			initStreams();
 
-            configContext.setMetaData(conf.getMetaData());
+			for (AuditEventFilter filter : conf.getFilters()) {
+				configContext.addFilter(filter);
+			}
 
-            // Execute Scheduler tasks.
-            Log.info("Executing Schedulers...");
-            Schedulers.taskRegistry().scheduleAll();
+			configContext.setMetaData(conf.getMetaData());
 
-            // Initialize monitoring support if available in the configurations.
-            if (conf.getJmx() != null) {
-                MBeanAgent agent = new MBeanAgent();
-                agent.setJmxConfig(conf.getJmx());
-                agent.init();
-                agent.registerMbeans();
-            }
+			// Execute Scheduler tasks.
+			Log.info("Executing Schedulers...");
+			Schedulers.taskRegistry().scheduleAll();
 
-            lifeCycle.setStatus(RunStatus.RUNNING);
-            lifeCycle.setStartUpTime(new Date().getTime());
-            stopWatch.stop();
-            Long initializationTime = stopWatch.getLastTaskTimeMillis();
-            Log.info("Audit4j initialized. Total time: ", initializationTime, "ms");
-        }
-    }
+			// Initialize monitoring support if available in the configurations.
+			if (conf.getJmx() != null) {
+				MBeanAgent agent = new MBeanAgent();
+				agent.setJmxConfig(conf.getJmx());
+				agent.init();
+				agent.registerMbeans();
+			}
 
-    /**
-     * Initialize audit4j with external configurations.
-     * 
-     * This method allows to external plugins can inject the configurations.
-     * Since the security reasons, this allows to create one time configuration
-     * setting to Audit4j.
-     * 
-     * @param configuration
-     *            the configuration
-     * 
-     * @since 2.3.1
-     */
-    public static void initWithConfiguration(Configuration configuration) {
-        Context.setConfig(configuration);
-        init();
-    }
+			lifeCycle.setStatus(RunStatus.RUNNING);
+			lifeCycle.setStartUpTime(new Date().getTime());
+			stopWatch.stop();
+			Long initializationTime = stopWatch.getLastTaskTimeMillis();
+			Log.info("Audit4j initialized. Total time: ", initializationTime, "ms");
+		}
+	}
 
-    /**
-     * Initialize audit4j with external configuration file.
-     * 
-     * This method allows to external plugins can inject the configurations.
-     * Since the security reasons, this allows to create one time configuration
-     * setting to Audit4j.
-     * 
-     * @param configFilePath
-     *            the config file path
-     * @since 2.3.1
-     */
-    public static void initWithConfiguration(String configFilePath) {
-        Context.setConfigFilePath(configFilePath);
-        init();
-    }
+	/**
+	 * Initialize audit4j with external configurations.
+	 * 
+	 * This method allows to external plugins can inject the configurations.
+	 * Since the security reasons, this allows to create one time configuration
+	 * setting to Audit4j.
+	 * 
+	 * @param configuration
+	 *            the configuration
+	 * 
+	 * @since 2.3.1
+	 */
+	public static void initWithConfiguration(Configuration configuration) {
+		Context.setConfig(configuration);
+		init();
+	}
 
-    /**
-     * The Audit4j context shutdown method. This will release the all allocated
-     * resources by the Audit4j Context initialization.
-     * 
-     * @since 2.2.0
-     */
-    final static void stop() {
-        if (lifeCycle.getStatus().equals(RunStatus.RUNNING) || lifeCycle.getStatus().equals(RunStatus.DISABLED)) {
-            lifeCycle.setStatus(RunStatus.STOPPED);
-            Log.info("Preparing to shutdown Audit4j...");
+	/**
+	 * Initialize audit4j with external configuration file.
+	 * 
+	 * This method allows to external plugins can inject the configurations.
+	 * Since the security reasons, this allows to create one time configuration
+	 * setting to Audit4j.
+	 * 
+	 * @param configFilePath
+	 *            the config file path
+	 * @since 2.3.1
+	 */
+	public static void initWithConfiguration(String configFilePath) {
+		Context.setConfigFilePath(configFilePath);
+		init();
+	}
 
-            Log.info("Closing Streams...");
-            auditStream.close();
+	/**
+	 * The Audit4j context shutdown method. This will release the all allocated
+	 * resources by the Audit4j Context initialization.
+	 * 
+	 * @since 2.2.0
+	 */
+	final static void stop() {
+		if (lifeCycle.getStatus().equals(RunStatus.RUNNING) || lifeCycle.getStatus().equals(RunStatus.DISABLED)) {
+			lifeCycle.setStatus(RunStatus.STOPPED);
+			Log.info("Preparing to shutdown Audit4j...");
 
-            Log.info("Shutdown handlers...");
-            for (Handler handler : configContext.getHandlers()) {
-                handler.stop();
-                Log.info(handler.getClass().getName() + " shutdown.");
-            }
+			Log.info("Closing Streams...");
+			auditStream.close();
 
-            Log.info("Disposing configurations...");
-            configContext = null;
-            conf = null;
-            Log.info("Audit4j shutdown completed.");
-        } else {
-            Log.info("No active Audit4j instance. Cancelling shutdown request.");
-        }
-    }
+			Log.info("Shutdown handlers...");
+			for (Handler handler : configContext.getHandlers()) {
+				handler.stop();
+				Log.info(handler.getClass().getName() + " shutdown.");
+			}
 
-    /**
-     * Enable Audit4j core services.
-     * 
-     * @since 2.2.0
-     */
-    final static void enable() {
-        if (lifeCycle.getStatus().equals(RunStatus.READY) || lifeCycle.getStatus().equals(RunStatus.STOPPED)) {
-            init();
-        } else if (lifeCycle.getStatus().equals(RunStatus.DISABLED)) {
-            lifeCycle.setStatus(RunStatus.RUNNING);
-        }
-    }
+			Log.info("Disposing configurations...");
+			configContext = null;
+			conf = null;
+			Log.info("Audit4j shutdown completed.");
+		} else {
+			Log.info("No active Audit4j instance. Cancelling shutdown request.");
+		}
+	}
 
-    /**
-     * Disable Audit4j core services.
-     * 
-     * @since 2.2.0
-     */
-    final static void disable() {
-        Log.warn("Audit4j Disabled.!!");
-        lifeCycle.setStatus(RunStatus.DISABLED);
-    }
+	/**
+	 * Enable Audit4j core services.
+	 * 
+	 * @since 2.2.0
+	 */
+	final static void enable() {
+		if (lifeCycle.getStatus().equals(RunStatus.READY) || lifeCycle.getStatus().equals(RunStatus.STOPPED)) {
+			init();
+		} else if (lifeCycle.getStatus().equals(RunStatus.DISABLED)) {
+			lifeCycle.setStatus(RunStatus.RUNNING);
+		}
+	}
 
-    /**
-     * Terminate Audit4j core services.
-     * 
-     * @since 2.3.0
-     */
-    final static void terminate() {
-        Log.warn("Audit4j Terminated due to critical error.");
-        lifeCycle.setStatus(RunStatus.TERMINATED);
-    }
+	/**
+	 * Disable Audit4j core services.
+	 * 
+	 * @since 2.2.0
+	 */
+	final static void disable() {
+		Log.warn("Audit4j Disabled.!!");
+		lifeCycle.setStatus(RunStatus.DISABLED);
+	}
 
-    /**
-     * Gets the config context.
-     * 
-     * @return the config context
-     */
-    static ConcurrentConfigurationContext getConfigContext() {
-        return configContext;
-    }
+	/**
+	 * Terminate Audit4j core services.
+	 * 
+	 * @since 2.3.0
+	 */
+	final static void terminate() {
+		Log.warn("Audit4j Terminated due to critical error.");
+		lifeCycle.setStatus(RunStatus.TERMINATED);
+	}
 
-    /**
-     * Check environment.
-     * 
-     * @since 2.3.0
-     */
-    private final static void checkEnvironment() {
-        // Check java support.!
-        boolean javaSupport = EnvUtil.isJDK7OrHigher();
-        if (!javaSupport) {
-            Log.error("Your Java version (", EnvUtil.getJavaersion(), ") is not supported for Audit4j. ",
-                    ErrorGuide.getGuide(ErrorGuide.JAVA_VERSION_ERROR));
-            throw new InitializationException("Java version is not supported.");
-        }
-    }
+	/**
+	 * Gets the config context.
+	 * 
+	 * @return the config context
+	 */
+	static ConcurrentConfigurationContext getConfigContext() {
+		return configContext;
+	}
 
-    /**
-     * Load configuration items.
-     */
-    private final static void loadConfig() {
-        try {
-            conf = Configurations.loadConfig(configFilePath);
-        } catch (ConfigurationException e) {
-            terminate();
-            throw new InitializationException(INIT_FAILED, e);
-        }
-    }
+	/**
+	 * Check environment.
+	 * 
+	 * @since 2.3.0
+	 */
+	private final static void checkEnvironment() {
+		// Check java support.!
+		boolean javaSupport = EnvUtil.isJDK7OrHigher();
+		if (!javaSupport) {
+			Log.error("Your Java version (", EnvUtil.getJavaersion(), ") is not supported for Audit4j. ",
+					ErrorGuide.getGuide(ErrorGuide.JAVA_VERSION_ERROR));
+			throw new InitializationException("Java version is not supported.");
+		}
+	}
 
-    /**
-     * Load initial configurations from Registry.
-     * 
-     * @since 2.3.0
-     */
-    private static void loadRegistry() {
-        // Load audit filters to runtime configurations.
-        for (AuditEventFilter filter : PreConfigurationContext.getPrefilters()) {
-            configContext.addFilter(filter);
-        }
-        // Load audit annotation filters to runtime configurations.
-        for (AuditAnnotationFilter annotationFilter : PreConfigurationContext.getPreannotationfilters()) {
-            configContext.addAnnotationFilter(annotationFilter);
-        }
-    }
+	/**
+	 * Load configuration items.
+	 */
+	private final static void loadConfig() {
+		try {
+			conf = Configurations.loadConfig(configFilePath);
+		} catch (ConfigurationException e) {
+			terminate();
+			throw new InitializationException(INIT_FAILED, e);
+		}
+	}
 
-    /**
-     * Initialize handlers.
-     */
-    private static void initHandlers() {
-        Log.info("Initializing Handlers...");
-        for (Handler handler : conf.getHandlers()) {
-            try {
-                if (!configContext.getHandlers().contains(handler)) {
-                    handler.setProperties(configContext.getProperties());
-                    handler.init();
-                    configContext.addHandler(handler);
-                }
-                Log.info(handler.getClass().getName() + " Initialized.");
-            } catch (InitializationException e) {
-                Log.error("There is a problem in the hander: ", handler.getClass().getName(),
-                        ErrorGuide.getGuide(ErrorGuide.HANDLER_ERROR));
-                terminate();
-                throw new InitializationException(INIT_FAILED, e);
-            }
-        }
-    }
+	/**
+	 * Load initial configurations from Registry.
+	 * 
+	 * @since 2.3.0
+	 */
+	private static void loadRegistry() {
+		// Load audit filters to runtime configurations.
+		for (AuditEventFilter filter : PreConfigurationContext.getPrefilters()) {
+			configContext.addFilter(filter);
+		}
+		// Load audit annotation filters to runtime configurations.
+		for (AuditAnnotationFilter annotationFilter : PreConfigurationContext.getPreannotationfilters()) {
+			configContext.addAnnotationFilter(annotationFilter);
+		}
+	}
 
-    /**
-     * Initialize layout.
-     */
-    private static void initLayout() {
-        Log.info("Initializing Layout...");
-        try {
-            conf.getLayout().init();
-            configContext.setLayout(conf.getLayout());
-            Log.info(conf.getLayout().getClass().getName() + " Initialized.");
-        } catch (InitializationException e) {
-            Log.error("There is a problem in the layout: ", conf.getLayout().getClass().getName(), " you configured.",
-                    ErrorGuide.getGuide(ErrorGuide.LAYOUT_ERROR));
-            terminate();
-            throw new InitializationException(INIT_FAILED);
-        }
+	/**
+	 * Initialize handlers.
+	 */
+	private static void initHandlers() {
+		Log.info("Initializing Handlers...");
+		for (Handler handler : conf.getHandlers()) {
+			try {
+				if (!configContext.getHandlers().contains(handler)) {
+					handler.setProperties(configContext.getProperties());
+					handler.init();
+					configContext.addHandler(handler);
+				}
+				Log.info(handler.getClass().getName() + " Initialized.");
+			} catch (InitializationException e) {
+				Log.error("There is a problem in the hander: ", handler.getClass().getName(),
+						ErrorGuide.getGuide(ErrorGuide.HANDLER_ERROR));
+				terminate();
+				throw new InitializationException(INIT_FAILED, e);
+			}
+		}
+	}
 
-    }
+	/**
+	 * Initialize layout.
+	 */
+	private static void initLayout() {
+		Log.info("Initializing Layout...");
+		try {
+			conf.getLayout().init();
+			configContext.setLayout(conf.getLayout());
+			Log.info(conf.getLayout().getClass().getName() + " Initialized.");
+		} catch (InitializationException e) {
+			Log.error("There is a problem in the layout: ", conf.getLayout().getClass().getName(), " you configured.",
+					ErrorGuide.getGuide(ErrorGuide.LAYOUT_ERROR));
+			terminate();
+			throw new InitializationException(INIT_FAILED);
+		}
 
-    /**
-     * Initialize streams.
-     */
-    private static void initStreams() {
-        Log.info("Initializing Streams...");
-        MetadataCommand command = (MetadataCommand) PreConfigurationContext.getCommandByName("-metadata");
-        if (command.isAsync()) {
-            AsyncAnnotationAuditOutputStream asyncAnnotationStream = new AsyncAnnotationAuditOutputStream(
-                    new AuditProcessOutputStream(Context.getConfigContext()));
-            MetadataLookupStream metadataStream = new MetadataLookupStream(new AuditProcessOutputStream(
-                    Context.getConfigContext()));
-            AsyncAuditOutputStream asyncStream = new AsyncAuditOutputStream(metadataStream, asyncAnnotationStream);
-            auditStream = new AuditEventOutputStream(asyncStream);
-        } else {
-            AsyncAnnotationAuditOutputStream asyncAnnotationStream = new AsyncAnnotationAuditOutputStream(
-                    new AuditProcessOutputStream(Context.getConfigContext()));
-            AsyncAuditOutputStream asyncStream = new AsyncAuditOutputStream(new AuditProcessOutputStream(
-                    Context.getConfigContext()), asyncAnnotationStream);
-            MetadataLookupStream metadataStream = new MetadataLookupStream(asyncStream);
-            auditStream = new AuditEventOutputStream(metadataStream);
-        }
+	}
 
-        Log.info("Audit Streams Initialized.");
-    }
+	/**
+	 * Initialize streams.
+	 */
+	private static void initStreams() {
+		Log.info("Initializing Streams...");
+		MetadataCommand command = (MetadataCommand) PreConfigurationContext.getCommandByName("-metadata");
+		if (command.isAsync()) {
+			AsyncAnnotationAuditOutputStream asyncAnnotationStream = new AsyncAnnotationAuditOutputStream(
+					new AuditProcessOutputStream(Context.getConfigContext()), annotationTransformer);
+			MetadataLookupStream metadataStream = new MetadataLookupStream(
+					new AuditProcessOutputStream(Context.getConfigContext()));
+			AsyncAuditOutputStream asyncStream = new AsyncAuditOutputStream(metadataStream, asyncAnnotationStream);
+			auditStream = new AuditEventOutputStream(asyncStream);
+		} else {
+			AsyncAnnotationAuditOutputStream asyncAnnotationStream = new AsyncAnnotationAuditOutputStream(
+					new AuditProcessOutputStream(Context.getConfigContext()), annotationTransformer);
+			AsyncAuditOutputStream asyncStream = new AsyncAuditOutputStream(
+					new AuditProcessOutputStream(Context.getConfigContext()), asyncAnnotationStream);
+			MetadataLookupStream metadataStream = new MetadataLookupStream(asyncStream);
+			auditStream = new AuditEventOutputStream(metadataStream);
+		}
 
-    /**
-     * Sets the config.
-     * 
-     * @param conf
-     *            the new config
-     */
-    final static void setConfig(Configuration conf) {
-        Context.conf = conf;
-    }
+		Log.info("Audit Streams Initialized.");
+	}
 
-    /**
-     * Gets the config.
-     * 
-     * @return the config
-     * @deprecated
-     * 
-     *             Gets the config.
-     */
-    @Deprecated
-    static Configuration getConfig() {
-        return conf;
-    }
+	/**
+	 * Sets the config.
+	 * 
+	 * @param conf
+	 *            the new config
+	 */
+	final static void setConfig(Configuration conf) {
+		Context.conf = conf;
+	}
 
-    /**
-     * Sets the config file path.
-     * 
-     * @param configFilePath
-     *            the new config file path
-     */
-    public static void setConfigFilePath(String configFilePath) {
-        Context.configFilePath = configFilePath;
-    }
+	/**
+	 * Gets the config.
+	 * 
+	 * @return the config
+	 * @deprecated
+	 * 
+	 * 			Gets the config.
+	 */
+	@Deprecated
+	static Configuration getConfig() {
+		return conf;
+	}
 
-    /**
-     * Gets the audit stream.
-     * 
-     * @return the audit stream
-     */
-    final static AuditOutputStream<AuditEvent> getAuditStream() {
-        return auditStream;
-    }
+	/**
+	 * Sets the config file path.
+	 * 
+	 * @param configFilePath
+	 *            the new config file path
+	 */
+	public static void setConfigFilePath(String configFilePath) {
+		Context.configFilePath = configFilePath;
+	}
 
-    /**
-     * Gets the running status.
-     * 
-     * @return the status
-     * @since 2.2.0
-     */
-    public static RunStatus getStatus() {
-        return lifeCycle.getStatus();
-    }
+	/**
+	 * Gets the audit stream.
+	 * 
+	 * @return the audit stream
+	 */
+	final static AuditOutputStream<AuditEvent> getAuditStream() {
+		return auditStream;
+	}
 
-    /**
-     * Private singalton.
-     */
-    private Context() {
-        // Nothing here. Private Constructor
-    }
+	/**
+	 * Gets the running status.
+	 * 
+	 * @return the status
+	 * @since 2.2.0
+	 */
+	public static RunStatus getStatus() {
+		return lifeCycle.getStatus();
+	}
+
+	/**
+	 * Private singalton.
+	 */
+	private Context() {
+		// Nothing here. Private Constructor
+	}
 }

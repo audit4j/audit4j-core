@@ -38,7 +38,7 @@ public class AnnotationTransformerTests {
         
         StopWatch watch = new StopWatch();
         watch.start("testtransformToEvent");
-        AnnotationTransformer transformer = new AnnotationTransformer();
+        AnnotationTransformer transformer = new DefaultAnnotationTransformer();
         AuditEvent event = transformer.transformToEvent(annoEvent);
         assertNull(event);
         watch.stop();
@@ -72,7 +72,7 @@ public class AnnotationTransformerTests {
         
         StopWatch watch = new StopWatch();
         watch.start("testtransformToEvent");
-        AnnotationTransformer transformer = new AnnotationTransformer();
+        AnnotationTransformer transformer = new DefaultAnnotationTransformer();
         AuditEvent event = transformer.transformToEvent(annoEvent);
         
         watch.stop();

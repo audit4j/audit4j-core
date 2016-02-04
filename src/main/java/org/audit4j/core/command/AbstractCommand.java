@@ -57,6 +57,22 @@ public abstract class AbstractCommand implements Initializable {
         this.commands = commands;
     }
     
+    /**
+     * Gets the option by command.
+     *
+     * @param command the command
+     * @return the option by command
+     */
+    protected String getOptionByCommand(String command){
+    	return commands.get(command);
+    }
+    
+    /**
+     * Gets the options by command.
+     *
+     * @param command the command
+     * @return the options by command
+     */
     protected List<String> getOptionsByCommand(String command){
         String rawOption = commands.get(command);
         String[] options = rawOption.split(CoreConstants.COMMA);

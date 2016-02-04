@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.audit4j.core.command.AbstractCommand;
 import org.audit4j.core.command.impl.MetadataCommand;
+import org.audit4j.core.command.impl.ObjectSerializerCommand;
 import org.audit4j.core.command.impl.ScanAnnotatedCommand;
 import org.audit4j.core.filter.AuditAnnotationFilter;
 import org.audit4j.core.filter.AuditEventFilter;
@@ -58,6 +59,10 @@ public final class PreConfigurationContext {
         MetadataCommand metadataCommand = new MetadataCommand();
         availableCommands.add(metadataCommand.getCommand());
         commands.put(metadataCommand.getCommand(), metadataCommand);
+        
+        ObjectSerializerCommand serializerCommand = new ObjectSerializerCommand();
+        availableCommands.add(serializerCommand.getCommand());
+        commands.put(serializerCommand.getCommand(), serializerCommand);
     }
 
     /**

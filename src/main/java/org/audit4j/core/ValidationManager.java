@@ -79,22 +79,7 @@ public final class ValidationManager {
                     ErrorGuide.getGuide(ErrorGuide.EMPTY_LAYOUT));
             throw new ValidationException("Configuration error", ValidationException.VALIDATION_LEVEL_INVALID);
         }
-        /*
-         * for (Handler handler : conf.getHandlers()) { if
-         * (!isSerializable(handler)) { throw new
-         * ValidationException("Handler implementation(" +
-         * handler.getClass().getName() + ") shuold be a serializable type.",
-         * ValidationException.VALIDATION_LEVEL_INVALID); } }
-         */
 
-        if (!isSerializable(conf.getLayout())) {
-            throw new ValidationException("Layout implementation(" + conf.getLayout().getClass().getName()
-                    + ") shuold be a serializable type.", ValidationException.VALIDATION_LEVEL_INVALID);
-        }
-        if (conf.getMetaData() != null && !isSerializable(conf.getMetaData())) {
-            throw new ValidationException("Meta Data implementation(" + conf.getMetaData().getClass().getName()
-                    + ") shuold be a serializable type.", ValidationException.VALIDATION_LEVEL_INVALID);
-        }
     }
 
     /**
