@@ -24,13 +24,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import javax.enterprise.util.Nonbinding;
 import javax.interceptor.InterceptorBinding;
 
 /**
  * The Audit annotation.
  * 
  * This annotation can be used either in class level or method level. When
- * applying this annotation, the class or methos is marked as auditable.
+ * applying this annotation, the class or method is marked as auditable.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
@@ -47,6 +48,7 @@ public @interface Audit {
      * 
      * @return the string
      */
+	@Nonbinding
     public String action() default "action";
 
     /**
@@ -71,9 +73,10 @@ public @interface Audit {
     public String tag() default "default";
     
     /**
-     * Repository.
+     * Repository. This attribute using to define the repository where audit log located.
      *
      * @return the string
      */
+    @Nonbinding
     public String repository() default "default";
 }
