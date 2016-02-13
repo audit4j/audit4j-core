@@ -162,7 +162,7 @@ public final class Context {
 				defaultAnnotationTransformer.setSerializer(serializerCommand.getSerializer());
 			}
 			annotationTransformer = defaultAnnotationTransformer;
-			
+
 			// Initialize IO streams.
 			initStreams();
 
@@ -347,7 +347,9 @@ public final class Context {
 		for (Handler handler : conf.getHandlers()) {
 			try {
 				if (!configContext.getHandlers().contains(handler)) {
-					handler.setProperties(configContext.getProperties());
+					Map<String, String> handlerproperties = new HashMap<>();
+					handlerproperties.putAll(configContext.getProperties());
+					handler.setProperties(handlerproperties);
 					handler.init();
 					configContext.addHandler(handler);
 				}

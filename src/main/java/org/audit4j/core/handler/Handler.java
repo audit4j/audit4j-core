@@ -19,6 +19,7 @@
 package org.audit4j.core.handler;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.audit4j.core.Initializable;
@@ -85,7 +86,7 @@ public abstract class Handler implements Initializable, Serializable {
      * @param auditEvent
      *            the new audit event
      */
-    public void setAuditEvent(AuditEvent auditEvent) {
+    public void setAuditEvent(final AuditEvent auditEvent) {
         this.auditEvent = auditEvent;
     }
 
@@ -115,7 +116,7 @@ public abstract class Handler implements Initializable, Serializable {
      * @param properties
      *            the properties
      */
-    public void setProperties(Map<String, String> properties) {
+    public void setProperties(final Map<String, String> properties) {
         this.properties = properties;
     }
 }
