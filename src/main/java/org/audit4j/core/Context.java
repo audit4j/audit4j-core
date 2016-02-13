@@ -109,10 +109,12 @@ public final class Context {
 			Audit4jBanner banner = new Audit4jBanner();
 			banner.printBanner();
 			Log.info("Initializing Audit4j...");
+			
 			// Check system environment;
 			checkEnvironment();
+			
+			// Load configurations to Memory
 			Log.info("Loading Configurations...");
-
 			if (conf == null) {
 				loadConfig();
 			}
@@ -121,7 +123,6 @@ public final class Context {
 				terminate();
 				throw new InitializationException(INIT_FAILED);
 			}
-
 			try {
 				ValidationManager.validateConfigurations(conf);
 			} catch (ValidationException e1) {
