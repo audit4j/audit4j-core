@@ -1,5 +1,7 @@
 package org.audit4j.core.dto;
 
+import java.io.Serializable;
+
 /**
  * The Class EventMeta.
  * 
@@ -7,52 +9,54 @@ package org.audit4j.core.dto;
  * 
  * @since 2.4.0
  */
-public class EventMeta {
+public class EventMeta implements Serializable {
 
-    /** The client. */
-    public String client;
+	private static final long serialVersionUID = 5190838195346568817L;
 
-    /** The repository. */
-    @Deprecated
-    public String repository;
+	/** The client. */
+	public String client;
 
-    /**
-     * Gets the client.
-     * 
-     * @return the client
-     */
-    public String getClient() {
-        return client;
-    }
+	/** The repository. */
+	@Deprecated
+	public String repository;
 
-    /**
-     * Sets the client.
-     * 
-     * @param client
-     *            the new client
-     */
-    public void setClient(String client) {
-        this.client = client;
-    }
+	/**
+	 * Gets the client.
+	 * 
+	 * @return the client
+	 */
+	public String getClient() {
+		return client;
+	}
 
-    /**
-     * Gets the repository.
-     * 
-     * @return the repository
-     */
-    @Deprecated
-    public String getRepository() {
-        return repository;
-    }
+	/**
+	 * Sets the client.
+	 * 
+	 * @param client
+	 *            the new client
+	 */
+	public void setClient(String client) {
+		this.client = client;
+	}
 
-    /**
-     * Sets the repository.
-     * 
-     * @param repository
-     *            the new repository
-     */
-    @Deprecated
-    public void setRepository(String repository) {
-        this.repository = repository;
-    }
+	/**
+	 * Gets the repository.
+	 * 
+	 * @return the repository
+	 */
+	@Deprecated
+	public String getRepository() {
+		return repository;
+	}
+
+	/**
+	 * Sets the repository.
+	 * 
+	 * @param repository
+	 *            the new repository
+	 */
+	@Deprecated
+	public void setRepository(String repository) {
+		this.repository = repository;
+	}
 }
