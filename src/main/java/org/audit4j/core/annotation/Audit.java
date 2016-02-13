@@ -44,7 +44,7 @@ import javax.interceptor.InterceptorBinding;
 public @interface Audit {
 
     /**
-     * Action defines the either method or operation.
+     * Action defines either method or operation.
      * 
      * @return the string
      */
