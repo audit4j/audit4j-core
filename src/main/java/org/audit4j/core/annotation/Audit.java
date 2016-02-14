@@ -60,6 +60,7 @@ public @interface Audit {
      * Selection.
      */
     @Deprecated
+    @Nonbinding
     public SelectionType selection() default SelectionType.ALL;
 
     /**
@@ -70,6 +71,7 @@ public @interface Audit {
      * Repository.
      */
     @Deprecated
+    @Nonbinding
     public String tag() default "default";
     
     /**
