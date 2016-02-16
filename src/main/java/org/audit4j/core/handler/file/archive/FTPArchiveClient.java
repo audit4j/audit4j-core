@@ -32,6 +32,13 @@ import org.apache.commons.net.util.TrustManagerUtils;
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
 public final class FTPArchiveClient {
+	
+	/**
+     * private constructor to avoid instantiation of this class
+     */
+    private FTPArchiveClient(){
+    	
+    }
 
     /** The Constant USAGE. */
     public static final String USAGE = "Usage: ftp [options] <hostname> <username> <password> [<remote file> [<local file>]]\n"

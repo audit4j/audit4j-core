@@ -44,4 +44,10 @@ class ContextConfigParams {
     
     /** The Constant PARAM_PROPERTIES. */
     static final String PARAM_PROPERTIES = "properties";
+    /**
+     * private constructor to avoid instantiation of this class
+     */
+    private ContextConfigParams(){
+    	
+    }
 }

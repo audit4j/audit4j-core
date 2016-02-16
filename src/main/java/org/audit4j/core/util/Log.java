@@ -52,6 +52,12 @@ public class Log {
     private static PrintStream errorStream = System.err;
 
     /**
+     * private constructor to avoid instantiation of this class
+     */
+    private Log(){
+    	
+    }
+    /**
      * Write information in the console.
      * 
      * @param message

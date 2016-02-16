@@ -29,6 +29,14 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class DeIdentifyUtil {
 
+
+    /**
+     * private constructor to avoid instantiation of this class
+     */
+    private DeIdentifyUtil(){
+    	
+    }
+
 	/**
 	 * Deidentify left.
 	 *

@@ -52,9 +52,9 @@ public class Configurations {
     static final String ENVIRONMENT_CONFIG_VARIABLE_NAME = "AUDIT4J_CONF_FILE_PATH";
 
     /**
-     * Instantiates a new configurations.
+     *  
      */
-    public Configurations() {
+    private Configurations() {
 
     }
     
