@@ -1,0 +1,12 @@
+# Audit4j build and test via Travis-CI
+
+language: java
+
+jdk:
+ - oraclejdk7
+ - openjdk7
+
+notifications:
+  email:
+    recipients:
+      - janith@audit4j.org
