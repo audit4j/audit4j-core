@@ -33,6 +33,14 @@ import org.audit4j.core.Configurations;
  */
 public class EnvUtil {
 
+	  
+    /**
+     * private constructor to avoid instantiation of this class
+     */
+    private EnvUtil(){
+    	
+    }
+    
     /**
      * Checks if is jD k_ n_ or higher.
      * 

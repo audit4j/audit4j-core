@@ -21,6 +21,13 @@ public class StringUtils {
     private static final String TOP_PATH = "..";
     private static final String CURRENT_PATH = ".";
     private static final char EXTENSION_SEPARATOR = '.';
+    
+    /**
+     * private constructor to avoid instantiation of this class
+     */
+    private StringUtils(){
+    	
+    }
 
     // ---------------------------------------------------------------------
     // General convenience methods for working with Strings

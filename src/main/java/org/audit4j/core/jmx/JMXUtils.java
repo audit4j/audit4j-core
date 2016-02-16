@@ -10,6 +10,13 @@ import javax.management.ObjectName;
  * @since 2.4.0
  */
 public class JMXUtils {
+	
+	/**
+     * private constructor to avoid instantiation of this class
+     */
+    private JMXUtils(){
+    	
+    }
 
     /**
      * Gets the object name.

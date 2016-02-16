@@ -18,6 +18,13 @@ import java.util.StringTokenizer;
 public class ClasspathUrlFinder
 {
 
+	 /**
+     * private constructor to avoid instantiation of this class
+     */
+    private ClasspathUrlFinder(){
+    	
+    }
+    
    /**
     * Find the classpath URLs for a specific classpath resource.  The classpath URL is extracted
     * from loader.getResources() using the baseResource.
