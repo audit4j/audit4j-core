@@ -38,6 +38,13 @@ public final class TroubleshootManager {
 
     /** The Constant MAX_PORT_NUMBER. */
     public static final int MAX_PORT_NUMBER = 49151;
+    
+    /**
+     * private constructor to avoid instantiation of this class
+     */
+    private TroubleshootManager(){
+    	
+    }
 
     /**
      * Troubleshoot event.

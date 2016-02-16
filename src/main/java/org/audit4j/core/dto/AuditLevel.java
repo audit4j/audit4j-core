@@ -29,5 +29,12 @@ public class AuditLevel {
 
 	/** The Constant DEFAULT_LEVEL. */
 	public static final String DEFAULT_LEVEL = "default";
+	
+	 /**
+     * private constructor to avoid instantiation of this class
+     */
+    private AuditLevel(){
+    	
+    }
 
 }

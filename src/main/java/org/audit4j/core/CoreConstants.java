@@ -147,5 +147,9 @@ public final class CoreConstants {
 
     /** The Constant ENCODE_UTF8. */
     public static final String ENCODE_UTF8 = "UTF-8";
+    
+    private CoreConstants(){
+    	
+    }
 
 }

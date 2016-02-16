@@ -59,7 +59,14 @@ public final class ErrorGuide {
     
     /** The Constant LAYOUT_ERROR. */
     public static final String OPTION_ERROR = ERROR_URL + "optionError";
-    
+   
+    /**
+     * private constructor to avoid instantiation of this class
+     */
+    private ErrorGuide(){
+    	
+    }
+ 
     /**
      * Gets the guide.
      *

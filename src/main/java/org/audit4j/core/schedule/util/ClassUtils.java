@@ -5,6 +5,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ClassUtils {
+	
+	/**
+     * private constructor to avoid instantiation of this class
+     */
+    private ClassUtils(){
+    	
+    }
 
     /**
      * Determine whether the given class has a public method with the given

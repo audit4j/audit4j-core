@@ -16,6 +16,14 @@ import org.audit4j.core.schedule.util.ErrorHandler;
  * @since 3.0
  */
 public abstract class TaskUtils {
+	
+	/**
+     * private constructor to avoid instantiation of this class
+     */
+    private TaskUtils(){
+    	
+    }
+
     /**
      * An ErrorHandler strategy that will log the Exception but perform no
      * further handling. This will suppress the error so that subsequent
