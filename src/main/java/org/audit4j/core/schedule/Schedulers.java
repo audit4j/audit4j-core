@@ -53,7 +53,7 @@ public class Schedulers {
      */
     public static Schedulers newDefault() {
         createSingleton();
-        instance.increaseNoOfSchedullers();
+        Schedulers.increaseNoOfSchedullers();
         instance.setCurrentScheduler(new ConcurrentTaskScheduler());
         return instance;
     }
@@ -67,7 +67,7 @@ public class Schedulers {
      */
     public static Schedulers newThreadPoolScheduler(int poolSize) {
         createSingleton();
-        instance.increaseNoOfSchedullers();
+        Schedulers.increaseNoOfSchedullers();
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
         CustomizableThreadFactory factory = new CustomizableThreadFactory();
         scheduler.initializeExecutor(factory, new RejectedExecutionHandler() {
@@ -99,8 +99,8 @@ public class Schedulers {
             throw new IllegalStateException("No schedulers match with given id.");
         }
         future.cancel(true);
-        instance.decreaseNoOfSchedullers();
-        instance.decreaseNoOfRunningSchedullers();
+        Schedulers.decreaseNoOfSchedullers();
+        Schedulers.decreaseNoOfRunningSchedullers();
 
         return instance;
     }
@@ -119,8 +119,8 @@ public class Schedulers {
         for (Entry<String, ScheduledFuture<?>> entry : instance.runningSchedullers.entrySet()) {
             ScheduledFuture<?> future = entry.getValue();
             future.cancel(true);
-            instance.decreaseNoOfSchedullers();
-            instance.decreaseNoOfRunningSchedullers();
+            Schedulers.decreaseNoOfSchedullers();
+            Schedulers.decreaseNoOfRunningSchedullers();
         }
 
         return instance;
@@ -138,9 +138,9 @@ public class Schedulers {
             throw new IllegalStateException("New scheduler should be crea");
         }
         ScheduledFuture<?> future = getCurrentScheduler().schedule(task.getRunnable(), task.getTrigger());
-        String id = getUUID();
+        String id = Schedulers.getUUID();
         runningSchedullers.put(id, future);
-        increaseNoOfRunningSchedullers();
+        Schedulers.increaseNoOfRunningSchedullers();
         setCurrentScheduler(null);
         return id;
     }
@@ -154,9 +154,9 @@ public class Schedulers {
      */
     public String schedule(Trigger trigger, Runnable task) {
         ScheduledFuture<?> future = getCurrentScheduler().schedule(task, trigger);
-        String id = getUUID();
+        String id = Schedulers.getUUID();
         runningSchedullers.put(id, future);
-        increaseNoOfRunningSchedullers();
+        Schedulers.increaseNoOfRunningSchedullers();
         setCurrentScheduler(null);
         return id;
     }
@@ -173,28 +173,28 @@ public class Schedulers {
     /**
      * Increase no of schedullers.
      */
-    private synchronized void increaseNoOfSchedullers() {
+    private static synchronized void increaseNoOfSchedullers() {
         noOfSchedullers++;
     }
 
     /**
      * Increase no of running schedullers.
      */
-    private synchronized void increaseNoOfRunningSchedullers() {
+    private static synchronized void increaseNoOfRunningSchedullers() {
         noOfRunningSchedullers++;
     }
 
     /**
      * Decrease no of schedullers.
      */
-    private synchronized void decreaseNoOfSchedullers() {
+    private static synchronized void decreaseNoOfSchedullers() {
         noOfSchedullers--;
     }
 
     /**
      * Decrease no of running schedullers.
      */
-    private synchronized void decreaseNoOfRunningSchedullers() {
+    private static synchronized void decreaseNoOfRunningSchedullers() {
         noOfRunningSchedullers--;
     }
 
@@ -203,7 +203,7 @@ public class Schedulers {
      * 
      * @return the uuid
      */
-    private synchronized String getUUID() {
+    private static synchronized String getUUID() {
         return String.valueOf(UUID.randomUUID().getLeastSignificantBits());
     }
 
