@@ -1,4 +1,4 @@
-![Build Status](https://travis-ci.org/audit4j/audit4j-core.svg?branch=master)
+[![Build Status](https://travis-ci.org/audit4j/audit4j-core.svg?branch=master)](https://travis-ci.org/audit4j/audit4j-core.svg?branch=master) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.audit4j/audit4j-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.audit4j/audit4j-core)
 
 audit4j-core
 ============
