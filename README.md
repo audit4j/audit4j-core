@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/audit4j/audit4j-core.svg?branch=master)
+![Build Status](https://travis-ci.org/audit4j/audit4j-core.svg?branch=master)
 
 audit4j-core
 ============
