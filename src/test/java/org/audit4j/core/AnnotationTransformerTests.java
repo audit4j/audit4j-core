@@ -73,7 +73,7 @@ public class AnnotationTransformerTests {
         StopWatch watch = new StopWatch();
         watch.start("testtransformToEvent");
         AnnotationTransformer transformer = new DefaultAnnotationTransformer();
-        AuditEvent event = transformer.transformToEvent(annoEvent);
+        transformer.transformToEvent(annoEvent);
         
         watch.stop();
         Log.info(watch.getLastTaskTimeMillis());

@@ -69,7 +69,7 @@ public class ClassLoaderTest {
         }
 
         AnnotationDB db = new AnnotationDB();
-        String[] packages = { "org.audit4j.core.option.annotation" };
+        
         db.setScanClassAnnotations(true);
         try {
             db.scanArchives(url);

@@ -137,7 +137,6 @@ public class POJOQuery<O> {
 		 * @return the at query
 		 */
 		public AtQuery not(boolean result) {
-			result = !result;
 			return atQuery;
 		}
 

@@ -34,7 +34,7 @@ public class ScanAnnotationOptionIntTest extends IntTestBase {
     public void testFilter_filter_denied() throws InterruptedException {
         watchStart("testFilter_filter_denied");
         AuditManager manager = AuditManager.getInstance();
-        boolean status = manager.audit(getSampleNullAnnotationEvent());
+        manager.audit(getSampleNullAnnotationEvent());
         watchStop();
         // assertFalse(status);
         TimeUnit.SECONDS.sleep(2);
