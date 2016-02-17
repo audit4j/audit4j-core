@@ -1,4 +1,4 @@
-[![Build Status](https://buildhive.cloudbees.com/job/audit4j/job/audit4j-core/badge/icon)](https://buildhive.cloudbees.com/job/audit4j/job/audit4j-core/)
+[![Build Status](https://travis-ci.org/audit4j/audit4j-core.svg?branch=master)
 
 audit4j-core
 ============
