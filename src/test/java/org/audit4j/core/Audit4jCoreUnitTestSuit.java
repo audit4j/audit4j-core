@@ -4,7 +4,6 @@ import org.audit4j.core.annotation.AuditAnnotationAttributesTests;
 import org.audit4j.core.command.CommandProcessorTest;
 import org.audit4j.core.dto.AuditBaseTest;
 import org.audit4j.core.dto.AuditEventTest;
-import org.audit4j.core.dto.AuditLevelTest;
 import org.audit4j.core.dto.EventBuilderTest;
 import org.audit4j.core.dto.FieldTest;
 import org.audit4j.core.exception.ConfigurationExceptionTest;
@@ -29,11 +28,11 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses({ ValidationManagerTest.class, EncryptionUtilTest.class, TroubleshootManagerTest.class,
-        ArchiveManagerTest.class, AnnotationTransformerTests.class, SecureLayoutTest.class, SimpleLayoutTest.class,
-        EnvUtilTest.class, EncryptionUtilTest.class, StopWatchTest.class, ConfigurationExceptionTest.class,
-        HandlerExceptionTest.class, InitializationExceptionTest.class, TroubleshootExceptionTest.class,
-        ValidationExceptionTest.class, AuditBaseTest.class, AuditEventTest.class, AuditLevelTest.class,
-        EventBuilderTest.class, FieldTest.class, AuditAnnotationAttributesTests.class, CommandProcessorTest.class })
+		ArchiveManagerTest.class, AnnotationTransformerTests.class, SecureLayoutTest.class, SimpleLayoutTest.class,
+		EnvUtilTest.class, EncryptionUtilTest.class, StopWatchTest.class, ConfigurationExceptionTest.class,
+		HandlerExceptionTest.class, InitializationExceptionTest.class, TroubleshootExceptionTest.class,
+		ValidationExceptionTest.class, AuditBaseTest.class, AuditEventTest.class, EventBuilderTest.class,
+		FieldTest.class, AuditAnnotationAttributesTests.class, CommandProcessorTest.class })
 public class Audit4jCoreUnitTestSuit {
 
 }
