@@ -139,7 +139,7 @@ public final class FTPArchiveClient {
                 trustmgr = args[++base];
             } else if (args[base].equals("-PrH")) {
                 proxyHost = args[++base];
-                String parts[] = proxyHost.split(":");
+                String[] parts = proxyHost.split(":");
                 if (parts.length == 2) {
                     proxyHost = parts[0];
                     proxyPort = Integer.parseInt(parts[1]);
@@ -167,7 +167,7 @@ public final class FTPArchiveClient {
 
         String server = args[base++];
         int port = 0;
-        String parts[] = server.split(":");
+        String[] parts = server.split(":");
         if (parts.length == 2) {
             server = parts[0];
             port = Integer.parseInt(parts[1]);
@@ -202,7 +202,7 @@ public final class FTPArchiveClient {
             } else if (protocol.equals("false")) {
                 ftps = new FTPSClient(false);
             } else {
-                String prot[] = protocol.split(",");
+                String[] prot = protocol.split(",");
                 if (prot.length == 1) { // Just protocol
                     ftps = new FTPSClient(protocol);
                 } else { // protocol,true|false

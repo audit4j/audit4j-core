@@ -294,9 +294,9 @@ public class POJOQuery<O> {
 		 * @return true, if successful
 		 */
 		public boolean operaterProceed() {
-			if (operator.equals(Operator.AND) && result == false) {
+			if (operator.equals(Operator.AND) && !result) {
 				return false;
-			} else if (operator.equals(Operator.OR) && result == true) {
+			} else if (operator.equals(Operator.OR) && result) {
 				return false;
 			}
 			return true;
