@@ -149,10 +149,8 @@ public class POJOQuery<O> {
 		 * @return the at query
 		 */
 		public AtQuery eq(String exp) {
-			if (operaterProceed()) {
-				if (Type.TEXT.equals(type)) {
+			if (operaterProceed() && Type.TEXT.equals(type)) {
 					result = fieldString.equals(exp);
-				}
 			}
 			return atQuery;
 		}
@@ -163,11 +161,9 @@ public class POJOQuery<O> {
 		 * @return the at query
 		 */
 		public AtQuery isNull() {
-			if (operaterProceed()) {
-				if (Type.TEXT.equals(type) || Type.NUMERIC.equals(type) || Type.BOOLEAN.equals(type)
-						|| Type.COMPLEX.equals(type) || Type.DATETIME.equals(type)) {
-					result = null == fieldString;
-				}
+			if (operaterProceed() && (Type.TEXT.equals(type) || Type.NUMERIC.equals(type) || Type.BOOLEAN.equals(type)
+					|| Type.COMPLEX.equals(type) || Type.DATETIME.equals(type))) {
+				result = null == fieldString;
 			}
 			return atQuery;
 		}
@@ -180,10 +176,8 @@ public class POJOQuery<O> {
 		 * @return the at query
 		 */
 		public AtQuery contains(String exp) {
-			if (operaterProceed()) {
-				if (Type.TEXT.equals(type)) {
-					result = fieldString.contains(exp);
-				}
+			if (operaterProceed() && Type.TEXT.equals(type)) {
+				result = fieldString.contains(exp);
 			}
 			return atQuery;
 		}

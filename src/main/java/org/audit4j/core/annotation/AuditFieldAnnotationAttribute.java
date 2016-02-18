@@ -52,7 +52,7 @@ public class AuditFieldAnnotationAttribute {
 		int i = 0;
 		String paramName = null;
 		String paramValue = null;
-		Class<?> paramType = null;
+		Class<?> paramType;
 		for (final Annotation[] annotations : parameterAnnotations) {
 			final Object object = arg1[i++];
 			//paramValue = ObjectToStringSerializer.(object);
@@ -99,7 +99,7 @@ public class AuditFieldAnnotationAttribute {
 		int i = 0;
 		String paramName = null;
 		String paramValue = null;
-		Class<?> paramType = null;
+		Class<?> paramType;
 		for (final Annotation[] annotations : parameterAnnotations) {
 			final Object object = arg1[i++];
 			//paramValue = ObjectToStringSerializer.toStringIfNotImplemented(object);
