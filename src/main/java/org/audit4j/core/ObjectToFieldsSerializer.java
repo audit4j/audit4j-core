@@ -49,7 +49,7 @@ public final class ObjectToFieldsSerializer implements ObjectSerializer {
      * @param auditFields the audit fields
      * @param object            an object
      * @param objectName the object name
-     * @param deidentify the deidentify
+     * @param deidentify the de-identify
      */
     public final void toFields(List<Field> auditFields, Object object, String objectName, DeIdentify deidentify) {
         String localOjectName = objectName;
