@@ -6,9 +6,9 @@ jdk:
  - oraclejdk7
  - openjdk7
  
-script: mvn clean install -DskipTests=true -Dgpg.skip=true
+script: mvn clean install
 
 notifications:
   email:
     recipients:
-      - janith@audit4j.org
+      - dev@audit4j.org
