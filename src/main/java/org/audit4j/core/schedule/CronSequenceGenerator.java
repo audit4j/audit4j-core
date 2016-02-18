@@ -257,7 +257,7 @@ public class CronSequenceGenerator {
         String[] list = StringUtils.commaDelimitedListToStringArray(commaSeparatedList);
         for (int i = 0; i < list.length; i++) {
             String item = list[i].toUpperCase();
-            value = StringUtils.replace(value.toUpperCase(), item, "" + i);
+            value = StringUtils.replace(value.toUpperCase(), item, Integer.toString(i));
         }
         return value;
     }
