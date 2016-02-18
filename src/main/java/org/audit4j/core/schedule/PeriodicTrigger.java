@@ -57,7 +57,7 @@ public class PeriodicTrigger implements Trigger {
      */
     public PeriodicTrigger(long period, TimeUnit timeUnit) {
         //Assert.isTrue(period >= 0, "period must not be negative");
-        this.timeUnit = (timeUnit != null ? timeUnit : TimeUnit.MILLISECONDS);
+        this.timeUnit = timeUnit != null ? timeUnit : TimeUnit.MILLISECONDS;
         this.period = this.timeUnit.toMillis(period);
     }
 
@@ -114,7 +114,7 @@ public class PeriodicTrigger implements Trigger {
             return false;
         }
         PeriodicTrigger other = (PeriodicTrigger) obj;
-        return (this.fixedRate == other.fixedRate && this.initialDelay == other.initialDelay && this.period == other.period);
+        return this.fixedRate == other.fixedRate && this.initialDelay == other.initialDelay && this.period == other.period;
     }
 
     /**

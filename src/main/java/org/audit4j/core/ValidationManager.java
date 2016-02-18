@@ -96,7 +96,7 @@ public final class ValidationManager {
         } else {
             retVal = false;
         }
-        return (retVal);
+        return retVal;
     }
 
     /**
@@ -108,8 +108,8 @@ public final class ValidationManager {
      */
     private static boolean implementsInterface(final Object o) {
         final boolean retVal;
-        retVal = ((o instanceof Serializable) || (o instanceof Externalizable));
-        return (retVal);
+        retVal = (o instanceof Serializable) || (o instanceof Externalizable);
+        return retVal;
     }
 
     /**
@@ -131,7 +131,7 @@ public final class ValidationManager {
             stream.writeObject(o);
             // could also re-serilalize at this point too
         } catch (final IOException ex) {
-            return (false);
+            return false;
         } finally {
             if (stream != null) {
                 try {
@@ -142,7 +142,7 @@ public final class ValidationManager {
             }
         }
 
-        return (true);
+        return true;
     }
 
     public static void main(String[] args) {

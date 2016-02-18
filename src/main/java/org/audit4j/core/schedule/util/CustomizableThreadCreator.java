@@ -38,7 +38,7 @@ public class CustomizableThreadCreator implements Serializable {
      *            the prefix to use for the names of newly created threads
      */
     public CustomizableThreadCreator(String threadNamePrefix) {
-        this.threadNamePrefix = (threadNamePrefix != null ? threadNamePrefix : getDefaultThreadNamePrefix());
+        this.threadNamePrefix = threadNamePrefix != null ? threadNamePrefix : getDefaultThreadNamePrefix();
     }
 
     /**
@@ -46,7 +46,7 @@ public class CustomizableThreadCreator implements Serializable {
      * is "SimpleAsyncTaskExecutor-".
      */
     public void setThreadNamePrefix(String threadNamePrefix) {
-        this.threadNamePrefix = (threadNamePrefix != null ? threadNamePrefix : getDefaultThreadNamePrefix());
+        this.threadNamePrefix = threadNamePrefix != null ? threadNamePrefix : getDefaultThreadNamePrefix();
     }
 
     /**

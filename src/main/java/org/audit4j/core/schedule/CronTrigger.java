@@ -83,8 +83,8 @@ public class CronTrigger implements Trigger {
      */
     @Override
     public boolean equals(Object obj) {
-        return (this == obj || (obj instanceof CronTrigger && this.sequenceGenerator
-                .equals(((CronTrigger) obj).sequenceGenerator)));
+        return this == obj || (obj instanceof CronTrigger && this.sequenceGenerator
+                .equals(((CronTrigger) obj).sequenceGenerator));
     }
 
     /**

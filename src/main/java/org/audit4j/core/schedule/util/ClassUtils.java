@@ -29,7 +29,7 @@ public class ClassUtils {
      * @see Class#getMethod
      */
     public static boolean hasMethod(Class<?> clazz, String methodName, Class<?>... paramTypes) {
-        return (getMethodIfAvailable(clazz, methodName, paramTypes) != null);
+        return getMethodIfAvailable(clazz, methodName, paramTypes) != null;
     }
 
     /**
