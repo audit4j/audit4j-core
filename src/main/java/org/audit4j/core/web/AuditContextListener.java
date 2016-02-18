@@ -18,13 +18,10 @@
 
 package org.audit4j.core.web;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.audit4j.core.AuditManager;
-import org.audit4j.core.Context;
-import org.audit4j.core.util.EnvUtil;
 
 /**
  * The AuditContextListener for Servlet spec 2.x.
@@ -62,11 +59,7 @@ public class AuditContextListener implements ServletContextListener {
         if (configSupport.hasHandlers(contextEvent.getServletContext())) {
             AuditManager.startWithConfiguration(configSupport.loadConfig(contextEvent.getServletContext()));
         } else {
-            if (EnvUtil.hasConfigFileExists(getConfFilePath(contextEvent.getServletContext()))) {
-                AuditManager.startWithConfiguration(getConfFilePath(contextEvent.getServletContext()));
-            } else {
-                Context.setConfigFilePath(getConfFilePath(contextEvent.getServletContext()));
-            }
+            AuditManager.getInstance();
         }
     }
 
@@ -78,18 +71,6 @@ public class AuditContextListener implements ServletContextListener {
      */
     @Override
     public void contextDestroyed(ServletContextEvent contextEvent) {
-        AuditManager.getInstance().shutdown();
+        AuditManager.shutdown();
     }
-
-    /**
-     * Gets the conf file path.
-     * 
-     * @param context
-     *            the context
-     * @return the conf file path
-     */
-    private String getConfFilePath(ServletContext context) {
-        return context.getRealPath("/WEB-INF/classes");
-    }
-
 }
