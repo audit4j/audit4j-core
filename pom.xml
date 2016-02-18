@@ -8,10 +8,12 @@
 	<version>2.4.0</version>
 	<url>http://audit4j.org</url>
 	<description>Audit4j - An open-source auditing framework for Java, Core</description>
+
 	<organization>
 		<name>Audit4j</name>
 		<url>http://audit4j.org</url>
 	</organization>
+
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -19,16 +21,18 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+
 	<issueManagement>
 		<system>github</system>
 		<url>https://github.com/audit4j/audit4j-core/issues</url>
 	</issueManagement>
+
 	<scm>
 		<connection>scm:git:git@github.com:audit4j/audit4j-core.git</connection>
 		<developerConnection>scm:git:git@github.com:audit4j/audit4j-core.git</developerConnection>
 		<url>scm:git:git@github.com:audit4j/audit4j-core.git</url>
-		<tag>v2.4.0</tag>
 	</scm>
+
 	<developers>
 		<developer>
 			<id>janithb</id>
@@ -37,17 +41,13 @@
 			<organizationUrl>http://audit4j.org</organizationUrl>
 			<email>janith@audit4j.org</email>
 			<roles>
-				<role>Architect</role>
+				<role>Project Lead</role>
 				<role>Developer</role>
 			</roles>
 			<timezone>+05:30</timezone>
 		</developer>
 	</developers>
-	<parent>
-		<groupId>org.sonatype.oss</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>7</version>
-	</parent>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -124,6 +124,17 @@
 		</dependency>
 	</dependencies>
 
+	<distributionManagement>
+		<repository>
+			<id>oss.sonatype.org</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+		<snapshotRepository>
+			<id>oss.sonatype.org</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -138,6 +149,37 @@
 						<arg>-Xlint:varargs</arg>
 					</compilerArgs>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.3</version>
+				<configuration>
+					<charset>${file_encoding}</charset>
+					<encoding>${file_encoding}</encoding>
+					<excludePackageNames>org.audit4j.core.extra.*:org.audit4j.core.schedule</excludePackageNames>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -174,28 +216,50 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<configuration>
-					<excludePackageNames>org.audit4j.core.extra.*:org.audit4j.core.schedule</excludePackageNames>
-				</configuration>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.6</version>
 				<executions>
 					<execution>
-						<id>attach-javadocs</id>
-						<phase>deploy</phase>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
 						<goals>
-							<goal>jar</goal>
+							<goal>sign</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<generateBackupPoms>false</generateBackupPoms>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.8.2</version>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.5</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>oss.sonatype.org</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<description>${project.version}</description>
+				</configuration>
 				<executions>
 					<execution>
+						<id>deploy-to-sonatype</id>
 						<phase>deploy</phase>
 						<goals>
-							<goal>jar</goal>
+							<goal>deploy</goal>
+							<goal>release</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -220,21 +284,40 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>sign-artifacts</id>
-						<phase>deploy</phase>
-						<goals>
-							<goal>sign</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
 	<reporting>
 		<plugins>
 			<plugin>
