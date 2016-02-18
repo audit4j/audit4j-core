@@ -54,9 +54,9 @@ public class AsyncAnnotationAuditOutputStream implements AuditOutputStream<Annot
 
     /**
      * Instantiates a new annotation audit output stream.
-     * 
-     * @param outputStream
-     *            the output stream
+     *
+     * @param outputStream            the output stream
+     * @param transformer the transformer
      */
     public AsyncAnnotationAuditOutputStream(final AuditOutputStream<AuditEvent> outputStream, final AnnotationTransformer transformer) {
         ENV = new Environment();

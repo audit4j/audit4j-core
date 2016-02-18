@@ -45,11 +45,11 @@ public final class ObjectToFieldsSerializer implements ObjectSerializer {
 
     /**
      * Converts an object to a string representation that lists all fields.
-     * 
-     * @param object
-     *            an object
-     * @return a string with the object's class name and all field names and
-     *         values
+     *
+     * @param auditFields the audit fields
+     * @param object            an object
+     * @param objectName the object name
+     * @param deidentify the deidentify
      */
     public final void toFields(List<Field> auditFields, Object object, String objectName, DeIdentify deidentify) {
         String localOjectName = objectName;
@@ -159,6 +159,9 @@ public final class ObjectToFieldsSerializer implements ObjectSerializer {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.audit4j.core.ObjectSerializer#serialize(java.util.List, java.lang.Object, java.lang.String, org.audit4j.core.annotation.DeIdentify)
+     */
     @Override
     public void serialize(List<Field> auditFields, Object object,
             String objectName,  DeIdentify deidentify) {
