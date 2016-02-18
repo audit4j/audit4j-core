@@ -92,8 +92,8 @@ public class Configurations {
      * @throws ConfigurationException the configuration exception
      */
     static ConfigurationStream resolveConfigFileAsStream(String configFilePath) throws ConfigurationException {
-        InputStream fileStream = null;
-        String fileExtention = null;
+        InputStream fileStream;
+        String fileExtention;
         
         if (configFilePath != null) {
             if (new File(configFilePath).isDirectory()) {
@@ -142,7 +142,7 @@ public class Configurations {
 
         String filePath = dirPath + File.separator + CONFIG_FILE_NAME + ".";
 
-        String fullFilePath = null;
+        String fullFilePath;
         // Scan for Yaml file
         if (AuditUtil.isFileExists(filePath + YML_EXTENTION)) {
             fullFilePath = filePath + YML_EXTENTION;
@@ -182,7 +182,7 @@ public class Configurations {
      * @throws ConfigurationException 
      */
     private static ConfigProvider<Configuration> getProviderByFileExtention(String extention) throws ConfigurationException {
-        ConfigProvider<Configuration> provider = null;
+        ConfigProvider<Configuration> provider;
         if (XML_EXTENTION.equals(extention)) {
             provider = new XMLConfigProvider<>(Configuration.class);
         } else if (YML_EXTENTION.equals(extention) || YAML_EXTENTION.equals(extention)) {

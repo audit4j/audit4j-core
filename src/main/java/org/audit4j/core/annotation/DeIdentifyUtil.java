@@ -39,7 +39,7 @@ public class DeIdentifyUtil {
 	 * @since 2.0.0
 	 */
 	public static String deidentifyLeft(String str, int size) {
-		int repeat = 0;
+		int repeat;
 		if (size > str.length()) {
 			repeat = str.length();
 		} else {
@@ -59,7 +59,7 @@ public class DeIdentifyUtil {
 	 */
 	public static String deidentifyRight(String str, int size) {
 		int end = str.length();
-		int repeat = 0;
+		int repeat;
 		if (size > str.length()) {
 			repeat = str.length();
 		} else {
@@ -79,7 +79,7 @@ public class DeIdentifyUtil {
 	 */
 	public static String deidentifyFromLeft(String str, int size) {
 		int end = str.length();
-		int repeat = 0;
+		int repeat;
 		if (size > str.length()) {
 			repeat = 0;
 		} else {
@@ -99,7 +99,7 @@ public class DeIdentifyUtil {
 	 */
 	public static String deidentifyFromRight(String str, int size) {
 		int end = str.length();
-		int repeat = 0;
+		int repeat;
 		if (size > str.length()) {
 			repeat = str.length();
 		} else {
@@ -120,7 +120,7 @@ public class DeIdentifyUtil {
 	 */
 	public static String deidentifyMiddle(String str, int start, int end) {
 
-		int repeat = 0;
+		int repeat;
 		if (end - start > str.length()) {
 			repeat = str.length();
 		} else {
