@@ -189,7 +189,7 @@ public class EnvUtilTest {
      *
      * @generatedBy CodePro at 2/4/15 9:25 AM
      */
-    @Test
+/*    @Test
     public void testIsWindows_2()
         throws Exception {
 
@@ -197,7 +197,7 @@ public class EnvUtilTest {
 
         // add additional test code here
         assertEquals(true, result);
-    }
+    }*/
 
     /**
      * Perform pre-test initialization.
