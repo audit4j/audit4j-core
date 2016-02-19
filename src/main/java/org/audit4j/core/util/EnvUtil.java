@@ -112,7 +112,7 @@ public class EnvUtil {
         ClassLoader classLoader = EnvUtil.class.getClassLoader();
         try {
             Class<?> bindingClass = classLoader.loadClass("org.codehaus.janino.ScriptEvaluator");
-            return (bindingClass != null);
+            return bindingClass != null;
         } catch (ClassNotFoundException e) {
             return false;
         }

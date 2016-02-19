@@ -141,8 +141,8 @@ public class ConcurrentTaskScheduler extends ConcurrentTaskExecutor implements T
     public final void setScheduledExecutor(ScheduledExecutorService scheduledExecutor) {
         if (scheduledExecutor != null) {
             this.scheduledExecutor = scheduledExecutor;
-            this.enterpriseConcurrentScheduler = (managedScheduledExecutorServiceClass != null && managedScheduledExecutorServiceClass
-                    .isInstance(scheduledExecutor));
+            this.enterpriseConcurrentScheduler = managedScheduledExecutorServiceClass != null && managedScheduledExecutorServiceClass
+                    .isInstance(scheduledExecutor);
         } else {
             this.scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
             this.enterpriseConcurrentScheduler = false;
@@ -173,8 +173,8 @@ public class ConcurrentTaskScheduler extends ConcurrentTaskExecutor implements T
             if (this.enterpriseConcurrentScheduler) {
                 return new EnterpriseConcurrentTriggerScheduler().schedule(decorateTask(task, true), trigger);
             } else {
-                ErrorHandler errorHandler = (this.errorHandler != null ? this.errorHandler : TaskUtils
-                        .getDefaultErrorHandler(true));
+                ErrorHandler errorHandler = this.errorHandler != null ? this.errorHandler : TaskUtils
+                        .getDefaultErrorHandler(true);
                 return new ReschedulingRunnable(task, trigger, this.scheduledExecutor, errorHandler).schedule();
             }
         } catch (RejectedExecutionException ex) {

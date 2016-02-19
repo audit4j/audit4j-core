@@ -48,7 +48,7 @@ public class StringUtils {
      * @since 3.2.1
      */
     public static boolean isEmpty(Object str) {
-        return (str == null || "".equals(str));
+        return str == null || "".equals(str);
     }
 
     /**
@@ -70,7 +70,7 @@ public class StringUtils {
      * @see #hasText(String)
      */
     public static boolean hasLength(CharSequence str) {
-        return (str != null && str.length() > 0);
+        return str != null && str.length() > 0;
     }
 
     /**
@@ -470,7 +470,7 @@ public class StringUtils {
      *         input was {@code null}
      */
     public static String quote(String str) {
-        return (str != null ? "'" + str + "'" : null);
+        return str != null ? "'" + str + "'" : null;
     }
 
     /**
@@ -483,7 +483,7 @@ public class StringUtils {
      *         if not a String
      */
     public static Object quoteIfString(Object obj) {
-        return (obj instanceof String ? quote((String) obj) : obj);
+        return obj instanceof String ? quote((String) obj) : obj;
     }
 
     /**
@@ -561,7 +561,7 @@ public class StringUtils {
             return null;
         }
         int separatorIndex = path.lastIndexOf(FOLDER_SEPARATOR);
-        return (separatorIndex != -1 ? path.substring(separatorIndex + 1) : path);
+        return separatorIndex != -1 ? path.substring(separatorIndex + 1) : path;
     }
 
     /**
@@ -726,8 +726,8 @@ public class StringUtils {
      */
     public static Locale parseLocaleString(String localeString) {
         String[] parts = tokenizeToStringArray(localeString, "_ ", false, false);
-        String language = (parts.length > 0 ? parts[0] : "");
-        String country = (parts.length > 1 ? parts[1] : "");
+        String language = parts.length > 0 ? parts[0] : "";
+        String country = parts.length > 1 ? parts[1] : "";
         validateLocalePart(language);
         validateLocalePart(country);
         String variant = "";
@@ -743,7 +743,7 @@ public class StringUtils {
                 variant = trimLeadingCharacter(variant, '_');
             }
         }
-        return (language.length() > 0 ? new Locale(language, country, variant) : null);
+        return language.length() > 0 ? new Locale(language, country, variant) : null;
     }
 
     private static void validateLocalePart(String localePart) {
