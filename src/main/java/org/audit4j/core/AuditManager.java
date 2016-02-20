@@ -42,7 +42,7 @@ public final class AuditManager {
     }
 
     /** The audit manager. */
-    private static AuditManager auditManager;
+    private static volatile AuditManager auditManager;
     
     /**
      * Audit.
@@ -98,13 +98,17 @@ public final class AuditManager {
      * @return single instance of AuditHelper
      */
     public static AuditManager getInstance() {
-        synchronized (AuditManager.class) {
-            if (auditManager == null) {
-                Context.init();
-                auditManager = new AuditManager();
+        AuditManager result = auditManager;
+        if(result == null) {
+            synchronized (AuditManager.class) {
+                result = auditManager;
+                if(result == null) {
+                    Context.init();
+                    auditManager = result = new AuditManager();
+                }
             }
         }
-        return auditManager;
+        return result;
     }
 
     /**
