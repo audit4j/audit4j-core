@@ -275,7 +275,7 @@
 		</plugins>
 	</build>
 
-<!-- Execute this mvn -DperformRelease=true -->
+	<!-- Execute this mvn -DperformRelease=true -->
 	<profiles>
 		<profile>
 			<id>release-sign-artifacts</id>

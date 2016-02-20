@@ -12,7 +12,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * The class <code>AuditEventTest</code> contains tests for the class <code>{@link AuditEvent}</code>.
+ * The class <code>AuditEventTest</code> contains tests for the class
+ * <code>{@link AuditEvent}</code>.
  *
  * @generatedBy CodePro at 2/4/15 9:27 AM
  * @author JanithB
@@ -27,8 +28,7 @@ public class AuditEventTest {
      * @generatedBy CodePro at 2/4/15 9:27 AM
      */
     @Test
-    public void testAuditEvent_1()
-        throws Exception {
+    public void testAuditEvent_1() throws Exception {
 
         AuditEvent result = new AuditEvent();
 
@@ -38,7 +38,7 @@ public class AuditEventTest {
         assertEquals(null, result.getAction());
         assertEquals(null, result.getActor());
         assertEquals(null, result.getAuditId());
-        assertEquals(null, result.getUuid());
+        assertNotNull(result.getUuid());
     }
 
     /**
@@ -49,8 +49,7 @@ public class AuditEventTest {
      * @generatedBy CodePro at 2/4/15 9:27 AM
      */
     @Test
-    public void testAuditEvent_2()
-        throws Exception {
+    public void testAuditEvent_2() throws Exception {
         String actor = "";
         String action = "";
 
@@ -62,7 +61,7 @@ public class AuditEventTest {
         assertEquals("", result.getAction());
         assertEquals("", result.getActor());
         assertEquals(null, result.getAuditId());
-        assertEquals(null, result.getUuid());
+        assertNotNull(result.getUuid());
     }
 
     /**
@@ -73,8 +72,7 @@ public class AuditEventTest {
      * @generatedBy CodePro at 2/4/15 9:27 AM
      */
     @Test
-    public void testAuditEvent_3()
-        throws Exception {
+    public void testAuditEvent_3() throws Exception {
         String actor = "";
         String action = "";
 
@@ -86,8 +84,7 @@ public class AuditEventTest {
         assertEquals("", result.getAction());
         assertEquals("", result.getActor());
         assertEquals(null, result.getAuditId());
-        assertEquals(null, result.getUuid());
-    }
+        assertNotNull(result.getUuid());    }
 
     /**
      * Run the AuditEvent(String,String,String,Field[]) constructor test.
@@ -97,8 +94,7 @@ public class AuditEventTest {
      * @generatedBy CodePro at 2/4/15 9:27 AM
      */
     @Test
-    public void testAuditEvent_4()
-        throws Exception {
+    public void testAuditEvent_4() throws Exception {
         String actor = "";
         String action = "";
         String origin = "";
@@ -111,7 +107,7 @@ public class AuditEventTest {
         assertEquals("", result.getAction());
         assertEquals("", result.getActor());
         assertEquals(null, result.getAuditId());
-        assertEquals(null, result.getUuid());
+        assertNotNull(result.getUuid());
     }
 
     /**
@@ -122,8 +118,7 @@ public class AuditEventTest {
      * @generatedBy CodePro at 2/4/15 9:27 AM
      */
     @Test
-    public void testAuditEvent_5()
-        throws Exception {
+    public void testAuditEvent_5() throws Exception {
         String actor = "";
         String action = "";
         String origin = "";
@@ -136,7 +131,7 @@ public class AuditEventTest {
         assertEquals("", result.getAction());
         assertEquals("", result.getActor());
         assertEquals(null, result.getAuditId());
-        assertEquals(null, result.getUuid());
+        assertNotNull(result.getUuid());
     }
 
     /**
@@ -147,8 +142,7 @@ public class AuditEventTest {
      * @generatedBy CodePro at 2/4/15 9:27 AM
      */
     @Test
-    public void testAddField_1()
-        throws Exception {
+    public void testAddField_1() throws Exception {
         AuditEvent fixture = new AuditEvent("", "", "", new Field[] {});
         fixture.setFields(new ReadMostlyVector());
         Field field = new Field();
@@ -166,8 +160,7 @@ public class AuditEventTest {
      * @generatedBy CodePro at 2/4/15 9:27 AM
      */
     @Test
-    public void testAddField_2()
-        throws Exception {
+    public void testAddField_2() throws Exception {
         AuditEvent fixture = new AuditEvent("", "", "", new Field[] {});
         fixture.setFields(new ReadMostlyVector());
         String name = "";
@@ -186,8 +179,7 @@ public class AuditEventTest {
      * @generatedBy CodePro at 2/4/15 9:27 AM
      */
     @Test
-    public void testAddField_3()
-        throws Exception {
+    public void testAddField_3() throws Exception {
         AuditEvent fixture = new AuditEvent("", "", "", new Field[] {});
         fixture.setFields(new ReadMostlyVector());
         String name = "";
@@ -206,8 +198,7 @@ public class AuditEventTest {
      * @generatedBy CodePro at 2/4/15 9:27 AM
      */
     @Test
-    public void testAddField_4()
-        throws Exception {
+    public void testAddField_4() throws Exception {
         AuditEvent fixture = new AuditEvent("", "", "", new Field[] {});
         fixture.setFields(new ReadMostlyVector());
         String name = "";
@@ -227,8 +218,7 @@ public class AuditEventTest {
      * @generatedBy CodePro at 2/4/15 9:27 AM
      */
     @Test
-    public void testAddField_5()
-        throws Exception {
+    public void testAddField_5() throws Exception {
         AuditEvent fixture = new AuditEvent("", "", "", new Field[] {});
         fixture.setFields(new ReadMostlyVector());
         String name = "";
@@ -248,8 +238,7 @@ public class AuditEventTest {
      * @generatedBy CodePro at 2/4/15 9:27 AM
      */
     @Test
-    public void testGetAction_1()
-        throws Exception {
+    public void testGetAction_1() throws Exception {
         AuditEvent fixture = new AuditEvent("", "", "", new Field[] {});
         fixture.setFields(new ReadMostlyVector());
 
@@ -267,8 +256,7 @@ public class AuditEventTest {
      * @generatedBy CodePro at 2/4/15 9:27 AM
      */
     @Test
-    public void testGetActor_1()
-        throws Exception {
+    public void testGetActor_1() throws Exception {
         AuditEvent fixture = new AuditEvent("", "", "", new Field[] {});
         fixture.setFields(new ReadMostlyVector());
 
@@ -286,8 +274,7 @@ public class AuditEventTest {
      * @generatedBy CodePro at 2/4/15 9:27 AM
      */
     @Test
-    public void testGetFields_1()
-        throws Exception {
+    public void testGetFields_1() throws Exception {
         AuditEvent fixture = new AuditEvent("", "", "", new Field[] {});
         fixture.setFields(new ReadMostlyVector());
 
@@ -306,8 +293,7 @@ public class AuditEventTest {
      * @generatedBy CodePro at 2/4/15 9:27 AM
      */
     @Test
-    public void testGetOrigin_1()
-        throws Exception {
+    public void testGetOrigin_1() throws Exception {
         AuditEvent fixture = new AuditEvent("", "", "", new Field[] {});
         fixture.setFields(new ReadMostlyVector());
 
@@ -325,8 +311,7 @@ public class AuditEventTest {
      * @generatedBy CodePro at 2/4/15 9:27 AM
      */
     @Test
-    public void testSetAction_1()
-        throws Exception {
+    public void testSetAction_1() throws Exception {
         AuditEvent fixture = new AuditEvent("", "", "", new Field[] {});
         fixture.setFields(new ReadMostlyVector());
         String action = "";
@@ -344,8 +329,7 @@ public class AuditEventTest {
      * @generatedBy CodePro at 2/4/15 9:27 AM
      */
     @Test
-    public void testSetActor_1()
-        throws Exception {
+    public void testSetActor_1() throws Exception {
         AuditEvent fixture = new AuditEvent("", "", "", new Field[] {});
         fixture.setFields(new ReadMostlyVector());
         String actor = "";
@@ -363,8 +347,7 @@ public class AuditEventTest {
      * @generatedBy CodePro at 2/4/15 9:27 AM
      */
     @Test
-    public void testSetFields_1()
-        throws Exception {
+    public void testSetFields_1() throws Exception {
         AuditEvent fixture = new AuditEvent("", "", "", new Field[] {});
         fixture.setFields(new ReadMostlyVector());
         List<Field> fields = new ReadMostlyVector();
@@ -382,8 +365,7 @@ public class AuditEventTest {
      * @generatedBy CodePro at 2/4/15 9:27 AM
      */
     @Test
-    public void testSetOrigin_1()
-        throws Exception {
+    public void testSetOrigin_1() throws Exception {
         AuditEvent fixture = new AuditEvent("", "", "", new Field[] {});
         fixture.setFields(new ReadMostlyVector());
         String origin = "";
@@ -397,13 +379,12 @@ public class AuditEventTest {
      * Perform pre-test initialization.
      *
      * @throws Exception
-     *         if the initialization fails for some reason
+     *             if the initialization fails for some reason
      *
      * @generatedBy CodePro at 2/4/15 9:27 AM
      */
     @Before
-    public void setUp()
-        throws Exception {
+    public void setUp() throws Exception {
         // add additional set up code here
     }
 
@@ -411,20 +392,20 @@ public class AuditEventTest {
      * Perform post-test clean-up.
      *
      * @throws Exception
-     *         if the clean-up fails for some reason
+     *             if the clean-up fails for some reason
      *
      * @generatedBy CodePro at 2/4/15 9:27 AM
      */
     @After
-    public void tearDown()
-        throws Exception {
+    public void tearDown() throws Exception {
         // Add additional tear down code here
     }
 
     /**
      * Launch the test.
      *
-     * @param args the command line arguments
+     * @param args
+     *            the command line arguments
      *
      * @generatedBy CodePro at 2/4/15 9:27 AM
      */

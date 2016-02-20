@@ -49,6 +49,7 @@ public class Event implements Serializable {
      * Instantiates a new event.
      */
     public Event() {
+        uuid = java.util.UUID.randomUUID().getMostSignificantBits();
         this.timestamp = new Date();
     }
 
@@ -112,7 +113,8 @@ public class Event implements Serializable {
     /**
      * Sets the repository.
      *
-     * @param repository the new repository
+     * @param repository
+     *            the new repository
      */
     public void setRepository(String repository) {
         if (meta == null) {
@@ -124,7 +126,8 @@ public class Event implements Serializable {
     /**
      * Sets the client.
      *
-     * @param client the new client
+     * @param client
+     *            the new client
      */
     public void setClient(String client) {
         if (meta == null) {

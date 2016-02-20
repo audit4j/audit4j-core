@@ -47,7 +47,7 @@ public final class ObjectToFieldsSerializer implements ObjectSerializer {
      * Converts an object to a string representation that lists all fields.
      *
      * @param auditFields the audit fields
-     * @param object            an object
+     * @param object an object
      * @param objectName the object name
      * @param deidentify the de-identify
      */
@@ -55,9 +55,10 @@ public final class ObjectToFieldsSerializer implements ObjectSerializer {
         String localOjectName = objectName;
         if (object == null) {
             auditFields.add(new Field(localOjectName, CoreConstants.NULL));
+            return;
         }
+        
         Class<?> clazz = object.getClass();
-
         if (!visited.contains(object)) {
             visited.add(object);
             if (isPrimitive(object)) {
@@ -85,7 +86,6 @@ public final class ObjectToFieldsSerializer implements ObjectSerializer {
                         else if (objVal != null) {
                             toFields(auditFields, objVal, internalLocalOjectName, null);
                         }
-
                     }
                 }
             } else if (object instanceof Collection<?>) {
@@ -113,12 +113,9 @@ public final class ObjectToFieldsSerializer implements ObjectSerializer {
                 do {
                     java.lang.reflect.Field[] fields = clazz.getDeclaredFields();
                     AccessibleObject.setAccessible(fields, true);
-
                     for (java.lang.reflect.Field field : fields) {
                         if (!Modifier.isStatic(field.getModifiers()) && !field.isAnnotationPresent(IgnoreAudit.class)) {
-
                             String internalLocalOjectName2 = internalLocalOjectName + CoreConstants.DOLLAR_CHAR + field.getName();
-
                             boolean deidentifyFlag = false;
                             DeIdentify deidentifyAnn = null;
                             if (field.isAnnotationPresent(DeIdentify.class)) {
