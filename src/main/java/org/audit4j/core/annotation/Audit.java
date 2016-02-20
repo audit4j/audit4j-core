@@ -48,16 +48,14 @@ public @interface Audit {
      * 
      * @return the string
      */
-	@Nonbinding
+    @Nonbinding
     public String action() default "action";
 
     /**
      * Selection.
      *
      * @return the string
-     * @deprecated : this attribute is no longer using.
-     * 
-     * Selection.
+     * @deprecated : this attribute is no longer using. 
      */
     @Deprecated
     @Nonbinding
@@ -67,15 +65,15 @@ public @interface Audit {
      * Tag.
      *
      * @return the string
-     * @deprecated see repository for more information.
-     * Repository.
+     * @deprecated see repository for more information. Repository.
      */
     @Deprecated
     @Nonbinding
     public String tag() default "default";
-    
+
     /**
-     * Repository. This attribute using to define the repository where audit log located.
+     * Repository. This attribute using to define the repository where audit log
+     * located.
      *
      * @return the string
      */

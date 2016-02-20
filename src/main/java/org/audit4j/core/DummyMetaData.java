@@ -19,7 +19,7 @@
 package org.audit4j.core;
 
 /**
- * The Class DummyMetaData.
+ * The Class DummyMetaData is used as a default metadata class.
  *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 

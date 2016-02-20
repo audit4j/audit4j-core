@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 Janith Bandara, This source is a part of
+ * Copyright (c) 2014-2016 Janith Bandara, This source is a part of
  * Audit4j - An open source auditing framework.
  * http://audit4j.org
  *
@@ -16,20 +16,10 @@
  * limitations under the License.
  */
 
-package org.audit4j.core.annotation;
-
 /**
- * The Enum AuditType.
+ * Audit4j JMX monitoring implementations.
  * 
+ * @since 1.0.0
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
- * 
- * @deprecated
  */
-@Deprecated
-public enum AuditType {
-
-	/** The server. */
-	SERVER, /** The application. */
- APPLICATION, /** The db. */
- DB;
-}
+package org.audit4j.core.jmx;

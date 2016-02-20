@@ -67,8 +67,6 @@ public final class AuditManager {
      *            the args
      * @return true, if successful
      * 
-     *         TODO FIXME not purely asynchronous. should moved to the logic in
-     *         to asynchronous stream.
      */
     public boolean audit(Class<?> clazz, Method method, Object[] args) {
         return audit(new AnnotationAuditEvent(clazz, method, args));

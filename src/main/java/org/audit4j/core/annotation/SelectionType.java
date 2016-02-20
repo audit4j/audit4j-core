@@ -22,10 +22,14 @@ package org.audit4j.core.annotation;
  * The Enum SelectionType.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * This enum is no longer using
  */
+@Deprecated
 public enum SelectionType {
 
     /** The all. */
-    ALL, /** The marked. */
+    ALL,
+    /** The marked. */
     MARKED;
 }

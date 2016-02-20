@@ -32,7 +32,7 @@ import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.dto.Field;
 
 /**
- * The Class AnnotationTransformer use to transform annotation information in to
+ * The Class DefaultAnnotationTransformer use to transform annotation information in to
  * simple audit event.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
