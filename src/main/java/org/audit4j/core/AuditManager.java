@@ -27,7 +27,7 @@ import org.audit4j.core.filter.AuditAnnotationFilter;
 
 /**
  * The AuditManager. This class is used to submit audit events as well as
- * annotations. This is the only audit submition end point of the Audit4j.
+ * annotations. This is the only audit submission end point of the Audit4j.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
