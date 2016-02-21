@@ -33,7 +33,7 @@ import org.audit4j.core.filter.AuditAnnotationFilter;
  * 
  * @since 1.0.0
  */
-public final class AuditManager {
+public final class AuditManager implements IAuditManager {
 
     /**
      * Instantiates a new audit manager.
@@ -121,7 +121,7 @@ public final class AuditManager {
      * @deprecated
      */
     @Deprecated
-    public static AuditManager getConfigurationInstance(Configuration configuration) {
+    public static IAuditManager getConfigurationInstance(Configuration configuration) {
         Context.setConfig(configuration);
         return getInstance();
     }
@@ -138,7 +138,7 @@ public final class AuditManager {
      * @since 2.3.0
      */
     @Deprecated
-    public static AuditManager initWithConfiguration(Configuration configuration) {
+    public static IAuditManager initWithConfiguration(Configuration configuration) {
         Context.setConfig(configuration);
         return getInstance();
     }
@@ -154,7 +154,7 @@ public final class AuditManager {
      * 
      * @since 2.3.1
      */
-    public static AuditManager startWithConfiguration(Configuration configuration) {
+    public static IAuditManager startWithConfiguration(Configuration configuration) {
         Context.setConfig(configuration);
         return getInstance();
     }
@@ -171,7 +171,7 @@ public final class AuditManager {
      * @return the audit manager
      * @since 2.3.1
      */
-    public static AuditManager startWithConfiguration(String configFilePath) {
+    public static IAuditManager startWithConfiguration(String configFilePath) {
         Context.setConfigFilePath(configFilePath);
         return getInstance();
     }

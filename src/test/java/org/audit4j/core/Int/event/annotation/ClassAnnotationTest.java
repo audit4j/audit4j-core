@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 
 import org.audit4j.core.AuditManager;
 import org.audit4j.core.Configuration;
+import org.audit4j.core.IAuditManager;
 import org.audit4j.core.Mock.ClassAnnotationMock;
 import org.audit4j.core.Mock.TestSuperObjectMock;
 import org.audit4j.core.dto.AnnotationAuditEvent;
@@ -20,7 +21,7 @@ public class ClassAnnotationTest {
 
     @Test
     public void testAnnotation_selection_all() {
-        AuditManager manager = AuditManager.startWithConfiguration(Configuration.DEFAULT);
+        IAuditManager manager = AuditManager.startWithConfiguration(Configuration.DEFAULT);
         Method annoMethod = null;
         try {
             annoMethod = ClassAnnotationMock.class.getMethod("testClassAnnotation_selection_all", String.class);
@@ -39,7 +40,7 @@ public class ClassAnnotationTest {
 
     @Test
     public void testAnnotation_complex() {
-        AuditManager manager = AuditManager.startWithConfiguration(Configuration.DEFAULT);
+        IAuditManager manager = AuditManager.startWithConfiguration(Configuration.DEFAULT);
         Method annoMethod = null;
         try {
             annoMethod = ClassAnnotationMock.class.getMethod("testClassAnnotation_Complex", String.class,

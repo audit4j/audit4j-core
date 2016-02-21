@@ -3,6 +3,7 @@ package org.audit4j.core.Int.event.annotation;
 import java.lang.reflect.Method;
 
 import org.audit4j.core.AuditManager;
+import org.audit4j.core.IAuditManager;
 import org.audit4j.core.Mock.ClassAnnotationMock;
 import org.audit4j.core.util.Log;
 import org.audit4j.core.util.StopWatch;
@@ -19,7 +20,7 @@ public class IgnoreAuditAnnotationTest {
 
     @Test
     public void testIgnoreAuditAnnotation() {
-        AuditManager manager = AuditManager.getInstance();
+        IAuditManager manager = AuditManager.getInstance();
         Method annoMethod = null;
         try {
             annoMethod = ClassAnnotationMock.class.getMethod("testClassAnnotation_Ignore", String.class);

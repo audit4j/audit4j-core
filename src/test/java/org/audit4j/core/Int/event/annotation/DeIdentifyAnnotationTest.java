@@ -3,6 +3,7 @@ package org.audit4j.core.Int.event.annotation;
 import java.lang.reflect.Method;
 
 import org.audit4j.core.AuditManager;
+import org.audit4j.core.IAuditManager;
 import org.audit4j.core.Mock.MethodAnnotationMock;
 import org.junit.After;
 import org.junit.Before;
@@ -17,7 +18,7 @@ public class DeIdentifyAnnotationTest {
 
     @Test
     public void testAnnotation_selection_marked_deidentify() {
-        AuditManager manager = AuditManager.getInstance();
+        IAuditManager manager = AuditManager.getInstance();
         Method annoMethod = null;
         try {
             annoMethod = MethodAnnotationMock.class.getMethod("testAnnotation_selection_marked_deidentify",
@@ -38,7 +39,7 @@ public class DeIdentifyAnnotationTest {
 
     @Test
     public void testAnnotation_selection_marked_deidentify_from_left() {
-        AuditManager manager = AuditManager.getInstance();
+        IAuditManager manager = AuditManager.getInstance();
         Method annoMethod = null;
         try {
             annoMethod = MethodAnnotationMock.class.getMethod("testAnnotation_selection_marked_deidentify_from_left",
@@ -59,7 +60,7 @@ public class DeIdentifyAnnotationTest {
 
     @Test
     public void testAnnotation_selection_marked_deidentify_from_right() {
-        AuditManager manager = AuditManager.getInstance();
+        IAuditManager manager = AuditManager.getInstance();
         Method annoMethod = null;
         try {
             annoMethod = MethodAnnotationMock.class.getMethod("testAnnotation_selection_marked_deidentify_from_right",
