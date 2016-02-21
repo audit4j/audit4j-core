@@ -3,6 +3,7 @@ package org.audit4j.core.util;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import org.audit4j.core.Audit4jTestBase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +16,7 @@ import org.junit.Test;
  * @author JanithB
  * @version $Revision: 1.0 $
  */
-public class StopWatchTest {
+public class StopWatchTest extends Audit4jTestBase{
     /**
      * Run the StopWatch() constructor test.
      * 
@@ -105,6 +106,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
 
         String result = fixture.getLastTaskName();
@@ -125,6 +127,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
 
         String result = fixture.getLastTaskName();
@@ -145,6 +148,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
 
         long result = fixture.getLastTaskTime();
@@ -165,6 +169,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
 
         long result = fixture.getLastTaskTime();
@@ -185,6 +190,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
 
         long result = fixture.getLastTaskTimeMillis();
@@ -205,6 +211,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
 
         long result = fixture.getLastTaskTimeMillis();
@@ -225,6 +232,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
 
         int result = fixture.getTaskCount();
@@ -245,6 +253,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch();
         fixture.setKeepTaskList(true);
         fixture.start("test");
+        halt();
         fixture.stop();
 
         StopWatch.TaskInfo[] result = fixture.getTaskInfo();
@@ -271,6 +280,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(false);
         fixture.start("");
+        halt();
         fixture.stop();
 
         StopWatch.TaskInfo[] result = fixture.getTaskInfo();
@@ -291,6 +301,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
 
         long result = fixture.getTotalTime();
@@ -311,6 +322,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
 
         long result = fixture.getTotalTimeMillis();
@@ -331,6 +343,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
 
         double result = fixture.getTotalTimeSeconds();
@@ -351,6 +364,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
 
         boolean result = fixture.isRunning();
@@ -371,6 +385,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
 
         boolean result = fixture.isRunning();
@@ -391,6 +406,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
 
         String result = fixture.prettyPrint();
@@ -411,6 +427,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
 
         String result = fixture.prettyPrint();
@@ -431,10 +448,12 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(false);
         fixture.start("");
+        halt();
         fixture.stop();
 
         String result = fixture.prettyPrint();
-
+        System.out.println(result);
+        
         // add additional test code here
         assertEquals("StopWatch '': running time (millis) = 0\nNo task info kept", result);
     }
@@ -451,6 +470,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
 
         fixture.reset();
@@ -470,6 +490,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
         boolean keepTaskList = true;
 
@@ -490,6 +511,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
 
         String result = fixture.shortSummary();
@@ -510,6 +532,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
 
         fixture.start();
@@ -529,6 +552,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
 
         fixture.start();
@@ -548,6 +572,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
         String taskName = "";
 
@@ -568,6 +593,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
         String taskName = "";
 
@@ -588,6 +614,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
 
         fixture.stop();
@@ -607,6 +634,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
 
         fixture.stop();
@@ -626,6 +654,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(false);
         fixture.start("");
+        halt();
         fixture.stop();
 
         fixture.stop();
@@ -645,6 +674,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(false);
         fixture.start("");
+        halt();
         fixture.stop();
 
         String result = fixture.toString();
@@ -665,6 +695,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
 
         String result = fixture.toString();
@@ -685,6 +716,7 @@ public class StopWatchTest {
         StopWatch fixture = new StopWatch("");
         fixture.setKeepTaskList(true);
         fixture.start("");
+        halt();
         fixture.stop();
 
         String result = fixture.toString();

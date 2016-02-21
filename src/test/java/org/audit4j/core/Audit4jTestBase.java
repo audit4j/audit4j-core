@@ -54,7 +54,11 @@ public class Audit4jTestBase {
         Log.info(watch.getLastTaskName() + "=" + watch.getLastTaskTime() + ":" + watch.getLastTaskTimeMillis() + "ms");
     }
     
-    
+    protected void halt(){
+        for (int i = 0; i < 100000; i++) {
+            System.out.print("");
+        }
+    }
     
     /**
      * Before.
