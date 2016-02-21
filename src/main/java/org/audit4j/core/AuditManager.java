@@ -27,7 +27,7 @@ import org.audit4j.core.filter.AuditAnnotationFilter;
 
 /**
  * The AuditManager. This class is used to submit audit events as well as
- * annotations. This is the only audit submition end point of the Audit4j.
+ * annotations. This is the only audit submission end point of the Audit4j.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
@@ -42,7 +42,7 @@ public final class AuditManager {
     }
 
     /** The audit manager. */
-    private static AuditManager auditManager;
+    private static volatile AuditManager auditManager;
     
     /**
      * Audit.
@@ -98,13 +98,17 @@ public final class AuditManager {
      * @return single instance of AuditHelper
      */
     public static AuditManager getInstance() {
-        synchronized (AuditManager.class) {
-            if (auditManager == null) {
-                Context.init();
-                auditManager = new AuditManager();
+        AuditManager result = auditManager;
+        if(result == null) {
+            synchronized (AuditManager.class) {
+                result = auditManager;
+                if(result == null) {
+                    Context.init();
+                    auditManager = result = new AuditManager();
+                }
             }
         }
-        return auditManager;
+        return result;
     }
 
     /**
