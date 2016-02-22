@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.audit4j.core.AuditManager;
 import org.audit4j.core.Configuration;
+import org.audit4j.core.IAuditManager;
 import org.audit4j.core.Int.IntTestBase;
 import org.junit.After;
 import org.junit.Before;
@@ -23,7 +24,7 @@ public class ScanAnnotationOptionIntTest extends IntTestBase {
     @Test
     public void testFilter_filter_accepts() throws InterruptedException {
         watchStart("testFilter_filter_accepts");
-        AuditManager manager = AuditManager.getInstance();
+        IAuditManager manager = AuditManager.getInstance();
         boolean status = manager.audit(getSampleAnnotationEvent());
         watchStop();
         assertTrue(status);
@@ -33,7 +34,7 @@ public class ScanAnnotationOptionIntTest extends IntTestBase {
     @Test
     public void testFilter_filter_denied() throws InterruptedException {
         watchStart("testFilter_filter_denied");
-        AuditManager manager = AuditManager.getInstance();
+        IAuditManager manager = AuditManager.getInstance();
         boolean status = manager.audit(getSampleNullAnnotationEvent());
         watchStop();
         // assertFalse(status);
@@ -42,6 +43,6 @@ public class ScanAnnotationOptionIntTest extends IntTestBase {
 
     @After
     public void after() {
-        AuditManager.getInstance().shutdown();
+        AuditManager.shutdown();
     }
 }

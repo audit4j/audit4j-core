@@ -47,7 +47,7 @@ public class TroubleshootManagerTest extends Audit4jTestBase {
 	public void testTroubleshootEvent_NULL_ACTOR_NULL_METADATA() {
         Configuration config = getDefaultConfiguration();
         config.setMetaData(null);
-        AuditManager manager = AuditManager.getConfigurationInstance(config);
+        IAuditManager manager = AuditManager.getConfigurationInstance(config);
 	    AuditEvent event = getSampleAuditEvent();
         // Set Actor as null
         event.setActor(null);
