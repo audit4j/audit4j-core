@@ -31,7 +31,7 @@ import org.audit4j.core.annotation.IgnoreAudit;
 import org.audit4j.core.exception.Audit4jRuntimeException;
 
 /**
- * The Class ToStringGen.
+ * The Class ObjectToStringSerializer.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
@@ -42,6 +42,9 @@ public final class ObjectToStringSerializer implements ObjectSerializer {
     /** The Constant visited. */
     private static final ArrayList<Object> visited = new ArrayList<Object>();
 
+    /* (non-Javadoc)
+     * @see org.audit4j.core.ObjectSerializer#serialize(java.util.List, java.lang.Object, java.lang.String, org.audit4j.core.annotation.DeIdentify)
+     */
     @Override
     public void serialize(List<org.audit4j.core.dto.Field> auditFields, Object object,
             String objectName, DeIdentify deidentify) {
@@ -52,9 +55,9 @@ public final class ObjectToStringSerializer implements ObjectSerializer {
 
     /**
      * Converts an object to a string representation that lists all fields.
-     * 
-     * @param object
-     *            an object
+     *
+     * @param object            an object
+     * @param deidentify the deidentify
      * @return a string with the object's class name and all field names and
      *         values
      */

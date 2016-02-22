@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
  * IAuditManager. This interface describes actions available for AuditManager
  * implementations.
  *
- * @since ?.?.?
+ * @since 2.4.1
  */
 public interface IAuditManager {
 
