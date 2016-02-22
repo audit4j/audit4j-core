@@ -91,10 +91,12 @@
 			<artifactId>reactor-core</artifactId>
 			<version>1.1.6.RELEASE</version>
 		</dependency>
+
+		<!-- Do not change below dependency version unless testing properly -->
 		<dependency>
-			<groupId>org.javassist</groupId>
+			<groupId>javassist</groupId>
 			<artifactId>javassist</artifactId>
-			<version>3.20.0-GA</version>
+			<version>3.12.1.GA</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.enterprise</groupId>
