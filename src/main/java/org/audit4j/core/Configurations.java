@@ -80,8 +80,7 @@ public class Configurations {
      */
     static Configuration loadConfig(ConfigurationStream stream) throws ConfigurationException {
         ConfigProvider<Configuration> provider = getProviderByFileExtention(stream.getExtention());
-        Configuration configuration = provider.readConfig(stream.getInputStream());
-        return configuration;
+        return provider.readConfig(stream.getInputStream());
     }
 
     /**

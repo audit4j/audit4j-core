@@ -95,10 +95,6 @@ class ServletContexConfigSupport {
      */
     boolean hasHandlers(ServletContext servletContext) {
         String handlers = servletContext.getInitParameter("handlers");
-        if (handlers == null || handlers.equals("")) {
-            return false;
-        } else {
-            return true;
-        }
+        return handlers == null || handlers.equals("");
     }
 }
