@@ -24,8 +24,7 @@ public class Audit4jTestBase {
         EventBuilder builder = new EventBuilder();
         builder.addTimestamp(new Date()).addActor(actor).addAction("myMethod").addOrigin("Origin").addField("myParam1Name", "param1")
                 .addField("myParam2Name", new Integer(2));
-        AuditEvent event = builder.build();
-        return event;
+        return builder.build();
     }
 
     protected Configuration getDefaultConfiguration() {
