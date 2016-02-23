@@ -42,7 +42,7 @@ public final class AuditManager implements IAuditManager {
     }
 
     /** The audit manager. */
-    private static volatile AuditManager auditManager;
+    private static volatile IAuditManager auditManager;
     
     /**
      * Audit.
@@ -97,8 +97,8 @@ public final class AuditManager implements IAuditManager {
      * 
      * @return single instance of AuditHelper
      */
-    public static AuditManager getInstance() {
-        AuditManager result = auditManager;
+    public static IAuditManager getInstance() {
+        IAuditManager result = auditManager;
         if(result == null) {
             synchronized (AuditManager.class) {
                 result = auditManager;
