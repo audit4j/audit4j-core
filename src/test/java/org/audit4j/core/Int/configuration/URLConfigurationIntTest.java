@@ -50,6 +50,6 @@ public class URLConfigurationIntTest extends IntTestBase {
         } else {
             System.out.println("Delete operation is failed.");
         }
-        AuditManager.getInstance().shutdown();
+        AuditManager.shutdown();
     }
 }

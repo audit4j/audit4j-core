@@ -181,6 +181,17 @@ public final class AuditManager implements IAuditManager {
     }
 
     /**
+     * Initialize the audit4j.
+     * 
+     * @return the audit manager
+     * 
+     * @since 2.4.1
+     */
+    public static IAuditManager start() {
+        return getInstance();
+    }
+    
+    /**
      * Shutdown.
      */
     public static void shutdown() {

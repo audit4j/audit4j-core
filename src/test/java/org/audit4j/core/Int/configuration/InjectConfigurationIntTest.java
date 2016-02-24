@@ -16,6 +16,6 @@ public class InjectConfigurationIntTest extends IntTestBase{
 
     @After
     public void after() {
-        AuditManager.getInstance().shutdown();
+        AuditManager.shutdown();
     }
 }

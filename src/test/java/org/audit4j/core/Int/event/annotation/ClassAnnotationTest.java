@@ -65,6 +65,6 @@ public class ClassAnnotationTest {
 
     @After
     public void after() {
-        AuditManager.getInstance().shutdown();
+        AuditManager.shutdown();
     }
 }

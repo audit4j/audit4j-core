@@ -81,6 +81,6 @@ public class DeIdentifyAnnotationTest {
 
     @After
     public void after() {
-        AuditManager.getInstance().shutdown();
+        AuditManager.shutdown();
     }
 }
