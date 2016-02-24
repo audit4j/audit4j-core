@@ -58,7 +58,9 @@ public class FileIterator implements StreamIterator
    @Override
 public InputStream next()
    {
-      if (index >= files.size()) return null;
+      if (index >= files.size()) {
+    	  return null;
+      }
       File fp = (File) files.get(index++);
       try
       {
