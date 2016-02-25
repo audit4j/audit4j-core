@@ -51,6 +51,13 @@ public final class PreConfigurationContext {
     /** The Constant preAnnotationFilters. */
     private static final List<AuditAnnotationFilter> preAnnotationFilters = new ArrayList<AuditAnnotationFilter>();
 
+    /**
+     * Instantiates a new registry.
+     */
+    private PreConfigurationContext() {
+        // Private Constructor
+    }
+
     static {
         ScanAnnotatedCommand scanAnnotated = new ScanAnnotatedCommand();
         availableCommands.add(scanAnnotated.getCommand());
@@ -130,13 +137,6 @@ public final class PreConfigurationContext {
      */
     public static List<AuditAnnotationFilter> getPreannotationfilters() {
         return preAnnotationFilters;
-    }
-
-    /**
-     * Instantiates a new registry.
-     */
-    private PreConfigurationContext() {
-        // Private Constructor
     }
 
 }

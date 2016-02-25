@@ -38,16 +38,6 @@ public class ConcurrentDateFormatAccess {
     /** The format. */
     private final String format;
 
-    /**
-     * Instantiates a new concurrent date format access.
-     *
-     * @param format the format
-     */
-    public ConcurrentDateFormatAccess(String format) {
-        super();
-        this.format = format;
-    }
-
     /** The date format. */
     private final ThreadLocal<DateFormat> dateFormat = new ThreadLocal<DateFormat>() {
         @Override
@@ -71,6 +61,16 @@ public class ConcurrentDateFormatAccess {
         }
 
     };
+
+    /**
+     * Instantiates a new concurrent date format access.
+     *
+     * @param format the format
+     */
+    public ConcurrentDateFormatAccess(String format) {
+        super();
+        this.format = format;
+    }
 
     /**
      * Convert string to date.

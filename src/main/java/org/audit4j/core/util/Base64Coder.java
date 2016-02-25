@@ -27,13 +27,6 @@ package org.audit4j.core.util;
  */
 public class Base64Coder {
 
-   /**
-    * Instantiates a new base64 coder.
-    */
-   private Base64Coder() {
-
-   }
-
    /** Holds The Constant LINE_SEPARATOR Value. */
    public static final String LINE_SEPARATOR = "line.separator";
 
@@ -99,6 +92,13 @@ public class Base64Coder {
        for (int i = 0; i < CONSTANT_64; i++) {
            map2[map1[i]] = (byte) i;
        }
+   }
+
+   /**
+    * Instantiates a new base64 coder.
+    */
+   private Base64Coder() {
+
    }
 
    /**

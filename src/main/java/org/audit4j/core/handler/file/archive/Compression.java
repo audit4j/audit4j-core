@@ -14,6 +14,15 @@ public enum Compression {
     private String extention;
 
     /**
+     * Instantiates a new compression type.
+     *
+     * @param extention the extention
+     */
+    Compression(String extention) {
+        this.extention = extention;
+    }
+
+    /**
      * Gets the extention.
      *
      * @return the extention
@@ -22,12 +31,4 @@ public enum Compression {
         return extention;
     }
 
-    /**
-     * Instantiates a new compression type.
-     *
-     * @param extention the extention
-     */
-    Compression(String extention) {
-        this.extention = extention;
-    }
 }

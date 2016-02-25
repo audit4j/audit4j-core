@@ -39,7 +39,14 @@ public final class CommandProcessor {
 
     /** The instance. */
     private static CommandProcessor instance;
-
+    
+    /**
+     * Instantiates a new command processor.
+     */
+    private CommandProcessor(){
+        //Private Constructor.
+    }
+    
     /**
      * Process.
      *
@@ -80,13 +87,6 @@ public final class CommandProcessor {
         }
         
         process(commands);
-    }
-    
-    /**
-     * Instantiates a new command processor.
-     */
-    private CommandProcessor(){
-        //Private Constructor.
     }
     
     /**

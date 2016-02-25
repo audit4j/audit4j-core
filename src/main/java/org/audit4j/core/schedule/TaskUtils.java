@@ -17,13 +17,6 @@ import org.audit4j.core.schedule.util.ErrorHandler;
  */
 public abstract class TaskUtils {
 	
-	/**
-     * private constructor to avoid instantiation of this class
-     */
-    private TaskUtils(){
-    	
-    }
-
     /**
      * An ErrorHandler strategy that will log the Exception but perform no
      * further handling. This will suppress the error so that subsequent
@@ -36,6 +29,13 @@ public abstract class TaskUtils {
      * a scheduled task.
      */
     public static final ErrorHandler LOG_AND_PROPAGATE_ERROR_HANDLER = new PropagatingErrorHandler();
+
+    /**
+     * private constructor to avoid instantiation of this class
+     */
+    private TaskUtils(){
+    	
+    }
 
     /**
      * Decorate the task for error handling. If the provided
