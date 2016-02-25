@@ -95,7 +95,7 @@ public class ServerAdmin implements ServerAdminMBean {
     @Override
     public void enable() {
         Log.warn("Invoking Administration Method Remotely: enable()");
-        AuditManager.getInstance().enable();
+        AuditManager.enable();
     }
 
     /**
@@ -107,7 +107,7 @@ public class ServerAdmin implements ServerAdminMBean {
     @Override
     public void disable() {
         Log.warn("Invoking Administration Method Remotely: disable()");
-        AuditManager.getInstance().disable();
+        AuditManager.disable();
     }
 
     /**
@@ -119,7 +119,7 @@ public class ServerAdmin implements ServerAdminMBean {
     @Override
     public void stop() {
         Log.warn("Invoking Administration Method Remotely: stop()");
-        AuditManager.getInstance().shutdown();
+        AuditManager.shutdown();
     }
 
     /**
@@ -131,7 +131,7 @@ public class ServerAdmin implements ServerAdminMBean {
     @Override
     public void restart() {
         Log.warn("Invoking Administration Method Remotely: restart()");
-        AuditManager.getInstance().shutdown();
+        AuditManager.shutdown();
         AuditManager.getInstance();
     }
 }

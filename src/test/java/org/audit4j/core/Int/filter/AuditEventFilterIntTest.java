@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.audit4j.core.AuditManager;
 import org.audit4j.core.Configuration;
+import org.audit4j.core.IAuditManager;
 import org.audit4j.core.Int.IntTestBase;
 import org.audit4j.core.Mock.AuditEventFilterMock;
 import org.audit4j.core.dto.AuditEvent;
@@ -21,7 +22,7 @@ public class AuditEventFilterIntTest extends IntTestBase {
 
     @Test
     public void testFilter_filter() throws InterruptedException {
-        AuditManager manager = AuditManager.getInstance();
+        IAuditManager manager = AuditManager.getInstance();
         AuditEvent event = getSampleAuditEvent();
         event.setAction("Filter");
         manager.audit(event);
@@ -31,7 +32,7 @@ public class AuditEventFilterIntTest extends IntTestBase {
     
     @Test
     public void testFilter_not_filter() throws InterruptedException {
-        AuditManager manager = AuditManager.getInstance();
+        IAuditManager manager = AuditManager.getInstance();
         AuditEvent event = getSampleAuditEvent();
         event.setAction("NOTFilter");
         manager.audit(event);

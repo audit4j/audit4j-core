@@ -8,6 +8,7 @@
 *.iml
 *.audit
 *.yml
+*.yaml
 .settings
 target
 .classpath

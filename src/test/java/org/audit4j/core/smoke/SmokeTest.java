@@ -3,6 +3,7 @@ package org.audit4j.core.smoke;
 import java.util.concurrent.TimeUnit;
 
 import org.audit4j.core.AuditManager;
+import org.audit4j.core.IAuditManager;
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.dto.EventBuilder;
 import org.audit4j.core.util.Log;
@@ -23,8 +24,8 @@ public class SmokeTest {
         watch.stop();
         Log.info(watch.getTotalTime());
         watch.start();
-        AuditManager manager = AuditManager.getInstance();
-        //manager.audit(event);
+        IAuditManager manager = AuditManager.getInstance();
+       // manager.audit(event);
 
         watch.stop();
         Log.info(watch.getTotalTime());
@@ -34,10 +35,11 @@ public class SmokeTest {
         watch.stop();
         Log.info(watch.getTotalTime());
         TimeUnit.SECONDS.sleep(4);
+        AuditManager.shutdown(); 
     }
 
     public static void main(String[] args) {
-        AuditManager manager = AuditManager.getInstance();
+        IAuditManager manager = AuditManager.getInstance();
         int count = 0;
         while (count < 100000) {
             EventBuilder builder = new EventBuilder();

@@ -27,13 +27,13 @@ import org.audit4j.core.filter.AuditAnnotationFilter;
 
 /**
  * The AuditManager. This class is used to submit audit events as well as
- * annotations. This is the only audit submition end point of the Audit4j.
+ * annotations. This is the only audit submission end point of the Audit4j.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
  * @since 1.0.0
  */
-public final class AuditManager {
+public final class AuditManager implements IAuditManager {
 
     /**
      * Instantiates a new audit manager.
@@ -42,7 +42,7 @@ public final class AuditManager {
     }
 
     /** The audit manager. */
-    private static AuditManager auditManager;
+    private static volatile IAuditManager auditManager;
     
     /**
      * Audit.
@@ -97,14 +97,18 @@ public final class AuditManager {
      * 
      * @return single instance of AuditHelper
      */
-    public static AuditManager getInstance() {
-        synchronized (AuditManager.class) {
-            if (auditManager == null) {
-                Context.init();
-                auditManager = new AuditManager();
+    public static IAuditManager getInstance() {
+        IAuditManager result = auditManager;
+        if(result == null) {
+            synchronized (AuditManager.class) {
+                result = auditManager;
+                if(result == null) {
+                    Context.init();
+                    auditManager = result = new AuditManager();
+                }
             }
         }
-        return auditManager;
+        return result;
     }
 
     /**
@@ -121,7 +125,7 @@ public final class AuditManager {
      * @deprecated
      */
     @Deprecated
-    public static AuditManager getConfigurationInstance(Configuration configuration) {
+    public static IAuditManager getConfigurationInstance(Configuration configuration) {
         Context.setConfig(configuration);
         return getInstance();
     }
@@ -138,7 +142,7 @@ public final class AuditManager {
      * @since 2.3.0
      */
     @Deprecated
-    public static AuditManager initWithConfiguration(Configuration configuration) {
+    public static IAuditManager initWithConfiguration(Configuration configuration) {
         Context.setConfig(configuration);
         return getInstance();
     }
@@ -154,7 +158,7 @@ public final class AuditManager {
      * 
      * @since 2.3.1
      */
-    public static AuditManager startWithConfiguration(Configuration configuration) {
+    public static IAuditManager startWithConfiguration(Configuration configuration) {
         Context.setConfig(configuration);
         return getInstance();
     }
@@ -171,11 +175,22 @@ public final class AuditManager {
      * @return the audit manager
      * @since 2.3.1
      */
-    public static AuditManager startWithConfiguration(String configFilePath) {
+    public static IAuditManager startWithConfiguration(String configFilePath) {
         Context.setConfigFilePath(configFilePath);
         return getInstance();
     }
 
+    /**
+     * Initialize the audit4j.
+     * 
+     * @return the audit manager
+     * 
+     * @since 2.4.1
+     */
+    public static IAuditManager start() {
+        return getInstance();
+    }
+    
     /**
      * Shutdown.
      */

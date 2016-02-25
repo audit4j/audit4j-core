@@ -73,6 +73,6 @@ public class MethodAnnotationTest {
 
     @After
     public void after() {
-        AuditManager.getInstance().shutdown();
+        AuditManager.shutdown();
     }
 }
