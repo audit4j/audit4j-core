@@ -173,9 +173,9 @@ public class ConcurrentTaskScheduler extends ConcurrentTaskExecutor implements T
             if (this.enterpriseConcurrentScheduler) {
                 return new EnterpriseConcurrentTriggerScheduler().schedule(decorateTask(task, true), trigger);
             } else {
-                ErrorHandler errorHandler = this.errorHandler != null ? this.errorHandler : TaskUtils
+                ErrorHandler errorHandlerLocal = this.errorHandler != null ? this.errorHandler : TaskUtils
                         .getDefaultErrorHandler(true);
-                return new ReschedulingRunnable(task, trigger, this.scheduledExecutor, errorHandler).schedule();
+                return new ReschedulingRunnable(task, trigger, this.scheduledExecutor, errorHandlerLocal).schedule();
             }
         } catch (RejectedExecutionException ex) {
             throw new TaskRejectedException("Executor [" + this.scheduledExecutor + "] did not accept task: " + task,
