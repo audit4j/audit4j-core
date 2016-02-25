@@ -25,7 +25,9 @@ public class MovingAverage {
     }
 
     public BigDecimal getAverage() {
-        if (window.isEmpty()) return BigDecimal.ZERO; // technically the average is undefined
+        if (window.isEmpty()) {
+        	return BigDecimal.ZERO; // technically the average is undefined
+        }
         BigDecimal divisor = BigDecimal.valueOf(window.size());
         return sum.divide(divisor, 2, RoundingMode.HALF_UP);
     }

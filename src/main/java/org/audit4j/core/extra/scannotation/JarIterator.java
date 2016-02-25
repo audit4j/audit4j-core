@@ -36,7 +36,9 @@ public class JarIterator implements StreamIterator
       initial = true;
       try
       {
-         if (next != null) jar.closeEntry();
+         if (next != null) {
+        	 jar.closeEntry();
+         }
          next = null;
          do
          {
@@ -56,9 +58,13 @@ public class JarIterator implements StreamIterator
    @Override
 public InputStream next()
    {
-      if (closed || (next == null && !initial)) return null;
+      if (closed || (next == null && !initial)) {
+    	  return null;
+      }
       setNext();
-      if (next == null) return null;
+      if (next == null) {
+    	  return null;
+      }
       return new InputStreamWrapper(jar);
    }
 

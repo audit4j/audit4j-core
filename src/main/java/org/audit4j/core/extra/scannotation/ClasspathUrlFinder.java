@@ -133,7 +133,9 @@ public class ClasspathUrlFinder
       {
          String path = tokenizer.nextToken();
          File fp = new File(path);
-         if (!fp.exists()) throw new RuntimeException("File in java.class.path does not exist: " + fp);
+         if (!fp.exists()) {
+        	 throw new RuntimeException("File in java.class.path does not exist: " + fp);
+         }
          try
          {
             list.add(fp.toURL());
@@ -177,9 +179,13 @@ public class ClasspathUrlFinder
                break;
             }
          }
-         if (!found) continue;
+         if (!found) {
+        	 continue;
+         }
          File fp = new File(path);
-         if (!fp.exists()) throw new RuntimeException("File in java.class.path does not exists: " + fp);
+         if (!fp.exists()) {
+        	 throw new RuntimeException("File in java.class.path does not exists: " + fp);
+         }
          try
          {
             list.add(fp.toURL());
