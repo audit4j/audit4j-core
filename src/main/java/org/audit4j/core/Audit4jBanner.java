@@ -43,8 +43,8 @@ class Audit4jBanner {
      */
     void printBanner() {
         PrintStream printStream = System.out;
-        for (String line : BANNER) {
-            printStream.println(line);
+        for (String lineLocal : BANNER) {
+            printStream.println(lineLocal);
         }
         printStream.print(line);
         String version = Audit4jBanner.class.getPackage().getImplementationVersion();
