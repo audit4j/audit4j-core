@@ -19,6 +19,12 @@ public final class LifeCycleContext {
     private static LifeCycleContext instance;
 
     /**
+     * Instantiates a new context life cycle.
+     */
+    private LifeCycleContext() {
+    }
+    
+    /**
      * Gets the status.
      * 
      * @return the status
@@ -65,12 +71,6 @@ public final class LifeCycleContext {
      */
     void setStatus(RunStatus status) {
         this.status = status;
-    }
-
-    /**
-     * Instantiates a new context life cycle.
-     */
-    private LifeCycleContext() {
     }
 
     /**

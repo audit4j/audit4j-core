@@ -10,6 +10,13 @@ package org.audit4j.core.util;
 public final class ClassLoaderUtils {
 
     /**
+     * Instantiates a new class loader utils.
+     */
+    private ClassLoaderUtils() {
+        super();
+    }
+
+    /**
      * Gets the class loader.
      *
      * @param clazz the clazz
@@ -33,10 +40,4 @@ public final class ClassLoaderUtils {
         return ClassLoader.getSystemClassLoader();
     }
 
-    /**
-     * Instantiates a new class loader utils.
-     */
-    private ClassLoaderUtils() {
-        super();
-    }
 }

@@ -15,15 +15,6 @@ public enum ArchiveType {
     private String name;
 
     /**
-     * Gets the name.
-     * 
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
      * Instantiates a new archive type.
      * 
      * @param name
@@ -32,4 +23,14 @@ public enum ArchiveType {
     private ArchiveType(String name) {
         this.name = name;
     }
+    
+    /**
+     * Gets the name.
+     * 
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
 }

@@ -95,6 +95,13 @@ public final class Context {
 	private static AnnotationTransformer annotationTransformer;
 
 	/**
+	 * Private singalton.
+	 */
+	private Context() {
+		// Nothing here. Private Constructor
+	}
+	
+	/**
 	 * Initialize the Audit4j instance. This will ensure the single audit4j
 	 * instance and single Configuration repository load in to the memory.
 	 */
@@ -459,10 +466,4 @@ public final class Context {
 		return lifeCycle.getStatus();
 	}
 
-	/**
-	 * Private singalton.
-	 */
-	private Context() {
-		// Nothing here. Private Constructor
-	}
 }

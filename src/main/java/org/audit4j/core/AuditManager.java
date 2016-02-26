@@ -35,15 +35,15 @@ import org.audit4j.core.filter.AuditAnnotationFilter;
  */
 public final class AuditManager implements IAuditManager {
 
+    /** The audit manager. */
+    private static volatile IAuditManager auditManager;
+    
     /**
      * Instantiates a new audit manager.
      */
     private AuditManager() {
     }
 
-    /** The audit manager. */
-    private static volatile IAuditManager auditManager;
-    
     /**
      * Audit.
      * 

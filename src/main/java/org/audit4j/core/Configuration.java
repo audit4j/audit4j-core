@@ -64,13 +64,6 @@ public class Configuration implements Serializable {
     /** The jmx configurations. */
     private JMXConfig jmx;
     
-    /**
-     * Instantiates a new configuration.
-     */
-    public Configuration() {
-
-    }
-    
     /** Return new static instance. 
      * 
      * @since 2.3.1
@@ -82,6 +75,13 @@ public class Configuration implements Serializable {
      * @since 2.3.1
      * */
     public static Configuration DEFAULT = getDefault();
+    
+    /**
+     * Instantiates a new configuration.
+     */
+    public Configuration() {
+
+    }
     
     /**
      * Gets the default.
