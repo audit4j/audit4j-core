@@ -39,14 +39,11 @@ public class SmokeTest {
     }
 
     public static void main(String[] args) {
-        IAuditManager manager = AuditManager.getInstance();
         int count = 0;
         while (count < 100000) {
-            EventBuilder builder = new EventBuilder();
-            builder.addActor("Dummy Actor").addAction("myMethod").addOrigin("Origin1")
-                    .addField("myParam1Name", "param1").addField("myParam2Name", new Integer(2));
-            AuditEvent event = builder.build();
-            manager.audit(event);
+            
+            AuditManager.getInstance().audit(new EventBuilder().addActor("Dummy Actor").addAction("myMethod").addOrigin("Origin1")
+                    .addField("myParam1Name", "param1").addField("myParam2Name", new Integer(2)).build());
             count++;
         }
     }

@@ -43,7 +43,7 @@ import org.audit4j.core.filter.impl.ScanAnnotatedFilter;
 public class ScanAnnotatedCommand extends AbstractCommand {
 
     /** The db. */
-    AnnotationDB db;
+    private AnnotationDB db;
 
     /* (non-Javadoc)
      * @see org.audit4j.core.command.AbstractCommand#getCommand()
