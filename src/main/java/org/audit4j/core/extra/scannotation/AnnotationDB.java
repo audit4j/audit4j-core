@@ -29,7 +29,7 @@ public class AnnotationDB implements Serializable {
     protected transient boolean scanMethodAnnotations = true;
     protected transient boolean scanParameterAnnotations = true;
     protected transient boolean scanFieldAnnotations = true;
-    protected transient String[] ignoredPackages = { "javax", "java", "sun", "com.sun", "javassist" };
+    protected transient String[] ignoredPackages = { "javax", "java", "sun", "com.sun", "javassist", "org.javassist" };
     protected transient String[] scanPackages = null;
     protected transient boolean ignoreBadURLs = false;
 
@@ -324,6 +324,12 @@ public class AnnotationDB implements Serializable {
             }
             writer.println();
         }
+    }
+    
+    public void flush(){
+        annotationIndex.clear();
+        implementsIndex.clear();
+        classIndex.clear();
     }
     
 }
