@@ -3,8 +3,8 @@ package org.audit4j.core.Int.command;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.audit4j.core.PreConfigurationContext;
 import org.audit4j.core.command.CommandProcessor;
+import org.audit4j.core.command.CommandRegistry;
 import org.audit4j.core.command.impl.MetadataCommand;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,7 +19,7 @@ public class CommandIntTest {
         
         processor.process(commands);
         
-        MetadataCommand command =  (MetadataCommand) PreConfigurationContext.getCommandByName("-metadata");
+        MetadataCommand command =  (MetadataCommand) CommandRegistry.getCommandByName("-metadata");
         Assert.assertTrue(command.isAsync());
     }
 }

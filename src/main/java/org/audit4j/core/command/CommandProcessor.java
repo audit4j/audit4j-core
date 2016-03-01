@@ -55,7 +55,7 @@ public final class CommandProcessor {
     public void process(Map<String, String> options) {
         Log.info("Initializing Commands...");
         for (Map.Entry<String, String> entry : options.entrySet()) {
-            AbstractCommand command = PreConfigurationContext.getCommandByName(entry.getKey());
+            AbstractCommand command = CommandRegistry.getCommandByName(entry.getKey());
             if (null != command) {
                 command.setCommands(options);
                 try {
@@ -79,7 +79,7 @@ public final class CommandProcessor {
         String[] args = StringUtils.split(commandText);
         for (String arg : args) {
             String[] command = StringUtils.split(arg, CoreConstants.EQ_CHAR);
-            if (!PreConfigurationContext.getAvailableCommands().contains(command[0])) {
+            if (!CommandRegistry.getAvailableCommands().contains(command[0])) {
                 Log.warn("Invalid command: ", command[0], " Please check your configurations. ",
                         ErrorGuide.getGuide(ErrorGuide.INVALID_COMMAND));
             }

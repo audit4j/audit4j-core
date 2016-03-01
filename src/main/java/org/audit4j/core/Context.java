@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.audit4j.core.command.CommandProcessor;
+import org.audit4j.core.command.CommandRegistry;
 import org.audit4j.core.command.impl.MetadataCommand;
 import org.audit4j.core.command.impl.ObjectSerializerCommand;
 import org.audit4j.core.dto.AuditEvent;
@@ -162,7 +163,7 @@ public final class Context {
 
 			// Initialize annotation transformer.
 			DefaultAnnotationTransformer defaultAnnotationTransformer = new DefaultAnnotationTransformer();
-			ObjectSerializerCommand serializerCommand = (ObjectSerializerCommand) PreConfigurationContext
+			ObjectSerializerCommand serializerCommand = (ObjectSerializerCommand) CommandRegistry
 					.getCommandByName("-objectSerializer");
 			if (serializerCommand.getSerializer() == null) {
 				defaultAnnotationTransformer.setSerializer(new ObjectToFieldsSerializer());
@@ -394,7 +395,7 @@ public final class Context {
 	 */
 	private static void initStreams() {
 		Log.info("Initializing Streams...");
-		MetadataCommand command = (MetadataCommand) PreConfigurationContext.getCommandByName("-metadata");
+		MetadataCommand command = (MetadataCommand) CommandRegistry.getCommandByName("-metadata");
 		if (command.isAsync()) {
 			AsyncAnnotationAuditOutputStream asyncAnnotationStream = new AsyncAnnotationAuditOutputStream(
 					new AuditProcessOutputStream(Context.getConfigContext()), annotationTransformer);

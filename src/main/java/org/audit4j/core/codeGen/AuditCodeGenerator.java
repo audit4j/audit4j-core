@@ -5,13 +5,10 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.Set;
 
-import org.audit4j.core.AuditManager;
-import org.audit4j.core.Initializable;
 import org.audit4j.core.annotation.Audit;
 import org.audit4j.core.annotation.AuditField;
 import org.audit4j.core.annotation.DeIdentify;
 import org.audit4j.core.annotation.IgnoreAudit;
-import org.audit4j.core.exception.InitializationException;
 import org.audit4j.core.extra.scannotation.AnnotationDB;
 import org.audit4j.core.extra.scannotation.ClasspathUrlFinder;
 import org.audit4j.core.util.annotation.Beeta;
@@ -22,14 +19,24 @@ import javassist.CtClass;
 import javassist.CtMethod;
 import javassist.NotFoundException;
 
+/**
+ * The Class AuditCodeGenerator.
+ */
 @Beeta
-public class AuditCodeGenerator implements Initializable {
+public class AuditCodeGenerator {
 
+    /** The db. */
     private AnnotationDB db;
+
+    /** The base package name. */
     private String basePackageName;
 
-    @Override
-    public void init() throws InitializationException {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.audit4j.core.Initializable#init()
+     */
+    public void generate() throws CodeGenException {
         indexAnnotations();
         ClassPool pool = ClassPool.getDefault();
 
@@ -39,28 +46,26 @@ public class AuditCodeGenerator implements Initializable {
             try {
                 cc = pool.get(annotaionClass);
             } catch (NotFoundException e) {
-                e.printStackTrace();
+                throw new CodeGenException("Class pool can not be created", e);
             }
             if (cc.hasAnnotation(Audit.class)) {
-                System.out.println("Class: " + cc.getName());
                 for (CtMethod method : cc.getMethods()) {
                     if (excludedMethod(method.getName())
                             || method.hasAnnotation(IgnoreAudit.class)) {
 
                     } else {
-                        System.out.println("Method: " + method.getName());
                         StringBuilder builder = new StringBuilder(
                                 "{ org.audit4j.core.AuditManager.getInstance()");
                         builder.append(".audit(new org.audit4j.core.dto.EventBuilder()");
                         extractAction(builder, method);
                         extractFields(builder, method);
                         builder.append(".build()); }");
-
-                        System.out.println(builder.toString());
                         try {
                             method.insertBefore(builder.toString());
                         } catch (CannotCompileException e) {
-                            e.printStackTrace();
+                            throw new CodeGenException(
+                                    "Unable to insert code in to given method. ",
+                                    e);
                         }
                     }
                 }
@@ -70,53 +75,62 @@ public class AuditCodeGenerator implements Initializable {
                             || method.hasAnnotation(IgnoreAudit.class)) {
 
                     } else {
-                        System.out.println("Method: " + method.getName());
                         StringBuilder builder = new StringBuilder(
-                                "{ org.audit4j.core.AuditManager.getInstance()");
+                                "org.audit4j.core.AuditManager.getInstance()");
                         builder.append(".audit(new org.audit4j.core.dto.EventBuilder()");
                         extractAction(builder, method);
                         extractFields(builder, method);
-                        builder.append(".build()); }");
-                        System.out.println(builder.toString());
+                        builder.append(".build());");
                         try {
                             method.insertBefore(builder.toString());
                         } catch (CannotCompileException e) {
-                            e.printStackTrace();
+                            throw new CodeGenException(
+                                    "Unable to insert code in to given method. ",
+                                    e);
                         }
                     }
                 }
             }
             try {
                 cc.writeFile();
-            } catch (NotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (CannotCompileException e) {
-                e.printStackTrace();
+            } catch (NotFoundException | IOException | CannotCompileException e) {
+                throw new CodeGenException(
+                        "Unable to write code in to given class. ", e);
             }
 
-            Class clazz = null;
             try {
-                clazz = cc.toClass();
-            } catch (CannotCompileException e1) {
-                e1.printStackTrace();
+                cc.toClass();
+            } catch (CannotCompileException e) {
+                throw new CodeGenException("Unable to load class. ", e);
             }
         }
     }
 
-    private void indexAnnotations() {
-        db = new AnnotationDB();
+    /**
+     * Index annotations.
+     * 
+     * @throws CodeGenException
+     */
+    private void indexAnnotations() throws CodeGenException {
+        db = AnnotationDB.getDefault();
         db.setScanClassAnnotations(true);
         db.setScanMethodAnnotations(true);
+        
+        URL[] urls = ClasspathUrlFinder.findClassPaths();
         try {
-            db.scanArchives(determinePackageURL());
+            db.scanArchives(urls);
         } catch (IOException e) {
-            throw new InitializationException("", e);
+            throw new CodeGenException("Unable to load scan classpath. ", e);
         }
     }
 
-    private URL determinePackageURL() {
+    /**
+     * Determine package url.
+     *
+     * @return the url
+     * @throws CodeGenException 
+     */
+    private URL determinePackageURL() throws CodeGenException {
         URL url = null;
         if (basePackageName == null) {
             url = ClasspathUrlFinder.findClassBase(AuditCodeGenerator.class);
@@ -132,12 +146,19 @@ public class AuditCodeGenerator implements Initializable {
                     url = new URL(url.toExternalForm().substring(0, index));
                 }
             } catch (IOException e) {
-                throw new InitializationException("", e);
+                throw new CodeGenException("Unable to determine url: ", e);
             }
         }
         return url;
     }
 
+    /**
+     * Excluded method.
+     *
+     * @param methodName
+     *            the method name
+     * @return true, if successful
+     */
     private boolean excludedMethod(String methodName) {
         if (methodName.contains("wait") || methodName.contains("equals")
                 || methodName.contains("toString") || methodName.contains("hashCode")
@@ -149,20 +170,38 @@ public class AuditCodeGenerator implements Initializable {
         return false;
     }
 
-    private void extractAction(StringBuilder builder, CtMethod method) {
+    /**
+     * Extract action.
+     *
+     * @param builder
+     *            the builder
+     * @param method
+     *            the method
+     * @throws CodeGenException 
+     */
+    private void extractAction(StringBuilder builder, CtMethod method) throws CodeGenException {
         if (method.hasAnnotation(Audit.class)) {
             try {
                 builder.append(".addAction(\"")
                         .append(((Audit) method.getAnnotation(Audit.class)).action()).append("\")");
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                throw new CodeGenException("Annotation not found in the given method. ", e);
             }
         } else {
             builder.append(".addAction(\"").append(method.getName()).append("\")");
         }
     }
 
-    private void extractFields(StringBuilder builder, CtMethod method) {
+    /**
+     * Extract fields.
+     *
+     * @param builder
+     *            the builder
+     * @param method
+     *            the method
+     * @throws CodeGenException 
+     */
+    private void extractFields(StringBuilder builder, CtMethod method) throws CodeGenException {
 
         int i = 1;
         String paramName = null;
@@ -170,7 +209,7 @@ public class AuditCodeGenerator implements Initializable {
         try {
             parameterAnnotations = method.getParameterAnnotations();
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            throw new CodeGenException("Annotation not found in the given parameter. ", e);
         }
         for (final Object[] annotations : parameterAnnotations) {
             // final Object object = params[i++];
@@ -207,26 +246,22 @@ public class AuditCodeGenerator implements Initializable {
         }
     }
 
+    /**
+     * Sets the base package name.
+     *
+     * @param basePackageName
+     *            the new base package name
+     */
     public void setBasePackageName(String basePackageName) {
         this.basePackageName = basePackageName;
     }
-    
-    @Override
-    public void stop() {
-        db.flush();
-    }
 
-    public static void main(String[] args) {
-        AuditManager.getInstance();
-        AuditCodeGenerator gen = new AuditCodeGenerator();
-        gen.setBasePackageName("org.audit4j.core");
-        gen.init();
-        gen.stop();
-        
-        TestClass testClass = new TestClass();
-        testClass.test();
-        testClass.test2("testParam");
-        
-        
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.audit4j.core.Initializable#stop()
+     */
+    public void flush() {
+        db.flush();
     }
 }

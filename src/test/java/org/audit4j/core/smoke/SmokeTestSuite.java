@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ SmokeTest.class })
+@SuiteClasses({ SmokeTest.class, CommandSmokeTest.class })
 public class SmokeTestSuite {
 
 }

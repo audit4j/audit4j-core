@@ -33,6 +33,8 @@ public class AnnotationDB implements Serializable {
     protected transient String[] scanPackages = null;
     protected transient boolean ignoreBadURLs = false;
 
+    private static volatile AnnotationDB instance;
+    
     public String[] getScanPackages() {
         return scanPackages;
     }
@@ -324,6 +326,17 @@ public class AnnotationDB implements Serializable {
             }
             writer.println();
         }
+    }
+    
+    public static AnnotationDB getDefault(){
+        if (instance == null) {
+            synchronized (AnnotationDB.class) {
+                if (instance == null) {
+                    instance = new AnnotationDB();
+                }
+            }
+        }
+        return instance;
     }
     
     public void flush(){

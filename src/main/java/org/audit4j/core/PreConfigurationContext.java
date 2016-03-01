@@ -19,14 +19,8 @@
 package org.audit4j.core;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.audit4j.core.command.AbstractCommand;
-import org.audit4j.core.command.impl.MetadataCommand;
-import org.audit4j.core.command.impl.ObjectSerializerCommand;
-import org.audit4j.core.command.impl.ScanAnnotatedCommand;
 import org.audit4j.core.filter.AuditAnnotationFilter;
 import org.audit4j.core.filter.AuditEventFilter;
 
@@ -39,12 +33,6 @@ import org.audit4j.core.filter.AuditEventFilter;
  */
 public final class PreConfigurationContext {
 
-    /** The Constant commands. */
-    private static final Map<String, AbstractCommand> commands = new HashMap<String, AbstractCommand>();
-
-    /** The Constant options. */
-    private static final List<String> availableCommands = new ArrayList<String>();
-
     /** The Constant preFilters. */
     private static final List<AuditEventFilter> preFilters = new ArrayList<AuditEventFilter>();
 
@@ -56,49 +44,6 @@ public final class PreConfigurationContext {
      */
     private PreConfigurationContext() {
         // Private Constructor
-    }
-
-    static {
-        ScanAnnotatedCommand scanAnnotated = new ScanAnnotatedCommand();
-        availableCommands.add(scanAnnotated.getCommand());
-        commands.put(scanAnnotated.getCommand(), scanAnnotated);
-
-        MetadataCommand metadataCommand = new MetadataCommand();
-        availableCommands.add(metadataCommand.getCommand());
-        commands.put(metadataCommand.getCommand(), metadataCommand);
-        
-        ObjectSerializerCommand serializerCommand = new ObjectSerializerCommand();
-        availableCommands.add(serializerCommand.getCommand());
-        commands.put(serializerCommand.getCommand(), serializerCommand);
-    }
-
-    /**
-     * Gets the command by option name.
-     * 
-     * @param commandName
-     *            the option name
-     * @return the command by option name
-     */
-    public static AbstractCommand getCommandByName(String commandName) {
-        return commands.get(commandName);
-    }
-    
-    /**
-     * Gets the options.
-     * 
-     * @return the options
-     */
-    public static List<String> getAvailableCommands() {
-        return availableCommands;
-    }
-
-    /**
-     * Gets the commands.
-     * 
-     * @return the commands
-     */
-    public static Map<String, AbstractCommand> getCommands() {
-        return commands;
     }
 
     /**

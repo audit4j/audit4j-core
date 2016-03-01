@@ -17,7 +17,7 @@ public class ClassAnnotationMock {
 
 	}
 
-	public void testClassAnnotation_selection_marked(@AuditField(field = "a") String a) {
+	public void testClassAnnotation_selection_marked(@AuditField(field = "a") String a, String b) {
 	}
 	
     public void testClassAnnotation_Complex(@AuditField(field = "a") String a, @AuditField(field = "object") TestSuperObjectMock object) {
