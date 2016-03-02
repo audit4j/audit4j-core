@@ -40,6 +40,7 @@ import org.audit4j.core.filter.impl.ScanAnnotatedFilter;
  * 
  * @since 2.3.0
  */
+@Deprecated
 public class ScanAnnotatedCommand extends AbstractCommand {
 
     /** The db. */

@@ -24,7 +24,6 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.audit4j.core.CoreConstants;
 import org.audit4j.core.ErrorGuide;
-import org.audit4j.core.PreConfigurationContext;
 import org.audit4j.core.exception.InitializationException;
 import org.audit4j.core.util.Log;
 

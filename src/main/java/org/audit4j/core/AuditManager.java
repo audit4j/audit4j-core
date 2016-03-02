@@ -19,11 +19,9 @@
 package org.audit4j.core;
 
 import java.lang.reflect.Method;
-import java.util.List;
 
 import org.audit4j.core.dto.AnnotationAuditEvent;
 import org.audit4j.core.dto.AuditEvent;
-import org.audit4j.core.filter.AuditAnnotationFilter;
 
 /**
  * The AuditManager. This class is used to submit audit events as well as
@@ -80,14 +78,6 @@ public final class AuditManager implements IAuditManager {
      * @return true, if successful
      */
     public boolean audit(AnnotationAuditEvent annotationEvent) {
-        List<AuditAnnotationFilter> filters = Context.getConfigContext().getAnnotationFilters();
-        if (!filters.isEmpty()) {
-            for (AuditAnnotationFilter filter : filters) {
-                if (!filter.accepts(annotationEvent)) {
-                    return false;
-                }
-            }
-        }
         Context.getAuditStream().write(annotationEvent);
         return true;
     }

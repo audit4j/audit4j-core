@@ -7,6 +7,13 @@ import org.audit4j.core.codeGen.CodeGenException;
 import org.audit4j.core.command.AbstractCommand;
 import org.audit4j.core.exception.InitializationException;
 
+/**
+ * The Class MetadataCommand.
+ * 
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 2.5.0
+ */
 public class CodeGenCommand extends AbstractCommand {
 
     AuditCodeGenerator generator;
