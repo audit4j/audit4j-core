@@ -2,7 +2,7 @@
 
 audit4j-core
 ============
-Audit4j is an open source auditing framework and specifically designed to capture audit events generated and triggered from various components throughout the enterprise applications. Audit4j is more focussed on business audit events however can be used to capture system audit events through extentions.
+Audit4j is an open source auditing framework and specifically designed to capture audit events generated and triggered from various components throughout the enterprise applications. Audit4j is more focussed on business audit events however it also can be used to capture system audit events through extentions.
 
  
 For more information please visit: 
