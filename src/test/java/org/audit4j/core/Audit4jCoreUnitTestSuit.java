@@ -27,12 +27,14 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
 @RunWith(Suite.class)
-@SuiteClasses({ ValidationManagerTest.class, EncryptionUtilTest.class, TroubleshootManagerTest.class,
-		ArchiveManagerTest.class, AnnotationTransformerTests.class, SecureLayoutTest.class, SimpleLayoutTest.class,
-		EnvUtilTest.class, EncryptionUtilTest.class, StopWatchTest.class, ConfigurationExceptionTest.class,
-		HandlerExceptionTest.class, InitializationExceptionTest.class, TroubleshootExceptionTest.class,
-		ValidationExceptionTest.class, AuditBaseTest.class, AuditEventTest.class, EventBuilderTest.class,
-		FieldTest.class, AuditAnnotationAttributesTests.class, CommandProcessorTest.class })
+@SuiteClasses({ ValidationManagerTest.class, EncryptionUtilTest.class, ArchiveManagerTest.class,
+        AnnotationTransformerTests.class, SecureLayoutTest.class, SimpleLayoutTest.class,
+        EnvUtilTest.class, EncryptionUtilTest.class, StopWatchTest.class,
+        ConfigurationExceptionTest.class, HandlerExceptionTest.class,
+        InitializationExceptionTest.class, TroubleshootExceptionTest.class,
+        ValidationExceptionTest.class, AuditBaseTest.class, AuditEventTest.class,
+        EventBuilderTest.class, FieldTest.class, AuditAnnotationAttributesTests.class,
+        CommandProcessorTest.class })
 public class Audit4jCoreUnitTestSuit {
 
 }
