@@ -24,14 +24,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class IteratorFactory {
     private static final ConcurrentHashMap<String, DirectoryIteratorFactory> registry = new ConcurrentHashMap<String, DirectoryIteratorFactory>();
-    
+
     /**
      * private constructor to avoid instantiation of this class
      */
-    private IteratorFactory(){
-    	
+    private IteratorFactory() {
+
     }
-    
+
     static {
         registry.put("file", new FileProtocolIteratorFactory());
     }
