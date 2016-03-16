@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2014-2016 Janith Bandara, This source is a part of
+ * Audit4j - An open source auditing framework.
+ * http://audit4j.org
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.audit4j.core.codeGen;
 
 import java.io.IOException;
@@ -20,7 +38,12 @@ import javassist.CtMethod;
 import javassist.NotFoundException;
 
 /**
- * The Class AuditCodeGenerator.
+ * The Class AuditCodeGenerator is used to inject codes in runtime to each and every method
+ * based on the annotations. 
+ * 
+ * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
+ * 
+ * @since 2.5.0
  */
 @Beeta
 public class AuditCodeGenerator {
@@ -63,8 +86,7 @@ public class AuditCodeGenerator {
                         try {
                             method.insertBefore(builder.toString());
                         } catch (CannotCompileException e) {
-                            throw new CodeGenException(
-                                    "Unable to insert code in to given method. ",
+                            throw new CodeGenException("Unable to insert code in to given method. ",
                                     e);
                         }
                     }
@@ -84,8 +106,7 @@ public class AuditCodeGenerator {
                         try {
                             method.insertBefore(builder.toString());
                         } catch (CannotCompileException e) {
-                            throw new CodeGenException(
-                                    "Unable to insert code in to given method. ",
+                            throw new CodeGenException("Unable to insert code in to given method. ",
                                     e);
                         }
                     }
@@ -94,8 +115,7 @@ public class AuditCodeGenerator {
             try {
                 cc.writeFile();
             } catch (NotFoundException | IOException | CannotCompileException e) {
-                throw new CodeGenException(
-                        "Unable to write code in to given class. ", e);
+                throw new CodeGenException("Unable to write code in to given class. ", e);
             }
 
             try {
@@ -115,7 +135,7 @@ public class AuditCodeGenerator {
         db = AnnotationDB.getDefault();
         db.setScanClassAnnotations(true);
         db.setScanMethodAnnotations(true);
-        
+
         URL[] urls = ClasspathUrlFinder.findClassPaths();
         try {
             db.scanArchives(urls);
@@ -128,7 +148,7 @@ public class AuditCodeGenerator {
      * Determine package url.
      *
      * @return the url
-     * @throws CodeGenException 
+     * @throws CodeGenException
      */
     private URL determinePackageURL() throws CodeGenException {
         URL url = null;
@@ -177,7 +197,7 @@ public class AuditCodeGenerator {
      *            the builder
      * @param method
      *            the method
-     * @throws CodeGenException 
+     * @throws CodeGenException
      */
     private void extractAction(StringBuilder builder, CtMethod method) throws CodeGenException {
         if (method.hasAnnotation(Audit.class)) {
@@ -199,7 +219,7 @@ public class AuditCodeGenerator {
      *            the builder
      * @param method
      *            the method
-     * @throws CodeGenException 
+     * @throws CodeGenException
      */
     private void extractFields(StringBuilder builder, CtMethod method) throws CodeGenException {
 
