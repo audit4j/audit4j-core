@@ -31,7 +31,7 @@ public final class CoreConstants {
     public static final String APP_NAME = "Audit4j";
 
     /** The Constant RELEASE_VERSION. */
-    public static final String RELEASE_VERSION = "2.4.0";
+    public static final String RELEASE_VERSION = "2.4.1";
 
     /** The Constant RELEASE_DATE. */
     public static final String RELEASE_DATE = "2015-11-01T12:40:21.077Z";
