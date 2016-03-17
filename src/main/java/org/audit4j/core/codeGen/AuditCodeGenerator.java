@@ -38,8 +38,8 @@ import javassist.CtMethod;
 import javassist.NotFoundException;
 
 /**
- * The Class AuditCodeGenerator is used to inject codes in runtime to each and every method
- * based on the annotations. 
+ * The Class AuditCodeGenerator is used to inject codes in runtime to each and
+ * every method based on the annotations.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
@@ -71,6 +71,11 @@ public class AuditCodeGenerator {
             } catch (NotFoundException e) {
                 throw new CodeGenException("Class pool can not be created", e);
             }
+            if (cc.isFrozen()) {
+                throw new CodeGenException("Can not inject code in to the given class: "
+                        + cc.getName() + "since the class is frozen.");
+            }
+            
             if (cc.hasAnnotation(Audit.class)) {
                 for (CtMethod method : cc.getMethods()) {
                     if (excludedMethod(method.getName())
@@ -113,6 +118,7 @@ public class AuditCodeGenerator {
                 }
             }
             try {
+                cc.stopPruning(true);
                 cc.writeFile();
             } catch (NotFoundException | IOException | CannotCompileException e) {
                 throw new CodeGenException("Unable to write code in to given class. ", e);
@@ -123,6 +129,8 @@ public class AuditCodeGenerator {
             } catch (CannotCompileException e) {
                 throw new CodeGenException("Unable to load class. ", e);
             }
+
+            cc.defrost();
         }
     }
 

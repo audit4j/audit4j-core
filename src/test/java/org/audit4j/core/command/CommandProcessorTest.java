@@ -19,6 +19,6 @@ public class CommandProcessorTest {
     @Test
     public void testProcessStr() {
         CommandProcessor processor = CommandProcessor.getInstance();
-        processor.process("-codeGen");
+        processor.process("-codeGen=true");
     }
 }

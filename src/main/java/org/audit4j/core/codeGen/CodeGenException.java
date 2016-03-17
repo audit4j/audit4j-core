@@ -21,7 +21,7 @@ package org.audit4j.core.codeGen;
 import org.audit4j.core.util.Log;
 
 /**
- * Exception class for code generation. 
+ * Exception class for code generation module. 
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
@@ -32,6 +32,16 @@ public class CodeGenException extends Exception{
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 6232922647368882504L;
 
+    /**
+     * Instantiates a new code gen exception.
+     *
+     * @param message the message
+     */
+    public CodeGenException(String message) {
+        super(message);
+        Log.warn("Exception occured while code generation :" + message);
+    }
+    
     /**
      * Instantiates a new code gen exception.
      *
