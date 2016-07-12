@@ -91,4 +91,8 @@ public class SimpleLayout implements Layout {
     public void setDateFormat(String dateFormat) {
         this.dateFormat = dateFormat;
     }
+
+    public String getDateFormat() {
+    	return dateFormat;
+    }
 }

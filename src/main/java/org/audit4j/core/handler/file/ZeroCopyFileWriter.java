@@ -82,7 +82,12 @@ public final class ZeroCopyFileWriter extends AuditFileWriter implements Seriali
      */
     @Override
     public ZeroCopyFileWriter write(String event) {
-        String realPath = FileHandlerUtil.generateOutputFilePath(path);
+//        String realPath = FileHandlerUtil.generateOutputFilePath(path);
+
+        String realPath = FileHandlerUtil.generateOutputFilePath(
+    			path, 
+    			FileHandlerUtil.generateAuditFileName());
+
         try {
             if (FileHandlerUtil.isFileAlreadyExists(realPath)) {
                 randomAccessFile = new RandomAccessFile(realPath, CoreConstants.READ_WRITE);
