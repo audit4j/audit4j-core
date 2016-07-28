@@ -23,15 +23,25 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.Set;
 
+import org.audit4j.core.AuditManager;
 import org.audit4j.core.annotation.Audit;
 import org.audit4j.core.annotation.AuditField;
 import org.audit4j.core.annotation.DeIdentify;
 import org.audit4j.core.annotation.IgnoreAudit;
+import org.audit4j.core.extra.reflections.Reflections;
+import org.audit4j.core.extra.reflections.scanners.MethodAnnotationsScanner;
+import org.audit4j.core.extra.reflections.scanners.SubTypesScanner;
+import org.audit4j.core.extra.reflections.scanners.TypeAnnotationsScanner;
+import org.audit4j.core.extra.reflections.util.ClasspathHelper;
+import org.audit4j.core.extra.reflections.util.ConfigurationBuilder;
 import org.audit4j.core.extra.scannotation.AnnotationDB;
 import org.audit4j.core.extra.scannotation.ClasspathUrlFinder;
+import org.audit4j.core.util.Log;
 import org.audit4j.core.util.annotation.Beeta;
+import org.audit4j.core.web.WebContext;
 
 import javassist.CannotCompileException;
+import javassist.ClassClassPath;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
@@ -60,22 +70,57 @@ public class AuditCodeGenerator {
      * @see org.audit4j.core.Initializable#init()
      */
     public void generate() throws CodeGenException {
-        indexAnnotations();
-        ClassPool pool = ClassPool.getDefault();
+        // indexAnnotations();
+        System.out.println("asdsa");
+        Reflections reflections;
+        if (WebContext.isInitialized()) {
+            reflections = new Reflections(new ConfigurationBuilder()
+                    .setUrls(ClasspathHelper.forWebInfClasses(WebContext.getServletContext()))
+                    .setScanners(new TypeAnnotationsScanner(), new SubTypesScanner(),
+                            new MethodAnnotationsScanner()));
+            Log.info("Switched to web classpath..");
+        } else {
+            reflections = new Reflections(
+                    new ConfigurationBuilder().setUrls(ClasspathHelper.forClassLoader())
+                            .setScanners(new TypeAnnotationsScanner(), new SubTypesScanner(),
+                                    new MethodAnnotationsScanner()));
+        }
 
-        Set<String> annotated = db.getAnnotationIndex().get(Audit.class.getName());
-        for (String annotaionClass : annotated) {
+        ClassPool pool;
+        if (WebContext.isInitialized()) {
+            String path = WebContext.getServletContext().getRealPath("/WEB-INF/classes");
+            pool = ClassPool.getDefault();
+            try {
+                pool.appendClassPath(path);
+                pool.appendClassPath(new ClassClassPath(AuditManager.class));
+            } catch (NotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        } else {
+         pool = ClassPool.getDefault();
+        }
+
+        // Set<String> annotated =
+        // db.getAnnotationIndex().get(Audit.class.getName());
+        Set<String> auditAnnotatedTypes = reflections.getTypesAnnotatedWithAsString(Audit.class);
+        
+        System.out.println("----------" + auditAnnotatedTypes);
+        for (String annotaionClass : auditAnnotatedTypes) {
+            System.out.println(annotaionClass);
             CtClass cc = null;
             try {
                 cc = pool.get(annotaionClass);
             } catch (NotFoundException e) {
-                throw new CodeGenException("Class pool can not be created", e);
+                Log.error("Class pool can not be created", e);
+                continue;
+              //  throw new CodeGenException("Class pool can not be created", e);
             }
             if (cc.isFrozen()) {
                 throw new CodeGenException("Can not inject code in to the given class: "
                         + cc.getName() + "since the class is frozen.");
             }
-            
+
             if (cc.hasAnnotation(Audit.class)) {
                 for (CtMethod method : cc.getMethods()) {
                     if (excludedMethod(method.getName())
@@ -125,7 +170,8 @@ public class AuditCodeGenerator {
             }
 
             try {
-                cc.toClass();
+                Class clazz = cc.toClass();
+
             } catch (CannotCompileException e) {
                 throw new CodeGenException("Unable to load class. ", e);
             }
@@ -144,9 +190,15 @@ public class AuditCodeGenerator {
         db.setScanClassAnnotations(true);
         db.setScanMethodAnnotations(true);
 
-        URL[] urls = ClasspathUrlFinder.findClassPaths();
+        /*
+         * URL[] urls = ClasspathUrlFinder.findClassPaths(); for (URL url :
+         * urls) { System.out.println("++++++++++++" + url.getPath()); }
+         */
+
+        URL url = ClasspathUrlFinder.findClassBase(AuditCodeGenerator.class);
+        System.out.println("++++++++++++" + url.getPath());
         try {
-            db.scanArchives(urls);
+            db.scanArchives(url);
         } catch (IOException e) {
             throw new CodeGenException("Unable to load scan classpath. ", e);
         }
@@ -290,6 +342,6 @@ public class AuditCodeGenerator {
      * @see org.audit4j.core.Initializable#stop()
      */
     public void flush() {
-        db.flush();
+        // db.flush();
     }
 }

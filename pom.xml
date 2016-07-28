@@ -23,7 +23,7 @@
 	<artifactId>audit4j-core</artifactId>
 	<packaging>jar</packaging>
 	<name>Audit4j - Core</name>
-	<version>2.4.1</version>
+	<version>2.5.0-SNAPSHOT</version>
 	<url>http://audit4j.org</url>
 	<description>Audit4j - An open-source auditing framework for Java, Core</description>
 
@@ -164,6 +164,30 @@
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>18.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-vfs2</artifactId>
+			<version>2.0</version>
+			<scope>provided</scope>
+			<optional>true</optional> <!-- case: -->
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

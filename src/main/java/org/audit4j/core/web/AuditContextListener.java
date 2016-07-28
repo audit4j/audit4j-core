@@ -18,6 +18,10 @@
 
 package org.audit4j.core.web;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -36,7 +40,7 @@ import org.audit4j.core.AuditManager;
  *     </listener-class>
  * </listener> 
  * }
- * </pre>
+ *         </pre>
  * 
  * 
  * @since 2.3.1
@@ -55,9 +59,21 @@ public class AuditContextListener implements ServletContextListener {
      */
     @Override
     public void contextInitialized(ServletContextEvent contextEvent) {
+        ServletContext context = contextEvent.getServletContext();
+        if (context != null) {
+            return;
+        }
+        
+        String codeGenCommand = context.getInitParameter("-codeGen");
+        if (codeGenCommand != null && "true".equalsIgnoreCase(codeGenCommand)) {
+           Path path = Paths.get(context.getRealPath("/AuditContextListener.class"));
+           
+        }
+
         configSupport = new ServletContexConfigSupport();
         if (configSupport.hasHandlers(contextEvent.getServletContext())) {
-            AuditManager.startWithConfiguration(configSupport.loadConfig(contextEvent.getServletContext()));
+            AuditManager.startWithConfiguration(
+                    configSupport.loadConfig(contextEvent.getServletContext()));
         } else {
             AuditManager.getInstance();
         }
