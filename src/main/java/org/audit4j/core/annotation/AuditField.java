@@ -36,7 +36,7 @@ import java.lang.annotation.Target;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = { ElementType.PARAMETER })
+@Target(value = { ElementType.PARAMETER, ElementType.FIELD })
 public @interface AuditField {
 
     /**
