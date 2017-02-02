@@ -131,6 +131,11 @@
 			<artifactId>reactor-core</artifactId>
 			<version>1.1.6.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.24</version>
+		</dependency>
 
 		<!-- Do not change below dependency version unless testing properly -->
 		<dependency>
