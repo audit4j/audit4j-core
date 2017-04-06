@@ -161,15 +161,12 @@ public final class Context {
 			initLayout();
 
 			// Initialize annotation transformer.
-			DefaultAnnotationTransformer defaultAnnotationTransformer = new DefaultAnnotationTransformer();
-			ObjectSerializerCommand serializerCommand = (ObjectSerializerCommand) PreConfigurationContext
-					.getCommandByName("-objectSerializer");
-			if (serializerCommand.getSerializer() == null) {
-				defaultAnnotationTransformer.setSerializer(new ObjectToFieldsSerializer());
+
+			if (conf.getAnnotationTransformer() == null) {
+				annotationTransformer = getDefaultAnnotationTransformer();
 			} else {
-				defaultAnnotationTransformer.setSerializer(serializerCommand.getSerializer());
+				annotationTransformer = conf.getAnnotationTransformer();
 			}
-			annotationTransformer = defaultAnnotationTransformer;
 
 			// Initialize IO streams.
 			initStreams();
@@ -412,6 +409,24 @@ public final class Context {
 		}
 
 		Log.info("Audit Streams Initialized.");
+	}
+
+	/**
+	 * Initializes and returns the default annotation transformer.
+	 *
+	 * @return default annotation transformer
+     */
+	private static AnnotationTransformer<AuditEvent> getDefaultAnnotationTransformer() {
+		DefaultAnnotationTransformer defaultAnnotationTransformer = new DefaultAnnotationTransformer();
+		ObjectSerializerCommand serializerCommand = (ObjectSerializerCommand) PreConfigurationContext
+				.getCommandByName("-objectSerializer");
+		if (serializerCommand.getSerializer() == null) {
+			defaultAnnotationTransformer.setSerializer(new ObjectToFieldsSerializer());
+		} else {
+			defaultAnnotationTransformer.setSerializer(serializerCommand.getSerializer());
+		}
+
+		return defaultAnnotationTransformer;
 	}
 
 	/**

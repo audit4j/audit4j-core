@@ -31,7 +31,7 @@ import org.audit4j.core.exception.HandlerException;
  * 
  * @author Janith Bandara
  */
-public abstract class Handler implements Initializable, Serializable {
+public abstract class Handler<T extends AuditEvent> implements Initializable, Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -8636058037478806582L;
@@ -40,7 +40,7 @@ public abstract class Handler implements Initializable, Serializable {
     private String query;
 
     /** The audit event. */
-    private AuditEvent auditEvent;
+    private T auditEvent;
 
     /** The properties. */
     private Map<String, String> properties;
@@ -76,7 +76,7 @@ public abstract class Handler implements Initializable, Serializable {
      * 
      * @return the audit event
      */
-    public AuditEvent getAuditEvent() {
+    public T getAuditEvent() {
         return auditEvent;
     }
 
@@ -86,7 +86,7 @@ public abstract class Handler implements Initializable, Serializable {
      * @param auditEvent
      *            the new audit event
      */
-    public void setAuditEvent(final AuditEvent auditEvent) {
+    public void setAuditEvent(final T auditEvent) {
         this.auditEvent = auditEvent;
     }
 

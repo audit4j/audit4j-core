@@ -39,12 +39,20 @@ import org.audit4j.core.dto.Field;
  * 
  * @since 2.0.0
  */
-public class DefaultAnnotationTransformer implements AnnotationTransformer {
+public class DefaultAnnotationTransformer implements AnnotationTransformer<AuditEvent> {
 
 	private final static String ACTION = "action";
 
 	// Default Fields serializer
-	private ObjectSerializer serializer = new ObjectToFieldsSerializer();
+	private ObjectSerializer serializer;
+
+	public DefaultAnnotationTransformer() {
+		this.serializer = new ObjectToFieldsSerializer();
+	}
+
+	public DefaultAnnotationTransformer(ObjectSerializer objectSerializer) {
+		this.serializer = objectSerializer;
+	}
 
 	/**
 	 * Transform annotation informations to Audit Event object.
