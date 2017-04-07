@@ -24,12 +24,12 @@ import org.audit4j.core.dto.AuditEvent;
 /**
  * Interface for different annotation transformer implementations. This can be
  * used to transform annotation information in to simple audit event.
- * 
+ *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  * 
  * @since 2.4.1
  */
-public interface AnnotationTransformer {
+public interface AnnotationTransformer<T extends AuditEvent> {
 
 	/**
 	 * Transform to event.
@@ -38,5 +38,5 @@ public interface AnnotationTransformer {
 	 *            input Annotation AuditEvent
 	 * @return transform audit event
 	 */
-	AuditEvent transformToEvent(AnnotationAuditEvent annotationEvent);
+	T transformToEvent(AnnotationAuditEvent annotationEvent);
 }

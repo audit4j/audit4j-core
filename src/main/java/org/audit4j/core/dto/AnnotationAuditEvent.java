@@ -41,6 +41,9 @@ public class AnnotationAuditEvent extends AuditEvent {
     /** The args. */
     Object[] args;
 
+    /** The return of hte method, may be null */
+    private Object methodCallResult;
+
     /**
      * Instantiates a new annotation audit event.
      */
@@ -63,6 +66,11 @@ public class AnnotationAuditEvent extends AuditEvent {
         this.clazz = clazz;
         this.method = method;
         this.args = args;
+    }
+
+    public AnnotationAuditEvent(Class<?> clazz, Method method, Object[] args, Object methodCallResult) {
+        this(clazz, method, args);
+        this.methodCallResult = methodCallResult;
     }
 
     /**
@@ -122,4 +130,13 @@ public class AnnotationAuditEvent extends AuditEvent {
         this.args = args;
     }
 
+    /**
+     * Gets the return object of method call. May be {@code null} in the case the method was {@code void} or in the case
+     * the @Before aspect was used and therefore no return type was available.
+     *
+     * @return the {@code Object} returned by the audited method, if captured
+     */
+    public Object getMethodCallResult() {
+        return methodCallResult;
+    }
 }

@@ -63,7 +63,12 @@ public class Configuration implements Serializable {
     
     /** The jmx configurations. */
     private JMXConfig jmx;
-    
+
+    /**
+     * Annotation transformer to be used
+     */
+    private AnnotationTransformer annotationTransformer;
+
     /** Return new static instance. 
      * 
      * @since 2.3.1
@@ -292,5 +297,22 @@ public class Configuration implements Serializable {
      */
     public void setJmx(JMXConfig jmx) {
         this.jmx = jmx;
+    }
+
+    /**
+     * Gets the annotation transformer to use when converting {@code AnnotationAuditEvent}. Allows to inject custom
+     * conversion logic and custom output type.
+     *
+     * @return the annotation transformer
+     */
+    public AnnotationTransformer getAnnotationTransformer() {
+        return annotationTransformer;
+    }
+
+    /**
+     * Sets annotation transformer to use.
+     */
+    public void setAnnotationTransformer(AnnotationTransformer annotationTransformer) {
+        this.annotationTransformer = annotationTransformer;
     }
 }
