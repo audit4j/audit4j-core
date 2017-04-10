@@ -56,7 +56,7 @@ public class MemoryMappedFileWriter extends AuditFileWriter implements Serializa
 	@Override
 	public void init() {
 		int count = 10485760;
-		RandomAccessFile randomAccessFile;
+		RandomAccessFile randomAccessFile = null;
 		String realPath = FileHandlerUtil.generateOutputFilePath(path);
 
 		try {
@@ -71,6 +71,12 @@ public class MemoryMappedFileWriter extends AuditFileWriter implements Serializa
 			 out = randomAccessFile.getChannel().map(FileChannel.MapMode.READ_WRITE, 0, count);
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally{
+			if(randomAccessFile != null){
+				try{
+					randomAccessFile.close();
+				}catch(IOException e){}
+			}
 		}
 	}
 
