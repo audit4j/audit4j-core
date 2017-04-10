@@ -41,25 +41,7 @@ public class FileAuditHandler extends Handler implements Serializable {
 
     /** The writer. */
 	AuditFileWriter writer;
-
-	/** The archive. */
-	private String archive;
 	
-	/** The date pattern. */
-	private String datePattern;
-
-	/** The path. */
-	private String path;
-
-	/** The cron pattern. */
-	private String cronPattern;
-
-	/** The job. */
-	private AbstractArchiveJob job;
-	
-	/** The audit file prefix. */
-	private String auditFilePrefix = "Audit_Log-";
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -122,53 +104,6 @@ public class FileAuditHandler extends Handler implements Serializable {
 			return false;
 		}
 	}
-	
-	
-
-	/**
-	 * Sets the archive.
-	 *
-	 * @param archive the new archive
-	 */
-	public void setArchive(String archive) {
-		this.archive = archive;
-	}
-
-	/**
-	 * Sets the date pattern.
-	 *
-	 * @param datePattern the new date pattern
-	 */
-	public void setDatePattern(String datePattern) {
-		this.datePattern = datePattern;
-	}
-
-	/**
-	 * Sets the path.
-	 *
-	 * @param path the new path
-	 */
-	public void setPath(String path) {
-		this.path = path;
-	}
-
-	/**
-	 * Sets the cron pattern.
-	 *
-	 * @param cronPattern the new cron pattern
-	 */
-	public void setCronPattern(String cronPattern) {
-		this.cronPattern = cronPattern;
-	}
-
-	/**
-	 * Sets the audit file prefix.
-	 *
-	 * @param auditFilePrefix the new audit file prefix
-	 */
-	public void setAuditFilePrefix(String auditFilePrefix) {
-        this.auditFilePrefix = auditFilePrefix;
-    }
 
     /**
      * Stop.
