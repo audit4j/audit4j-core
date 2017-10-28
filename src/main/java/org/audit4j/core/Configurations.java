@@ -119,6 +119,7 @@ public class Configurations {
             fileStream = getClasspathResourceAsStream(CONFIG_FILE_NAME + "." + XML_EXTENTION);
             fileExtention = XML_EXTENTION;
         } else {
+
             String defaultConfigDir = System.getProperty("user.dir");
             String defaultConfigPath = scanConfigFile(defaultConfigDir);
             fileExtention = FilenameUtils.getExtension(defaultConfigPath);

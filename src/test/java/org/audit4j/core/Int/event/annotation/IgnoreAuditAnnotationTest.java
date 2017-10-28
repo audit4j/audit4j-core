@@ -3,6 +3,7 @@ package org.audit4j.core.Int.event.annotation;
 import java.lang.reflect.Method;
 
 import org.audit4j.core.AuditManager;
+import org.audit4j.core.Configuration;
 import org.audit4j.core.IAuditManager;
 import org.audit4j.core.Mock.ClassAnnotationMock;
 import org.audit4j.core.util.Log;
@@ -15,7 +16,7 @@ public class IgnoreAuditAnnotationTest {
 
     @Before
     public void setup() {
-
+        AuditManager.startWithConfiguration(Configuration.DEFAULT);
     }
 
     @Test

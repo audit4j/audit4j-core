@@ -3,6 +3,7 @@ package org.audit4j.core.Int.event.annotation;
 import java.lang.reflect.Method;
 
 import org.audit4j.core.AuditManager;
+import org.audit4j.core.Configuration;
 import org.audit4j.core.IAuditManager;
 import org.audit4j.core.Mock.MethodAnnotationMock;
 import org.junit.After;
@@ -13,7 +14,7 @@ public class DeIdentifyAnnotationTest {
 
     @Before
     public void setup() {
-
+        AuditManager.startWithConfiguration(Configuration.DEFAULT);
     }
 
     @Test
