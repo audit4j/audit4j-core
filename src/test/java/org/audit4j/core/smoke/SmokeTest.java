@@ -3,14 +3,21 @@ package org.audit4j.core.smoke;
 import java.util.concurrent.TimeUnit;
 
 import org.audit4j.core.AuditManager;
+import org.audit4j.core.Configuration;
 import org.audit4j.core.IAuditManager;
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.dto.EventBuilder;
 import org.audit4j.core.util.Log;
 import org.audit4j.core.util.StopWatch;
+import org.junit.Before;
 import org.junit.Test;
 
 public class SmokeTest {
+
+    @Before
+    public void setup() {
+        AuditManager.startWithConfiguration(Configuration.DEFAULT);
+    }
 
     @Test
     public void smokeTestAuditEvent() throws InterruptedException {
