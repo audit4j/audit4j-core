@@ -19,6 +19,8 @@
 package org.audit4j.core;
 
 import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.dto.Event;
+import org.audit4j.core.dto.EventBatch;
 
 /**
  * The Class MetadataHandler. This class is used to enhance audit event with
@@ -51,5 +53,19 @@ public class MetadataHandler {
             event.setOrigin(CoreConstants.DEFAULT_ORIGIN);
         }
         return event;
+    }
+    
+    /**
+     * Enhance from metadata.
+     * 
+     * @param event
+     *            the event
+     * @return the audit event
+     */
+    public EventBatch enhanceFromMetadata(final EventBatch batch) {
+        for (Event event : batch) {
+            enhanceFromMetadata((AuditEvent)event);
+        }
+        return batch;
     }
 }

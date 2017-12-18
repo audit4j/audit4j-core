@@ -23,6 +23,7 @@ import java.lang.reflect.Method;
 import org.audit4j.core.AnnotationTransformer;
 import org.audit4j.core.dto.AnnotationAuditEvent;
 import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.dto.EventBatch;
 
 import reactor.core.Environment;
 import reactor.core.composable.Deferred;
@@ -130,6 +131,12 @@ public class AsyncAnnotationAuditOutputStream implements AuditOutputStream<Annot
      */
     @Override
     public Object clone() {
+        return null;
+    }
+
+    @Override
+    public AuditOutputStream<AnnotationAuditEvent> writeBatch(EventBatch batch) {
+        // TODO Auto-generated method stub
         return null;
     }
 }

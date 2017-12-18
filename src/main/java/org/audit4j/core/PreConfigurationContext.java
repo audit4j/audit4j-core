@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.audit4j.core.command.AbstractCommand;
+import org.audit4j.core.command.impl.BatchCommand;
 import org.audit4j.core.command.impl.MetadataCommand;
 import org.audit4j.core.command.impl.ObjectSerializerCommand;
 import org.audit4j.core.command.impl.ScanAnnotatedCommand;
@@ -70,6 +71,10 @@ public final class PreConfigurationContext {
         ObjectSerializerCommand serializerCommand = new ObjectSerializerCommand();
         availableCommands.add(serializerCommand.getCommand());
         commands.put(serializerCommand.getCommand(), serializerCommand);
+        
+        BatchCommand batchCommand = new BatchCommand();
+        availableCommands.add(batchCommand.getCommand());
+        commands.put(batchCommand.getCommand(), batchCommand);
     }
 
     /**

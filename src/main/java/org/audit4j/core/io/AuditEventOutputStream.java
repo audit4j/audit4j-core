@@ -18,9 +18,15 @@
 
 package org.audit4j.core.io;
 
+import org.audit4j.core.ConcurrentConfigurationContext;
+import org.audit4j.core.LifeCycleContext;
+import org.audit4j.core.RunStatus;
 import org.audit4j.core.ValidationManager;
 import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.dto.Event;
+import org.audit4j.core.dto.EventBatch;
 import org.audit4j.core.exception.ValidationException;
+import org.audit4j.core.filter.AuditEventFilter;
 
 /**
  * The Class AuditEventOutputStream.
@@ -34,32 +40,64 @@ public class AuditEventOutputStream implements AuditOutputStream<AuditEvent> {
     /** The output stream. */
     AuditOutputStream<AuditEvent> outputStream;
 
+    /** The conf. */
+    private ConcurrentConfigurationContext configContext;
+
     /**
      * Instantiates a new audit event output stream.
      * 
      * @param outputStream
      *            the output stream
      */
-    public AuditEventOutputStream(AuditOutputStream<AuditEvent> outputStream) {
+    public AuditEventOutputStream(AuditOutputStream<AuditEvent> outputStream,
+            ConcurrentConfigurationContext configContext) {
         this.outputStream = outputStream;
+        this.configContext = configContext;
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.audit4j.core.io.AuditOutputStream#write(org.audit4j.core.dto.AuditEvent
-     * )
+     * @see org.audit4j.core.io.AuditOutputStream#write(org.audit4j.core.dto.
+     * AuditEvent )
      */
     @Override
     public AuditEventOutputStream write(AuditEvent event) {
-        try {
-            ValidationManager.validateEvent(event);
-            outputStream.write(event);
-        } catch (ValidationException e) {
+        if (LifeCycleContext.getInstance().getStatus().equals(RunStatus.RUNNING)) {
+            try {
+                ValidationManager.validateEvent(event);
+                if (configContext.getFilters().isEmpty() || filterAccepts(event)) {
+                    outputStream.write(event);
+                }
+            } catch (ValidationException e) {
 
+            }
         }
         return this;
+    }
+
+    @Override
+    public AuditOutputStream<AuditEvent> writeBatch(EventBatch<AuditEvent> batch) {
+        if (LifeCycleContext.getInstance().getStatus().equals(RunStatus.RUNNING)) {
+            if (!configContext.getFilters().isEmpty()) {
+                for (AuditEvent event : batch) {
+                    if (!filterAccepts(event)) {
+                        batch.removeEvent(event);
+                    }
+                }
+            }
+            outputStream.writeBatch(batch);
+        }
+        return this;
+    }
+
+    private boolean filterAccepts(Event event) {
+        for (AuditEventFilter<Event> filter : configContext.getFilters()) {
+            if (!filter.accepts(event)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /*
@@ -79,5 +117,4 @@ public class AuditEventOutputStream implements AuditOutputStream<AuditEvent> {
     public Object clone() {
         return null;
     }
-
 }

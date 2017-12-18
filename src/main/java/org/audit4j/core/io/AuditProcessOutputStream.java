@@ -23,6 +23,7 @@ import org.audit4j.core.ConcurrentConfigurationContext;
 import org.audit4j.core.LifeCycleContext;
 import org.audit4j.core.RunStatus;
 import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.dto.EventBatch;
 
 /**
  * The Class AuditProcessOutputStream.
@@ -31,51 +32,56 @@ import org.audit4j.core.dto.AuditEvent;
  */
 public class AuditProcessOutputStream implements AuditOutputStream<AuditEvent> {
 
-	/** The processor. */
-	private final AuditEventProcessor processor;
+    /** The processor. */
+    private final AuditEventProcessor processor;
 
-	/**
-	 * Instantiates a new audit process output stream.
-	 *
-	 * @param configContext the config context
-	 */
-	public AuditProcessOutputStream(ConcurrentConfigurationContext configContext) {
-		processor = new AuditEventProcessor();
-		processor.setConfigContext(configContext);
-	}
+    /**
+     * Instantiates a new audit process output stream.
+     *
+     * @param configContext
+     *            the config context
+     */
+    public AuditProcessOutputStream(ConcurrentConfigurationContext configContext) {
+        processor = new AuditEventProcessor();
+        processor.setConfigContext(configContext);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.audit4j.core.io.AuditOutputStream#write(org.audit4j.core.dto.AuditEvent
-	 * )
-	 */
-	@Override
-	public AuditProcessOutputStream write(AuditEvent event) {
-		if (LifeCycleContext.getInstance().getStatus().equals(RunStatus.RUNNING)) {
-			processor.process(event);
-		}
-		return this;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.audit4j.core.io.AuditOutputStream#write(org.audit4j.core.dto.
+     * AuditEvent )
+     */
+    @Override
+    public AuditProcessOutputStream write(AuditEvent event) {
+        processor.process(event);
+        return this;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.audit4j.core.io.AuditOutputStream#close()
-	 */
-	@Override
-	public void close() {
+    @Override
+    public AuditOutputStream<AuditEvent> writeBatch(EventBatch batch) {
+        processor.processBatch(batch);
+        return this;
+    }
 
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.audit4j.core.io.AuditOutputStream#close()
+     */
+    @Override
+    public void close() {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#clone()
-	 */
-	@Override
-	public Object clone() {
-		return null;
-	}
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#clone()
+     */
+    @Override
+    public Object clone() {
+        return null;
+    }
+
 }

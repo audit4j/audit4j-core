@@ -33,9 +33,6 @@ public class Event implements Serializable {
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 8609566097133360680L;
 
-    /** The audit id. */
-    private Integer auditId;
-
     /** The uuid. */
     private Long uuid;
 
@@ -51,25 +48,6 @@ public class Event implements Serializable {
     public Event() {
         uuid = java.util.UUID.randomUUID().getMostSignificantBits();
         this.timestamp = new Date();
-    }
-
-    /**
-     * Gets the audit id.
-     * 
-     * @return the audit id
-     */
-    public Integer getAuditId() {
-        return this.auditId;
-    }
-
-    /**
-     * Sets the audit id.
-     * 
-     * @param auditId
-     *            the new audit id
-     */
-    public void setAuditId(final Integer auditId) {
-        this.auditId = auditId;
     }
 
     /**

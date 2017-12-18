@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.audit4j.core.command.CommandProcessor;
+import org.audit4j.core.command.impl.BatchCommand;
 import org.audit4j.core.command.impl.MetadataCommand;
 import org.audit4j.core.command.impl.ObjectSerializerCommand;
 import org.audit4j.core.dto.AuditEvent;
@@ -37,6 +38,7 @@ import org.audit4j.core.io.AsyncAuditOutputStream;
 import org.audit4j.core.io.AuditEventOutputStream;
 import org.audit4j.core.io.AuditOutputStream;
 import org.audit4j.core.io.AuditProcessOutputStream;
+import org.audit4j.core.io.BatchProcessStream;
 import org.audit4j.core.io.MetadataLookupStream;
 import org.audit4j.core.jmx.MBeanAgent;
 import org.audit4j.core.schedule.Schedulers;
@@ -392,20 +394,35 @@ public final class Context {
 	private static void initStreams() {
 		Log.info("Initializing Streams...");
 		MetadataCommand command = (MetadataCommand) PreConfigurationContext.getCommandByName("-metadata");
+		BatchCommand batchCommand = (BatchCommand) PreConfigurationContext.getCommandByName("-batchSize");
+		
+		AsyncAnnotationAuditOutputStream asyncAnnotationStream = new AsyncAnnotationAuditOutputStream(
+                new AuditProcessOutputStream(Context.getConfigContext()), annotationTransformer);
+		
+        AuditProcessOutputStream processStream =  new AuditProcessOutputStream(Context.getConfigContext());
+        
+        
 		if (command.isAsync()) {
-			AsyncAnnotationAuditOutputStream asyncAnnotationStream = new AsyncAnnotationAuditOutputStream(
-					new AuditProcessOutputStream(Context.getConfigContext()), annotationTransformer);
-			MetadataLookupStream metadataStream = new MetadataLookupStream(
-					new AuditProcessOutputStream(Context.getConfigContext()));
+		    MetadataLookupStream metadataStream;
+		    if(batchCommand.getBatchSize() > 0) {
+	            BatchProcessStream batchStream = new BatchProcessStream(processStream, batchCommand.getBatchSize());
+	            metadataStream = new MetadataLookupStream(batchStream);
+		    } else {
+		        metadataStream = new MetadataLookupStream(processStream);
+		    }
+			
 			AsyncAuditOutputStream asyncStream = new AsyncAuditOutputStream(metadataStream, asyncAnnotationStream);
-			auditStream = new AuditEventOutputStream(asyncStream);
+			auditStream = new AuditEventOutputStream(asyncStream, configContext);
 		} else {
-			AsyncAnnotationAuditOutputStream asyncAnnotationStream = new AsyncAnnotationAuditOutputStream(
-					new AuditProcessOutputStream(Context.getConfigContext()), annotationTransformer);
-			AsyncAuditOutputStream asyncStream = new AsyncAuditOutputStream(
-					new AuditProcessOutputStream(Context.getConfigContext()), asyncAnnotationStream);
+		    AsyncAuditOutputStream asyncStream;
+		    if(batchCommand.getBatchSize() > 0) {
+                BatchProcessStream batchStream = new BatchProcessStream(processStream, batchCommand.getBatchSize());
+                asyncStream = new AsyncAuditOutputStream(batchStream, asyncAnnotationStream);
+            } else {
+                asyncStream = new AsyncAuditOutputStream(processStream, asyncAnnotationStream);
+            }
 			MetadataLookupStream metadataStream = new MetadataLookupStream(asyncStream);
-			auditStream = new AuditEventOutputStream(metadataStream);
+			auditStream = new AuditEventOutputStream(metadataStream, configContext);
 		}
 
 		Log.info("Audit Streams Initialized.");

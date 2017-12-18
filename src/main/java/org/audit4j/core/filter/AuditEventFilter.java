@@ -21,6 +21,7 @@ package org.audit4j.core.filter;
 import java.io.Serializable;
 
 import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.dto.Event;
 
 /**
  * The Interface AuditEventFilter.
@@ -29,7 +30,7 @@ import org.audit4j.core.dto.AuditEvent;
  * 
  * @since 2.2.0
  */
-public interface AuditEventFilter extends Serializable {
+public interface AuditEventFilter<T extends Event> extends Serializable {
     
     public POJOQuery<AuditEvent> query = new POJOQuery<>();
     
@@ -39,6 +40,6 @@ public interface AuditEventFilter extends Serializable {
      * @param event the event
      * @return true, if successful
      */
-    boolean accepts(AuditEvent event);
+    boolean accepts(T event);
     
 }

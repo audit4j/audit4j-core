@@ -20,6 +20,7 @@ package org.audit4j.core.io;
 
 import org.audit4j.core.MetadataHandler;
 import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.dto.EventBatch;
 
 /**
  * The Class MetadataLookupStream.
@@ -56,6 +57,12 @@ public class MetadataLookupStream implements AuditOutputStream<AuditEvent> {
     public AuditOutputStream<AuditEvent> write(AuditEvent event) {
          outputStream.write(handler.enhanceFromMetadata(event));
          return outputStream;
+    }
+    
+    @Override
+    public AuditOutputStream<AuditEvent> writeBatch(EventBatch batch) {
+        outputStream.writeBatch(handler.enhanceFromMetadata(batch));
+        return outputStream;
     }
 
     /**

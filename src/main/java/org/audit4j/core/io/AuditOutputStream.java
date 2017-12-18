@@ -18,7 +18,8 @@
 
 package org.audit4j.core.io;
 
-import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.dto.Event;
+import org.audit4j.core.dto.EventBatch;
 
 /**
  * The Interface AuditOutputStream.
@@ -27,15 +28,25 @@ import org.audit4j.core.dto.AuditEvent;
  * 
  * @since 2.0.0
  */
-public interface AuditOutputStream<T extends AuditEvent> {
+public interface AuditOutputStream<T extends Event> {
 
     /**
-     * Write.
+     * Write event.
      *
-     * @param event the event
+     * @param event
+     * 
      * @return the audit output stream
      */
     AuditOutputStream<T> write(T event);
+    
+    /**
+     * Write batch of events.
+     *
+     * @param batch
+     * 
+     * @return the audit output stream
+     */
+    AuditOutputStream<T> writeBatch(EventBatch<T> batch);
     
     /**
      * Close.

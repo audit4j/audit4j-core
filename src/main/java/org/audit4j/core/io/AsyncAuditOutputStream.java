@@ -20,6 +20,7 @@ package org.audit4j.core.io;
 
 import org.audit4j.core.dto.AnnotationAuditEvent;
 import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.dto.EventBatch;
 
 import reactor.core.Environment;
 import reactor.core.composable.Deferred;
@@ -45,6 +46,8 @@ public class AsyncAuditOutputStream implements AuditOutputStream<AuditEvent> {
 
     /** The deferred. */
     Deferred<AuditEvent, Stream<AuditEvent>> deferred = null;
+    
+    Deferred<EventBatch, Stream<EventBatch>> batchDeferred = null;
 
     /** The annotation deferred. */
     Deferred<AnnotationAuditEvent, Stream<AnnotationAuditEvent>> annotationDeferred = null;
@@ -56,7 +59,7 @@ public class AsyncAuditOutputStream implements AuditOutputStream<AuditEvent> {
     Boundary b = null;
 
     /** The b anno. */
-    Boundary bAnno = null;
+    Boundary batchBoundry = null;
 
     /**
      * Instantiates a new async audit output stream.
@@ -76,6 +79,16 @@ public class AsyncAuditOutputStream implements AuditOutputStream<AuditEvent> {
             @Override
             public void accept(AuditEvent event) {
                 outputStream.write(event);
+            }
+        }));
+        
+        batchBoundry = new Boundary();
+        batchDeferred = Streams.<EventBatch> defer().env(ENV).dispatcher(Environment.RING_BUFFER).get();
+        Stream<EventBatch> batchStream = batchDeferred.compose();
+        batchStream.consume(batchBoundry.bind(new Consumer<EventBatch>() {
+            @Override
+            public void accept(EventBatch batch) {
+                outputStream.writeBatch(batch);
             }
         }));
     }
@@ -105,6 +118,13 @@ public class AsyncAuditOutputStream implements AuditOutputStream<AuditEvent> {
         return this;
     }
 
+    @Override
+    public AuditOutputStream<AuditEvent> writeBatch(EventBatch batch) {
+       batchDeferred.accept(batch);
+       batchBoundry.await();
+       return this;
+    }
+    
     /*
      * (non-Javadoc)
      * 
@@ -139,5 +159,7 @@ public class AsyncAuditOutputStream implements AuditOutputStream<AuditEvent> {
     public Object clone() {
         return null;
     }
+
+    
 
 }

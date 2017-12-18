@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.audit4j.core.dto.AnnotationAuditEvent;
 import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.dto.EventBatch;
 import org.audit4j.core.filter.AuditAnnotationFilter;
 
 /**
@@ -53,6 +54,18 @@ public final class AuditManager implements IAuditManager {
      */
     public boolean audit(AuditEvent event) {
         Context.getAuditStream().write(event);
+        return true;
+    }
+    
+    /**
+     * Audit batch of events.
+     * 
+     * @param event
+     *            the event
+     * @return true, if successful
+     */
+    public boolean audit(EventBatch batch) {
+        Context.getAuditStream().writeBatch(batch);
         return true;
     }
 
@@ -211,5 +224,15 @@ public final class AuditManager implements IAuditManager {
      */
     public static void disable() {
         Context.disable();
+    }
+    
+    /** 
+     * @return true if running Audit4j
+     */
+    public static boolean isInitialized(){
+        if( Context.getStatus().equals(RunStatus.RUNNING)){
+            return true;
+        }
+        return false;
     }
 }

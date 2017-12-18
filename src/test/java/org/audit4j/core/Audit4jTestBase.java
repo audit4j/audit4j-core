@@ -26,6 +26,14 @@ public class Audit4jTestBase {
                 .addField("myParam2Name", new Integer(2));
         return builder.build();
     }
+    
+    protected AuditEvent getSampleAuditEvent(String action) {
+        String actor = "Dummy Actor";
+        EventBuilder builder = new EventBuilder();
+        builder.addTimestamp(new Date()).addActor(actor).addAction(action).addOrigin("Origin").addField("myParam1Name", "param1")
+                .addField("myParam2Name", new Integer(2));
+        return builder.build();
+    }
 
     protected Configuration getDefaultConfiguration() {
         Configuration config = new Configuration();

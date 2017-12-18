@@ -19,8 +19,8 @@
 package org.audit4j.core;
 
 import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.dto.EventBatch;
 import org.audit4j.core.exception.HandlerException;
-import org.audit4j.core.filter.AuditEventFilter;
 import org.audit4j.core.handler.Handler;
 import org.audit4j.core.util.Log;
 
@@ -44,20 +44,20 @@ public class AuditEventProcessor {
      *            the event
      */
     public void process(AuditEvent event) {
-        boolean execute = true;
-        if (!configContext.getFilters().isEmpty()) {
-            for (AuditEventFilter filter : configContext.getFilters()) {
-                if (!filter.accepts(event)) {
-                    execute = false;
-                    break;
-                }
-            }
-        }
-        if (execute) {
             executeHandlers(event);
-        }
     }
 
+    
+    /**
+     * Process the audit event.
+     * 
+     * @param event
+     *            the event
+     */
+    public void processBatch(EventBatch batch) {
+            executeHandlers(batch);
+    }
+    
     /**
      * Execute handlers.
      * 
@@ -76,6 +76,18 @@ public class AuditEventProcessor {
             }
         }
     }
+    
+    void executeHandlers(EventBatch batch) {
+        for (final Handler handler : configContext.getHandlers()) {
+            handler.setEventBatch(batch);
+            try {
+                handler.handle();
+            } catch (HandlerException e) {
+                Log.warn("Failed to submit audit event.", e);
+            }
+        }
+    }
+
 
     /**
      * Sets the config context.

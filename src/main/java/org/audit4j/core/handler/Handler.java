@@ -19,11 +19,11 @@
 package org.audit4j.core.handler;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.audit4j.core.Initializable;
 import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.dto.EventBatch;
 import org.audit4j.core.exception.HandlerException;
 
 /**
@@ -41,6 +41,11 @@ public abstract class Handler<T extends AuditEvent> implements Initializable, Se
 
     /** The audit event. */
     private T auditEvent;
+    
+    private boolean batchEvent;
+    
+    /** Batch of Audit Events */
+    private EventBatch eventBatch;
 
     /** The properties. */
     private Map<String, String> properties;
@@ -88,6 +93,22 @@ public abstract class Handler<T extends AuditEvent> implements Initializable, Se
      */
     public void setAuditEvent(final T auditEvent) {
         this.auditEvent = auditEvent;
+    }
+
+    public EventBatch getEventBatch() {
+        return eventBatch;
+    }
+
+    public void setEventBatch(EventBatch eventBatch) {
+        this.eventBatch = eventBatch;
+    }
+
+    public boolean isBatchEvent() {
+        return batchEvent;
+    }
+
+    public void setBatchEvent(boolean batchEvent) {
+        this.batchEvent = batchEvent;
     }
 
     /**
