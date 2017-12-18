@@ -51,8 +51,7 @@ public class AuditEventProcessor {
     /**
      * Process the audit event.
      * 
-     * @param event
-     *            the event
+     * @param batch the Event Batch
      */
     public void processBatch(EventBatch batch) {
             executeHandlers(batch);
@@ -77,6 +76,12 @@ public class AuditEventProcessor {
         }
     }
     
+    /**
+     * Execute handlers.
+     * 
+     * @param batch 
+     *           the Event Batch
+     */
     void executeHandlers(EventBatch batch) {
         for (final Handler handler : configContext.getHandlers()) {
             handler.setEventBatch(batch);

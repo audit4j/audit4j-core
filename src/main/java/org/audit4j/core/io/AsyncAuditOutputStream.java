@@ -93,17 +93,11 @@ public class AsyncAuditOutputStream implements AuditOutputStream<AuditEvent> {
         }));
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.audit4j.core.io.AuditOutputStream#write(org.audit4j.core.dto.AuditEvent
-     * )
-     */
+
     /**
      * {@inheritDoc}
      * 
-     * @see org.audit4j.core.io.AuditOutputStream#write(org.audit4j.core.dto.AuditEvent)
+     * @see org.audit4j.core.io.AuditOutputStream#write(org.audit4j.core.dto.Event)
      *
      */
     @Override

@@ -33,7 +33,7 @@ public interface AuditOutputStream<T extends Event> {
     /**
      * Write event.
      *
-     * @param event
+     * @param event audit event
      * 
      * @return the audit output stream
      */
@@ -42,7 +42,7 @@ public interface AuditOutputStream<T extends Event> {
     /**
      * Write batch of events.
      *
-     * @param batch
+     * @param batch the Event Batch
      * 
      * @return the audit output stream
      */

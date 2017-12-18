@@ -19,7 +19,6 @@
 package org.audit4j.core;
 
 import org.audit4j.core.dto.AuditEvent;
-import org.audit4j.core.dto.Event;
 import org.audit4j.core.dto.EventBatch;
 
 /**
@@ -58,12 +57,12 @@ public class MetadataHandler {
     /**
      * Enhance from metadata.
      * 
-     * @param event
-     *            the event
-     * @return the audit event
+     * @param batch
+     *            the Event Batch
+     * @return the Event Batch
      */
-    public EventBatch enhanceFromMetadata(final EventBatch batch) {
-        for (Event event : batch) {
+    public EventBatch enhanceFromMetadata(final EventBatch<AuditEvent> batch) {
+        for (AuditEvent event : batch) {
             enhanceFromMetadata((AuditEvent)event);
         }
         return batch;

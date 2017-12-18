@@ -32,7 +32,7 @@ public class EventBatch<T extends Event> implements Iterable<T>{
     /**
      * Add a event to the batch.
      *
-     * @param record to add
+     * @param event to add
      */
     public void addEvent(final T event) {
         events.add(event);
@@ -43,8 +43,8 @@ public class EventBatch<T extends Event> implements Iterable<T>{
      *
      * @param event to remove
      */
-    public void removeEvent  (final T record) {
-        events.remove(record);
+    public void removeEvent  (final T event) {
+        events.remove(event);
     }
 
     /**

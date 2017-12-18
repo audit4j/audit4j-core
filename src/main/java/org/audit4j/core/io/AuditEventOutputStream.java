@@ -48,6 +48,8 @@ public class AuditEventOutputStream implements AuditOutputStream<AuditEvent> {
      * 
      * @param outputStream
      *            the output stream
+     *            
+     * @param configContext the Configuration Context
      */
     public AuditEventOutputStream(AuditOutputStream<AuditEvent> outputStream,
             ConcurrentConfigurationContext configContext) {

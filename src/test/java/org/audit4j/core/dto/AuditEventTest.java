@@ -37,7 +37,6 @@ public class AuditEventTest {
         assertEquals(null, result.getOrigin());
         assertEquals(null, result.getAction());
         assertEquals(null, result.getActor());
-        assertEquals(null, result.getAuditId());
         assertNotNull(result.getUuid());
     }
 
@@ -60,7 +59,6 @@ public class AuditEventTest {
         assertEquals(null, result.getOrigin());
         assertEquals("", result.getAction());
         assertEquals("", result.getActor());
-        assertEquals(null, result.getAuditId());
         assertNotNull(result.getUuid());
     }
 
@@ -83,7 +81,6 @@ public class AuditEventTest {
         assertEquals(null, result.getOrigin());
         assertEquals("", result.getAction());
         assertEquals("", result.getActor());
-        assertEquals(null, result.getAuditId());
         assertNotNull(result.getUuid());    }
 
     /**
@@ -106,7 +103,6 @@ public class AuditEventTest {
         assertEquals("", result.getOrigin());
         assertEquals("", result.getAction());
         assertEquals("", result.getActor());
-        assertEquals(null, result.getAuditId());
         assertNotNull(result.getUuid());
     }
 
@@ -130,7 +126,6 @@ public class AuditEventTest {
         assertEquals("", result.getOrigin());
         assertEquals("", result.getAction());
         assertEquals("", result.getActor());
-        assertEquals(null, result.getAuditId());
         assertNotNull(result.getUuid());
     }
 

@@ -50,7 +50,7 @@ public class MetadataLookupStream implements AuditOutputStream<AuditEvent> {
     /**
      * {@inheritDoc}
      * 
-     * @see org.audit4j.core.io.AuditOutputStream#write(org.audit4j.core.dto.AuditEvent)
+     * @see org.audit4j.core.io.AuditOutputStream#write(org.audit4j.core.dto.Event)
      *
      */
     @Override

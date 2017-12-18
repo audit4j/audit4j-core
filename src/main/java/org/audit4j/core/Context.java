@@ -173,8 +173,12 @@ public final class Context {
 			// Initialize IO streams.
 			initStreams();
 
+			if (!conf.getFilters().isEmpty()) {
+			    Log.info("Registoring Filters...");
+            }
 			for (AuditEventFilter filter : conf.getFilters()) {
 				configContext.addFilter(filter);
+				Log.info(filter.getClass().getName() +  " Registored...");
 			}
 
 			configContext.setMetaData(conf.getMetaData());

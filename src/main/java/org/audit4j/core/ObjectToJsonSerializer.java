@@ -91,7 +91,7 @@ public final class ObjectToJsonSerializer implements ObjectSerializer {
      *
      * @param object        the object to deidentify
      * @param deidentify    deidentify definition
-     * @return
+     * @return Object
      */
     public final static Object deidentifyObject(Object object, DeIdentify deidentify) {
         if (object == null || deidentify == null) {

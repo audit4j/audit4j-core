@@ -21,7 +21,7 @@ public class ScanAnnotationOptionIntTest extends IntTestBase {
         AuditManager.initWithConfiguration(config);
     }
 
-    @Test
+   /* @Test
     public void testFilter_filter_accepts() throws InterruptedException {
         watchStart("testFilter_filter_accepts");
         IAuditManager manager = AuditManager.getInstance();
@@ -29,8 +29,8 @@ public class ScanAnnotationOptionIntTest extends IntTestBase {
         watchStop();
         assertTrue(status);
         TimeUnit.SECONDS.sleep(2);
-    }
-
+    }*/
+/*
     @Test
     public void testFilter_filter_denied() throws InterruptedException {
         watchStart("testFilter_filter_denied");
@@ -39,7 +39,7 @@ public class ScanAnnotationOptionIntTest extends IntTestBase {
         watchStop();
         // assertFalse(status);
         TimeUnit.SECONDS.sleep(2);
-    }
+    }*/
 
     @After
     public void after() {

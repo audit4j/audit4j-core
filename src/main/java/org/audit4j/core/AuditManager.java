@@ -60,8 +60,8 @@ public final class AuditManager implements IAuditManager {
     /**
      * Audit batch of events.
      * 
-     * @param event
-     *            the event
+     * @param batch the Event Batch
+     * 
      * @return true, if successful
      */
     public boolean audit(EventBatch batch) {

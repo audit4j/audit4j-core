@@ -311,6 +311,9 @@ public class Configuration implements Serializable {
 
     /**
      * Sets annotation transformer to use.
+     * 
+     * @param annotationTransformer the Annotation Transformer 
+     * 
      */
     public void setAnnotationTransformer(AnnotationTransformer annotationTransformer) {
         this.annotationTransformer = annotationTransformer;
