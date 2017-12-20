@@ -18,7 +18,7 @@ public class ScanAnnotationOptionIntTest extends IntTestBase {
     public void before() {
         Configuration config = getDefaultConfiguration();
         config.setCommands("-scanAnnotated=org.audit4j.core.Mock");
-        AuditManager.initWithConfiguration(config);
+        AuditManager.startWithConfiguration(config);
     }
 
    /* @Test

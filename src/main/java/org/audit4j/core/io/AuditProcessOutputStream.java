@@ -20,8 +20,6 @@ package org.audit4j.core.io;
 
 import org.audit4j.core.AuditEventProcessor;
 import org.audit4j.core.ConcurrentConfigurationContext;
-import org.audit4j.core.LifeCycleContext;
-import org.audit4j.core.RunStatus;
 import org.audit4j.core.dto.AuditEvent;
 import org.audit4j.core.dto.EventBatch;
 

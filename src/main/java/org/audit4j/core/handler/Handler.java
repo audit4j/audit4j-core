@@ -41,9 +41,9 @@ public abstract class Handler<T extends AuditEvent> implements Initializable, Se
 
     /** The audit event. */
     private T auditEvent;
-    
+
     private boolean batchEvent;
-    
+
     /** Batch of Audit Events */
     private EventBatch eventBatch;
 
@@ -59,12 +59,47 @@ public abstract class Handler<T extends AuditEvent> implements Initializable, Se
     }
 
     /**
-     * Handle.
+     * Handler event.
      * 
      * @throws HandlerException
      *             the handler exception
+     * 
+     * @deprecated use {@link Handler#handle(AuditEvent)} and
+     *             {@link Handler#handle(EventBatch)} and 
+     *             {@link Handler#handle(String)} instead
+     *
      */
+    @Deprecated
     public abstract void handle() throws HandlerException;
+
+    /**
+     * Handle event. passing pre-formatted event string
+     * 
+     * @throws HandlerException
+     *             the handler exception
+     * @since 2.6.0
+     */
+    public abstract void handle(String formattedEvent) throws HandlerException;
+
+    /**
+     * Handle event, passing event.
+     * 
+     * @throws HandlerException
+     *             the handler exception
+     *             
+     * @since 2.6.0            
+     */
+    public abstract void handle(T event) throws HandlerException;
+
+    /**
+     * Handle batch of events. passing event batches.
+     * 
+     * @throws HandlerException
+     *             the handler exception
+     *             
+     * @since 2.6.0
+     */
+    public abstract void handle(EventBatch<T> batch) throws HandlerException;
 
     /**
      * Sets the query.

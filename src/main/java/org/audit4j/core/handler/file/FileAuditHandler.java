@@ -23,6 +23,9 @@ import java.io.Serializable;
 import java.security.AccessControlException;
 import java.security.AccessController;
 
+import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.dto.EventBatch;
+import org.audit4j.core.exception.HandlerException;
 import org.audit4j.core.exception.InitializationException;
 import org.audit4j.core.handler.Handler;
 import org.audit4j.core.handler.file.archive.AbstractArchiveJob;
@@ -177,4 +180,22 @@ public class FileAuditHandler extends Handler implements Serializable {
 	public void stop() {
 		writer.stop();
 	}
+
+    @Override
+    public void handle(String formattedEvent) throws HandlerException {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void handle(AuditEvent event) throws HandlerException {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void handle(EventBatch batch) throws HandlerException {
+        // TODO Auto-generated method stub
+        
+    }
 }

@@ -63,6 +63,8 @@ public final class AuditManager implements IAuditManager {
      * @param batch the Event Batch
      * 
      * @return true, if successful
+     * 
+     * @since 2.6.0
      */
     public boolean audit(EventBatch batch) {
         Context.getAuditStream().writeBatch(batch);

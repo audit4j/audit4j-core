@@ -23,7 +23,7 @@ public class MockOutputStream implements AuditOutputStream<AuditEvent>{
     @Override
     public AuditOutputStream<AuditEvent> write(AuditEvent event) {
         eventCount++;
-        writeBatchCalled = true;
+        writeCalled = true;
         return this;
     }
 

@@ -20,6 +20,9 @@ package org.audit4j.core.handler;
 
 import java.io.PrintStream;
 
+import org.audit4j.core.dto.AuditEvent;
+import org.audit4j.core.dto.EventBatch;
+import org.audit4j.core.exception.HandlerException;
 import org.audit4j.core.exception.InitializationException;
 
 /**
@@ -61,4 +64,22 @@ public class ConsoleAuditHandler extends Handler {
 		// TODO Auto-generated method stub
 		
 	}
+
+    @Override
+    public void handle(String formattedEvent) throws HandlerException {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void handle(AuditEvent event) throws HandlerException {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void handle(EventBatch batch) throws HandlerException {
+        // TODO Auto-generated method stub
+        
+    }
 }

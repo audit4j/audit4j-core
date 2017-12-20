@@ -70,6 +70,8 @@ public class AuditEventProcessor {
             handler.setQuery(formattedEvent);
             try {
                 handler.handle();
+                handler.handle(event);
+                handler.handle(formattedEvent);
             } catch (HandlerException e) {
                 Log.warn("Failed to submit audit event.", e);
             }
@@ -82,11 +84,18 @@ public class AuditEventProcessor {
      * @param batch 
      *           the Event Batch
      */
-    void executeHandlers(EventBatch batch) {
+    void executeHandlers(EventBatch<AuditEvent> batch) {
+        String formattedEvent = "";
+        for (AuditEvent auditEvent : batch) {
+            formattedEvent = formattedEvent + configContext.getLayout().format(auditEvent) + '\n';
+        }
         for (final Handler handler : configContext.getHandlers()) {
             handler.setEventBatch(batch);
+            handler.setQuery(formattedEvent);
             try {
                 handler.handle();
+                handler.handle(batch);
+                handler.handle(formattedEvent);
             } catch (HandlerException e) {
                 Log.warn("Failed to submit audit event.", e);
             }
