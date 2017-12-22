@@ -51,8 +51,6 @@ public class FileAuditHandler extends Handler implements Serializable {
 	/** The date pattern. */
 	private String datePattern;
 
-	/** The path. */
-	private String path;
 
 	/** The cron pattern. */
 	private String cronPattern;
@@ -146,14 +144,7 @@ public class FileAuditHandler extends Handler implements Serializable {
 		this.datePattern = datePattern;
 	}
 
-	/**
-	 * Sets the path.
-	 *
-	 * @param path the new path
-	 */
-	public void setPath(String path) {
-		this.path = path;
-	}
+
 
 	/**
 	 * Sets the cron pattern.
