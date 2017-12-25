@@ -1,6 +1,5 @@
 package org.audit4j.core.smoke;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.audit4j.core.Audit4jTestBase;
@@ -8,12 +7,7 @@ import org.audit4j.core.AuditManager;
 import org.audit4j.core.Configuration;
 import org.audit4j.core.IAuditManager;
 import org.audit4j.core.Int.TestHandler;
-import org.audit4j.core.dto.AuditEvent;
-import org.audit4j.core.dto.EventBatch;
-import org.audit4j.core.io.BatchProcessStream;
-import org.audit4j.core.io.MockOutputStream;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -63,23 +57,7 @@ public class BatchSmokeTest extends Audit4jTestBase{
         instance.audit(getSampleAuditEvent("action12"));  
         
     }
-    
-  /*  @Test
-    public void testCloseStream() {     
-        MockOutputStream mockStream = new MockOutputStream();
-        BatchProcessStream stream = new BatchProcessStream(mockStream, 4);
-        instance.audit(getSampleAuditEvent());
-        instance.audit(getSampleAuditEvent());
-        instance.audit(getSampleAuditEvent());
-        Assert.assertTrue(!mockStream.isWriteBatchCalled());
-        Assert.assertEquals(0, mockStream.getBatchCount());
-        
-        stream.close();
-        
-        Assert.assertTrue(!mockStream.isWriteCalled());
-        Assert.assertTrue(mockStream.isWriteBatchCalled());
-        Assert.assertEquals(1, mockStream.getBatchCount());
-    }*/
+
     
     
     @After

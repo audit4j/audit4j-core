@@ -63,7 +63,7 @@ public class YAMLConfigProvider<T> implements ConfigProvider<T> {
     public T readConfig(String filePath) throws ConfigurationException {
         try {
             YamlReader reader = new YamlReader(new FileReader(filePath));
-            reader.getConfig().setClassTag("Configuration", clazz);
+            reader.getConfig().setClassTag(clazz.getSimpleName(), clazz);
             return (T) reader.read();
         } catch (FileNotFoundException e) {
             throw new ConfigurationException("Configuration Exception", "CONF_001", e);
@@ -84,7 +84,7 @@ public class YAMLConfigProvider<T> implements ConfigProvider<T> {
         InputStreamReader streamReader = new InputStreamReader(fileAsStream);
         try {
             YamlReader reader = new YamlReader(streamReader);
-            reader.getConfig().setClassTag("Configuration", clazz);
+            reader.getConfig().setClassTag(clazz.getSimpleName(), clazz);
             return (T) reader.read();
         } catch (YamlException e) {
             throw new ConfigurationException("Configuration Exception", "CONF_002", e);
@@ -100,7 +100,7 @@ public class YAMLConfigProvider<T> implements ConfigProvider<T> {
         YamlWriter writer;
         try {
             writer = new YamlWriter(new FileWriter(filePath));
-            writer.getConfig().setClassTag("Configuration", clazz);
+            writer.getConfig().setClassTag(clazz.getSimpleName(), clazz);
             writer.write(Configuration.DEFAULT);
             writer.close();
         } catch (IOException e) {
