@@ -8,6 +8,7 @@ import org.audit4j.core.IAuditManager;
 import org.audit4j.core.Int.IntTestBase;
 import org.audit4j.core.Mock.AuditEventFilterMock;
 import org.audit4j.core.dto.AuditEvent;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +18,7 @@ public class AuditEventFilterIntTest extends IntTestBase {
     public void before() {
         Configuration config = getDefaultConfiguration();
         config.addFilter(new AuditEventFilterMock());
-        AuditManager.initWithConfiguration(config);
+        AuditManager.startWithConfiguration(config);
     }
 
     @Test
@@ -38,5 +39,10 @@ public class AuditEventFilterIntTest extends IntTestBase {
         manager.audit(event);
         
         TimeUnit.SECONDS.sleep(2);
+    }
+    
+    @After
+    public void after() {
+        AuditManager.shutdown();
     }
 }
