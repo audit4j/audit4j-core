@@ -93,7 +93,7 @@ public class AuditEventProcessor {
             handler.setEventBatch(batch);
             handler.setQuery(formattedEvent);
             try {
-                handler.handle();
+                //handler.handle();
                 handler.handle(batch);
                 handler.handle(formattedEvent);
             } catch (HandlerException e) {
