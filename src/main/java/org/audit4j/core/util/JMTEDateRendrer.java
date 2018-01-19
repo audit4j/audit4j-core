@@ -20,6 +20,7 @@ package org.audit4j.core.util;
 
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 
 import com.floreysoft.jmte.Renderer;
 
@@ -38,11 +39,11 @@ public class JMTEDateRendrer implements Renderer<Date> {
     /**
      * {@inheritDoc}
      * 
-     * @see com.floreysoft.jmte.Renderer#render(java.lang.Object, java.util.Locale)
+     * @see com.floreysoft.jmte.Renderer#render
      *
      */
     @Override
-    public String render(Date date, Locale local) {
+    public String render(Date date, Locale locale,  Map<String, Object> model) {
         ConcurrentDateFormatAccess dateFormatter = new ConcurrentDateFormatAccess(dateFormat);
         return dateFormatter.convertDateToString(date);
     }
@@ -56,4 +57,6 @@ public class JMTEDateRendrer implements Renderer<Date> {
     public void setDateFormat(final String dateFormat) {
         this.dateFormat = dateFormat;
     }
+
+
 }
