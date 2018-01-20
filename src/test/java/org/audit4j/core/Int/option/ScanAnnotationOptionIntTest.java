@@ -10,8 +10,11 @@ import org.audit4j.core.IAuditManager;
 import org.audit4j.core.Int.IntTestBase;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
+//test class without @Test method put it in ignore until there is a test
+@Ignore
 public class ScanAnnotationOptionIntTest extends IntTestBase {
 
     @Before
