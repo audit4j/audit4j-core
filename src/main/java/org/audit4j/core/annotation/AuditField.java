@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
 /**
  * The AuditField annotation.
  * 
- * This Annotation is used to mark parameters which will include in the audit
+ * This Annotation is used to change the default name (argXX) of parameters which will include in the audit
  * event.
  * 
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
