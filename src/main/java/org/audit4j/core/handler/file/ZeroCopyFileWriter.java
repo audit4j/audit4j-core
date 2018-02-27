@@ -53,6 +53,9 @@ public final class ZeroCopyFileWriter extends AuditFileWriter implements Seriali
     /** The path. */
     private final String path;
 
+    /** To track last opened random access file **/
+	String lastRealPath;
+
     /**
      * Instantiates a new zero copy file writer.
      * 
@@ -89,11 +92,15 @@ public final class ZeroCopyFileWriter extends AuditFileWriter implements Seriali
     			FileHandlerUtil.generateAuditFileName());
 
         try {
-            if (FileHandlerUtil.isFileAlreadyExists(realPath)) {
-                randomAccessFile = new RandomAccessFile(realPath, CoreConstants.READ_WRITE);
-            } else {
-                randomAccessFile = new RandomAccessFile(new File(realPath), CoreConstants.READ_WRITE);
-            }
+           /** Close last instance for random access file. **/
+			if (randomAccessFile != null && !realPath.equals(lastRealPath)) {
+				this.stop();
+			}
+			
+			if (randomAccessFile == null) {
+				lastRealPath = realPath;
+				randomAccessFile = new RandomAccessFile(new File(realPath), CoreConstants.READ_WRITE);
+			}
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
