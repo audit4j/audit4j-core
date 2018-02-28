@@ -112,4 +112,10 @@ public class CustomizableLayout implements Layout {
     public void setTemplate(String template) {
         this.template = template;
     }
+    
+    
+    //this getter is usefull for file configuration
+	public String getTemplate() {
+		return template;
+	}
 }
