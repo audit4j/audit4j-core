@@ -50,7 +50,13 @@ public class CustomizableLayout implements Layout {
     /** The date format. */
     private String dateFormat = CoreConstants.DEFAULT_DATE_FORMAT;
 
-    /** The template. */
+    //this getter is useful for yml file configuration
+    public String getDateFormat() {
+		return dateFormat;
+	}
+
+
+	/** The template. */
     private String template = DEFAULT_TEMPLATE;
 
     /**
@@ -114,7 +120,7 @@ public class CustomizableLayout implements Layout {
     }
     
     
-    //this getter is usefull for file configuration
+    //this getter is useful for yml file configuration
 	public String getTemplate() {
 		return template;
 	}
