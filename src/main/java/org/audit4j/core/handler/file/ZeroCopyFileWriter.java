@@ -30,6 +30,7 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
 
+import org.apache.commons.io.IOUtils;
 import org.audit4j.core.CoreConstants;
 
 /**
@@ -128,6 +129,18 @@ public final class ZeroCopyFileWriter extends AuditFileWriter implements Seriali
 
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            IOUtils.closeQuietly(inputStream);
+            try {
+                fileChannel.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                randomAccessFile.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return this;
     }
