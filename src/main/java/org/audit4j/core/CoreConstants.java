@@ -142,9 +142,6 @@ public final class CoreConstants {
     /** The Constant EMPTY. */
     public static final String EMPTY = "<empty>";
 
-    /** The Constant IV. */
-    public static final String IV = "e675f725e675f725";
-
     /** The Constant ENCODE_UTF8. */
     public static final String ENCODE_UTF8 = "UTF-8";
     
