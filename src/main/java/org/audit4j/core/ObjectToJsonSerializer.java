@@ -50,7 +50,8 @@ public final class ObjectToJsonSerializer implements ObjectSerializer {
             String objectName, DeIdentify deidentify) {
         String name = '"' + objectName + '"';
         String json = toJson(object, deidentify);
-        auditFields.add(new org.audit4j.core.dto.Field(name, json, object.getClass().getName()));
+        String fieldType = object == null ? CoreConstants.NULL : object.getClass().getName();
+        auditFields.add(new org.audit4j.core.dto.Field(name, json, fieldType));
     }
 
     /**
