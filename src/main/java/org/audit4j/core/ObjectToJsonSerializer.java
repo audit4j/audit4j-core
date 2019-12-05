@@ -61,7 +61,7 @@ public final class ObjectToJsonSerializer implements ObjectSerializer {
      * @param deidentify    the deidentify
      * @return a json string of the object
      */
-    public final static String toJson(Object object, DeIdentify deidentify) {
+    public static final String toJson(Object object, DeIdentify deidentify) {
         if (isPrimitive(object)) {
             Object deidentifiedObj = deidentifyObject(object, deidentify);
             String primitiveValue = String.valueOf(deidentifiedObj);
@@ -79,12 +79,8 @@ public final class ObjectToJsonSerializer implements ObjectSerializer {
      * @param object        the object
      * @return true, if is primitive
      */
-    public final static boolean isPrimitive(Object object) {
-        if (object instanceof String || object instanceof Number || object instanceof Boolean
-                || object instanceof Character) {
-            return true;
-        }
-        return false;
+    public static final boolean isPrimitive(Object object) {
+        return object instanceof String || object instanceof Number || object instanceof Boolean || object instanceof Character;
     }
 
     /**
@@ -94,7 +90,7 @@ public final class ObjectToJsonSerializer implements ObjectSerializer {
      * @param deidentify    deidentify definition
      * @return Object
      */
-    public final static Object deidentifyObject(Object object, DeIdentify deidentify) {
+    public static final Object deidentifyObject(Object object, DeIdentify deidentify) {
         if (object == null || deidentify == null) {
             return object;
         }
@@ -180,12 +176,10 @@ public final class ObjectToJsonSerializer implements ObjectSerializer {
         private static Map<String, Boolean> createIgnoreAuditMapping(Class<?> clazz) {
             Map<String, Boolean> mapping = new HashMap<String, Boolean>();
             for (Field field : clazz.getDeclaredFields()) {
-                if (Modifier.isStatic(field.getModifiers())) {
+                if (Modifier.isStatic(field.getModifiers()) || !field.isAnnotationPresent(IgnoreAudit.class)) {
                     continue;
                 }
-                if (!field.isAnnotationPresent(IgnoreAudit.class)) {
-                    continue;
-                }
+
                 mapping.put(field.getName(), Boolean.TRUE);
             }
             if (mapping.isEmpty()) {

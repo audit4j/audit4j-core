@@ -22,7 +22,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
 
 import org.audit4j.core.dto.AuditEvent;
@@ -120,26 +119,12 @@ public final class ValidationManager {
      * @return true, if successful
      */
     private static boolean attemptToSerialize(final Object o) {
-        final OutputStream sink;
-        ObjectOutputStream stream;
 
-        stream = null;
-
-        try {
-            sink = new ByteArrayOutputStream();
-            stream = new ObjectOutputStream(sink);
+        try(ObjectOutputStream stream = new ObjectOutputStream(new ByteArrayOutputStream())) {
             stream.writeObject(o);
             // could also re-serilalize at this point too
         } catch (final IOException ex) {
             return false;
-        } finally {
-            if (stream != null) {
-                try {
-                    stream.close();
-                } catch (final IOException ex) {
-                    // should not be able to happen
-                }
-            }
         }
 
         return true;

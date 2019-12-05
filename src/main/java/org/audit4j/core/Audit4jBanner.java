@@ -36,7 +36,7 @@ class Audit4jBanner {
             "                               |__/ " };
 
     /** Line under the banner. */
-    private static final String line = " ===========================";
+    private static final String LINE = " ===========================";
 
     /**
      * Prints banner using system out.
@@ -46,7 +46,7 @@ class Audit4jBanner {
         for (String lineLocal : BANNER) {
             printStream.println(lineLocal);
         }
-        printStream.print(line);
+        printStream.print(LINE);
         String version = Audit4jBanner.class.getPackage().getImplementationVersion();
         if (version == null) {
             printStream.println("(v" + CoreConstants.RELEASE_VERSION + ")");
