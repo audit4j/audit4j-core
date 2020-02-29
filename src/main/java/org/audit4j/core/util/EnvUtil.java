@@ -25,22 +25,22 @@ import java.io.File;
 
 /**
  * The Class EnvUtil.
- * 
+ *
  * @author <a href="mailto:janith3000@gmail.com">Janith Bandara</a>
  */
 public class EnvUtil {
 
-	  
+
     /**
      * private constructor to avoid instantiation of this class
      */
     private EnvUtil(){
-    	
+
     }
 
     /**
      * Checks if is jD k5.
-     * 
+     *
      * @return true, if is jD k5
      */
     static public boolean isJDK5() {
@@ -49,7 +49,7 @@ public class EnvUtil {
 
     /**
      * Checks if is jD k6 or higher.
-     * 
+     *
      * @return true, if is jD k6 or higher
      */
     static public boolean isJDK6OrHigher() {
@@ -58,17 +58,28 @@ public class EnvUtil {
 
     /**
      * Checks if is jD k7 or higher.
-     * 
+     *
      * @return true, if is jD k7 or higher
      */
     static public boolean isJDK7OrHigher() {
         return JavaVersion.isJDK_N_OrHigher(7, getJavaVersion());
     }
 
+    /**
+     * Gets the javaersion
+     *
+     * @deprecated renamed this method. use {@link EnvUtil#getJavaVersion()} instead.
+     *
+     * @return the javaersion
+     */
+    @Deprecated
+    public static String getJavaersion() {
+        return getJavaVersion();
+    }
 
     /**
      * Gets the java version.
-     * 
+     *
      * @return the java version
      */
     public static String getJavaVersion() {
@@ -77,7 +88,7 @@ public class EnvUtil {
 
     /**
      * Checks if is janino available.
-     * 
+     *
      * @return true, if is janino available
      */
     static public boolean isJaninoAvailable() {
@@ -92,7 +103,7 @@ public class EnvUtil {
 
     /**
      * Checks if is servlet spec 3 or higher.
-     * 
+     *
      * @param context
      *            the context
      * @return true, if is servlet spec3 or higher
@@ -106,7 +117,7 @@ public class EnvUtil {
 
     /**
      * Checks if is windows.
-     * 
+     *
      * @return true, if is windows
      */
     public static boolean isWindows() {
