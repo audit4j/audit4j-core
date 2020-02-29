@@ -18,10 +18,6 @@
 
 package org.audit4j.core;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.audit4j.core.command.CommandProcessor;
 import org.audit4j.core.command.impl.BatchCommand;
 import org.audit4j.core.command.impl.MetadataCommand;
@@ -316,7 +312,7 @@ public final class Context {
 		// Check java support.!
 		boolean javaSupport = EnvUtil.isJDK7OrHigher();
 		if (!javaSupport) {
-			Log.error("Your Java version (", EnvUtil.getJavaersion(), ") is not supported for Audit4j. ",
+			Log.error("Your Java version (", EnvUtil.getJavaVersion(), ") is not supported for Audit4j. ",
 					ErrorGuide.getGuide(ErrorGuide.JAVA_VERSION_ERROR));
 			throw new InitializationException("Java version is not supported.");
 		}

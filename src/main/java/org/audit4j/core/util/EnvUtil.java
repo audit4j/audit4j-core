@@ -18,13 +18,10 @@
 
 package org.audit4j.core.util;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import org.audit4j.core.Configurations;
 
 import javax.servlet.ServletContext;
-
-import org.audit4j.core.Configurations;
+import java.io.File;
 
 /**
  * The Class EnvUtil.
@@ -40,36 +37,6 @@ public class EnvUtil {
     private EnvUtil(){
     	
     }
-    
-    /**
-     * Checks if is jD k_ n_ or higher.
-     * 
-     * @param n
-     *            the n
-     * @return true, if is jD k_ n_ or higher
-     */
-    private static boolean isJDK_N_OrHigher(int n) {
-        List<String> versionList = new ArrayList<String>();
-        // this code should work at least until JDK 10 (assuming n parameter is
-        // always 6 or more)
-        for (int i = 0; i < 5; i++) {
-            //Till JDK 1.8 versioning is 1.x after 10 its will JDK N.x
-            if(n + i<10)
-            versionList.add("1." + (n + i));
-            else
-            versionList.add((n + i)+".");
-        }
-
-        String javaVersion = System.getProperty("java.version");
-        if (javaVersion == null) {
-            return false;
-        }
-        for (String v : versionList) {
-            if (javaVersion.startsWith(v))
-                return true;
-        }
-        return false;
-    }
 
     /**
      * Checks if is jD k5.
@@ -77,7 +44,7 @@ public class EnvUtil {
      * @return true, if is jD k5
      */
     static public boolean isJDK5() {
-        return isJDK_N_OrHigher(5);
+        return JavaVersion.isJDK_N_OrHigher(5, getJavaVersion());
     }
 
     /**
@@ -86,7 +53,7 @@ public class EnvUtil {
      * @return true, if is jD k6 or higher
      */
     static public boolean isJDK6OrHigher() {
-        return isJDK_N_OrHigher(6);
+        return JavaVersion.isJDK_N_OrHigher(6, getJavaVersion());
     }
 
     /**
@@ -95,17 +62,17 @@ public class EnvUtil {
      * @return true, if is jD k7 or higher
      */
     static public boolean isJDK7OrHigher() {
-        return isJDK_N_OrHigher(7);
+        return JavaVersion.isJDK_N_OrHigher(7, getJavaVersion());
     }
 
 
     /**
-     * Gets the javaersion.
+     * Gets the java version.
      * 
-     * @return the javaersion
+     * @return the java version
      */
-    public static String getJavaersion() {
-        return System.getProperty("java.version");
+    public static String getJavaVersion() {
+        return JavaVersion.current();
     }
 
     /**
