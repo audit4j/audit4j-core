@@ -50,9 +50,9 @@ public class EnvUtil {
      */
     private static boolean isJDK_N_OrHigher(int n) {
         List<String> versionList = new ArrayList<String>();
-        // this code should work at least until JDK 10 (assuming n parameter is
+        // this code should work at least until JDK 16 (assuming n parameter is
         // always 6 or more)
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 10; i++) {
             //Till JDK 1.8 versioning is 1.x after 10 its will JDK N.x
             if(n + i<10)
             versionList.add("1." + (n + i));
