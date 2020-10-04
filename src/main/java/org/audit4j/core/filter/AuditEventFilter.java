@@ -32,7 +32,7 @@ import org.audit4j.core.dto.Event;
  */
 public interface AuditEventFilter<T extends Event> extends Serializable {
     
-    public POJOQuery<AuditEvent> query = new POJOQuery<>();
+    POJOQuery<AuditEvent> query = new POJOQuery<>();
     
     /**
      * Accepts.
