@@ -23,7 +23,7 @@ public class Audit4jTestBase {
         String actor = "Dummy Actor";
         EventBuilder builder = new EventBuilder();
         builder.addTimestamp(new Date()).addActor(actor).addAction("myMethod").addOrigin("Origin").addField("myParam1Name", "param1")
-                .addField("myParam2Name", new Integer(2));
+                .addField("myParam2Name", 2);
         return builder.build();
     }
     
@@ -31,7 +31,7 @@ public class Audit4jTestBase {
         String actor = "Dummy Actor";
         EventBuilder builder = new EventBuilder();
         builder.addTimestamp(new Date()).addActor(actor).addAction(action).addOrigin("Origin").addField("myParam1Name", "param1")
-                .addField("myParam2Name", new Integer(2));
+                .addField("myParam2Name", 2);
         return builder.build();
     }
 
