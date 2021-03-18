@@ -23,6 +23,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
@@ -124,7 +125,8 @@ public class EncryptionUtil {
             UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException {
         Cipher c = Cipher.getInstance(ALGORYITHM);
 
-        byte[] iv = CoreConstants.IV.getBytes(CoreConstants.ENCODE_UTF8);
+        byte[] iv = new byte[c.getBlockSize()];
+        new SecureRandom().nextBytes(iv);
 
         c.init(mode, cryptKey, new IvParameterSpec(iv));
         return c;
