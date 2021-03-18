@@ -26,7 +26,7 @@ public class SmokeTest {
         String actor = "Dummy Actor";
         EventBuilder builder = new EventBuilder();
         builder.addActor(actor).addAction("myMethod").addOrigin("Origin1").addField("myParam1Name", "param1")
-                .addField("myParam2Name", new Integer(2));
+                .addField("myParam2Name", 2);
         AuditEvent event = builder.build();
         watch.stop();
         Log.info(watch.getTotalTime());
@@ -51,7 +51,7 @@ public class SmokeTest {
         while (count < 100000) {
             EventBuilder builder = new EventBuilder();
             builder.addActor("Dummy Actor").addAction("myMethod").addOrigin("Origin1")
-                    .addField("myParam1Name", "param1").addField("myParam2Name", new Integer(2));
+                    .addField("myParam1Name", "param1").addField("myParam2Name", 2);
             AuditEvent event = builder.build();
             manager.audit(event);
             count++;

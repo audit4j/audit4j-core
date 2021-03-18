@@ -42,7 +42,7 @@ public class AuditBaseTest {
     public void testGetTimestamp_1()
         throws Exception {
         Event fixture = new Event();
-        fixture.setUuid(new Long(1L));
+        fixture.setUuid(1L);
         fixture.setTimestamp(new Date());
 
         Date result = fixture.getTimestamp();
@@ -64,7 +64,7 @@ public class AuditBaseTest {
     public void testGetUuid_1()
         throws Exception {
         Event fixture = new Event();
-        fixture.setUuid(new Long(1L));
+        fixture.setUuid(1L);
         fixture.setTimestamp(new Date());
 
         Long result = fixture.getUuid();
@@ -91,9 +91,9 @@ public class AuditBaseTest {
     public void testSetAuditId_1()
         throws Exception {
         Event fixture = new Event();
-        fixture.setUuid(new Long(1L));
+        fixture.setUuid(1L);
         fixture.setTimestamp(new Date());
-        Integer auditId = new Integer(1);
+        Integer auditId = 1;
 
 
         // add additional test code here
@@ -110,7 +110,7 @@ public class AuditBaseTest {
     public void testSetTimestamp_1()
         throws Exception {
         Event fixture = new Event();
-        fixture.setUuid(new Long(1L));
+        fixture.setUuid(1L);
         fixture.setTimestamp(new Date());
         Date timestamp = new Date();
 
@@ -130,9 +130,9 @@ public class AuditBaseTest {
     public void testSetUuid_1()
         throws Exception {
         Event fixture = new Event();
-        fixture.setUuid(new Long(1L));
+        fixture.setUuid(1L);
         fixture.setTimestamp(new Date());
-        Long uuid = new Long(1L);
+        Long uuid = 1L;
 
         fixture.setUuid(uuid);
 

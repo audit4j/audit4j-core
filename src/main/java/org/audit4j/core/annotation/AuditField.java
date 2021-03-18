@@ -44,5 +44,5 @@ public @interface AuditField {
      * 
      * @return the string
      */
-    public String field();
+    String field();
 }

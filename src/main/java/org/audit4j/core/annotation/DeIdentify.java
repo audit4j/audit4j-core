@@ -44,27 +44,27 @@ public @interface DeIdentify {
      * 
      * @return the int
      */
-    public int left() default 0;
+    int left() default 0;
 
     /**
      * Right.
      * 
      * @return the int
      */
-    public int right() default 0;
+    int right() default 0;
 
     /**
      * From left.
      * 
      * @return the int
      */
-    public int fromLeft() default 0;
+    int fromLeft() default 0;
 
     /**
      * From right.
      * 
      * @return the int
      */
-    public int fromRight() default 0;
+    int fromRight() default 0;
 
 }
