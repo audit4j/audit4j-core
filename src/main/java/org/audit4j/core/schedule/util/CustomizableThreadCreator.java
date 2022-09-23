@@ -10,11 +10,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 
  * <p>
  * Serves as base class for thread factories such as
- * {@link org.springframework.scheduling.concurrent.CustomizableThreadFactory}.
- * 
+ *
  * @author Juergen Hoeller
  * @since 2.0.3
- * @see org.springframework.scheduling.concurrent.CustomizableThreadFactory
  */
 @SuppressWarnings("serial")
 public class CustomizableThreadCreator implements Serializable {
