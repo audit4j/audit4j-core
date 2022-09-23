@@ -44,7 +44,6 @@ public class EventMeta implements Serializable {
 	 * 
 	 * @return the repository
 	 */
-	@Deprecated
 	public String getRepository() {
 		return repository;
 	}
@@ -55,7 +54,6 @@ public class EventMeta implements Serializable {
 	 * @param repository
 	 *            the new repository
 	 */
-	@Deprecated
 	public void setRepository(String repository) {
 		this.repository = repository;
 	}
