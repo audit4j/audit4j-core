@@ -77,7 +77,7 @@ public class DefaultAnnotationTransformer implements AnnotationTransformer<Audit
 			// Extract Actor
 			String annotationAction = audit.action();
 			if (ACTION.equals(annotationAction)) {
-				event.setAction(annotationEvent.getMethod().getName());
+				event.setAction(annotationEvent.getMethod().getDeclaringClass().getName() + "." +annotationEvent.getMethod().getName());
 			} else {
 				event.setAction(annotationAction);
 			}
@@ -133,6 +133,7 @@ public class DefaultAnnotationTransformer implements AnnotationTransformer<Audit
 		int i = 0;
 		String paramName = null;
 		for (final Annotation[] annotations : parameterAnnotations) {
+			paramName = method.getParameters()[i].getName();
 			final Object object = params[i++];
 			boolean ignoreFlag = false;
 			DeIdentify deidentify = null;

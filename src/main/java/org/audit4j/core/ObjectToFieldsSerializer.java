@@ -31,6 +31,10 @@ import org.audit4j.core.annotation.IgnoreAudit;
 import org.audit4j.core.dto.Field;
 import org.audit4j.core.exception.Audit4jRuntimeException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 /**
  * The Class ToStringGen.
  * 
@@ -52,14 +56,14 @@ public final class ObjectToFieldsSerializer implements ObjectSerializer {
      * @param deidentify the de-identify
      */
     public final void toFields(List<Field> auditFields, Object object, String objectName, DeIdentify deidentify) {
-        String localOjectName = objectName;
-        if (object == null) {
-            auditFields.add(new Field(localOjectName, CoreConstants.NULL));
+        String localObjectName = objectName;
+        if (object == null || object instanceof HttpServletRequest || object instanceof HttpServletResponse || object instanceof HttpSession) {
+            auditFields.add(new Field(localObjectName, CoreConstants.NULL));
             return;
         }
         
         Class<?> clazz = object.getClass();
-        if (!visited.contains(object)) {
+        if (visited.size() < 1000 && !visited.contains(object)) { //size check to avoid infinite recursion
             visited.add(object);
             if (isPrimitive(object)) {
                 String primitiveValue = String.valueOf(object);
@@ -67,18 +71,18 @@ public final class ObjectToFieldsSerializer implements ObjectSerializer {
                     primitiveValue = DeIdentifyUtil.deidentify(primitiveValue, deidentify.left(), deidentify.right(),
                             deidentify.fromLeft(), deidentify.fromRight());
                 }
-                auditFields.add(new Field(localOjectName, primitiveValue, object.getClass()
+                auditFields.add(new Field(localObjectName, primitiveValue, object.getClass()
                         .getName()));
             } else if (clazz.isArray()) {
                 if (Array.getLength(object) == 0) {
-                    auditFields.add(new Field(localOjectName + CoreConstants.DOLLAR_CHAR + clazz.getName(),
+                    auditFields.add(new Field(localObjectName + CoreConstants.DOLLAR_CHAR + clazz.getName(),
                             CoreConstants.EMPTY));
                 } else {
                     // String internalLocalOjectName = localOjectName + CoreConstants.DOLLAR_CHAR +
                     // clazz.getName();
                     for (int i = 0; i < Array.getLength(object); i++) {
                         Object objVal = Array.get(object, i);
-                        String internalLocalOjectName = localOjectName + CoreConstants.OPEN_BRACES_CHAR + "arg"
+                        String internalLocalOjectName = localObjectName + CoreConstants.OPEN_BRACES_CHAR + "arg"
                                 + i + CoreConstants.CLOSE_BRACES_CHAR;
                         if (clazz.getComponentType().isPrimitive())
                             auditFields.add(new Field(internalLocalOjectName, String
@@ -91,10 +95,10 @@ public final class ObjectToFieldsSerializer implements ObjectSerializer {
             } else if (object instanceof Collection<?>) {
                 Collection<?> collection = (Collection<?>) object;
                 if (collection.isEmpty()) {
-                    auditFields.add(new Field(localOjectName + CoreConstants.DOLLAR_CHAR + clazz.getName(),
+                    auditFields.add(new Field(localObjectName + CoreConstants.DOLLAR_CHAR + clazz.getName(),
                             CoreConstants.EMPTY));
                 } else {
-                    String internalLocalOjectName = localOjectName + CoreConstants.DOLLAR_CHAR + object.getClass().getName();
+                    String internalLocalOjectName = localObjectName + CoreConstants.DOLLAR_CHAR + object.getClass().getName();
                 int i = 0;
                 for (Object collectionObject : collection) {
                     String internalLocalOjectName2 = internalLocalOjectName +  CoreConstants.OPEN_BRACES_CHAR + "arg" + i
@@ -109,7 +113,7 @@ public final class ObjectToFieldsSerializer implements ObjectSerializer {
                 }
                 }
             } else {
-                String internalLocalOjectName = localOjectName + CoreConstants.DOLLAR_CHAR + clazz.getName();
+                String internalLocalOjectName = localObjectName + CoreConstants.DOLLAR_CHAR + clazz.getName();
                 do {
                     java.lang.reflect.Field[] fields = clazz.getDeclaredFields();
                     AccessibleObject.setAccessible(fields, true);
