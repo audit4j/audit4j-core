@@ -15,7 +15,7 @@ public class EventBuilderTest {
         watch.start("builder");
         EventBuilder builder = new EventBuilder();
         builder.addActor("Actor").addAction("myMethod").addOrigin("Origin1").addField("myParam1Name", "param1")
-                .addField("myParam2Name", new Integer(2));
+                .addField("myParam2Name", 2);
         AuditEvent event = builder.build();
         watch.stop();
         Log.info(watch.getLastTaskTimeMillis());

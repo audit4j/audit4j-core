@@ -42,5 +42,5 @@ public @interface ThreadSafe {
      *
      * @return the string
      */
-    public String value() default "";
+    String value() default "";
 }
